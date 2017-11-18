@@ -11,10 +11,11 @@
 		3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCED1FC00EA700E80AB9 /* Assets.xcassets */; };
 		3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */; };
 		3786DCF91FC0136E00E80AB9 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */; };
-		3786DCFE1FC016A100E80AB9 /* Top.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFD1FC016A100E80AB9 /* Top.storyboard */; };
+		3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFD1FC016A100E80AB9 /* Main.storyboard */; };
 		3786DD001FC01EBE00E80AB9 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */; };
 		3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD011FC01EC900E80AB9 /* Chat.storyboard */; };
 		3786DD041FC01EE300E80AB9 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */; };
+		3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD051FC0217800E80AB9 /* TimeLine.storyboard */; };
 		E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +28,11 @@
 		3786DCF01FC00EA700E80AB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3786DCF21FC00EA700E80AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
-		3786DCFD1FC016A100E80AB9 /* Top.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Top.storyboard; sourceTree = "<group>"; };
+		3786DCFD1FC016A100E80AB9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyProfile.storyboard; sourceTree = "<group>"; };
 		3786DD011FC01EC900E80AB9 /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
+		3786DD051FC0217800E80AB9 /* TimeLine.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TimeLine.storyboard; sourceTree = "<group>"; };
 		BAE8A46EBA638370D8C680BF /* Pods-GENEPSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,10 +83,11 @@
 				3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */,
 				3786DCF21FC00EA700E80AB9 /* Info.plist */,
 				3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */,
-				3786DCFD1FC016A100E80AB9 /* Top.storyboard */,
+				3786DCFD1FC016A100E80AB9 /* Main.storyboard */,
 				3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */,
 				3786DD011FC01EC900E80AB9 /* Chat.storyboard */,
 				3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */,
+				3786DD051FC0217800E80AB9 /* TimeLine.storyboard */,
 			);
 			path = GENEPSE;
 			sourceTree = "<group>";
@@ -160,12 +163,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */,
+				3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */,
 				3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */,
 				3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */,
 				3786DD001FC01EBE00E80AB9 /* MyProfile.storyboard in Resources */,
 				3786DCF91FC0136E00E80AB9 /* SignUp.storyboard in Resources */,
 				3786DD041FC01EE300E80AB9 /* UserProfile.storyboard in Resources */,
-				3786DCFE1FC016A100E80AB9 /* Top.storyboard in Resources */,
+				3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
