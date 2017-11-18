@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qGA-SN-H2Q">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DQ1-JG-vba">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--GENEPSE-->
         <scene sceneID="NKo-aW-Enn">
             <objects>
-                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="qGA-SN-H2Q" sceneMemberID="viewController">
+                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="qGA-SN-H2Q" customClass="ChatViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hqV-Eq-TGV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,11 +30,35 @@
                         <viewLayoutGuide key="safeArea" id="vam-fC-fra"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="mostViewed" id="2KM-DC-tGu"/>
+                    <navigationItem key="navigationItem" title="GENEPSE" id="D4p-Bo-MNn">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="kXn-LQ-mWk">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="Back:" destination="qGA-SN-H2Q" id="r1o-YR-DzB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZo-ZJ-7XM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1633" y="110"/>
+            <point key="canvasLocation" x="1980" y="72"/>
+        </scene>
+        <!--OriginU Inavigation Controller-->
+        <scene sceneID="mZ8-fv-iNT">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a6U-zD-qVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="DQ1-JG-vba" customClass="OriginUInavigationController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0go-Pt-1Og">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qGA-SN-H2Q" kind="relationship" relationship="rootViewController" id="Ufu-Ci-S0s"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1144" y="72"/>
         </scene>
     </scenes>
 </document>
