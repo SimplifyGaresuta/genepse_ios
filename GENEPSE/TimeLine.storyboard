@@ -51,7 +51,7 @@
                                     <constraint firstAttribute="bottom" secondItem="q2D-nm-81a" secondAttribute="bottom" id="4af-yi-gbm"/>
                                     <constraint firstAttribute="trailing" secondItem="q2D-nm-81a" secondAttribute="trailing" id="SuC-Oa-4hT"/>
                                     <constraint firstItem="q2D-nm-81a" firstAttribute="leading" secondItem="0KI-Bi-hzJ" secondAttribute="leading" id="W7f-H5-hAK"/>
-                                    <constraint firstItem="q2D-nm-81a" firstAttribute="top" secondItem="0KI-Bi-hzJ" secondAttribute="top" id="sim-sI-6UE"/>
+                                    <constraint firstItem="q2D-nm-81a" firstAttribute="top" secondItem="0KI-Bi-hzJ" secondAttribute="top" constant="30" id="sim-sI-6UE"/>
                                     <constraint firstItem="q2D-nm-81a" firstAttribute="width" secondItem="0KI-Bi-hzJ" secondAttribute="width" id="zep-jA-Ybi"/>
                                 </constraints>
                             </scrollView>
