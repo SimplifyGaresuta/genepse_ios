@@ -18,7 +18,32 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3aB-Cv-iga">
                     <rect key="frame" x="0.0" y="0.0" width="418" height="130"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Iev-dS-KgA">
+                            <rect key="frame" x="0.0" y="0.0" width="418" height="130"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEy-KL-AV2">
+                                    <rect key="frame" x="0.0" y="0.0" width="139.5" height="130"/>
+                                    <state key="normal" title="Button"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ThQ-eR-2sE">
+                                    <rect key="frame" x="139.5" y="0.0" width="139" height="130"/>
+                                    <state key="normal" title="Button"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rn4-qO-UBO">
+                                    <rect key="frame" x="278.5" y="0.0" width="139.5" height="130"/>
+                                    <state key="normal" title="Button"/>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
                     <color key="backgroundColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Iev-dS-KgA" secondAttribute="trailing" id="XJ4-xj-dS9"/>
+                        <constraint firstAttribute="bottom" secondItem="Iev-dS-KgA" secondAttribute="bottom" id="Xbm-pt-w0R"/>
+                        <constraint firstItem="Iev-dS-KgA" firstAttribute="leading" secondItem="3aB-Cv-iga" secondAttribute="leading" id="hvs-tP-ihd"/>
+                        <constraint firstItem="Iev-dS-KgA" firstAttribute="top" secondItem="3aB-Cv-iga" secondAttribute="top" id="wn7-9p-JUT"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                             <integer key="value" value="10"/>
