@@ -32,15 +32,15 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oqd-Sh-LQc" customClass="Tab" customModule="GENEPSE" customModuleProvider="target">
-                                                <rect key="frame" x="20" y="574" width="335" height="94"/>
+                                                <rect key="frame" x="10" y="544" width="355" height="106"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1000" id="O4g-RS-g3p"/>
-                                            <constraint firstAttribute="trailing" secondItem="oqd-Sh-LQc" secondAttribute="trailing" constant="20" id="UtU-88-1cn"/>
-                                            <constraint firstItem="oqd-Sh-LQc" firstAttribute="leading" secondItem="Lyp-r0-k6d" secondAttribute="leading" constant="20" id="dTs-0A-Lzj"/>
+                                            <constraint firstAttribute="trailing" secondItem="oqd-Sh-LQc" secondAttribute="trailing" constant="10" id="UtU-88-1cn"/>
+                                            <constraint firstItem="oqd-Sh-LQc" firstAttribute="leading" secondItem="Lyp-r0-k6d" secondAttribute="leading" constant="10" id="dTs-0A-Lzj"/>
                                         </constraints>
                                     </view>
                                 </subviews>
