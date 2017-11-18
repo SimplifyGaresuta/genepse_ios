@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wfz-Cr-vlb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="etT-oF-3SW">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,15 +11,15 @@
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="dFd-hE-zOA">
+        <scene sceneID="bah-9t-wTN">
             <objects>
-                <viewController id="wfz-Cr-vlb" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="PDr-rp-rt0">
+                <viewController storyboardIdentifier="MyProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="etT-oF-3SW" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3t0-gl-Mzr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MyProfile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gj3-Hf-YB0">
-                                <rect key="frame" x="144" y="323" width="87" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkH-Fo-MxJ">
+                                <rect key="frame" x="166" y="323" width="77" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -27,14 +27,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="UeK-VF-GB4"/>
+                        <viewLayoutGuide key="safeArea" id="k6K-pm-LKZ"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="downloads" id="dNN-mT-ziI"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KfI-P7-wzp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jrl-fS-rk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="113.79310344827587"/>
+            <point key="canvasLocation" x="358" y="-45"/>
         </scene>
     </scenes>
 </document>
