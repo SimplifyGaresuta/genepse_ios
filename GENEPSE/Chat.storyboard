@@ -29,6 +29,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vam-fC-fra"/>
                     </view>
+                    <tabBarItem key="tabBarItem" systemItem="mostViewed" id="2KM-DC-tGu"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZo-ZJ-7XM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
