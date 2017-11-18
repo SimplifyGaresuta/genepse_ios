@@ -21,12 +21,17 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0KI-Bi-hzJ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="598"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yis-KX-boq">
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yis-KX-boq">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Yis-KX-boq" firstAttribute="top" secondItem="0KI-Bi-hzJ" secondAttribute="top" id="678-8h-14l"/>
+                                    <constraint firstAttribute="trailing" secondItem="Yis-KX-boq" secondAttribute="trailing" id="afU-5S-htJ"/>
+                                    <constraint firstItem="Yis-KX-boq" firstAttribute="leading" secondItem="0KI-Bi-hzJ" secondAttribute="leading" id="d6K-LU-kc1"/>
+                                    <constraint firstAttribute="bottom" secondItem="Yis-KX-boq" secondAttribute="bottom" id="mZj-yK-POd"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
