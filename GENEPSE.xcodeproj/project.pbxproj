@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */; };
+		375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */; };
 		3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */; };
 		3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCED1FC00EA700E80AB9 /* Assets.xcassets */; };
 		3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */; };
@@ -16,15 +18,17 @@
 		3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD011FC01EC900E80AB9 /* Chat.storyboard */; };
 		3786DD041FC01EE300E80AB9 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */; };
 		3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD051FC0217800E80AB9 /* TimeLine.storyboard */; };
-		3786DD101FC041DE00E80AB9 /* Tab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD0F1FC041DE00E80AB9 /* Tab.xib */; };
-		3786DD121FC0422100E80AB9 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786DD111FC0422100E80AB9 /* Tab.swift */; };
-		3786DD141FC04C1100E80AB9 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786DD131FC04C1100E80AB9 /* Main.swift */; };
+		3786DD161FC0545E00E80AB9 /* Card.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD151FC0545E00E80AB9 /* Card.xib */; };
+		3786DD181FC0555700E80AB9 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786DD171FC0555700E80AB9 /* Card.swift */; };
+		3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD1A1FC0576400E80AB9 /* sample1.png */; };
 		E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GENEPSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2D48B6F4244B63C896318B /* Pods-GENEPSE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.release.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.release.xcconfig"; sourceTree = "<group>"; };
+		3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUITabBarController.swift; sourceTree = "<group>"; };
+		375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		3786DCE11FC00EA700E80AB9 /* GENEPSE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENEPSE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3786DCED1FC00EA700E80AB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -36,9 +40,9 @@
 		3786DD011FC01EC900E80AB9 /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
 		3786DD051FC0217800E80AB9 /* TimeLine.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TimeLine.storyboard; sourceTree = "<group>"; };
-		3786DD0F1FC041DE00E80AB9 /* Tab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Tab.xib; sourceTree = "<group>"; };
-		3786DD111FC0422100E80AB9 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		3786DD131FC04C1100E80AB9 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		3786DD151FC0545E00E80AB9 /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
+		3786DD171FC0555700E80AB9 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		3786DD1A1FC0576400E80AB9 /* sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample1.png; sourceTree = "<group>"; };
 		BAE8A46EBA638370D8C680BF /* Pods-GENEPSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +88,7 @@
 		3786DCE31FC00EA700E80AB9 /* GENEPSE */ = {
 			isa = PBXGroup;
 			children = (
+				3786DD191FC0571700E80AB9 /* sample_image */,
 				3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */,
 				3786DCED1FC00EA700E80AB9 /* Assets.xcassets */,
 				3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */,
@@ -94,11 +99,20 @@
 				3786DD011FC01EC900E80AB9 /* Chat.storyboard */,
 				3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */,
 				3786DD051FC0217800E80AB9 /* TimeLine.storyboard */,
-				3786DD0F1FC041DE00E80AB9 /* Tab.xib */,
-				3786DD111FC0422100E80AB9 /* Tab.swift */,
-				3786DD131FC04C1100E80AB9 /* Main.swift */,
+				3786DD151FC0545E00E80AB9 /* Card.xib */,
+				3786DD171FC0555700E80AB9 /* Card.swift */,
+				3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */,
+				375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */,
 			);
 			path = GENEPSE;
+			sourceTree = "<group>";
+		};
+		3786DD191FC0571700E80AB9 /* sample_image */ = {
+			isa = PBXGroup;
+			children = (
+				3786DD1A1FC0576400E80AB9 /* sample1.png */,
+			);
+			path = sample_image;
 			sourceTree = "<group>";
 		};
 		8CACDED15E07376A4B4BB552 /* Frameworks */ = {
@@ -172,12 +186,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */,
+				3786DD161FC0545E00E80AB9 /* Card.xib in Resources */,
 				3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */,
 				3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */,
+				3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */,
 				3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */,
 				3786DD001FC01EBE00E80AB9 /* MyProfile.storyboard in Resources */,
 				3786DCF91FC0136E00E80AB9 /* SignUp.storyboard in Resources */,
-				3786DD101FC041DE00E80AB9 /* Tab.xib in Resources */,
 				3786DD041FC01EE300E80AB9 /* UserProfile.storyboard in Resources */,
 				3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */,
 			);
@@ -252,9 +267,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3786DD141FC04C1100E80AB9 /* Main.swift in Sources */,
-				3786DD121FC0422100E80AB9 /* Tab.swift in Sources */,
+				3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */,
+				375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */,
 				3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */,
+				3786DD181FC0555700E80AB9 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

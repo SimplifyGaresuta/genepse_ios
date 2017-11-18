@@ -1,5 +1,5 @@
 //
-//  Tab.swift
+//  Card.swift
 //  GENEPSE
 //
 //  Created by 岩見建汰 on 2017/11/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Tab: UIView {
+class Card: UIView {
 
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -21,9 +21,8 @@ class Tab: UIView {
     }
     
     func loadNib(){
-        let view = Bundle.main.loadNibNamed("Tab", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("Card", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
     }
-
 }
