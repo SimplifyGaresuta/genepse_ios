@@ -24,7 +24,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="q2D-nm-81a">
                                         <rect key="frame" x="0.0" y="30" width="375" height="382"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMT-Qo-ZKr" customClass="Card" customModule="GENEPSE" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMT-Qo-ZKr" customClass="ReadCard" customModule="GENEPSE" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="0.0" width="315" height="382"/>
                                             </view>
                                         </subviews>
