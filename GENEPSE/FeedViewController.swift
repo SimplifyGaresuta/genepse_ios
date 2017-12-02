@@ -38,13 +38,14 @@ class FeedViewController: UIViewController {
             scroll_view.addSubview(cardView)
             
             // プロフィール画像を追加
-            profileimageView = self.CreateProfileImage(url: "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg")
+            profileimageView = self.CreateProfileImageView(url: "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg")
             cardView.addSubview(profileimageView)
             
+            // 名前のラベルを追加
             name_label = self.CreateNameLabel(text: String(i))
             cardView.addSubview(name_label)
             
-            let career_label = self.hoge4()
+            let career_label = self.CreateCareerLabel()
             cardView.addSubview(career_label)
             
             card_start_y = cardView.frame.height + cardView.frame.origin.y + base_margin*0.5
@@ -89,7 +90,7 @@ class FeedViewController: UIViewController {
         return card_view
     }
     
-    func CreateProfileImage(url: String) -> UIImageView {
+    func CreateProfileImageView(url: String) -> UIImageView {
         let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardView.frame.width, height: cardView.frame.height*0.7))
         imageView.loadImage(urlString: url)
         imageView.contentMode = .scaleAspectFill
@@ -114,11 +115,11 @@ class FeedViewController: UIViewController {
         return name_label
     }
     
-    func hoge4() -> UILabel {
-        let hoge = NSMutableParagraphStyle()
-        hoge.paragraphSpacing = 50.0
-        hoge.lineBreakMode = .byTruncatingTail
-        let hoge2 = [NSParagraphStyleAttributeName: hoge]
+    func CreateCareerLabel() -> UILabel {
+        let paragrahStyle = NSMutableParagraphStyle()
+        paragrahStyle.paragraphSpacing = 50.0
+        paragrahStyle.lineBreakMode = .byTruncatingTail
+        let attributeName = [NSParagraphStyleAttributeName: paragrahStyle]
         
         let label_height = cardView.frame.origin.y + cardView.frame.height - (profileimageView.frame.height+name_label.frame.height+base_margin)
         
@@ -128,7 +129,7 @@ class FeedViewController: UIViewController {
         career_label.frame = CGRect(x: base_margin*0.5, y: profileimageView.frame.height+name_label.frame.height+base_margin*0.5, width: cardView.frame.width-(base_margin), height: label_height)
         career_label.backgroundColor = UIColor.blue
         career_label.numberOfLines = 0
-        career_label.attributedText = NSMutableAttributedString(string: "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。", attributes: hoge2)
+        career_label.attributedText = NSMutableAttributedString(string: "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。", attributes: attributeName)
         //        career_label.sizeToFit()
         
         return career_label
