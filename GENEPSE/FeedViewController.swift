@@ -41,21 +41,18 @@ class FeedViewController: UIViewController {
         print(y_position)
         scroll_view.addSubview(card_view)
         
-        let hoge_image = UIImageView()
-        hoge_image.frame = CGRect(x: 0, y: 0, width: card_view.frame.width, height: card_view.frame.height*0.7)
-        hoge_image.backgroundColor = UIColor.black
-        hoge_image.image = UIImage(named: "sample1")
-        hoge_image.contentMode = .scaleAspectFill
-        
-        let maskPath = UIBezierPath(roundedRect: hoge_image.frame,
+        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: card_view.frame.width, height: card_view.frame.height*0.7))
+        imageView.loadImage(urlString: "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg")
+        imageView.contentMode = .scaleAspectFill
+        card_view.addSubview(imageView)
+
+        let maskPath = UIBezierPath(roundedRect: imageView.frame,
                                     byRoundingCorners: [.topLeft, .topRight],
                                     cornerRadii: CGSize(width: 20, height: 20))
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath.cgPath
-        hoge_image.layer.mask = maskLayer
-        
-        card_view.addSubview(hoge_image)
-        
+        imageView.layer.mask = maskLayer
+
         let card_view2 = UIView()
         card_view2.frame = CGRect(x: lr_margin, y: y_position, width: card_width, height: card_height)
         
@@ -98,3 +95,4 @@ class FeedViewController: UIViewController {
     */
 
 }
+
