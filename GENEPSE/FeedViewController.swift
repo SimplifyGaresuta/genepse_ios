@@ -40,13 +40,11 @@ class FeedViewController: UIViewController {
         let y_position = card_view.frame.height + card_view.frame.origin.y
         print(y_position)
         scroll_view.addSubview(card_view)
-
-        let image = UIImage(named: "sample1")
         
         let hoge_image = UIImageView()
-        hoge_image.frame = CGRect(x: 0, y: 0, width: card_view.frame.width, height: card_view.frame.height/2)
+        hoge_image.frame = CGRect(x: 0, y: 0, width: card_view.frame.width, height: card_view.frame.height*0.7)
         hoge_image.backgroundColor = UIColor.black
-        hoge_image.image = image
+        hoge_image.image = UIImage(named: "sample1")
         hoge_image.contentMode = .scaleAspectFill
         
         let maskPath = UIBezierPath(roundedRect: hoge_image.frame,
