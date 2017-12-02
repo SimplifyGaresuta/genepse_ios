@@ -126,7 +126,7 @@ class FeedViewController: UIViewController {
         let career_label = UILabel()
         //        career_label.text = "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。"
         career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
-        career_label.frame = CGRect(x: base_margin*0.5, y: profileimageView.frame.height+name_label.frame.height+base_margin*0.5, width: cardView.frame.width-(base_margin), height: label_height)
+        career_label.frame = CGRect(x: base_margin*0.5, y: profileimageView.frame.height+name_label.frame.height+base_margin*0.5, width: cardView.frame.width-base_margin, height: label_height)
         career_label.backgroundColor = UIColor.blue
         career_label.numberOfLines = 0
         career_label.attributedText = NSMutableAttributedString(string: "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。", attributes: attributeName)
