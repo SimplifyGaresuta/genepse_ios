@@ -6,8 +6,8 @@ target 'GENEPSE' do
   use_frameworks!
 
   # Pods for GENEPSE
-  pod 'Firebase/Core'
-  pod 'Firebase/Database'
-  pod 'JSQMessagesViewController'
+  # pod 'Firebase/Core'
+  # pod 'Firebase/Database'
+  # pod 'JSQMessagesViewController'
 
 end

@@ -9,18 +9,16 @@
 /* Begin PBXBuildFile section */
 		3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */; };
 		375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */; };
-		375060931FC0BE4F00BBB14D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060921FC0BE4F00BBB14D /* ChatViewController.swift */; };
-		3777C1911FC100EC00D3562D /* ReadCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777C1901FC100EC00D3562D /* ReadCard.swift */; };
 		3777C1931FC1011400D3562D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777C1921FC1011400D3562D /* Card.swift */; };
+		3777C1971FC1E7BF00D3562D /* IBInspectables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777C1961FC1E7BF00D3562D /* IBInspectables.swift */; };
 		3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */; };
 		3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCED1FC00EA700E80AB9 /* Assets.xcassets */; };
 		3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */; };
 		3786DCF91FC0136E00E80AB9 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */; };
 		3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFD1FC016A100E80AB9 /* Main.storyboard */; };
 		3786DD001FC01EBE00E80AB9 /* MyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */; };
-		3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD011FC01EC900E80AB9 /* Chat.storyboard */; };
 		3786DD041FC01EE300E80AB9 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */; };
-		3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD051FC0217800E80AB9 /* TimeLine.storyboard */; };
+		3786DD061FC0217800E80AB9 /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD051FC0217800E80AB9 /* Feed.storyboard */; };
 		3786DD161FC0545E00E80AB9 /* Card.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD151FC0545E00E80AB9 /* Card.xib */; };
 		3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD1A1FC0576400E80AB9 /* sample1.png */; };
 		E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */; };
@@ -31,9 +29,8 @@
 		1B2D48B6F4244B63C896318B /* Pods-GENEPSE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.release.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.release.xcconfig"; sourceTree = "<group>"; };
 		3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUITabBarController.swift; sourceTree = "<group>"; };
 		375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
-		375060921FC0BE4F00BBB14D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		3777C1901FC100EC00D3562D /* ReadCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadCard.swift; sourceTree = "<group>"; };
 		3777C1921FC1011400D3562D /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		3777C1961FC1E7BF00D3562D /* IBInspectables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBInspectables.swift; sourceTree = "<group>"; };
 		3786DCE11FC00EA700E80AB9 /* GENEPSE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENEPSE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3786DCED1FC00EA700E80AB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,9 +39,8 @@
 		3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		3786DCFD1FC016A100E80AB9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyProfile.storyboard; sourceTree = "<group>"; };
-		3786DD011FC01EC900E80AB9 /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
-		3786DD051FC0217800E80AB9 /* TimeLine.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TimeLine.storyboard; sourceTree = "<group>"; };
+		3786DD051FC0217800E80AB9 /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		3786DD151FC0545E00E80AB9 /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
 		3786DD1A1FC0576400E80AB9 /* sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample1.png; sourceTree = "<group>"; };
 		BAE8A46EBA638370D8C680BF /* Pods-GENEPSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,15 +96,13 @@
 				3786DCF81FC0136E00E80AB9 /* SignUp.storyboard */,
 				3786DCFD1FC016A100E80AB9 /* Main.storyboard */,
 				3786DCFF1FC01EBE00E80AB9 /* MyProfile.storyboard */,
-				3786DD011FC01EC900E80AB9 /* Chat.storyboard */,
 				3786DD031FC01EE300E80AB9 /* UserProfile.storyboard */,
-				3786DD051FC0217800E80AB9 /* TimeLine.storyboard */,
+				3786DD051FC0217800E80AB9 /* Feed.storyboard */,
 				3786DD151FC0545E00E80AB9 /* Card.xib */,
 				3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */,
 				375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */,
-				375060921FC0BE4F00BBB14D /* ChatViewController.swift */,
-				3777C1901FC100EC00D3562D /* ReadCard.swift */,
 				3777C1921FC1011400D3562D /* Card.swift */,
+				3777C1961FC1E7BF00D3562D /* IBInspectables.swift */,
 			);
 			path = GENEPSE;
 			sourceTree = "<group>";
@@ -191,9 +185,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3786DD021FC01EC900E80AB9 /* Chat.storyboard in Resources */,
 				3786DD161FC0545E00E80AB9 /* Card.xib in Resources */,
-				3786DD061FC0217800E80AB9 /* TimeLine.storyboard in Resources */,
+				3786DD061FC0217800E80AB9 /* Feed.storyboard in Resources */,
 				3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */,
 				3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */,
 				3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */,
@@ -277,8 +270,7 @@
 				3777C1931FC1011400D3562D /* Card.swift in Sources */,
 				375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */,
 				3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */,
-				3777C1911FC100EC00D3562D /* ReadCard.swift in Sources */,
-				375060931FC0BE4F00BBB14D /* ChatViewController.swift in Sources */,
+				3777C1971FC1E7BF00D3562D /* IBInspectables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

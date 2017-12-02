@@ -33,15 +33,15 @@ class OriginUITabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        let newController = viewControllers![1]
-        
-        if viewController == newController {
-            let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController()
-            present(vc!, animated: true, completion: nil)
-            
-            return false
-        }
+//        let newController = viewControllers![1]
+//
+//        if viewController == newController {
+//            let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+//            let vc = storyboard.instantiateInitialViewController()
+//            present(vc!, animated: true, completion: nil)
+//
+//            return false
+//        }
         
         
         return true
