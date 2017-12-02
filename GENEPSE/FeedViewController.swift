@@ -44,14 +44,48 @@ class FeedViewController: UIViewController {
         let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: card_view.frame.width, height: card_view.frame.height*0.7))
         imageView.loadImage(urlString: "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg")
         imageView.contentMode = .scaleAspectFill
-        card_view.addSubview(imageView)
-
+        
         let maskPath = UIBezierPath(roundedRect: imageView.frame,
                                     byRoundingCorners: [.topLeft, .topRight],
                                     cornerRadii: CGSize(width: 20, height: 20))
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath.cgPath
         imageView.layer.mask = maskLayer
+        
+        card_view.addSubview(imageView)
+        
+        let name_label = UILabel()
+        name_label.text = "岩見 建汰"
+        name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 30)
+        name_label.frame = CGRect(x: lr_margin*0.5, y: imageView.frame.height+lr_margin*0.5, width: card_view.frame.width, height: 50)
+        name_label.sizeToFit()
+        
+        card_view.addSubview(name_label)
+        
+        let hoge = NSMutableParagraphStyle()
+        hoge.paragraphSpacing = 50.0
+        hoge.lineBreakMode = .byTruncatingTail
+        let hoge2 = [NSParagraphStyleAttributeName: hoge]
+        
+        let label_height = card_view.frame.origin.y + card_view.frame.height - (imageView.frame.height+name_label.frame.height+lr_margin)
+        
+        print("***************")
+        print(card_view.frame.origin.y)
+        print(card_view.frame.height)
+        print(imageView.frame.height)
+        print(name_label.frame.height)
+        let career_label = UILabel()
+//        career_label.text = "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。"
+        career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
+        career_label.frame = CGRect(x: lr_margin*0.5, y: imageView.frame.height+name_label.frame.height+lr_margin*0.5, width: card_view.frame.width-(lr_margin), height: label_height)
+        career_label.backgroundColor = UIColor.blue
+        career_label.numberOfLines = 0
+        career_label.attributedText = NSMutableAttributedString(string: "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。", attributes: hoge2)
+//        career_label.sizeToFit()
+        
+        card_view.addSubview(career_label)
+
+        
 
         let card_view2 = UIView()
         card_view2.frame = CGRect(x: lr_margin, y: y_position, width: card_width, height: card_height)
