@@ -45,10 +45,10 @@
             </objects>
             <point key="canvasLocation" x="-1770" y="103"/>
         </scene>
-        <!--View Controller-->
+        <!--Feed View Controller-->
         <scene sceneID="PDo-Xd-jBk">
             <objects>
-                <viewController id="53V-3E-FdM" sceneMemberID="viewController">
+                <viewController id="53V-3E-FdM" customClass="FeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MYh-vM-dtr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
