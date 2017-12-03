@@ -17,10 +17,11 @@ class FeedViewController: UIViewController {
     var card_width = 0.0 as CGFloat
     var card_height = 0.0 as CGFloat
     
-    var test_names: [String] = []
-    var test_careers: [String] = []
-    var test_images: [String] = []
-    var test_attributes: [String] = []
+    var dummy_names: [String] = []
+    var dummy_careers: [String] = []
+    var dummy_images: [String] = []
+    var dummy_attributes: [String] = []
+    var dummy_main_skills = [[String]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,26 +40,26 @@ class FeedViewController: UIViewController {
         
         var card_start_y = base_margin
         
-        for i in 0..<test_names.count {
+        for i in 0..<dummy_names.count {
             // カードを追加
             cardView = self.CreateCard(card_start_y: card_start_y)
             scroll_view.addSubview(cardView)
             
             // プロフィール画像を追加
-            profileImageView = self.CreateProfileImageView(url: test_images[i])
+            profileImageView = self.CreateProfileImageView(url: dummy_images[i])
             cardView.addSubview(profileImageView)
             
             // 属性ラベルを追加
-            let attributeLabels = self.CreateAttributeLabel(attribute: test_attributes[i])
+            let attributeLabels = self.CreateAttributeLabel(attribute: dummy_attributes[i])
             cardView.addSubview(attributeLabels.0)
             cardView.addSubview(attributeLabels.1)
             
             // 名前のラベルを追加
-            nameLabel = self.CreateNameLabel(text: test_names[i])
+            nameLabel = self.CreateNameLabel(text: dummy_names[i])
             cardView.addSubview(nameLabel)
             
             // 経歴のラベルを追加
-            let careerLabel = self.CreateCareerLabel(text: test_careers[i])
+            let careerLabel = self.CreateCareerLabel(text: dummy_careers[i])
             cardView.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
@@ -190,11 +191,12 @@ class FeedViewController: UIViewController {
     }
     
     func GetFeedData() {
-        let test_data = FeedViewTestData()
-        test_names = test_data.GetNames()
-        test_images = test_data.GetImages()
-        test_careers = test_data.GetCareers()
-        test_attributes = test_data.GetAttributes()
+        let dummy_data = FeedViewDummyData()
+        dummy_names = dummy_data.GetNames()
+        dummy_images = dummy_data.GetImages()
+        dummy_careers = dummy_data.GetCareers()
+        dummy_attributes = dummy_data.GetAttributes()
+        dummy_main_skills = dummy_data.GetMainSkills()
     }
 
     override func didReceiveMemoryWarning() {
