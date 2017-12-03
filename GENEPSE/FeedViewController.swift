@@ -48,9 +48,10 @@ class FeedViewController: UIViewController {
             profileImageView = self.CreateProfileImageView(url: test_images[i])
             cardView.addSubview(profileImageView)
             
-            //TODO: 属性ラベルを追加
-            let attributeLabel = self.CreateAttributeLabel(attribute: test_attributes[i])
-            cardView.addSubview(attributeLabel)
+            // 属性ラベルを追加
+            let attributeLabels = self.CreateAttributeLabel(attribute: test_attributes[i])
+            cardView.addSubview(attributeLabels.0)
+            cardView.addSubview(attributeLabels.1)
             
             // 名前のラベルを追加
             nameLabel = self.CreateNameLabel(text: test_names[i])
@@ -143,7 +144,7 @@ class FeedViewController: UIViewController {
         return career_label
     }
     
-    func CreateAttributeLabel(attribute: String) -> UILabel {
+    func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
         var bg_color: UIColor
         switch attribute {
         case "DESIGNER":
@@ -159,6 +160,7 @@ class FeedViewController: UIViewController {
         
         let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
         
+        // 属性ラベル
         let attribute_label = UILabel()
         attribute_label.text = "   " + attribute + "   "
         attribute_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
@@ -167,57 +169,24 @@ class FeedViewController: UIViewController {
         attribute_label.textColor = UIColor.white
         attribute_label.sizeToFit()
         
+        // 右上，右下を角丸に
         let maskPath = UIBezierPath(roundedRect: attribute_label.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 20, height: 20)).cgPath
         let maskLayer = CAShapeLayer()
         maskLayer.frame = attribute_label.bounds
         maskLayer.path = maskPath
         attribute_label.layer.mask = maskLayer
         
-//        attribute_label.layer.shadowColor = UIColor.black.cgColor
-//        attribute_label.layer.shadowOpacity = 1.0 // 透明度
-//        attribute_label.layer.shadowOffset = CGSize(width: 5, height: 5) // 距離
-//        attribute_label.layer.shadowRadius = 5 // ぼかし量
+        // 影をつけるためのViewを作成
+        let shadow_view = UIView()
+        shadow_view.backgroundColor = bg_color
+        shadow_view.frame = attribute_label.frame
+        shadow_view.layer.shadowColor = UIColor.black.cgColor
+        shadow_view.layer.shadowOpacity = 1.0
+        shadow_view.layer.shadowOffset = CGSize(width: 1, height: 1)
+        shadow_view.layer.shadowRadius = 2
+        shadow_view.layer.cornerRadius = 10
         
-//        attribute_label.clipsToBounds = true
-        
-//        cardView.clipsToBounds = true
-//        attribute_label.numberOfLines = 0
-        
-        
-        
-//        let maskPath = UIBezierPath(roundedRect: attribute_label.bounds,
-//                                    byRoundingCorners: [.topRight, .bottomRight],
-//                                    cornerRadii: CGSize(width: 20, height: 20)).cgPath
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.frame = attribute_label.bounds
-//        maskLayer.path = maskPath
-//        maskLayer.fillColor = UIColor.blue.cgColor
-//        attribute_label.layer.mask = maskLayer
-        
-//        maskLayer.addSublayer(hoge)
-//        attribute_label.layer.addSublayer(hoge)
-//        attribute_label.clipsToBounds = false
-//        attribute_label.layer.shadowOpacity = 1.0
-//        attribute_label.layer.shadowColor = UIColor.black.cgColor
-//        attribute_label.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-//        attribute_label.layer.shadowRadius = 20
-//        attribute_label.layer.shadowPath = maskPath
-//        attribute_label.layer.masksToBounds = false
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-        
-//        attribute_label.layer.cornerRadius = 15
-//        attribute_label.clipsToBounds = true
-        
-        return attribute_label
+        return (shadow_view, attribute_label)
     }
     
     func GetFeedData() {
