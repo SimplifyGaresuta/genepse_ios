@@ -11,16 +11,22 @@ import UIKit
 class FeedViewController: UIViewController {
     
     var cardView = UIView()
-    var profileimageView = UIImageView()
-    var name_label = UILabel()
+    var profileImageView = UIImageView()
+    var nameLabel = UILabel()
     var base_margin = 0.0 as CGFloat
     var card_width = 0.0 as CGFloat
     var card_height = 0.0 as CGFloat
+    
+    var test_names: [String] = []
+    var test_careers: [String] = []
+    var test_images: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.layoutIfNeeded()
+        
+        GetFeedData()
         
         base_margin = self.view.bounds.width * 0.1
         card_width = self.view.bounds.width * 0.8
@@ -38,16 +44,18 @@ class FeedViewController: UIViewController {
             scroll_view.addSubview(cardView)
             
             // プロフィール画像を追加
-            profileimageView = self.CreateProfileImageView(url: "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg")
-            cardView.addSubview(profileimageView)
+            profileImageView = self.CreateProfileImageView(url: test_images[i])
+            cardView.addSubview(profileImageView)
             
             // 名前のラベルを追加
-            name_label = self.CreateNameLabel(text: String(i))
-            cardView.addSubview(name_label)
+            nameLabel = self.CreateNameLabel(text: test_names[i])
+            cardView.addSubview(nameLabel)
             
-            let career_label = self.CreateCareerLabel()
-            cardView.addSubview(career_label)
+            // 経歴のラベルを追加
+            let careerLabel = self.CreateCareerLabel(text: test_careers[i])
+            cardView.addSubview(careerLabel)
             
+            // 次に描画するカードのyを保存
             card_start_y = cardView.frame.height + cardView.frame.origin.y + base_margin*0.5
         }
         
@@ -62,12 +70,6 @@ class FeedViewController: UIViewController {
         scroll_view.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
         scroll_view.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
         scroll_view.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
-        
-        
-//        let AAA = UIView()
-//        AAA.frame = CGRect(x: 0, y: card_view.frame.height+card_view.frame.origin.y, width: self.view.frame.width, height: 10)
-//        AAA.backgroundColor = UIColor.red
-//        scroll_view.addSubview(AAA)
     }
     
     func refresh(sender: UIRefreshControl) {
@@ -109,30 +111,38 @@ class FeedViewController: UIViewController {
         let name_label = UILabel()
         name_label.text = text
         name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 30)
-        name_label.frame = CGRect(x: base_margin*0.5, y: profileimageView.frame.height+base_margin*0.5, width: cardView.frame.width, height: 50)
+        name_label.frame = CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardView.frame.width, height: base_margin)
         name_label.sizeToFit()
         
         return name_label
     }
     
-    func CreateCareerLabel() -> UILabel {
-        let paragrahStyle = NSMutableParagraphStyle()
-        paragrahStyle.paragraphSpacing = 50.0
-        paragrahStyle.lineBreakMode = .byTruncatingTail
-        let attributeName = [NSParagraphStyleAttributeName: paragrahStyle]
-        
-        let label_height = cardView.frame.origin.y + cardView.frame.height - (profileimageView.frame.height+name_label.frame.height+base_margin)
+    func CreateCareerLabel(text: String) -> UILabel {
+        let label_start_y = nameLabel.frame.origin.y+nameLabel.frame.height
         
         let career_label = UILabel()
-        //        career_label.text = "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。"
         career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
-        career_label.frame = CGRect(x: base_margin*0.5, y: profileimageView.frame.height+name_label.frame.height+base_margin*0.5, width: cardView.frame.width-base_margin, height: label_height)
-        career_label.backgroundColor = UIColor.blue
+        career_label.frame = CGRect(x: base_margin*0.5, y: label_start_y, width: cardView.frame.width-base_margin, height: base_margin*2)
+        career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
-        career_label.attributedText = NSMutableAttributedString(string: "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。", attributes: attributeName)
-        //        career_label.sizeToFit()
+        
+        let lineHeight:CGFloat = 23.0
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.minimumLineHeight = lineHeight
+        paragraphStyle.maximumLineHeight = lineHeight
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        career_label.attributedText = attributedText
         
         return career_label
+    }
+    
+    func GetFeedData() {
+        let test_data = FeedViewTestData()
+        test_names = test_data.GetNames()
+        test_images = test_data.GetImages()
+        test_careers = test_data.GetCareers()
     }
 
     override func didReceiveMemoryWarning() {
