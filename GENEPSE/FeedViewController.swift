@@ -56,6 +56,10 @@ class FeedViewController: UIViewController {
             
             // TODO: メインスキルを追加
             let mainskillsLabels = self.CreateMainSkillsLabels(skills: dummy_main_skills[i])
+            for hoge in mainskillsLabels.1 {
+                cardView.addSubview(hoge)
+            }
+            
             
             // 名前のラベルを追加
             nameLabel = self.CreateNameLabel(text: dummy_names[i])
@@ -187,8 +191,29 @@ class FeedViewController: UIViewController {
         return (shadow_view, attribute_label)
     }
     
-    func CreateMainSkillsLabels(skills: Array<String>) -> Array<UILabel> {
-        return [UILabel()]
+    func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
+        var labels = [UILabel]()
+        var views = [UIView]()
+        let bg_color = UIColor.brown
+        let label_start_y = profileImageView.frame.origin.y + profileImageView.frame.height
+        
+        var labelstart_x = base_margin * 0.25
+        
+        for (i, skill) in skills.enumerated() {
+            print(labelstart_x)
+            let label = UILabel(frame: CGRect(x: labelstart_x, y: label_start_y, width: 0, height: 0))
+            label.text = "  " + skill + "  "
+            label.backgroundColor = bg_color
+            label.sizeToFit()
+            label.layer.cornerRadius = 10
+            label.layer.masksToBounds = true
+            label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)
+            label.sizeToFit()
+            
+            labels.append(label)
+            labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
+        }
+        return (views, labels)
     }
     
     func GetFeedData() {
