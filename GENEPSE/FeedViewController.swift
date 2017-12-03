@@ -38,7 +38,7 @@ class FeedViewController: UIViewController {
         
         var card_start_y = base_margin
         
-        for i in 0...1 {
+        for i in 0..<test_names.count {
             // カードを追加
             cardView = self.CreateCard(card_start_y: card_start_y)
             scroll_view.addSubview(cardView)

@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class FeedViewTestData {
-    let test_names = ["岩見建汰", "Kenta Iwami"]
-    let test_careers = ["UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。", "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。"]
-    let test_images = ["https://bomanite.com/wp-content/uploads/2015/03/HTC-One-Photo-Sample-Marbles.jpeg", "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"]
+    let test_names = ["岩見建汰", "Kenta Iwami", "いわみけんた"]
+    let test_careers = ["UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。", "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。", "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。"]
+    let test_images = ["https://bomanite.com/wp-content/uploads/2015/03/HTC-One-Photo-Sample-Marbles.jpeg", "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg","https://www.visioncritical.com/wp-content/uploads/2014/12/BLG_Andrew-G.-River-Sample_09.13.12.png"]
     
     func GetNames() -> Array<String> {
         return test_names

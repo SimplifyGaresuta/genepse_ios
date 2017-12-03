@@ -10,7 +10,6 @@
 		3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */; };
 		375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */; };
 		375FB43E1FD285E60003B401 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB43D1FD285E60003B401 /* FeedViewController.swift */; };
-		375FB4421FD2CD260003B401 /* FeedCardUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB4411FD2CD260003B401 /* FeedCardUIView.swift */; };
 		375FB4461FD2EBF70003B401 /* AsyncUIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB4451FD2EBF70003B401 /* AsyncUIImageView.swift */; };
 		375FB4481FD3CD4E0003B401 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB4471FD3CD4E0003B401 /* TestData.swift */; };
 		3777C1931FC1011400D3562D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777C1921FC1011400D3562D /* Card.swift */; };
@@ -29,7 +28,6 @@
 		3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUITabBarController.swift; sourceTree = "<group>"; };
 		375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		375FB43D1FD285E60003B401 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
-		375FB4411FD2CD260003B401 /* FeedCardUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCardUIView.swift; sourceTree = "<group>"; };
 		375FB4451FD2EBF70003B401 /* AsyncUIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncUIImageView.swift; sourceTree = "<group>"; };
 		375FB4471FD3CD4E0003B401 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		3777C1921FC1011400D3562D /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 				3777C1921FC1011400D3562D /* Card.swift */,
 				3777C1961FC1E7BF00D3562D /* IBInspectables.swift */,
 				375FB43D1FD285E60003B401 /* FeedViewController.swift */,
-				375FB4411FD2CD260003B401 /* FeedCardUIView.swift */,
 				375FB4451FD2EBF70003B401 /* AsyncUIImageView.swift */,
 				375FB4471FD3CD4E0003B401 /* TestData.swift */,
 			);
@@ -266,7 +263,6 @@
 				3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */,
 				375FB43E1FD285E60003B401 /* FeedViewController.swift in Sources */,
 				3777C1971FC1E7BF00D3562D /* IBInspectables.swift in Sources */,
-				375FB4421FD2CD260003B401 /* FeedCardUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
