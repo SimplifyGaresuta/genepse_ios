@@ -88,7 +88,7 @@ class FeedViewController: UIViewController {
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        let card_view = UIView()
+        let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
         card_view.layer.cornerRadius = 20
         card_view.layer.shadowOpacity = 0.5
@@ -96,8 +96,6 @@ class FeedViewController: UIViewController {
         card_view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         card_view.layer.shadowRadius = 20
         card_view.layer.masksToBounds = false
-        
-        card_view.frame = CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height)
         
         return card_view
     }
@@ -118,10 +116,9 @@ class FeedViewController: UIViewController {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
-        let name_label = UILabel()
+        let name_label = UILabel(frame: CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardView.frame.width, height: base_margin))
         name_label.text = text
         name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 30)
-        name_label.frame = CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardView.frame.width, height: base_margin)
         name_label.sizeToFit()
         
         return name_label
@@ -130,9 +127,8 @@ class FeedViewController: UIViewController {
     func CreateCareerLabel(text: String) -> UILabel {
         let label_start_y = nameLabel.frame.origin.y+nameLabel.frame.height
         
-        let career_label = UILabel()
+        let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardView.frame.width-base_margin, height: base_margin*2))
         career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
-        career_label.frame = CGRect(x: base_margin*0.5, y: label_start_y, width: cardView.frame.width-base_margin, height: base_margin*2)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
@@ -165,10 +161,9 @@ class FeedViewController: UIViewController {
         let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
         
         // 属性ラベル
-        let attribute_label = UILabel()
+        let attribute_label = UILabel(frame: CGRect(x: 0, y: label_start_y, width: 0, height: 0))
         attribute_label.text = "   " + attribute + "   "
         attribute_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
-        attribute_label.frame = CGRect(x: 0, y: label_start_y, width: 0, height: 0)
         attribute_label.backgroundColor = bg_color
         attribute_label.textColor = UIColor.white
         attribute_label.sizeToFit()
@@ -181,9 +176,8 @@ class FeedViewController: UIViewController {
         attribute_label.layer.mask = maskLayer
         
         // 影をつけるためのViewを作成
-        let shadow_view = UIView()
+        let shadow_view = UIView(frame: attribute_label.frame)
         shadow_view.backgroundColor = bg_color
-        shadow_view.frame = attribute_label.frame
         shadow_view.layer.shadowColor = UIColor.black.cgColor
         shadow_view.layer.shadowOpacity = 1.0
         shadow_view.layer.shadowOffset = CGSize(width: 1, height: 1)
