@@ -54,6 +54,9 @@ class FeedViewController: UIViewController {
             cardView.addSubview(attributeLabels.0)
             cardView.addSubview(attributeLabels.1)
             
+            // TODO: メインスキルを追加
+            let mainskillsLabels = self.CreateMainSkillsLabels(skills: dummy_main_skills[i])
+            
             // 名前のラベルを追加
             nameLabel = self.CreateNameLabel(text: dummy_names[i])
             cardView.addSubview(nameLabel)
@@ -188,6 +191,10 @@ class FeedViewController: UIViewController {
         shadow_view.layer.cornerRadius = 10
         
         return (shadow_view, attribute_label)
+    }
+    
+    func CreateMainSkillsLabels(skills: Array<String>) -> Array<UILabel> {
+        return [UILabel()]
     }
     
     func GetFeedData() {
