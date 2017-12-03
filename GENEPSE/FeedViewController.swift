@@ -20,6 +20,7 @@ class FeedViewController: UIViewController {
     var test_names: [String] = []
     var test_careers: [String] = []
     var test_images: [String] = []
+    var test_attributes: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,10 @@ class FeedViewController: UIViewController {
             // プロフィール画像を追加
             profileImageView = self.CreateProfileImageView(url: test_images[i])
             cardView.addSubview(profileImageView)
+            
+            //TODO: 属性ラベルを追加
+            let attributeLabel = self.CreateAttributeLabel(attribute: test_attributes[i])
+            cardView.addSubview(attributeLabel)
             
             // 名前のラベルを追加
             nameLabel = self.CreateNameLabel(text: test_names[i])
@@ -138,11 +143,89 @@ class FeedViewController: UIViewController {
         return career_label
     }
     
+    func CreateAttributeLabel(attribute: String) -> UILabel {
+        var bg_color: UIColor
+        switch attribute {
+        case "DESIGNER":
+            bg_color = UIColor.red
+            break
+        case "ENGINEER":
+            bg_color = UIColor.blue
+            break
+        default:
+            bg_color = UIColor.green
+            break
+        }
+        
+        let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
+        
+        let attribute_label = UILabel()
+        attribute_label.text = "   " + attribute + "   "
+        attribute_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
+        attribute_label.frame = CGRect(x: 0, y: label_start_y, width: 0, height: 0)
+        attribute_label.backgroundColor = bg_color
+        attribute_label.textColor = UIColor.white
+        attribute_label.sizeToFit()
+        
+        let maskPath = UIBezierPath(roundedRect: attribute_label.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 20, height: 20)).cgPath
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = attribute_label.bounds
+        maskLayer.path = maskPath
+        attribute_label.layer.mask = maskLayer
+        
+//        attribute_label.layer.shadowColor = UIColor.black.cgColor
+//        attribute_label.layer.shadowOpacity = 1.0 // 透明度
+//        attribute_label.layer.shadowOffset = CGSize(width: 5, height: 5) // 距離
+//        attribute_label.layer.shadowRadius = 5 // ぼかし量
+        
+//        attribute_label.clipsToBounds = true
+        
+//        cardView.clipsToBounds = true
+//        attribute_label.numberOfLines = 0
+        
+        
+        
+//        let maskPath = UIBezierPath(roundedRect: attribute_label.bounds,
+//                                    byRoundingCorners: [.topRight, .bottomRight],
+//                                    cornerRadii: CGSize(width: 20, height: 20)).cgPath
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.frame = attribute_label.bounds
+//        maskLayer.path = maskPath
+//        maskLayer.fillColor = UIColor.blue.cgColor
+//        attribute_label.layer.mask = maskLayer
+        
+//        maskLayer.addSublayer(hoge)
+//        attribute_label.layer.addSublayer(hoge)
+//        attribute_label.clipsToBounds = false
+//        attribute_label.layer.shadowOpacity = 1.0
+//        attribute_label.layer.shadowColor = UIColor.black.cgColor
+//        attribute_label.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+//        attribute_label.layer.shadowRadius = 20
+//        attribute_label.layer.shadowPath = maskPath
+//        attribute_label.layer.masksToBounds = false
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+//        attribute_label.layer.cornerRadius = 15
+//        attribute_label.clipsToBounds = true
+        
+        return attribute_label
+    }
+    
     func GetFeedData() {
         let test_data = FeedViewTestData()
         test_names = test_data.GetNames()
         test_images = test_data.GetImages()
         test_careers = test_data.GetCareers()
+        test_attributes = test_data.GetAttributes()
     }
 
     override func didReceiveMemoryWarning() {
