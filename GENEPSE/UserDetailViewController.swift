@@ -59,6 +59,12 @@ class UserDetailViewController: UIViewController {
         let attributeLabels = CreateAttributeLabel(attribute: attr)
         cardScrollView.addSubview(attributeLabels.0)
         cardScrollView.addSubview(attributeLabels.1)
+        
+        let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
+        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
+            cardScrollView.addSubview(shadowView)
+            cardScrollView.addSubview(skillLabel)
+        }
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
@@ -117,6 +123,43 @@ class UserDetailViewController: UIViewController {
         shadow_view.layer.cornerRadius = 10
         
         return (shadow_view, attribute_label)
+    }
+    
+    func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
+        var labels = [UILabel]()
+        var views = [UIView]()
+        let bg_color = UIColor.white
+        
+        var labelstart_x = base_margin * 0.25
+        let label_y = profileImageView.frame.origin.y + profileImageView.frame.height
+        
+        for skill in skills {
+            // skillラベルの生成
+            let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
+            label.text = "  " + skill + "  "
+            label.backgroundColor = bg_color
+            label.sizeToFit()
+            label.layer.cornerRadius = 10
+            label.layer.masksToBounds = true
+            label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)   //プロフ画像のbottomからマージン分だけ上に
+            label.sizeToFit()   //w, hの再調整
+            
+            labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
+            
+            // 影Viewの生成
+            let offset = 1.5
+            let shadow = UIView(frame: CGRect(x: label.frame.origin.x, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height))
+            shadow.layer.shadowColor = UIColor.black.cgColor
+            shadow.backgroundColor = bg_color
+            shadow.layer.shadowOpacity = 1.0
+            shadow.layer.shadowOffset = CGSize(width: offset, height: offset)
+            shadow.layer.shadowRadius = CGFloat(offset)
+            shadow.layer.cornerRadius = 10
+            
+            labels.append(label)
+            views.append(shadow)
+        }
+        return (views, labels)
     }
     
     func SetUserID(id: Int) {
