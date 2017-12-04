@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class FeedViewController: UIViewController, UIScrollViewDelegate {
     
     var cardView = UIView()
     var profileImageView = UIImageView()
@@ -37,6 +37,7 @@ class FeedViewController: UIViewController {
         let scroll_view = UIScrollView()
         scroll_view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scroll_view)
+        scroll_view.delegate = self
         
         var card_start_y = base_margin
         
@@ -235,6 +236,10 @@ class FeedViewController: UIViewController {
         dummy_careers = dummy_data.GetCareers()
         dummy_attributes = dummy_data.GetAttributes()
         dummy_main_skills = dummy_data.GetMainSkills()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("hoge")
     }
 
     override func didReceiveMemoryWarning() {
