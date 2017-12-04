@@ -9,5 +9,6 @@ target 'GENEPSE' do
   # pod 'Firebase/Core'
   # pod 'Firebase/Database'
   # pod 'JSQMessagesViewController'
-
+  pod 'Alamofire', '~> 4.5'
+  pod 'SwiftyJSON'
 end

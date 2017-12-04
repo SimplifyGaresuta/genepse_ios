@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class FeedViewController: UIViewController, UIScrollViewDelegate {
     
@@ -242,12 +244,22 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
-            
             isUpdating = true
-            isUpdating = false
-
+            getArticle()
         }
     }
+    
+    func getArticle(){
+        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_recently_movie/"
+        Alamofire.request(urlString, method: .get).responseJSON { (response) in
+            guard let object = response.result.value else{return}
+            let json = JSON(object)
+            print(json.count)
+            
+            self.isUpdating = false
+        }
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
