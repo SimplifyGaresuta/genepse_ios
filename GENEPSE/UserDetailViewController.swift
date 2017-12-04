@@ -109,9 +109,14 @@ class UserDetailViewController: UIViewController {
         let awardsLabel = self.CreateAwardsLabel(awards: awards)
         cardView.addSubview(awardsLabel)
         
-        //TODO: スキルの追加
+        // スキルの追加
         skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
+        
+        let skillsLabels = self.CreateSkillsLabel(skills: skills)
+        for skillLabel in skillsLabels {
+            cardView.addSubview(skillLabel)
+        }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -254,7 +259,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: awards_sectionLable.frame.origin.y+awards_sectionLable.frame.height+base_margin*0.5, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: awards_sectionLable.frame.origin.y+awards_sectionLable.frame.height+base_margin*0.1, width: 0, height: 0))
         
         var text = ""
         for award in awards {
@@ -268,6 +273,36 @@ class UserDetailViewController: UIViewController {
         label.sizeToFit()
         
         return label
+    }
+    
+    func CreateSkillsLabel(skills: [String]) -> Array<UILabel> {
+        var start_x = base_margin
+        var start_y = skills_sectionLable.frame.origin.y + skills_sectionLable.frame.height + base_margin*0.1
+        var labels = [UILabel]()
+        
+        for skill in skills {
+            let label = UILabel(frame: CGRect(x: start_x, y: start_y, width: 0, height: 0))
+            label.text = "  " + skill + "  "
+            label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            label.backgroundColor = UIColor.gray
+            label.textColor = UIColor.white
+            label.sizeToFit()
+            label.layer.cornerRadius = 10
+            label.layer.masksToBounds = true
+            
+            //追加しようとしているラベルがカード幅を超える場合
+            if (label.frame.origin.x+label.frame.width) > (cardView.frame.origin.x+cardView.frame.width-base_margin) {
+                start_y = label.frame.origin.y + label.frame.height + base_margin*0.25
+                
+                label.frame = CGRect(x: base_margin, y: start_y, width: 0, height: 0)
+                label.sizeToFit()
+            }
+            
+            labels.append(label)
+            start_x = label.frame.origin.x + label.frame.width + base_margin*0.25
+        }
+        
+        return labels
     }
     
     //TODO: SNSラベル追加 作業中
