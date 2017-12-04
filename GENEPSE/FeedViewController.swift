@@ -11,8 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
-    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var profileImageView = UIImageView()
@@ -23,6 +21,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
+    var preViewName = "Feed"
     
     var dummy_names: [String] = []
     var dummy_careers: [String] = []
@@ -295,11 +294,13 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier == "Feed" {
+        
+        if viewController.restorationIdentifier! == "Feed" && preViewName == "Feed" {
             scrollView.scroll(to: .top, animated: true)
         }
+        
+        preViewName = viewController.restorationIdentifier!
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

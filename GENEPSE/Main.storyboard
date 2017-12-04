@@ -64,7 +64,7 @@
         <!--View Controller-->
         <scene sceneID="xeG-TA-oZj">
             <objects>
-                <viewController id="89N-ip-KJc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HOGE" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V97-WR-YzM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
