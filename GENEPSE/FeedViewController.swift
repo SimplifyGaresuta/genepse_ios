@@ -12,12 +12,14 @@ import SwiftyJSON
 
 class FeedViewController: UIViewController, UIScrollViewDelegate {
     
+    var scrollView = UIScrollView()
     var cardView = UIView()
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
     var base_margin = 0.0 as CGFloat
     var card_width = 0.0 as CGFloat
     var card_height = 0.0 as CGFloat
+    var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
     
@@ -38,49 +40,15 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
         card_width = self.view.bounds.width * 0.8
         card_height = self.view.bounds.height * 0.65
         
-        let scrollView = UIScrollView()
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
-        var card_start_y = base_margin
+        card_start_y = base_margin
         
-        for i in 0..<dummy_names.count {
-            // カードを追加
-            cardView = self.CreateCard(card_start_y: card_start_y)
-            scrollView.addSubview(cardView)
-            
-            // プロフィール画像を追加
-            profileImageView = self.CreateProfileImageView(url: dummy_images[i])
-            cardView.addSubview(profileImageView)
-            
-            // 属性ラベルを追加
-            let attributeLabels = self.CreateAttributeLabel(attribute: dummy_attributes[i])
-            cardView.addSubview(attributeLabels.0)
-            cardView.addSubview(attributeLabels.1)
-            
-            // メインスキルを追加
-            let mainskillsLabels = self.CreateMainSkillsLabels(skills: dummy_main_skills[i])
-            for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-                cardView.addSubview(shadowView)
-                cardView.addSubview(skillLabel)
-            }
-            
-            // 名前のラベルを追加
-            nameLabel = self.CreateNameLabel(text: dummy_names[i])
-            cardView.addSubview(nameLabel)
-            
-            // 経歴のラベルを追加
-            let careerLabel = self.CreateCareerLabel(text: dummy_careers[i])
-            cardView.addSubview(careerLabel)
-            
-            // 次に描画するカードのyを保存
-            card_start_y = cardView.frame.height + cardView.frame.origin.y + base_margin*0.5
-        }
+        CallFeedAPI()
         
         let refresh_controll = UIRefreshControl()
-        
-        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cardView.frame.origin.y+base_margin)
         scrollView.refreshControl = refresh_controll
         refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
         
@@ -94,6 +62,43 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
     func refresh(sender: UIRefreshControl) {
         print("hoge!!")
         sender.endRefreshing()
+    }
+    
+    func AddCard() {
+        for i in 0..<self.dummy_names.count {
+            // カードを追加
+            self.cardView = self.CreateCard(card_start_y: self.card_start_y)
+            self.self.scrollView.addSubview(self.cardView)
+            
+            // プロフィール画像を追加
+            self.profileImageView = self.CreateProfileImageView(url: self.dummy_images[i])
+            self.cardView.addSubview(self.profileImageView)
+            
+            // 属性ラベルを追加
+            let attributeLabels = self.CreateAttributeLabel(attribute: self.dummy_attributes[i])
+            self.cardView.addSubview(attributeLabels.0)
+            self.cardView.addSubview(attributeLabels.1)
+            
+            // メインスキルを追加
+            let mainskillsLabels = self.CreateMainSkillsLabels(skills: self.dummy_main_skills[i])
+            for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
+                self.cardView.addSubview(shadowView)
+                self.cardView.addSubview(skillLabel)
+            }
+            
+            // 名前のラベルを追加
+            self.nameLabel = self.CreateNameLabel(text: self.dummy_names[i])
+            self.cardView.addSubview(self.nameLabel)
+            
+            // 経歴のラベルを追加
+            let careerLabel = self.CreateCareerLabel(text: self.dummy_careers[i])
+            self.cardView.addSubview(careerLabel)
+            
+            // 次に描画するカードのyを保存
+            self.card_start_y = self.cardView.frame.height + self.cardView.frame.origin.y + self.base_margin*0.5
+        }
+        
+        self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: self.cardView.frame.height+self.cardView.frame.origin.y+self.base_margin)
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
@@ -245,16 +250,18 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
             isUpdating = true
-            getArticle()
+            CallFeedAPI()
         }
     }
     
-    func getArticle(){
+    func CallFeedAPI(){
         let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_recently_movie/"
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
             print(json.count)
+            
+            self.AddCard()
             
             self.isUpdating = false
         }
