@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
+    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
@@ -128,15 +129,17 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         dummy_count += 1
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewTap(sender:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapCard(sender:)))
         card_view.addGestureRecognizer(tap)
         
         return card_view
     }
     
-    func viewTap(sender: UITapGestureRecognizer){
-        let user_detail_VC = UserDetailViewController()
-        user_detail_VC.SetUserID(id: (sender.view?.tag)!)
+    func TapCard(sender: UITapGestureRecognizer){
+        appDelegate.current_user = (sender.view?.tag)!
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let user_detail_VC = storyboard.instantiateViewController(withIdentifier: "UserDetail")
         self.navigationController!.pushViewController(user_detail_VC, animated: true)
     }
     

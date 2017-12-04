@@ -10,10 +10,15 @@ import UIKit
 
 class UserDetailViewController: UIViewController {
 
+    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var user_id = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.blue
+        user_id = appDelegate.current_user!
+        print(user_id)
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,6 +29,7 @@ class UserDetailViewController: UIViewController {
     func SetUserID(id: Int) {
         user_id = id
     }
+    
     
 
     /*
