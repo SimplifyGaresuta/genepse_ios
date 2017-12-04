@@ -13,7 +13,7 @@ import SwiftyJSON
 class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     
     var scrollView = UIScrollView()
-    var cardView = UIView()
+    var cardViews: [UIView] = [UIView()]
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
     var base_margin = 0.0 as CGFloat
@@ -62,45 +62,55 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func refresh(sender: UIRefreshControl) {
-        print("hoge!!")
+        for cardView in cardViews {
+            cardView.removeFromSuperview()
+        }
+        
+        cardViews.removeAll()
+        
+        //初期化
+        card_start_y = base_margin
+        
+        AddCard()
+        
         sender.endRefreshing()
     }
     
     func AddCard() {
         for i in 0..<self.dummy_names.count {
             // カードを追加
-            self.cardView = self.CreateCard(card_start_y: self.card_start_y)
-            self.self.scrollView.addSubview(self.cardView)
+            cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
+            self.self.scrollView.addSubview(cardViews.last!)
             
             // プロフィール画像を追加
             self.profileImageView = self.CreateProfileImageView(url: self.dummy_images[i])
-            self.cardView.addSubview(self.profileImageView)
+            cardViews.last!.addSubview(self.profileImageView)
             
             // 属性ラベルを追加
             let attributeLabels = self.CreateAttributeLabel(attribute: self.dummy_attributes[i])
-            self.cardView.addSubview(attributeLabels.0)
-            self.cardView.addSubview(attributeLabels.1)
+            cardViews.last!.addSubview(attributeLabels.0)
+            cardViews.last!.addSubview(attributeLabels.1)
             
             // メインスキルを追加
             let mainskillsLabels = self.CreateMainSkillsLabels(skills: self.dummy_main_skills[i])
             for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-                self.cardView.addSubview(shadowView)
-                self.cardView.addSubview(skillLabel)
+                cardViews.last!.addSubview(shadowView)
+                cardViews.last!.addSubview(skillLabel)
             }
             
             // 名前のラベルを追加
             self.nameLabel = self.CreateNameLabel(text: self.dummy_names[i])
-            self.cardView.addSubview(self.nameLabel)
+            cardViews.last!.addSubview(self.nameLabel)
             
             // 経歴のラベルを追加
             let careerLabel = self.CreateCareerLabel(text: self.dummy_careers[i])
-            self.cardView.addSubview(careerLabel)
+            cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
-            self.card_start_y = self.cardView.frame.height + self.cardView.frame.origin.y + self.base_margin*0.5
+            self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.5
         }
         
-        self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: self.cardView.frame.height+self.cardView.frame.origin.y+self.base_margin)
+        self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+self.base_margin)
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
@@ -117,7 +127,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
-        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardView.frame.width, height: cardView.frame.height*0.7))
+        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardViews.last!.frame.width, height: cardViews.last!.frame.height*0.7))
         imageView.loadImage(urlString: url)
         imageView.contentMode = .scaleAspectFill
         
@@ -132,7 +142,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateNameLabel(text: String) -> UILabel {
-        let name_label = UILabel(frame: CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardView.frame.width, height: base_margin))
+        let name_label = UILabel(frame: CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardViews.last!.frame.width, height: base_margin))
         name_label.text = text
         name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 30)
         name_label.sizeToFit()
@@ -143,7 +153,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func CreateCareerLabel(text: String) -> UILabel {
         let label_start_y = nameLabel.frame.origin.y+nameLabel.frame.height
         
-        let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardView.frame.width-base_margin, height: base_margin*2))
+        let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardViews.last!.frame.width-base_margin, height: base_margin*2))
         career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
