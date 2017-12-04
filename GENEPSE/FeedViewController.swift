@@ -135,7 +135,9 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func viewTap(sender: UITapGestureRecognizer){
-        print("タップされました", sender.view?.tag)
+        let user_detail_VC = UserDetailViewController()
+        user_detail_VC.SetUserID(id: (sender.view?.tag)!)
+        self.navigationController!.pushViewController(user_detail_VC, animated: true)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
