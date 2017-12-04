@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class FeedViewController: UIViewController, UIScrollViewDelegate {
+class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     
     var scrollView = UIScrollView()
     var cardView = UIView()
@@ -43,6 +43,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
         scrollView.delegate = self
+        
+        self.tabBarController?.delegate = self
         
         card_start_y = base_margin
         
@@ -264,6 +266,12 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
             self.AddCard()
             
             self.isUpdating = false
+        }
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController.restorationIdentifier == "Feed" {
+            scrollView.scroll(to: .top, animated: true)
         }
     }
 
