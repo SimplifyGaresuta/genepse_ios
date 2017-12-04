@@ -41,3 +41,14 @@ class FeedViewDummyData {
     }
 }
 
+
+class UserDetailDummyData {
+    let user_data = [
+        "name": "岩見建汰",
+        "overview": "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。",
+        "profile_img": "https://bomanite.com/wp-content/uploads/2015/03/HTC-One-Photo-Sample-Marbles.jpeg",
+        "attr": "DESIGNER",
+        "main_skills": ["Illustrator", "Protopie", "sketch"]
+        ] as [String : Any]
+}
+
