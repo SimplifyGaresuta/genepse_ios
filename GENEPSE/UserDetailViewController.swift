@@ -19,6 +19,8 @@ class UserDetailViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
+    var awards_sectionLable = UILabel()
+    var skills_sectionLable = UILabel()
     
     
     override func viewDidLoad() {
@@ -67,26 +69,49 @@ class UserDetailViewController: UIViewController {
         guard let profile_img = json["profile_img"].string else{return}
         guard let attr = json["attr"].string else{return}
         guard let main_skills:[String] = json["main_skills"].arrayValue.map({ $0.stringValue}) else{return}
+        guard let awards:[String] = json["awards"].arrayValue.map({ $0.stringValue}) else{return}
+        guard let skills:[String] = json["skills"].arrayValue.map({ $0.stringValue}) else{return}
         
+        guard let license:[String] = json["license"].arrayValue.map({ $0.stringValue}) else{return}
+        guard let gender = json["gender"].string else{return}
+        guard let age = json["age"].int else{return}
+        guard let address = json["address"].string else{return}
+        guard let school_career = json["school_career"].string else{return}
         
+        // プロフ画像の追加
         profileImageView = CreateProfileImageView(url: profile_img)
         cardView.addSubview(profileImageView)
         
+        // 属性の追加
         let attributeLabels = CreateAttributeLabel(attribute: attr)
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
         
+        // メインスキルの追加
         let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
         }
         
+        // 名前の追加
         self.nameLabel = self.CreateNameLabel(text: name)
         cardView.addSubview(self.nameLabel)
         
+        // 経歴の追加
         let careerLabel = self.CreateCareerLabel(text: overview)
         cardView.addSubview(careerLabel)
+        
+        // 受賞歴の追加
+        awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
+        cardView.addSubview(awards_sectionLable)
+        
+        let awardsLabel = self.CreateAwardsLabel(awards: awards)
+        cardView.addSubview(awardsLabel)
+        
+        //TODO: スキルの追加
+        skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
+        cardView.addSubview(skills_sectionLable)
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -217,6 +242,39 @@ class UserDetailViewController: UIViewController {
         
         career_label.sizeToFit()
         return career_label
+    }
+    
+    func CreateSectionLabel(text: String, y: CGFloat) -> UILabel {
+        let label = UILabel(frame: CGRect(x: base_margin, y: y, width: 0, height: 0))
+        label.text = text
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
+        label.sizeToFit()
+        
+        return label
+    }
+    
+    func CreateAwardsLabel(awards: Array<String>) -> UILabel {
+        let label = UILabel(frame: CGRect(x: base_margin, y: awards_sectionLable.frame.origin.y+awards_sectionLable.frame.height+base_margin*0.5, width: 0, height: 0))
+        
+        var text = ""
+        for award in awards {
+            text += award + "\n"
+        }
+        text = text.substring(to: text.index(before: text.endIndex))
+        
+        label.text = text
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        label.numberOfLines = awards.count
+        label.sizeToFit()
+        
+        return label
+    }
+    
+    //TODO: SNSラベル追加 作業中
+    func CreateSNSLabel(json: JSON) {
+        json["sns"].forEach { (i, j) in
+            print(i, j["provider"], j["url"])
+        }
     }
     
     func SetUserID(id: Int) {
