@@ -17,8 +17,8 @@ class UserDetailViewController: UIViewController {
     
     var cardScrollView = UIScrollView()
     var profileImageView = UIImageView()
+    var nameLabel = UILabel()
     
-//    var user_data = JSON()
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -65,6 +65,9 @@ class UserDetailViewController: UIViewController {
             cardScrollView.addSubview(shadowView)
             cardScrollView.addSubview(skillLabel)
         }
+        
+        self.nameLabel = self.CreateNameLabel(text: name)
+        cardScrollView.addSubview(self.nameLabel)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
@@ -160,6 +163,15 @@ class UserDetailViewController: UIViewController {
             views.append(shadow)
         }
         return (views, labels)
+    }
+    
+    func CreateNameLabel(text: String) -> UILabel {
+        let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardScrollView.frame.width-base_margin, height: base_margin))
+        name_label.text = text
+        name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 40)
+        name_label.sizeToFit()
+        
+        return name_label
     }
     
     func SetUserID(id: Int) {
