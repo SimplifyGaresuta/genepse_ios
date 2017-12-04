@@ -15,7 +15,8 @@ class UserDetailViewController: UIViewController {
     var base_margin = 0.0 as CGFloat
     var navigation_bar_end_position = 0.0 as CGFloat
     
-    var cardScrollView = UIScrollView()
+    var scrollView = UIScrollView()
+    var cardView = UIView()
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
     
@@ -28,21 +29,35 @@ class UserDetailViewController: UIViewController {
         navigation_bar_end_position = (self.navigationController?.navigationBar.frame.size.height)! + (self.navigationController?.navigationBar.frame.origin.y)!
         self.view.backgroundColor = UIColor.white
         
-        InitCardScrollView()
+        InitScrollView()
+        InitCardView()
     }
     
-    func InitCardScrollView () {
-        cardScrollView.frame = CGRect(x: base_margin, y: navigation_bar_end_position+base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height)
-        cardScrollView.backgroundColor = UIColor.white
+    func InitScrollView() {
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.view.addSubview(scrollView)
         
-        cardScrollView.layer.cornerRadius = 20
-        cardScrollView.layer.shadowOpacity = 1.0
-        cardScrollView.layer.shadowColor = UIColor.black.cgColor
-        cardScrollView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cardScrollView.layer.shadowRadius = 10
-        cardScrollView.layer.masksToBounds = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo:self.view.topAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
+    }
+    
+    func InitCardView() {
+        cardView = UIView()
         
-        self.view.addSubview(cardScrollView)
+        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height)
+        cardView.backgroundColor = UIColor.white
+        
+        cardView.layer.cornerRadius = 20
+        cardView.layer.shadowOpacity = 1.0
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        cardView.layer.shadowRadius = 10
+        cardView.layer.masksToBounds = false
+        
+        scrollView.addSubview(cardView)
     }
     
     func AddViews(json: JSON) {
@@ -54,24 +69,29 @@ class UserDetailViewController: UIViewController {
         
         
         profileImageView = CreateProfileImageView(url: profile_img)
-        cardScrollView.addSubview(profileImageView)
+        cardView.addSubview(profileImageView)
         
         let attributeLabels = CreateAttributeLabel(attribute: attr)
-        cardScrollView.addSubview(attributeLabels.0)
-        cardScrollView.addSubview(attributeLabels.1)
+        cardView.addSubview(attributeLabels.0)
+        cardView.addSubview(attributeLabels.1)
         
         let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-            cardScrollView.addSubview(shadowView)
-            cardScrollView.addSubview(skillLabel)
+            cardView.addSubview(shadowView)
+            cardView.addSubview(skillLabel)
         }
         
         self.nameLabel = self.CreateNameLabel(text: name)
-        cardScrollView.addSubview(self.nameLabel)
+        cardView.addSubview(self.nameLabel)
+        
+        let careerLabel = self.CreateCareerLabel(text: overview)
+        cardView.addSubview(careerLabel)
+        
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
-        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardScrollView.frame.width, height: self.view.frame.height*0.5))
+        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardView.frame.width, height: self.view.frame.height*0.5))
         imageView.loadImage(urlString: url)
         imageView.contentMode = .scaleAspectFill
         
@@ -166,12 +186,36 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
-        let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardScrollView.frame.width-base_margin, height: base_margin))
+        let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
         name_label.text = text
         name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 40)
         name_label.sizeToFit()
         
         return name_label
+    }
+    
+    func CreateCareerLabel(text: String) -> UILabel {
+        let label_start_y = nameLabel.frame.origin.y+nameLabel.frame.height
+        
+        let career_label = UILabel(frame: CGRect(x: base_margin, y: label_start_y+base_margin*0.5, width: cardView.frame.width-base_margin*2, height: base_margin*2))
+        career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
+        career_label.backgroundColor = UIColor.clear
+        career_label.numberOfLines = 0
+        
+//        career_label.text = text
+        
+        
+        let lineHeight:CGFloat = 23.0
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.minimumLineHeight = lineHeight
+        paragraphStyle.maximumLineHeight = lineHeight
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        career_label.attributedText = attributedText
+        
+        career_label.sizeToFit()
+        return career_label
     }
     
     func SetUserID(id: Int) {
