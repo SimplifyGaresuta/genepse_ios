@@ -26,12 +26,6 @@ class UserDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func SetUserID(id: Int) {
-        user_id = id
-    }
-    
-    
-
     /*
     // MARK: - Navigation
 
