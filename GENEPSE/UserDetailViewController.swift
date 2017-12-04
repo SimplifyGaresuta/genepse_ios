@@ -21,6 +21,7 @@ class UserDetailViewController: UIViewController {
     var nameLabel = UILabel()
     var awards_sectionLable = UILabel()
     var skills_sectionLable = UILabel()
+    var products_sectionLable = UILabel()
     
     
     override func viewDidLoad() {
@@ -117,6 +118,10 @@ class UserDetailViewController: UIViewController {
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
+        
+        // TODO: 作品の追加
+        products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
+        cardView.addSubview(products_sectionLable)
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
