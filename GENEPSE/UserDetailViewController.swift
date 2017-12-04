@@ -52,11 +52,12 @@ class UserDetailViewController: UIViewController {
         guard let main_skills:[String] = json["main_skills"].arrayValue.map({ $0.stringValue}) else{return}
         
         
-        let profileImageView = CreateProfileImageView(url: <#T##String#>)
+        let profileImageView = CreateProfileImageView(url: profile_img)
+        cardScrollView.addSubview(profileImageView)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
-        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardScrollView.frame.width, height: cardScrollView.frame.height*0.7))
+        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardScrollView.frame.width, height: self.view.frame.height*0.5))
         imageView.loadImage(urlString: url)
         imageView.contentMode = .scaleAspectFill
         
