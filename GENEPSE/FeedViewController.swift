@@ -28,6 +28,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var dummy_images: [String] = []
     var dummy_attributes: [String] = []
     var dummy_main_skills = [[String]]()
+    var dummy_count = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         //初期化
         card_start_y = base_margin
+        dummy_count = 0
         
         AddCard()
         
@@ -122,8 +124,18 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         card_view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         card_view.layer.shadowRadius = 20
         card_view.layer.masksToBounds = false
+        card_view.tag = dummy_count
+        
+        dummy_count += 1
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewTap(sender:)))
+        card_view.addGestureRecognizer(tap)
         
         return card_view
+    }
+    
+    func viewTap(sender: UITapGestureRecognizer){
+        print("タップされました", sender.view?.tag)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
