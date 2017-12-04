@@ -14,10 +14,6 @@ class UserDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.brown
-        // Do any additional setup after loading the view.
-        print(user_id)
     }
 
     override func didReceiveMemoryWarning() {
