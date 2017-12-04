@@ -17,6 +17,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
     var card_width = 0.0 as CGFloat
     var card_height = 0.0 as CGFloat
     
+    var isUpdating = false
+    
     var dummy_names: [String] = []
     var dummy_careers: [String] = []
     var dummy_images: [String] = []
@@ -34,17 +36,17 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
         card_width = self.view.bounds.width * 0.8
         card_height = self.view.bounds.height * 0.65
         
-        let scroll_view = UIScrollView()
-        scroll_view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        self.view.addSubview(scroll_view)
-        scroll_view.delegate = self
+        let scrollView = UIScrollView()
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.view.addSubview(scrollView)
+        scrollView.delegate = self
         
         var card_start_y = base_margin
         
         for i in 0..<dummy_names.count {
             // カードを追加
             cardView = self.CreateCard(card_start_y: card_start_y)
-            scroll_view.addSubview(cardView)
+            scrollView.addSubview(cardView)
             
             // プロフィール画像を追加
             profileImageView = self.CreateProfileImageView(url: dummy_images[i])
@@ -76,15 +78,15 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
         
         let refresh_controll = UIRefreshControl()
         
-        scroll_view.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cardView.frame.origin.y+base_margin)
-        scroll_view.refreshControl = refresh_controll
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cardView.frame.origin.y+base_margin)
+        scrollView.refreshControl = refresh_controll
         refresh_controll.addTarget(self, action: #selector(self.refresh(sender:)), for: .valueChanged)
         
-        scroll_view.translatesAutoresizingMaskIntoConstraints = false
-        scroll_view.topAnchor.constraint(equalTo:self.view.topAnchor).isActive = true
-        scroll_view.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
-        scroll_view.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
-        scroll_view.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo:self.view.topAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
     }
     
     func refresh(sender: UIRefreshControl) {
@@ -239,7 +241,12 @@ class FeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("hoge")
+        if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
+            
+            isUpdating = true
+            isUpdating = false
+
+        }
     }
 
     override func didReceiveMemoryWarning() {
