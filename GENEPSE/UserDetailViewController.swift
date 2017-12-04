@@ -10,19 +10,34 @@ import UIKit
 
 class UserDetailViewController: UIViewController {
     private var user_id = 0
+    var base_margin = 0.0 as CGFloat
+    var navigation_bar_end_position = 0.0 as CGFloat
+    
+    var cardScrollView = UIScrollView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        base_margin = self.view.bounds.width * 0.05
+        navigation_bar_end_position = (self.navigationController?.navigationBar.frame.size.height)! + (self.navigationController?.navigationBar.frame.origin.y)!
         
         self.view.backgroundColor = UIColor.white
         print(user_id)
+        
+        InitCardScrollView()
     }
     
-    func hoge () {
-        let hoge = UIScrollView()
-        hoge.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+    func InitCardScrollView () {
+        cardScrollView.frame = CGRect(x: base_margin, y: navigation_bar_end_position+base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height)
+        cardScrollView.backgroundColor = UIColor.white
         
-        self.view.addSubview(hoge)
+        cardScrollView.layer.cornerRadius = 20
+        cardScrollView.layer.shadowOpacity = 1.0
+        cardScrollView.layer.shadowColor = UIColor.black.cgColor
+        cardScrollView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        cardScrollView.layer.shadowRadius = 10
+        cardScrollView.layer.masksToBounds = false
+        
+        self.view.addSubview(cardScrollView)
     }
     
     func SetUserID(id: Int) {
