@@ -136,10 +136,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func TapCard(sender: UITapGestureRecognizer){
-        appDelegate.current_user = (sender.view?.tag)!
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let user_detail_VC = storyboard.instantiateViewController(withIdentifier: "UserDetail")
+        let user_detail_VC = UserDetailViewController()
+        user_detail_VC.SetUserID(id: (sender.view?.tag)!)
         self.navigationController!.pushViewController(user_detail_VC, animated: true)
     }
     

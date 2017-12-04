@@ -9,16 +9,24 @@
 import UIKit
 
 class UserDetailViewController: UIViewController {
-
-    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-    var user_id = 0
+    private var user_id = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.blue
-        user_id = appDelegate.current_user!
+        self.view.backgroundColor = UIColor.white
         print(user_id)
+    }
+    
+    func hoge () {
+        let hoge = UIScrollView()
+        hoge.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        
+        self.view.addSubview(hoge)
+    }
+    
+    func SetUserID(id: Int) {
+        user_id = id
     }
 
     override func didReceiveMemoryWarning() {
