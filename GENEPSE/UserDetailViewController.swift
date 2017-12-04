@@ -47,7 +47,8 @@ class UserDetailViewController: UIViewController {
     func InitCardView() {
         cardView = UIView()
         
-        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height)
+        //TODO: cardViewのサイズを可変にする
+        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
         cardView.backgroundColor = UIColor.white
         
         cardView.layer.cornerRadius = 20
@@ -87,7 +88,7 @@ class UserDetailViewController: UIViewController {
         let careerLabel = self.CreateCareerLabel(text: overview)
         cardView.addSubview(careerLabel)
         
-        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
