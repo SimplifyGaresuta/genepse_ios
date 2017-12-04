@@ -270,7 +270,10 @@ class UserDetailViewController: UIViewController {
         for award in awards {
             text += award + "\n"
         }
-        text = text.substring(to: text.index(before: text.endIndex))
+        
+        if !text.isEmpty {
+            text = text.substring(to: text.index(before: text.endIndex))
+        }
         
         label.text = text
         label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
