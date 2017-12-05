@@ -19,11 +19,7 @@ class UserDetailViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
-    var awards_sectionLable = UILabel()
-    var skills_sectionLable = UILabel()
-    var products_sectionLable = UILabel()
-    var sns_sectionLable = UILabel()
-    var license_sectionLable = UILabel()
+    var HOGEHOGE = CGRect()
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -114,9 +110,10 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
         // 受賞歴の追加
-        awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
+        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
         cardView.addSubview(awards_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
+        HOGEHOGE = awards_sectionLable.frame
         
         let awardsLabel = self.CreateAwardsLabel(awards: awards)
         cardView.addSubview(awardsLabel)
@@ -124,9 +121,10 @@ class UserDetailViewController: UIViewController {
         
         
         // スキルの追加
-        skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
+        let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
+        HOGEHOGE = skills_sectionLable.frame
         
         let skillsLabels = self.CreateSkillsLabel(skills: skills)
         for skillLabel in skillsLabels {
@@ -136,9 +134,10 @@ class UserDetailViewController: UIViewController {
         
         
         // 作品の追加
-        products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
+        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
+        HOGEHOGE = products_sectionLable.frame
         
         let productsViews = self.CreateProductLabel(json: json["products"])
         for pViews in productsViews.0 {
@@ -158,9 +157,10 @@ class UserDetailViewController: UIViewController {
         
         
         // SNSの追加
-        sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
+        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
         cardView.addSubview(sns_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
+        HOGEHOGE = sns_sectionLable.frame
         
         let snsLabels = self.CreateSNSLabel(json: json["sns"])
         for s_Label in snsLabels {
@@ -171,9 +171,10 @@ class UserDetailViewController: UIViewController {
         
         
         // TODO: 資格の追加
-        license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
+        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
         cardView.addSubview(license_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
+        HOGEHOGE = license_sectionLable.frame
         
         
         // TODO: 基本情報の追加
@@ -321,7 +322,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: awards_sectionLable.frame.origin.y+awards_sectionLable.frame.height+base_margin*0.1, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: HOGEHOGE.origin.y+HOGEHOGE.height+base_margin*0.1, width: 0, height: 0))
         
         var text = ""
         for award in awards {
@@ -342,7 +343,7 @@ class UserDetailViewController: UIViewController {
     
     func CreateSkillsLabel(skills: [String]) -> Array<UILabel> {
         var start_x = base_margin
-        var start_y = skills_sectionLable.frame.origin.y + skills_sectionLable.frame.height + base_margin*0.1
+        var start_y = HOGEHOGE.origin.y + HOGEHOGE.height + base_margin*0.1
         var labels = [UILabel]()
         
         for skill in skills {
@@ -375,7 +376,7 @@ class UserDetailViewController: UIViewController {
         var last_add_view_frame = CGRect()
         
         // next_y = セクションタイトルのbottomで初期化
-        var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
+        var next_y = HOGEHOGE.origin.y + HOGEHOGE.height + base_margin*0.5
         
         json.forEach { (_, obj) in
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
@@ -450,7 +451,7 @@ class UserDetailViewController: UIViewController {
     
     func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
-        var next_y = sns_sectionLable.frame.origin.y + sns_sectionLable.frame.height + base_margin*0.5
+        var next_y = HOGEHOGE.origin.y + HOGEHOGE.height + base_margin*0.5
         
         json.forEach { (_, obj) in
             var image_name = ""
