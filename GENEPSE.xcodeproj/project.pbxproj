@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		372344441FD67790005057AF /* link.png in Resources */ = {isa = PBXBuildFile; fileRef = 372344431FD67790005057AF /* link.png */; };
 		3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */; };
 		375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */; };
 		375FB43E1FD285E60003B401 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB43D1FD285E60003B401 /* FeedViewController.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GENEPSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2D48B6F4244B63C896318B /* Pods-GENEPSE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.release.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.release.xcconfig"; sourceTree = "<group>"; };
+		372344431FD67790005057AF /* link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = link.png; path = ../../../../../../../../Downloads/link.png; sourceTree = "<group>"; };
 		3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUITabBarController.swift; sourceTree = "<group>"; };
 		375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		375FB43D1FD285E60003B401 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		372344401FD672A1005057AF /* img */ = {
+			isa = PBXGroup;
+			children = (
+				372344431FD67790005057AF /* link.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
 		37654BDD2A95D5328EC4989D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +96,7 @@
 		3786DCE31FC00EA700E80AB9 /* GENEPSE */ = {
 			isa = PBXGroup;
 			children = (
+				372344401FD672A1005057AF /* img */,
 				3786DD191FC0571700E80AB9 /* sample_image */,
 				3786DCE41FC00EA700E80AB9 /* AppDelegate.swift */,
 				3786DCED1FC00EA700E80AB9 /* Assets.xcassets */,
@@ -186,6 +197,7 @@
 				3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */,
 				3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */,
 				3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */,
+				372344441FD67790005057AF /* link.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

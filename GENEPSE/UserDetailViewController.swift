@@ -128,6 +128,7 @@ class UserDetailViewController: UIViewController {
             cardView.addSubview(pViews.title)
             
             if let urlLabel = pViews.url {
+                cardView.addSubview(pViews.link_img!)
                 cardView.addSubview(urlLabel)
             }
             
@@ -323,18 +324,18 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: urlの先頭にリンクの画像貼る？，urlと画像のマージン
+    //TODO: urlと画像のマージン
     //TODO: 画像と次のタイトルとのマージン
     //TODO: 画像の幅を小さく，角丸，影
     
-    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, image: AsyncUIImageView?)], CGFloat) {
-        var productsViews: [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] = []
+    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)], CGFloat) {
+        var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)] = []
         
         //MARK: next_y = セクションタイトルのbottomで初期化
         var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
         
         json.forEach { (_, obj) in
-            var pViews: (title: UILabel, url: UILabel?, image: AsyncUIImageView?) = (title: UILabel(), url: nil, image: nil)
+            var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?) = (title: UILabel(), url: nil, link_img: nil, image: nil)
             
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
@@ -348,11 +349,17 @@ class UserDetailViewController: UIViewController {
             
             //URLがあったら,next_yからURLラベルの追加
             if !(obj["url"].string?.isEmpty)! {
-                let urlLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
+                let linkImageView = UIImageView(image: UIImage(named: "link"))
+                linkImageView.contentMode = .scaleAspectFill
+                linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
+                
+                let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
+                let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
                 urlLabel.text = obj["url"].string
                 urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
+                pViews.link_img = linkImageView
                 
                 //next_yをURLラベルに更新
                 next_y = urlLabel.frame.origin.y + urlLabel.frame.height
