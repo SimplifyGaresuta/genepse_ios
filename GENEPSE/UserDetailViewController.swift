@@ -156,6 +156,12 @@ class UserDetailViewController: UIViewController {
         }
         UpdateCardViewFrame(last_add_cgrect: productsViews.1)
         
+        
+        // TODO: SNSの追加
+        // TODO: 資格の追加
+        // TODO: 基本情報の追加
+        // TODO: トップへスクロールするボタンの追加
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
     
