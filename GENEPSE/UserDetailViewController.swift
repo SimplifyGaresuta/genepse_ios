@@ -324,7 +324,6 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: 画像と次のタイトルとのマージン
     //TODO: 画像の幅を小さく，角丸，影
     
     func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)], CGFloat) {
@@ -372,7 +371,7 @@ class UserDetailViewController: UIViewController {
                 pViews.image = imageView
             
                 //next_yを画像に更新
-                next_y = imageView.frame.origin.y + imageView.frame.height
+                next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
             }
             
             productsViews.append(pViews)
