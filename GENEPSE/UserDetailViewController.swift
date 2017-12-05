@@ -179,6 +179,11 @@ class UserDetailViewController: UIViewController {
         
         
         // TODO: 基本情報の追加
+        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
+        cardView.addSubview(basic_info_sectionLabel)
+        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+        latest_section_frame = basic_info_sectionLabel.frame
+        
         // TODO: トップへスクロールするボタンの追加
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
