@@ -22,6 +22,7 @@ class UserDetailViewController: UIViewController {
     var awards_sectionLable = UILabel()
     var skills_sectionLable = UILabel()
     var products_sectionLable = UILabel()
+    var sns_sectionLable = UILabel()
     
     
     override func viewDidLoad() {
@@ -158,6 +159,10 @@ class UserDetailViewController: UIViewController {
         
         
         // TODO: SNSの追加
+        sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
+        cardView.addSubview(sns_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
+        
         // TODO: 資格の追加
         // TODO: 基本情報の追加
         // TODO: トップへスクロールするボタンの追加
