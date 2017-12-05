@@ -24,9 +24,14 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var offset = 0
     var has_next = true
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.navigationItem.title = "Feed"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1

@@ -23,8 +23,10 @@ class UserDetailViewController: UIViewController {
         CallUserDetailAPI()
         
         super.viewDidLoad()
+        
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = "User Detail"
         
         InitScrollView()
         InitCardView()
