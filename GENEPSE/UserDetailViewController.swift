@@ -443,13 +443,11 @@ class UserDetailViewController: UIViewController {
         return (productsViews, last_add_view_frame)
     }
     
-    //TODO: SNSラベル追加 作業中
     func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
         var next_y = sns_sectionLable.frame.origin.y + sns_sectionLable.frame.height + base_margin*0.5
         
         json.forEach { (_, obj) in
-            
             var image_name = ""
             switch obj["provider"] {
             case "facebook":
