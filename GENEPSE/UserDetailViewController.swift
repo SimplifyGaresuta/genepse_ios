@@ -79,14 +79,19 @@ class UserDetailViewController: UIViewController {
         guard let address = json["address"].string else{return}
         guard let school_career = json["school_career"].string else{return}
         
+        
         // プロフ画像の追加
         profileImageView = CreateProfileImageView(url: profile_img)
         cardView.addSubview(profileImageView)
+        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
+        
         
         // 属性の追加
         let attributeLabels = CreateAttributeLabel(attribute: attr)
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
+        UpdateCardViewFrame(last_add_cgrect: attributeLabels.1.frame)
+        
         
         // メインスキルの追加
         let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
@@ -94,30 +99,41 @@ class UserDetailViewController: UIViewController {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
         }
+        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+        
         
         // 名前の追加
         self.nameLabel = self.CreateNameLabel(text: name)
         cardView.addSubview(self.nameLabel)
+        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+
         
         // 経歴の追加
         let careerLabel = self.CreateCareerLabel(text: overview)
         cardView.addSubview(careerLabel)
+        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
         // 受賞歴の追加
         awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
         cardView.addSubview(awards_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         
         let awardsLabel = self.CreateAwardsLabel(awards: awards)
         cardView.addSubview(awardsLabel)
+        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
+        
         
         // スキルの追加
         skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         
         let skillsLabels = self.CreateSkillsLabel(skills: skills)
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
+        UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+        
         
         // 作品の追加
         products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
@@ -139,6 +155,10 @@ class UserDetailViewController: UIViewController {
         }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
+    }
+    
+    func UpdateCardViewFrame(last_add_cgrect: CGRect) {
+        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
