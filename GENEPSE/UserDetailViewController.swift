@@ -123,7 +123,7 @@ class UserDetailViewController: UIViewController {
         products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
         
-        let productsViews = self.CreateProductLabel(json: json["products"])
+        let productsViews = self.CreateProductLabel(json: json["products"]).0
         for pViews in productsViews {
             cardView.addSubview(pViews.title)
             
@@ -327,7 +327,7 @@ class UserDetailViewController: UIViewController {
     //TODO: 画像と次のタイトルとのマージン
     //TODO: 画像の幅を小さく，角丸，影
     
-    func CreateProductLabel(json: JSON) -> [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] {
+    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, image: AsyncUIImageView?)], CGFloat) {
         var productsViews: [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] = []
         
         //MARK: next_y = セクションタイトルのbottomで初期化
@@ -373,7 +373,7 @@ class UserDetailViewController: UIViewController {
 
         }
         
-        return productsViews
+        return (productsViews, next_y)
     }
     
     //TODO: SNSラベル追加 作業中
