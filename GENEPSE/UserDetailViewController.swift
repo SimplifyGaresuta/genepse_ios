@@ -219,14 +219,14 @@ class UserDetailViewController: UIViewController {
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
         var bg_color: UIColor
         switch attribute {
-        case "DESIGNER":
-            bg_color = UIColor.red
+        case "Designer":
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
             break
-        case "ENGINEER":
-            bg_color = UIColor.blue
+        case "Engineer":
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
             break
         default:
-            bg_color = UIColor.green
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
             break
         }
         

@@ -199,13 +199,13 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         var bg_color: UIColor
         switch attribute {
         case "Designer":
-            bg_color = UIColor.red
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
             break
         case "Engineer":
-            bg_color = UIColor.blue
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
             break
         default:
-            bg_color = UIColor.green
+            bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
             break
         }
         
