@@ -16,8 +16,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
     var base_margin = 0.0 as CGFloat
-    var card_width = 0.0 as CGFloat
-    var card_height = 0.0 as CGFloat
     var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
@@ -32,8 +30,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1
-        card_width = self.view.bounds.width * 0.8
-        card_height = self.view.bounds.height * 0.65
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
@@ -123,6 +119,9 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
+        let card_width = self.view.bounds.width * 0.8
+        let card_height = self.view.bounds.height * 0.65
+        
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
         card_view.layer.cornerRadius = 20
