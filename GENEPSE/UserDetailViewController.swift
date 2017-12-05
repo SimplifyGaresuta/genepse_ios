@@ -191,7 +191,8 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
         
         
-        // TODO: トップへスクロールするボタンの追加
+        // トップへスクロールするボタンの追加
+        cardView.addSubview(self.CreateTopToScrollButton(cgrect: infoLabels.last!.frame))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -544,6 +545,30 @@ class UserDetailViewController: UIViewController {
         }
         
         return infoLabels
+    }
+    
+    func CreateTopToScrollButton(cgrect: CGRect) -> UIButton {
+        let button = UIButton()
+        let image = UIImage(named: "arrow")
+        
+        let x = cardView.frame.origin.x + cardView.frame.width - base_margin*3.5
+        let y = cgrect.origin.y + cgrect.height - base_margin*2
+        let size = base_margin*2.5
+        
+        button.frame = CGRect(x: x, y: y, width: size, height: size)
+        button.setImage(image, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.addTarget(self, action: #selector(self.TapScrollTop(sender:)),
+                         for: .touchUpInside)
+
+        return button
+    }
+    
+    //TODO: Topへスクロール
+    func TapScrollTop(sender: UIButton) {
+        print("hoge")
     }
     
     func SetUserID(id: Int) {
