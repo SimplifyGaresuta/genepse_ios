@@ -167,11 +167,15 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
         
         
-        // TODO: 資格の追加
+        // 資格の追加
         let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
         cardView.addSubview(license_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
+        
+        let licensesLabel = self.CreateLicenseLabel(licenses: license)
+        cardView.addSubview(licensesLabel)
+        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
         
         // TODO: 基本情報の追加
@@ -483,6 +487,26 @@ class UserDetailViewController: UIViewController {
         }
         
         return SNSViews
+    }
+    
+    func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
+        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
+        
+        var text = ""
+        for license in licenses {
+            text += license + "\n"
+        }
+        
+        if !text.isEmpty {
+            text = text.substring(to: text.index(before: text.endIndex))
+        }
+        
+        label.text = text
+        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        label.numberOfLines = licenses.count
+        label.sizeToFit()
+        
+        return label
     }
     
     func SetUserID(id: Int) {
