@@ -22,20 +22,21 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     var isUpdating = false
     var preViewName = "Feed"
+    var limit = 20
+    var offset = 0
+    var has_next = true
     
-    var dummy_names: [String] = []
-    var dummy_careers: [String] = []
-    var dummy_images: [String] = []
-    var dummy_attributes: [String] = []
-    var dummy_main_skills = [[String]]()
-    var dummy_count = 0
+//    var dummy_names: [String] = []
+//    var dummy_careers: [String] = []
+//    var dummy_images: [String] = []
+//    var dummy_attributes: [String] = []
+//    var dummy_main_skills = [[String]]()
+//    var dummy_count = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.layoutIfNeeded()
-        
-        GetFeedData()
         
         base_margin = self.view.bounds.width * 0.1
         card_width = self.view.bounds.width * 0.8
@@ -71,41 +72,54 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         //初期化
         card_start_y = base_margin
-        dummy_count = 0
+        ResetOffset()
         
-        AddCard()
+        CallFeedAPI()
         
         sender.endRefreshing()
     }
     
-    func AddCard() {
-        for i in 0..<self.dummy_names.count {
+    func AddCard(json: JSON) {
+        guard let has_next = json["has_next"].bool else{return}
+        self.has_next = has_next
+        
+        guard let users = json["users"].array else{return}
+        
+        users.forEach { (obj) in
+            guard let id = obj["id"].int else{return}
+            guard let name = obj["name"].string else{return}
+            guard let avatar_url = obj["avatar_url"].string else{return}
+            guard let attribute = obj["attribute"].string else{return}
+            let skills = obj["skills"].arrayValue.map({$0.stringValue})
+            guard let overview = obj["overview"].string else{return}
+            
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
             self.self.scrollView.addSubview(cardViews.last!)
+            cardViews.last!.tag = id
             
             // プロフィール画像を追加
-            self.profileImageView = self.CreateProfileImageView(url: self.dummy_images[i])
+            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
             cardViews.last!.addSubview(self.profileImageView)
             
             // 属性ラベルを追加
-            let attributeLabels = self.CreateAttributeLabel(attribute: self.dummy_attributes[i])
+            let attributeLabels = self.CreateAttributeLabel(attribute: attribute)
             cardViews.last!.addSubview(attributeLabels.0)
             cardViews.last!.addSubview(attributeLabels.1)
             
             // メインスキルを追加
-            let mainskillsLabels = self.CreateMainSkillsLabels(skills: self.dummy_main_skills[i])
+            let mainskillsLabels = self.CreateMainSkillsLabels(skills: skills)
             for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
                 cardViews.last!.addSubview(shadowView)
                 cardViews.last!.addSubview(skillLabel)
             }
             
             // 名前のラベルを追加
-            self.nameLabel = self.CreateNameLabel(text: self.dummy_names[i])
+            self.nameLabel = self.CreateNameLabel(text: name)
             cardViews.last!.addSubview(self.nameLabel)
             
             // 経歴のラベルを追加
-            let careerLabel = self.CreateCareerLabel(text: self.dummy_careers[i])
+            let careerLabel = self.CreateCareerLabel(text: overview)
             cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
@@ -124,9 +138,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         card_view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         card_view.layer.shadowRadius = 20
         card_view.layer.masksToBounds = false
-        card_view.tag = dummy_count
-        
-        dummy_count += 1
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapCard(sender:)))
         card_view.addGestureRecognizer(tap)
@@ -187,10 +198,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
         var bg_color: UIColor
         switch attribute {
-        case "DESIGNER":
+        case "Designer":
             bg_color = UIColor.red
             break
-        case "ENGINEER":
+        case "Engineer":
             bg_color = UIColor.blue
             break
         default:
@@ -264,30 +275,27 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return (views, labels)
     }
     
-    func GetFeedData() {
-        let dummy_data = FeedViewDummyData()
-        dummy_names = dummy_data.GetNames()
-        dummy_images = dummy_data.GetImages()
-        dummy_careers = dummy_data.GetCareers()
-        dummy_attributes = dummy_data.GetAttributes()
-        dummy_main_skills = dummy_data.GetMainSkills()
-    }
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
-            isUpdating = true
-            CallFeedAPI()
+            if has_next {
+                isUpdating = true
+                UpOffset()
+                CallFeedAPI()
+            }
         }
     }
     
     func CallFeedAPI(){
-        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_recently_movie/"
+        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_users/?limit=" + String(limit) + "&offset=" + String(offset)
+        
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
             print(json.count)
             
-            self.AddCard()
+            //MARK: ダミーデータ
+            let dummy_data = FeedViewDummyData()
+            self.AddCard(json: JSON(dummy_data.users_data))
             
             self.isUpdating = false
         }
@@ -300,6 +308,14 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         }
         
         preViewName = viewController.restorationIdentifier!
+    }
+    
+    func UpOffset() {
+        offset += limit
+    }
+    
+    func ResetOffset() {
+        offset = 0
     }
 
     override func didReceiveMemoryWarning() {

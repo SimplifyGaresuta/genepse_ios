@@ -10,35 +10,35 @@ import Foundation
 import UIKit
 
 class FeedViewDummyData {
-    let test_names = ["岩見建汰", "Kenta Iwami", "いわみけんた"]
-    let test_careers = ["UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。", "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。", "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。"]
-    let test_images = ["https://bomanite.com/wp-content/uploads/2015/03/HTC-One-Photo-Sample-Marbles.jpeg", "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg","https://www.visioncritical.com/wp-content/uploads/2014/12/BLG_Andrew-G.-River-Sample_09.13.12.png"]
-    let test_attributes = ["DESIGNER", "ENGINEER", "BUSINESS"]
-    let test_main_skills = [
-        ["Illustrator", "Protopie", "sketch"],
-        ["Python", "Swift", "Java"],
-        ["経営", "会計", "起業"]
-    ]
-    
-    func GetNames() -> Array<String> {
-        return test_names
-    }
-    
-    func GetCareers() -> Array<String> {
-        return test_careers
-    }
-    
-    func GetImages() -> Array<String> {
-        return test_images
-    }
-    
-    func GetAttributes() -> Array<String> {
-        return test_attributes
-    }
-    
-    func GetMainSkills() -> Array<Array<String>> {
-        return test_main_skills
-    }
+    let users_data =  [
+        "has_next": true,
+        "users": [
+            [
+                "id": 1,
+                "name": "Kenta Iwami",
+                "avatar_url": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
+                "attribute": "Business",
+                "skills": ["経営", "会計", "起業"],
+                "overview": "これまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りましたこれまでに複数インターンで頑張りました",
+            ],
+            [
+                "id": 2,
+                "name": "岩見建汰",
+                "avatar_url": "https://bomanite.com/wp-content/uploads/2015/03/HTC-One-Photo-Sample-Marbles.jpeg",
+                "attribute": "Engineer",
+                "skills": ["python","自然言語処理","swift"],
+                "overview": "研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは研究では自然言語処理を行っています。インターンでは",
+            ],
+            [
+                "id": 3,
+                "name": "いわみけんた",
+                "avatar_url": "https://www.visioncritical.com/wp-content/uploads/2014/12/BLG_Andrew-G.-River-Sample_09.13.12.png",
+                "attribute": "Designer",
+                "skills": ["Illustrator", "Protopie", "sketch"],
+                "overview": "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。",
+                ]
+        ]
+    ] as [String : Any]
 }
 
 
