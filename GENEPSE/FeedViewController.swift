@@ -80,18 +80,18 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func AddCard(json: JSON) {
-        guard let has_next = json["has_next"].bool else{return}
+        let has_next = json["has_next"].boolValue
         self.has_next = has_next
         
-        guard let users = json["users"].array else{return}
+        let users = json["users"].arrayValue
         
         users.forEach { (obj) in
-            guard let id = obj["id"].int else{return}
-            guard let name = obj["name"].string else{return}
-            guard let avatar_url = obj["avatar_url"].string else{return}
-            guard let attribute = obj["attribute"].string else{return}
+            let id = obj["id"].intValue
+            let name = obj["name"].stringValue
+            let avatar_url = obj["avatar_url"].stringValue
+            let attribute = obj["attribute"].stringValue
             let skills = obj["skills"].arrayValue.map({$0.stringValue})
-            guard let overview = obj["overview"].string else{return}
+            let overview = obj["overview"].stringValue
             
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
