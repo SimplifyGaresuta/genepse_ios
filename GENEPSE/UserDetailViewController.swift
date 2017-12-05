@@ -58,19 +58,19 @@ class UserDetailViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-        guard let name = json["name"].string else{return}
-        guard let overview = json["overview"].string else{return}
-        guard let profile_img = json["profile_img"].string else{return}
-        guard let attr = json["attr"].string else{return}
-        guard let main_skills:[String] = json["main_skills"].arrayValue.map({ $0.stringValue}) else{return}
-        guard let awards:[String] = json["awards"].arrayValue.map({ $0.stringValue}) else{return}
-        guard let skills:[String] = json["skills"].arrayValue.map({ $0.stringValue}) else{return}
+        let name = json["name"].stringValue
+        let overview = json["overview"].stringValue
+        let profile_img = json["profile_img"].stringValue
+        let attr = json["attr"].stringValue
+        let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
+        let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
+        let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
         
-        guard let license:[String] = json["license"].arrayValue.map({ $0.stringValue}) else{return}
-        guard let gender = json["gender"].string else{return}
-        guard let age = json["age"].int else{return}
-        guard let address = json["address"].string else{return}
-        guard let school_career = json["school_career"].string else{return}
+        let license:[String] = json["license"].arrayValue.map({$0.stringValue})
+        let gender = json["gender"].stringValue
+        let age = json["age"].intValue
+        let address = json["address"].stringValue
+        let school_career = json["school_career"].stringValue
         
         
         // プロフ画像の追加
