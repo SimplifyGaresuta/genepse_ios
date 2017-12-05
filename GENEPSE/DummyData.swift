@@ -59,6 +59,8 @@ class UserDetailDummyData {
         ],
         "sns": [
             ["provider": "facebook", "url": "https://www.facebook.com/nakao.boy"
+            ],
+            ["provider": "twitter", "url": "https://www.facebook.com/nakao.boy"
             ]
         ],
         "license": ["TOEIC 820点", "FP2級"],

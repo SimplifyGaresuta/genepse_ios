@@ -158,10 +158,17 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: productsViews.1)
         
         
-        // TODO: SNSの追加
+        // SNSの追加
         sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
         cardView.addSubview(sns_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
+        
+        let snsLabels = self.CreateSNSLabel(json: json["sns"])
+        for s_Label in snsLabels {
+            cardView.addSubview(s_Label.icon)
+            cardView.addSubview(s_Label.url)
+        }
+        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
         
         // TODO: 資格の追加
         // TODO: 基本情報の追加
@@ -437,10 +444,44 @@ class UserDetailViewController: UIViewController {
     }
     
     //TODO: SNSラベル追加 作業中
-    func CreateSNSLabel(json: JSON) {
-        json["sns"].forEach { (i, j) in
-            print(i, j["provider"], j["url"])
+    func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
+        var SNSViews: [(icon: UIImageView, url: UILabel)] = []
+        var next_y = sns_sectionLable.frame.origin.y + sns_sectionLable.frame.height + base_margin*0.5
+        
+        json.forEach { (_, obj) in
+            
+            var image_name = ""
+            switch obj["provider"] {
+            case "facebook":
+                image_name = "facebook"
+                break
+            case "twitter":
+                image_name = "twitter"
+                break
+                
+            default:
+                break
+            }
+            
+            let iconImageView = UIImageView(image: UIImage(named: image_name))
+            iconImageView.contentMode = .scaleAspectFill
+            iconImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin, height: base_margin)
+            
+            let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
+            let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
+            urlLabel.text = obj["url"].string
+            urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+            urlLabel.sizeToFit()
+            
+            // アイコンとのずれを調整するために高さをアイコンに揃える
+            urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
+
+            
+            next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
+            SNSViews.append(icon: iconImageView, url: urlLabel)
         }
+        
+        return SNSViews
     }
     
     func SetUserID(id: Int) {
