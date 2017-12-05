@@ -178,11 +178,18 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
         
-        // TODO: 基本情報の追加
+        // 基本情報の追加
         let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
         cardView.addSubview(basic_info_sectionLabel)
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
+        
+        let infoLabels = self.CreateBasicInfoLabel(info: [gender, String(age), address, school_career])
+        for i_Label in infoLabels {
+            cardView.addSubview(i_Label)
+        }
+        UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        
         
         // TODO: トップへスクロールするボタンの追加
         
@@ -512,6 +519,26 @@ class UserDetailViewController: UIViewController {
         label.sizeToFit()
         
         return label
+    }
+    
+    func CreateBasicInfoLabel(info: Array<String>) -> Array<UILabel> {
+        let info_name = ["性別", "年齢", "居住地", "学歴"]
+        var infoLabels = [UILabel]()
+        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
+        
+        for (index, info_str) in info.enumerated() {
+            if !(info_str.isEmpty) {
+                let label = UILabel(frame: CGRect(x: base_margin, y: start_y, width: 0, height: 0))
+                label.text = info_name[index] + "：" + info_str
+                label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+                label.sizeToFit()
+                
+                infoLabels.append(label)
+                start_y = label.frame.origin.y + label.frame.height + base_margin*0.1
+            }
+        }
+        
+        return infoLabels
     }
     
     func SetUserID(id: Int) {
