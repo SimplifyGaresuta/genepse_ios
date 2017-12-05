@@ -324,7 +324,6 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: urlと画像のマージン
     //TODO: 画像と次のタイトルとのマージン
     //TODO: 画像の幅を小さく，角丸，影
     
@@ -362,7 +361,7 @@ class UserDetailViewController: UIViewController {
                 pViews.link_img = linkImageView
                 
                 //next_yをURLラベルに更新
-                next_y = urlLabel.frame.origin.y + urlLabel.frame.height
+                next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
             }
             
             //画像があったら，next_yから画像の追加
