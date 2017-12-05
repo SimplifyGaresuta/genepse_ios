@@ -324,8 +324,7 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: 画像の幅を小さく，角丸，影
-    
+    //TODO: 角丸，影
     func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)], CGFloat) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)] = []
         
@@ -365,7 +364,7 @@ class UserDetailViewController: UIViewController {
             
             //画像があったら，next_yから画像の追加
             if !(obj["image"].string?.isEmpty)! {
-                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
+                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin*1.5, y: next_y, width: cardView.frame.width-base_margin*3, height: self.view.frame.height*0.3))
                 imageView.loadImage(urlString: obj["image"].string!)
                 imageView.contentMode = .scaleAspectFill
                 pViews.image = imageView
