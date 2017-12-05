@@ -11,7 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
-    
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var profileImageView = UIImageView()
@@ -22,12 +21,14 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
+    var preViewName = "Feed"
     
     var dummy_names: [String] = []
     var dummy_careers: [String] = []
     var dummy_images: [String] = []
     var dummy_attributes: [String] = []
     var dummy_main_skills = [[String]]()
+    var dummy_count = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         //初期化
         card_start_y = base_margin
+        dummy_count = 0
         
         AddCard()
         
@@ -122,8 +124,20 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         card_view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         card_view.layer.shadowRadius = 20
         card_view.layer.masksToBounds = false
+        card_view.tag = dummy_count
+        
+        dummy_count += 1
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapCard(sender:)))
+        card_view.addGestureRecognizer(tap)
         
         return card_view
+    }
+    
+    func TapCard(sender: UITapGestureRecognizer){
+        let user_detail_VC = UserDetailViewController()
+        user_detail_VC.SetUserID(id: (sender.view?.tag)!)
+        self.navigationController!.pushViewController(user_detail_VC, animated: true)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
@@ -280,11 +294,13 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier == "Feed" {
+        
+        if viewController.restorationIdentifier! == "Feed" && preViewName == "Feed" {
             scrollView.scroll(to: .top, animated: true)
         }
+        
+        preViewName = viewController.restorationIdentifier!
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

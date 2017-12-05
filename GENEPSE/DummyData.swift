@@ -41,3 +41,33 @@ class FeedViewDummyData {
     }
 }
 
+
+class UserDetailDummyData {
+    let user_data = [
+        "name": "岩見建汰",
+        "overview": "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。ここにとても素晴らしい自己紹介の文章が入る。ここにとても素晴らしい自己紹介の文章が入る。ここにとても素晴らしい自己紹介の文章が入る。",
+        "profile_img": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
+        "attr": "DESIGNER",
+        "main_skills": ["Illustrator", "Protopie", "sketch"],
+        "awards": ["AdTech Charenge 優勝", "CrossOverGameJam 優勝", "ジロッカソン terateil賞"],
+        "skills": ["Illustrator", "Protopie", "sketch", "ruby", "go", "unity"],
+        "products": [
+            ["title": "リア充無双", "url": "https://appsto.re/jp/26J0gb.i","image":"https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"
+            ],
+            ["title": "Webクローラー", "url": "https://github.com/ryonakao/netsurfer","image":"https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"
+            ]
+        ],
+        "sns": [
+            ["provider": "facebook", "url": "https://www.facebook.com/nakao.boy"
+            ],
+            ["provider": "twitter", "url": "https://www.facebook.com/nakao.boy"
+            ]
+        ],
+        "license": ["TOEIC 820点", "FP2級"],
+        "gender": "男",
+        "age": 20,
+        "address": "埼玉県さいたま市",
+        "school_career": "中央大学商学部"
+        ] as [String : Any]
+}
+
