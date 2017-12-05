@@ -566,9 +566,8 @@ class UserDetailViewController: UIViewController {
         return button
     }
     
-    //TODO: Topへスクロール
     func TapScrollTop(sender: UIButton) {
-        print("hoge")
+        scrollView.scroll(to: .top, animated: true)
     }
     
     func SetUserID(id: Int) {
