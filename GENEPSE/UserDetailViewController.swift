@@ -23,7 +23,7 @@ class UserDetailViewController: UIViewController {
     var skills_sectionLable = UILabel()
     var products_sectionLable = UILabel()
     var sns_sectionLable = UILabel()
-    
+    var license_sectionLable = UILabel()
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -51,7 +51,6 @@ class UserDetailViewController: UIViewController {
     func InitCardView() {
         cardView = UIView()
         
-        //TODO: cardViewのサイズを可変にする
         cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
         cardView.backgroundColor = UIColor.white
         
@@ -170,7 +169,13 @@ class UserDetailViewController: UIViewController {
         }
         UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
         
+        
         // TODO: 資格の追加
+        license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
+        cardView.addSubview(license_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
+        
+        
         // TODO: 基本情報の追加
         // TODO: トップへスクロールするボタンの追加
         
