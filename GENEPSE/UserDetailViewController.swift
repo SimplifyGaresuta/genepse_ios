@@ -324,11 +324,11 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: 角丸，影
+    //TODO: 影
     func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)], CGFloat) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)] = []
         
-        //MARK: next_y = セクションタイトルのbottomで初期化
+        // next_y = セクションタイトルのbottomで初期化
         var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
         
         json.forEach { (_, obj) in
@@ -367,8 +367,11 @@ class UserDetailViewController: UIViewController {
                 let imageView = AsyncUIImageView(frame: CGRect(x: base_margin*1.5, y: next_y, width: cardView.frame.width-base_margin*3, height: self.view.frame.height*0.3))
                 imageView.loadImage(urlString: obj["image"].string!)
                 imageView.contentMode = .scaleAspectFill
+                imageView.layer.cornerRadius = 20
+                imageView.layer.masksToBounds = true
+                
                 pViews.image = imageView
-            
+                
                 //next_yを画像に更新
                 next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
             }
