@@ -140,8 +140,8 @@ class UserDetailViewController: UIViewController {
         cardView.addSubview(products_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         
-        let productsViews = self.CreateProductLabel(json: json["products"]).0
-        for pViews in productsViews {
+        let productsViews = self.CreateProductLabel(json: json["products"])
+        for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
             
             if let urlLabel = pViews.url {
@@ -154,6 +154,7 @@ class UserDetailViewController: UIViewController {
                 cardView.addSubview(imageView)
             }
         }
+        UpdateCardViewFrame(last_add_cgrect: productsViews.1)
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -346,8 +347,9 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGFloat) {
+    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
+        var last_add_view_frame = CGRect()
         
         // next_y = セクションタイトルのbottomで初期化
         var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
@@ -361,6 +363,9 @@ class UserDetailViewController: UIViewController {
             titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
+            
+            //最後に追加したviewとして記録
+            last_add_view_frame = titleLabel.frame
             
             //next_yをプロダクトタイトルに更新
             next_y = titleLabel.frame.origin.y + titleLabel.frame.height
@@ -378,6 +383,9 @@ class UserDetailViewController: UIViewController {
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
                 pViews.link_img = linkImageView
+                
+                //最後に追加したviewとして記録
+                last_add_view_frame = urlLabel.frame
                 
                 //next_yをURLラベルに更新
                 next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
@@ -403,6 +411,9 @@ class UserDetailViewController: UIViewController {
                 pViews.image = imageView
                 pViews.image_shadow = shadow_view
                 
+                //最後に追加したviewとして記録
+                last_add_view_frame = imageView.frame
+
                 //next_yを画像に更新
                 next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
             }
@@ -411,7 +422,7 @@ class UserDetailViewController: UIViewController {
 
         }
         
-        return (productsViews, next_y)
+        return (productsViews, last_add_view_frame)
     }
     
     //TODO: SNSラベル追加 作業中
