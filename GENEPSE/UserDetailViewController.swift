@@ -133,6 +133,7 @@ class UserDetailViewController: UIViewController {
             }
             
             if let imageView = pViews.image {
+                cardView.addSubview(pViews.image_shadow!)
                 cardView.addSubview(imageView)
             }
         }
@@ -324,15 +325,14 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: 影
-    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)], CGFloat) {
-        var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?)] = []
+    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGFloat) {
+        var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
         
         // next_y = セクションタイトルのbottomで初期化
         var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
         
         json.forEach { (_, obj) in
-            var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?) = (title: UILabel(), url: nil, link_img: nil, image: nil)
+            var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
@@ -364,13 +364,23 @@ class UserDetailViewController: UIViewController {
             
             //画像があったら，next_yから画像の追加
             if !(obj["image"].string?.isEmpty)! {
-                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin*1.5, y: next_y, width: cardView.frame.width-base_margin*3, height: self.view.frame.height*0.3))
+                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
                 imageView.loadImage(urlString: obj["image"].string!)
                 imageView.contentMode = .scaleAspectFill
-                imageView.layer.cornerRadius = 20
+                imageView.layer.cornerRadius = 10
                 imageView.layer.masksToBounds = true
                 
+                // 影をつけるためのViewを作成
+                let shadow_view = UIView(frame: imageView.frame)
+                shadow_view.backgroundColor = UIColor.white
+                shadow_view.layer.shadowColor = UIColor.black.cgColor
+                shadow_view.layer.shadowOpacity = 0.5
+                shadow_view.layer.shadowOffset = CGSize(width: 2, height: 2)
+                shadow_view.layer.shadowRadius = 2
+                shadow_view.layer.cornerRadius = 10
+                
                 pViews.image = imageView
+                pViews.image_shadow = shadow_view
                 
                 //next_yを画像に更新
                 next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
