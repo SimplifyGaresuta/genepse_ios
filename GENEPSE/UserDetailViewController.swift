@@ -531,6 +531,11 @@ class UserDetailViewController: UIViewController {
                 let label = UILabel(frame: CGRect(x: base_margin, y: start_y, width: 0, height: 0))
                 label.text = info_name[index] + "：" + info_str
                 label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+                
+                if index == 1 {
+                    label.text = label.text! + "歳"
+                }
+                
                 label.sizeToFit()
                 
                 infoLabels.append(label)
