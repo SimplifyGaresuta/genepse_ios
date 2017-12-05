@@ -26,13 +26,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var offset = 0
     var has_next = true
     
-//    var dummy_names: [String] = []
-//    var dummy_careers: [String] = []
-//    var dummy_images: [String] = []
-//    var dummy_attributes: [String] = []
-//    var dummy_main_skills = [[String]]()
-//    var dummy_count = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
