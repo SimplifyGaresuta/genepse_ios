@@ -323,7 +323,7 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: セクションタイトルの下にマージン，urlの先頭にリンクの画像貼る？，urlと画像のマージン
+    //TODO: urlの先頭にリンクの画像貼る？，urlと画像のマージン
     //TODO: 画像と次のタイトルとのマージン
     //TODO: 画像の幅を小さく，角丸，影
     
@@ -331,7 +331,7 @@ class UserDetailViewController: UIViewController {
         var productsViews: [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] = []
         
         //MARK: next_y = セクションタイトルのbottomで初期化
-        var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height
+        var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height + base_margin*0.5
         
         json.forEach { (_, obj) in
             var pViews: (title: UILabel, url: UILabel?, image: AsyncUIImageView?) = (title: UILabel(), url: nil, image: nil)
