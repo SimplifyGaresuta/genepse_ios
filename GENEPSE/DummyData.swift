@@ -52,9 +52,9 @@ class UserDetailDummyData {
         "awards": ["AdTech Charenge 優勝", "CrossOverGameJam 優勝", "ジロッカソン terateil賞"],
         "skills": ["Illustrator", "Protopie", "sketch", "ruby", "go", "unity"],
         "products": [
-            ["title": "リア充無双", "url": "https://appsto.re/jp/26J0gb.i","image":"https://storage.googleapis.com/bucket_name/name_a"
+            ["title": "リア充無双", "url": "https://appsto.re/jp/26J0gb.i","image":"https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"
             ],
-            ["title": "Webクローラー", "url": "https://github.com/ryonakao/netsurfer","image":"https://storage.googleapis.com/bucket_name/name_b"
+            ["title": "Webクローラー", "url": "https://github.com/ryonakao/netsurfer","image":"https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"
             ]
         ],
         "sns": [

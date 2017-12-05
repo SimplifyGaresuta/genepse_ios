@@ -119,9 +119,22 @@ class UserDetailViewController: UIViewController {
             cardView.addSubview(skillLabel)
         }
         
-        // TODO: 作品の追加
+        // 作品の追加
         products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
+        
+        let productsViews = self.CreateProductLabel(json: json["products"])
+        for pViews in productsViews {
+            cardView.addSubview(pViews.title)
+            
+            if let urlLabel = pViews.url {
+                cardView.addSubview(urlLabel)
+            }
+            
+            if let imageView = pViews.image {
+                cardView.addSubview(imageView)
+            }
+        }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -238,9 +251,6 @@ class UserDetailViewController: UIViewController {
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-//        career_label.text = text
-        
-        
         let lineHeight:CGFloat = 23.0
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
@@ -311,6 +321,59 @@ class UserDetailViewController: UIViewController {
         }
         
         return labels
+    }
+    
+    //TODO: セクションタイトルの下にマージン，urlの先頭にリンクの画像貼る？，urlと画像のマージン
+    //TODO: 画像と次のタイトルとのマージン
+    //TODO: 画像の幅を小さく，角丸，影
+    
+    func CreateProductLabel(json: JSON) -> [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] {
+        var productsViews: [(title: UILabel, url: UILabel?, image: AsyncUIImageView?)] = []
+        
+        //MARK: next_y = セクションタイトルのbottomで初期化
+        var next_y = products_sectionLable.frame.origin.y + products_sectionLable.frame.height
+        
+        json.forEach { (_, obj) in
+            var pViews: (title: UILabel, url: UILabel?, image: AsyncUIImageView?) = (title: UILabel(), url: nil, image: nil)
+            
+            //next_yからプロダクトタイトルの追加
+            let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
+            titleLabel.text = obj["title"].string
+            titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            titleLabel.sizeToFit()
+            pViews.title = titleLabel
+            
+            //next_yをプロダクトタイトルに更新
+            next_y = titleLabel.frame.origin.y + titleLabel.frame.height
+            
+            //URLがあったら,next_yからURLラベルの追加
+            if !(obj["url"].string?.isEmpty)! {
+                let urlLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
+                urlLabel.text = obj["url"].string
+                urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+                urlLabel.sizeToFit()
+                pViews.url = urlLabel
+                
+                //next_yをURLラベルに更新
+                next_y = urlLabel.frame.origin.y + urlLabel.frame.height
+            }
+            
+            //画像があったら，next_yから画像の追加
+            if !(obj["image"].string?.isEmpty)! {
+                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
+                imageView.loadImage(urlString: obj["image"].string!)
+                imageView.contentMode = .scaleAspectFill
+                pViews.image = imageView
+            
+                //next_yを画像に更新
+                next_y = imageView.frame.origin.y + imageView.frame.height
+            }
+            
+            productsViews.append(pViews)
+
+        }
+        
+        return productsViews
     }
     
     //TODO: SNSラベル追加 作業中
