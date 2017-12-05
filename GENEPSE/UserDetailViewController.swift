@@ -138,6 +138,7 @@ class UserDetailViewController: UIViewController {
         // 作品の追加
         products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         
         let productsViews = self.CreateProductLabel(json: json["products"]).0
         for pViews in productsViews {
