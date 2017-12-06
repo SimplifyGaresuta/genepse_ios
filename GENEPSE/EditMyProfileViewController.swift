@@ -33,6 +33,26 @@ class EditMyProfileViewController: FormViewController {
 //                $0.title = "Date Row"
 //                $0.value = Date(timeIntervalSinceReferenceDate: 0)
 //        }
+        
+//        form +++
+//            MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+//                               header: "Multivalued TextField",
+//                               footer: ".Insert adds a 'Add Item' (Add New Tag) button row as last cell.") {
+//                                $0.addButtonProvider = { section in
+//                                    return ButtonRow(){
+//                                        $0.title = "Add New Tag"
+//                                    }
+//                                }
+//                                $0.multivaluedRowToInsertAt = { index in
+//                                    return NameRow() {
+//                                        $0.placeholder = "Tag Name"
+//                                    }
+//                                }
+//                                $0 <<< NameRow() {
+//                                    $0.placeholder = "Tag Name"
+//                                }
+//        }
+
 
     }
 
