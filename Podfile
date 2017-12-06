@@ -11,4 +11,7 @@ target 'GENEPSE' do
   # pod 'JSQMessagesViewController'
   pod 'Alamofire', '~> 4.5'
   pod 'SwiftyJSON'
+  #pod 'Eureka'
+  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'feature/Xcode9-Swift3_2'
+
 end
