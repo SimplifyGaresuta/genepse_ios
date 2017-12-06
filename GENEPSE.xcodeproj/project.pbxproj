@@ -12,7 +12,6 @@
 		372344481FD68E67005057AF /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 372344461FD68E66005057AF /* twitter.png */; };
 		3723444A1FD6AC73005057AF /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 372344491FD6AC73005057AF /* arrow.png */; };
 		3723444C1FD701A6005057AF /* DesignSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3723444B1FD701A6005057AF /* DesignSetting.swift */; };
-		3739420B1FD7A26C000ECC76 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 3739420A1FD7A26B000ECC76 /* user.png */; };
 		3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */; };
 		375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */; };
 		375FB43E1FD285E60003B401 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375FB43D1FD285E60003B401 /* FeedViewController.swift */; };
@@ -37,7 +36,6 @@
 		372344461FD68E66005057AF /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
 		372344491FD6AC73005057AF /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		3723444B1FD701A6005057AF /* DesignSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSetting.swift; sourceTree = "<group>"; };
-		3739420A1FD7A26B000ECC76 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		3750608E1FC0B57300BBB14D /* OriginUITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUITabBarController.swift; sourceTree = "<group>"; };
 		375060901FC0B99C00BBB14D /* OriginUInavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginUInavigationController.swift; sourceTree = "<group>"; };
 		375FB43D1FD285E60003B401 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 				372344431FD67790005057AF /* link.png */,
 				372344451FD68E66005057AF /* facebook.png */,
 				372344491FD6AC73005057AF /* arrow.png */,
-				3739420A1FD7A26B000ECC76 /* user.png */,
 				372344461FD68E66005057AF /* twitter.png */,
 			);
 			path = img;
@@ -210,7 +207,6 @@
 			files = (
 				372344481FD68E67005057AF /* twitter.png in Resources */,
 				3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */,
-				3739420B1FD7A26C000ECC76 /* user.png in Resources */,
 				372344471FD68E67005057AF /* facebook.png in Resources */,
 				3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */,
 				3786DCEE1FC00EA700E80AB9 /* Assets.xcassets in Resources */,

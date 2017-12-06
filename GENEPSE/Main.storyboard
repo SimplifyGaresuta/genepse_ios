@@ -45,7 +45,7 @@
             </objects>
             <point key="canvasLocation" x="-1770" y="103"/>
         </scene>
-        <!--Feed View Controller-->
+        <!--Feed-->
         <scene sceneID="PDo-Xd-jBk">
             <objects>
                 <viewController storyboardIdentifier="Feed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="FeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,13 +55,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="more" id="erc-Y8-ECM"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="tabbar_feed" id="erc-Y8-ECM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ5-lP-121" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-703" y="-110"/>
         </scene>
-        <!--View Controller-->
+        <!--User-->
         <scene sceneID="xeG-TA-oZj">
             <objects>
                 <viewController storyboardIdentifier="HOGE" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" sceneMemberID="viewController">
@@ -71,11 +71,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="8Ey-6Y-XIJ"/>
+                    <tabBarItem key="tabBarItem" title="User" image="tabbar_user" id="8Ey-6Y-XIJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de0-9y-h72" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-703" y="666"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tabbar_feed" width="30" height="30"/>
+        <image name="tabbar_user" width="30" height="30"/>
+    </resources>
 </document>
