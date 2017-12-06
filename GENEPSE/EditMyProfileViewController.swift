@@ -60,18 +60,26 @@ class EditMyProfileViewController: FormViewController {
     func CreateForms() {
         switch edit_id {
         case SectionID.name.rawValue:
+            // textフィールド
+            // textview
             break
         case SectionID.awards.rawValue:
+            // textフィード(+)
             break
         case SectionID.skills.rawValue:
+            // textフィールド(+)
             break
         case SectionID.products.rawValue:
+            // textフィールド&&textフィールド,ImageRow(+)
             break
         case SectionID.sns.rawValue:
+            // picker&&textフィールド(+)
             break
         case SectionID.license.rawValue:
+            // textフィールド(+)
             break
         default:
+            // textフィールド*4(うち，number1つ)
             break
         }
     }
