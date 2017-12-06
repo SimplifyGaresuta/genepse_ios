@@ -412,7 +412,7 @@ class UserDetailViewController: UIViewController {
             
             //URLがあったら,next_yからURLラベルの追加
             if !(obj["url"].string?.isEmpty)! {
-                let linkImageView = UIImageView(image: UIImage(named: "link"))
+                let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
@@ -473,10 +473,10 @@ class UserDetailViewController: UIViewController {
             var image_name = ""
             switch obj["provider"] {
             case "facebook":
-                image_name = "facebook"
+                image_name = "facebook_icon"
                 break
             case "twitter":
-                image_name = "twitter"
+                image_name = "twitter_icon"
                 break
                 
             default:
@@ -551,7 +551,7 @@ class UserDetailViewController: UIViewController {
     
     func CreateTopToScrollButton(cgrect: CGRect) -> UIButton {
         let button = UIButton()
-        let image = UIImage(named: "arrow")
+        let image = UIImage(named: "up_arrow")
         
         let x = cardView.frame.origin.x + cardView.frame.width - base_margin*3.5
         let y = cgrect.origin.y + cgrect.height - base_margin*2
