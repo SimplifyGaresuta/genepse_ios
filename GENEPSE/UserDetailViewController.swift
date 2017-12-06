@@ -366,7 +366,7 @@ class UserDetailViewController: UIViewController {
             let label = UILabel(frame: CGRect(x: start_x, y: start_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
             label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
-            label.backgroundColor = UIColor.gray
+            label.backgroundColor = UIColor.hexStr(hexStr: SkillTagColor.gray.rawValue as NSString, alpha: 1.0)
             label.textColor = UIColor.white
             label.sizeToFit()
             label.layer.cornerRadius = 10
