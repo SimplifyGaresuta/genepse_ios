@@ -20,6 +20,7 @@
 		3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */; };
 		3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFD1FC016A100E80AB9 /* Main.storyboard */; };
 		3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD1A1FC0576400E80AB9 /* sample1.png */; };
+		37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */; };
 		37FEBD461FD545A800D07215 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FEBD451FD545A800D07215 /* UserDetailViewController.swift */; };
 		E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		3786DCF21FC00EA700E80AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3786DCFD1FC016A100E80AB9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3786DD1A1FC0576400E80AB9 /* sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample1.png; sourceTree = "<group>"; };
+		37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		37FEBD451FD545A800D07215 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		BAE8A46EBA638370D8C680BF /* Pods-GENEPSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +105,7 @@
 				375FB44F1FD531E40003B401 /* Extension.swift */,
 				37FEBD451FD545A800D07215 /* UserDetailViewController.swift */,
 				3723444B1FD701A6005057AF /* DesignSetting.swift */,
+				37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */,
 			);
 			path = GENEPSE;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				375FB4481FD3CD4E0003B401 /* DummyData.swift in Sources */,
 				3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */,
 				375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */,
+				37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */,
 				375FB4461FD2EBF70003B401 /* AsyncUIImageView.swift in Sources */,
 				37FEBD461FD545A800D07215 /* UserDetailViewController.swift in Sources */,
 				3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */,

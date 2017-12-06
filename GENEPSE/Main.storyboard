@@ -61,17 +61,17 @@
             </objects>
             <point key="canvasLocation" x="-703" y="-110"/>
         </scene>
-        <!--User-->
+        <!--MyProfile-->
         <scene sceneID="xeG-TA-oZj">
             <objects>
-                <viewController storyboardIdentifier="HOGE" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" customClass="MyProfileViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V97-WR-YzM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="User" image="tabbar_user" id="8Ey-6Y-XIJ"/>
+                    <tabBarItem key="tabBarItem" title="MyProfile" image="tabbar_myprofile" id="8Ey-6Y-XIJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de0-9y-h72" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -80,6 +80,6 @@
     </scenes>
     <resources>
         <image name="tabbar_feed" width="30" height="30"/>
-        <image name="tabbar_user" width="30" height="30"/>
+        <image name="tabbar_myprofile" width="30" height="30"/>
     </resources>
 </document>
