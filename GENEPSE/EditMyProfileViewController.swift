@@ -55,6 +55,26 @@ class EditMyProfileViewController: FormViewController {
 
 
     }
+    
+    //TODO: 各フォーム作成関数を呼び出す
+    func CreateForms() {
+        switch edit_id {
+        case SectionID.name.rawValue:
+            break
+        case SectionID.awards.rawValue:
+            break
+        case SectionID.skills.rawValue:
+            break
+        case SectionID.products.rawValue:
+            break
+        case SectionID.sns.rawValue:
+            break
+        case SectionID.license.rawValue:
+            break
+        default:
+            break
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -69,7 +89,7 @@ class EditMyProfileViewController: FormViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func AddRow(sender: UIButton) {
+    func Save(sender: UIButton) {
         print("Tap AddRow")
         self.dismiss(animated: true, completion: nil)
     }

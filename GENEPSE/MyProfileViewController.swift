@@ -370,7 +370,7 @@ class MyProfileViewController: UIViewController {
         
         let navController = UINavigationController(rootViewController: edit_myprofile_VC)
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: edit_myprofile_VC, action: #selector(edit_myprofile_VC.CloseEditMyProfileView(sender:)))
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: edit_myprofile_VC, action: #selector(edit_myprofile_VC.AddRow(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: edit_myprofile_VC, action: #selector(edit_myprofile_VC.Save(sender:)))
         
         navController.navigationBar.barTintColor = UIColor.black
         navController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
