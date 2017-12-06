@@ -31,6 +31,11 @@ class EditMyProfileViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func AddRow(sender: UIButton) {
+        print("Tap AddRow")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     
 
