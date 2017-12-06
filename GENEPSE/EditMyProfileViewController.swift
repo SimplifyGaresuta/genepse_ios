@@ -12,14 +12,10 @@ class EditMyProfileViewController: UIViewController {
 
     var edit_id = 0
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = "Edit MyProfile"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.blue
+        print(edit_id)
     }
 
     override func didReceiveMemoryWarning() {
