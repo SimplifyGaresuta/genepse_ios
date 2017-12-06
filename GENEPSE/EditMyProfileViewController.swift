@@ -27,6 +27,10 @@ class EditMyProfileViewController: UIViewController {
         edit_id = id
     }
     
+    func CloseEditMyProfileView(sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     
 
