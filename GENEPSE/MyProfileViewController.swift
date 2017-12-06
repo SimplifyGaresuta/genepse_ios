@@ -107,6 +107,7 @@ class MyProfileViewController: UIViewController {
         // 名前の追加
         let nameLabel = self.CreateNameLabel(text: name)
         cardView.addSubview(nameLabel)
+        cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
         UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
         
         
@@ -118,6 +119,7 @@ class MyProfileViewController: UIViewController {
         // 受賞歴の追加
         let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
         cardView.addSubview(awards_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: awards_sectionLable.frame, id: SectionID.awards.rawValue))
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
         
@@ -129,6 +131,7 @@ class MyProfileViewController: UIViewController {
         // スキルの追加
         let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: skills_sectionLable.frame, id: SectionID.skills.rawValue))
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
         
@@ -142,6 +145,7 @@ class MyProfileViewController: UIViewController {
         // 作品の追加
         let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: products_sectionLable.frame, id: SectionID.products.rawValue))
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
         
@@ -165,6 +169,7 @@ class MyProfileViewController: UIViewController {
         // SNSの追加
         let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
         cardView.addSubview(sns_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: sns_sectionLable.frame, id: SectionID.sns.rawValue))
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
         
@@ -179,6 +184,7 @@ class MyProfileViewController: UIViewController {
         // 資格の追加
         let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
         cardView.addSubview(license_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: license_sectionLable.frame, id: SectionID.license.rawValue))
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
         
@@ -190,6 +196,7 @@ class MyProfileViewController: UIViewController {
         // 基本情報の追加
         let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
         cardView.addSubview(basic_info_sectionLabel)
+        cardView.addSubview(self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue))
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
         
@@ -342,6 +349,23 @@ class MyProfileViewController: UIViewController {
         label.sizeToFit()
         
         return label
+    }
+    
+    func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
+        let x = cardView.frame.origin.x + cardView.frame.width - base_margin*2.5
+        let y = cgrect.origin.y + cgrect.height - cgrect.height/2
+        let button = UIButton(frame: CGRect(x: x, y: y, width: base_margin, height: base_margin))
+        button.contentMode = .scaleAspectFill
+        button.setImage(UIImage(named: "edit_icon"), for: .normal)
+        button.center = CGPoint(x: x, y: y)
+        button.tag = id
+        button.addTarget(self, action: #selector(self.TapEditButton(sender:)), for: .touchUpInside)
+        
+        return button
+    }
+    
+    func TapEditButton(sender: UIButton) {
+        print(sender.tag, "Tap")
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
