@@ -365,7 +365,10 @@ class MyProfileViewController: UIViewController {
     }
     
     func TapEditButton(sender: UIButton) {
-        print(sender.tag, "Tap")
+        let edit_myprofile_VC = EditMyProfileViewController()
+        edit_myprofile_VC.SetEditID(id: sender.tag)
+        
+        self.present(edit_myprofile_VC, animated: true, completion: nil)
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
