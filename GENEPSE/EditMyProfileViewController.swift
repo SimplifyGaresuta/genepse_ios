@@ -74,6 +74,23 @@ class EditMyProfileViewController: FormViewController {
             break
         case SectionID.products.rawValue:
             // textフィールド&&textフィールド,ImageRow(+)
+            form +++ MultivaluedSection(
+                multivaluedOptions: [.Reorder, .Insert, .Delete],
+                header: "作品",
+                footer: "") {
+                    $0.addButtonProvider = { section in return ButtonRow(){
+                        $0.title = "追加"
+                        }
+                    }
+                    $0.multivaluedRowToInsertAt = { index in return TextRow() {
+                        $0.placeholder = "◯◯管理技術者"
+                        
+                        }
+                    }
+                    $0 <<< TextRow() {
+                        $0.placeholder = "◯◯管理技術者"
+                    }
+            }
             break
         case SectionID.sns.rawValue:
             form +++ Section("Twitter")
@@ -98,9 +115,6 @@ class EditMyProfileViewController: FormViewController {
                     }
                     $0 <<< TextRow() {
                         $0.placeholder = "◯◯管理技術者"
-                    }
-                    $0 <<< TextRow() {
-                        $0.placeholder = "XX管理技術者"
                     }
             }
             break
