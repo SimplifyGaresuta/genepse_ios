@@ -93,9 +93,6 @@ class EditMyProfileViewController: FormViewController {
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
             
-            // TODO: textフィールド&&textフィールド,ImageRow(+)
-            let remind_vc = ProductFromViewController()
-            
             form +++ Section()
                 <<< ButtonRow("repeat_type") {
                     $0.title = "作品を追加"
