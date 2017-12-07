@@ -91,7 +91,7 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         case SectionID.products.rawValue:
-            self.navigationItem.title = "Edit Products"
+            self.navigationItem.title = "All Products"
             
             // TODO: textフィールド&&textフィールド,ImageRow(+)
             let remind_vc = ProductFromViewController()
