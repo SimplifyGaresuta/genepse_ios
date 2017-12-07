@@ -94,7 +94,7 @@ class EditMyProfileViewController: FormViewController {
             self.navigationItem.title = "All Products"
             
             form +++ Section()
-                <<< ButtonRow("repeat_type") {
+                <<< ButtonRow() {
                     $0.title = "作品を追加"
                     $0.onCellSelection(self.showVC)
             }
