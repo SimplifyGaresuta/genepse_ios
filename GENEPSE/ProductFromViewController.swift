@@ -8,9 +8,13 @@
 
 import UIKit
 import Eureka
+import ImageRow
 
 class ProductFromViewController: FormViewController {
 
+    var cellImageView = UIImageView()
+    var imagerowCGRect = CGRect()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +34,32 @@ class ProductFromViewController: FormViewController {
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
         }
+        
+        form +++ Section("画像")
+            <<< ImageRow() {
+                $0.title = "画像を選択する"
+                $0.sourceTypes = .PhotoLibrary
+                $0.clearAction = .no
+                imagerowCGRect = $0.cell.frame
+            }
+            .cellUpdate { cell, row in
+                cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+                
+                if let image = row.value {
+                    self.cellImageView.image = image
+                }
+            }
+        
+        let base_margin = self.view.frame.width * 0.1
+        let h = self.view.frame.height*0.3
+        let y = self.view.subviews[0].frame.height - h - base_margin*2
+        cellImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
+        cellImageView.layer.cornerRadius = 10
+        cellImageView.clipsToBounds = true
+        cellImageView.contentMode = .scaleAspectFill
+        self.view.subviews[0].addSubview(cellImageView)
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
