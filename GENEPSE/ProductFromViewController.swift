@@ -13,7 +13,6 @@ import ImageRow
 class ProductFromViewController: FormViewController {
 
     var cellImageView = UIImageView()
-    var imagerowCGRect = CGRect()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +39,6 @@ class ProductFromViewController: FormViewController {
                 $0.title = "画像を選択する"
                 $0.sourceTypes = .PhotoLibrary
                 $0.clearAction = .no
-                imagerowCGRect = $0.cell.frame
             }
             .cellUpdate { cell, row in
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
