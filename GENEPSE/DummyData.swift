@@ -64,7 +64,7 @@ class UserDetailDummyData {
             ]
         ],
         "license": ["TOEIC 820点", "FP2級"],
-        "gender": "男",
+        "gender": "男性",
         "age": 20,
         "address": "埼玉県さいたま市",
         "school_career": "中央大学商学部",

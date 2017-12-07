@@ -40,12 +40,14 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = ""
                     $0.placeholder = "◯◯区"
+                    $0.value = profile_data.GetActivityBase()
             }
             
             form +++ Section("自己紹介")
                 <<< TextAreaRow(){
                     $0.title = ""
                     $0.placeholder = "私は今までに独学でXXを勉強し…"
+                    $0.value = profile_data.GetOverview()
             }
             
             break
@@ -134,22 +136,25 @@ class EditMyProfileViewController: FormViewController {
                 <<< SegmentedRow<String>("sex") {
                     $0.options = ["男性", "女性", "その他"]
                     $0.title = "性別"
-                    $0.value = "男性"
+                    $0.value = profile_data.GetGender()
                 }
             
                 <<< IntRow() {
                     $0.title = "年齢"
                     $0.placeholder = ""
+                    $0.value = profile_data.GetAge()
                 }
             
                 <<< TextRow(){
                     $0.title = "居住地"
                     $0.placeholder = "◯◯区"
+                    $0.value = profile_data.GetAddress()
                 }
                 
                 <<< TextRow(){
                     $0.title = "最終学歴"
                     $0.placeholder = "XX大学YY学部 卒業"
+                    $0.value = profile_data.GetSchoolCareer()
                 }
             break
         }
