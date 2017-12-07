@@ -33,7 +33,6 @@ class MyProfileViewController: UIViewController {
         
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "User Detail"
         
         InitScrollView()
         InitCardView()
@@ -369,17 +368,7 @@ class MyProfileViewController: UIViewController {
         edit_myprofile_VC.SetEditID(id: sender.tag)
         
         let navController = UINavigationController(rootViewController: edit_myprofile_VC)
-        let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: edit_myprofile_VC, action: #selector(edit_myprofile_VC.CloseEditMyProfileView(sender:)))
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: edit_myprofile_VC, action: #selector(edit_myprofile_VC.Save(sender:)))
-        
-        navController.navigationBar.barTintColor = UIColor.black
-        navController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        navController.navigationBar.tintColor = UIColor.white
-        
-        edit_myprofile_VC.navigationItem.setLeftBarButton(cancel_button, animated: true)
-        edit_myprofile_VC.navigationItem.setRightBarButton(check_button, animated: true)
-        edit_myprofile_VC.navigationItem.title = "Edit Profile"
-        
+
         self.present(navController, animated:true, completion: nil)
     }
     

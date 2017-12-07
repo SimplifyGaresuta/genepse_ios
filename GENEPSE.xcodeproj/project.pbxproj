@@ -23,6 +23,7 @@
 		37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */; };
 		37E9E3B21FD7C4A900E3EFFC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3B11FD7C4A900E3EFFC /* Setting.swift */; };
 		37E9E3B41FD7E85800E3EFFC /* EditMyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3B31FD7E85800E3EFFC /* EditMyProfileViewController.swift */; };
+		37E9E3BC1FD8F81400E3EFFC /* ProductFromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3BB1FD8F81400E3EFFC /* ProductFromViewController.swift */; };
 		37FEBD461FD545A800D07215 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FEBD451FD545A800D07215 /* UserDetailViewController.swift */; };
 		E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		37E9E3B11FD7C4A900E3EFFC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		37E9E3B31FD7E85800E3EFFC /* EditMyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileViewController.swift; sourceTree = "<group>"; };
+		37E9E3BB1FD8F81400E3EFFC /* ProductFromViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFromViewController.swift; sourceTree = "<group>"; };
 		37FEBD451FD545A800D07215 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		BAE8A46EBA638370D8C680BF /* Pods-GENEPSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GENEPSE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GENEPSE/Pods-GENEPSE.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +114,7 @@
 				37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */,
 				37E9E3B11FD7C4A900E3EFFC /* Setting.swift */,
 				37E9E3B31FD7E85800E3EFFC /* EditMyProfileViewController.swift */,
+				37E9E3BB1FD8F81400E3EFFC /* ProductFromViewController.swift */,
 			);
 			path = GENEPSE;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				375FB4481FD3CD4E0003B401 /* DummyData.swift in Sources */,
 				37E9E3B21FD7C4A900E3EFFC /* Setting.swift in Sources */,
 				3750608F1FC0B57300BBB14D /* OriginUITabBarController.swift in Sources */,
+				37E9E3BC1FD8F81400E3EFFC /* ProductFromViewController.swift in Sources */,
 				375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */,
 				37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */,
 				375FB4461FD2EBF70003B401 /* AsyncUIImageView.swift in Sources */,

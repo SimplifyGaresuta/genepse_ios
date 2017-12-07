@@ -15,13 +15,27 @@ class EditMyProfileViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        InitNavigationController()
         CreateForms()
+    }
+    
+    func InitNavigationController() {
+        let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
+        
+        self.navigationController?.navigationBar.barTintColor = UIColor.black
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationItem.setLeftBarButton(cancel_button, animated: true)
+        self.navigationItem.setRightBarButton(check_button, animated: true)
     }
     
     //TODO: 各フォーム作成関数を呼び出す(必要ないかも?)
     func CreateForms() {
         switch edit_id {
         case SectionID.name.rawValue:
+            self.navigationItem.title = "Edit Main Infomation"
+            
             form +++ Section("活動拠点")
                 <<< TextRow(){
                     $0.title = ""
@@ -36,6 +50,8 @@ class EditMyProfileViewController: FormViewController {
             
             break
         case SectionID.awards.rawValue:
+            self.navigationItem.title = "Edit Awards"
+            
             form +++ MultivaluedSection(
                 multivaluedOptions: [.Reorder, .Insert, .Delete],
                header: "受賞歴",
@@ -55,6 +71,8 @@ class EditMyProfileViewController: FormViewController {
 
             break
         case SectionID.skills.rawValue:
+            self.navigationItem.title = "Edit Skills"
+            
             form +++ MultivaluedSection(
                 multivaluedOptions: [.Reorder, .Insert, .Delete],
                 header: "スキル",
@@ -73,23 +91,15 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         case SectionID.products.rawValue:
-            // textフィールド&&textフィールド,ImageRow(+)
-            form +++ MultivaluedSection(
-                multivaluedOptions: [.Reorder, .Insert, .Delete],
-                header: "作品",
-                footer: "") {
-                    $0.addButtonProvider = { section in return ButtonRow(){
-                        $0.title = "追加"
-                        }
-                    }
-                    $0.multivaluedRowToInsertAt = { index in return TextRow() {
-                        $0.placeholder = "◯◯管理技術者"
-                        
-                        }
-                    }
-                    $0 <<< TextRow() {
-                        $0.placeholder = "◯◯管理技術者"
-                    }
+            self.navigationItem.title = "Edit Products"
+            
+            // TODO: textフィールド&&textフィールド,ImageRow(+)
+            let remind_vc = ProductFromViewController()
+            
+            form +++ Section()
+                <<< ButtonRow("repeat_type") {
+                    $0.title = "作品を追加"
+                    $0.onCellSelection(self.showVC)
             }
             break
         case SectionID.sns.rawValue:
@@ -101,6 +111,8 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         case SectionID.license.rawValue:
+            self.navigationItem.title = "Edit Licenses"
+            
             form +++ MultivaluedSection(
                 multivaluedOptions: [.Reorder, .Insert, .Delete],
                 header: "資格",
@@ -119,6 +131,8 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         default:
+            self.navigationItem.title = "Edit Other Infomation"
+            
             form +++ Section("基本情報")
                 <<< SegmentedRow<String>("sex") {
                     $0.options = ["男性", "女性", "その他"]
@@ -142,6 +156,29 @@ class EditMyProfileViewController: FormViewController {
                 }
             break
         }
+    }
+    
+    //TODO: ナビゲーションバーいい感じに
+    func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
+        let productVC = ProductFromViewController()
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: productVC, action: #selector(productVC.Save(sender:)))
+//
+//        self.navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
+//        self.navigationController?.show(yourVC, sender: self)
+//        navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
+
+//        let navController = UINavigationController(rootViewController: productVC)
+//        let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: yourVC, action: #selector(yourVC.CloseProductView(sender:)))
+
+//        navController.navigationBar.barTintColor = UIColor.black
+//        navController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+//        navController.navigationBar.tintColor = UIColor.white
+
+//        productVC.navigationItem.setRightBarButton(check_button, animated: true)
+//        productVC.navigationItem.title = "Add Product"
+
+//        self.navigationController?.present(productVC, animated: true, completion: nil)
+        navigationController?.show(productVC, sender: nil)
     }
 
     override func didReceiveMemoryWarning() {
