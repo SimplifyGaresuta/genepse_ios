@@ -158,6 +158,11 @@ class EditMyProfileViewController: FormViewController {
     //TODO: ナビゲーションバーいい感じに
     func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
         let productVC = ProductFromViewController()
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
+
+        //MARK: ここでコントロール？？
+        productVC.navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
+        
         navigationController?.show(productVC, sender: nil)
     }
 

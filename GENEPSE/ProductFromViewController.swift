@@ -14,8 +14,9 @@ class ProductFromViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //MARK: ここでコントロール？？
 //        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
-        
+//
 //        navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
 //        self.navigationController?.navigationItem.setHidesBackButton(true, animated: true)
 //        self.navigationController?.navigationItem.hidesBackButton = true
