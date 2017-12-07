@@ -74,6 +74,7 @@ class MyProfileViewController: UIViewController {
         let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
         let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
         let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
+        let sns = json["sns"].arrayValue
         let licenses:[String] = json["license"].arrayValue.map({$0.stringValue})
         let gender = json["gender"].stringValue
         let age = json["age"].intValue
@@ -88,6 +89,7 @@ class MyProfileViewController: UIViewController {
         profile_data.SetMainSkills(main_skills: main_skills)
         profile_data.SetAwards(awards: awards)
         profile_data.SetSkills(skills: skills)
+        profile_data.SetSNS(sns: sns)
         profile_data.SetLicenses(licenses: licenses)
         profile_data.SetGender(gender: gender)
         profile_data.SetAge(age: age)
@@ -185,7 +187,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
         
-        let snsLabels = self.CreateSNSLabel(json: json["sns"])
+        let snsLabels = self.CreateSNSLabel(json: sns)
         for s_Label in snsLabels {
             cardView.addSubview(s_Label.icon)
             cardView.addSubview(s_Label.url)
@@ -513,20 +515,20 @@ class MyProfileViewController: UIViewController {
         return (productsViews, last_add_view_frame)
     }
     
-    func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
+    func CreateSNSLabel(json: [JSON]) -> ([(icon: UIImageView, url: UILabel)]) {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+        for sns in json {
             var image_name = ""
-            switch obj["provider"] {
+            switch sns["provider"] {
             case "facebook":
                 image_name = "facebook_icon"
                 break
             case "twitter":
                 image_name = "twitter_icon"
                 break
-                
+
             default:
                 break
             }
@@ -534,10 +536,10 @@ class MyProfileViewController: UIViewController {
             let iconImageView = UIImageView(image: UIImage(named: image_name))
             iconImageView.contentMode = .scaleAspectFill
             iconImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin, height: base_margin)
-            
+
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-            urlLabel.text = obj["url"].string
+            urlLabel.text = sns["url"].string
             urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
             urlLabel.sizeToFit()
             

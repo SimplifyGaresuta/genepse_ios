@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class MyProfileData {
     struct MyprofileData {
@@ -17,6 +18,7 @@ class MyProfileData {
         var main_skills:[String] = []
         var awards:[String] = []
         var skills:[String] = []
+        var sns:[JSON] = []
         var licenses:[String] = []
         var gender = ""
         var age = 0
@@ -57,6 +59,10 @@ class MyProfileData {
     
     func SetSkills(skills: Array<String>) {
         profile_data.skills = skills
+    }
+    
+    func SetSNS(sns: Array<JSON>) {
+        profile_data.sns = sns
     }
     
     func SetLicenses(licenses: Array<String>) {
@@ -110,6 +116,10 @@ class MyProfileData {
     
     func GetSkills() -> Array<String> {
         return profile_data.skills
+    }
+    
+    func GetSNS() -> Array<JSON> {
+        return profile_data.sns
     }
     
     func GetLicenses() -> Array<String> {

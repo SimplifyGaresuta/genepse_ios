@@ -108,7 +108,7 @@ class EditMyProfileViewController: FormViewController {
             break
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
-            //TODO : 検討
+            //TODO: 検討
             form +++ Section()
                 <<< ButtonRow() {
                     $0.title = "作品を追加"
@@ -116,12 +116,13 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         case SectionID.sns.rawValue:
-            //TODO : 検討
-            form +++ Section("Twitter")
-                <<< TextRow(){
-                    $0.title = ""
-                    $0.placeholder = "@◯◯◯◯◯◯"
-                    $0.value = "@◯◯◯◯◯◯"
+            for sns in profile_data.GetSNS() {
+                form +++ Section(sns["provider"].stringValue)
+                    <<< TextRow(){
+                        $0.title = ""
+                        $0.placeholder = "@◯◯◯◯◯◯"
+                        $0.value = sns["url"].stringValue
+                }
             }
             break
         case SectionID.license.rawValue:
