@@ -117,11 +117,13 @@ class EditMyProfileViewController: FormViewController {
             break
         case SectionID.sns.rawValue:
             for sns in profile_data.GetSNS() {
-                form +++ Section(sns["provider"].stringValue)
-                    <<< TextRow(){
-                        $0.title = ""
-                        $0.placeholder = "@◯◯◯◯◯◯"
-                        $0.value = sns["url"].stringValue
+                if sns["provider"] != "facebook" {
+                    form +++ Section(sns["provider"].stringValue)
+                        <<< TextRow(){
+                            $0.title = ""
+                            $0.placeholder = "@◯◯◯◯◯◯"
+                            $0.value = sns["url"].stringValue
+                    }
                 }
             }
             break
