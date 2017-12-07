@@ -19,7 +19,7 @@ class MyProfileViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
-    
+    var profile_data = MyProfileData()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -74,12 +74,24 @@ class MyProfileViewController: UIViewController {
         let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
         let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
         
-        let license:[String] = json["license"].arrayValue.map({$0.stringValue})
+        let licenses:[String] = json["license"].arrayValue.map({$0.stringValue})
         let gender = json["gender"].stringValue
         let age = json["age"].intValue
         let address = json["address"].stringValue
         let school_career = json["school_career"].stringValue
         
+        profile_data.SetName(name: name)
+        profile_data.SetOverview(overview: overview)
+        profile_data.SetProfileImg(profile_img: profile_img)
+        profile_data.SetAttr(attr: attr)
+        profile_data.SetMainSkills(main_skills: main_skills)
+        profile_data.SetAwards(awards: awards)
+        profile_data.SetSkills(skills: skills)
+        profile_data.SetLicenses(licenses: licenses)
+        profile_data.SetGender(gender: gender)
+        profile_data.SetAge(age: age)
+        profile_data.SetAddress(address: address)
+        profile_data.SetSchoolCareer(school_career: school_career)
         
         // プロフ画像の追加
         profileImageView = CreateProfileImageView(url: profile_img)
@@ -187,7 +199,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
         
-        let licensesLabel = self.CreateLicenseLabel(licenses: license)
+        let licensesLabel = self.CreateLicenseLabel(licenses: licenses)
         cardView.addSubview(licensesLabel)
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
@@ -366,9 +378,9 @@ class MyProfileViewController: UIViewController {
     func TapEditButton(sender: UIButton) {
         let edit_myprofile_VC = EditMyProfileViewController()
         edit_myprofile_VC.SetEditID(id: sender.tag)
+        edit_myprofile_VC.SetMyProfileData(data: profile_data)
         
         let navController = UINavigationController(rootViewController: edit_myprofile_VC)
-
         self.present(navController, animated:true, completion: nil)
     }
     

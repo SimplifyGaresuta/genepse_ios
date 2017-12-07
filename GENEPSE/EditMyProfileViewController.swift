@@ -12,6 +12,7 @@ import Eureka
 class EditMyProfileViewController: FormViewController {
 
     var edit_id = 0
+    var profile_data = MyProfileData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,6 +167,10 @@ class EditMyProfileViewController: FormViewController {
     
     func SetEditID(id: Int) {
         edit_id = id
+    }
+    
+    func SetMyProfileData(data: MyProfileData) {
+        profile_data = data
     }
     
     func CloseEditMyProfileView(sender: UIButton) {
