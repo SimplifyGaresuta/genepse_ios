@@ -158,23 +158,6 @@ class EditMyProfileViewController: FormViewController {
     //TODO: ナビゲーションバーいい感じに
     func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
         let productVC = ProductFromViewController()
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: productVC, action: #selector(productVC.Save(sender:)))
-//
-//        self.navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
-//        self.navigationController?.show(yourVC, sender: self)
-//        navigationController?.navigationItem.setRightBarButton(check_button, animated: true)
-
-//        let navController = UINavigationController(rootViewController: productVC)
-//        let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: yourVC, action: #selector(yourVC.CloseProductView(sender:)))
-
-//        navController.navigationBar.barTintColor = UIColor.black
-//        navController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-//        navController.navigationBar.tintColor = UIColor.white
-
-//        productVC.navigationItem.setRightBarButton(check_button, animated: true)
-//        productVC.navigationItem.title = "Add Product"
-
-//        self.navigationController?.present(productVC, animated: true, completion: nil)
         navigationController?.show(productVC, sender: nil)
     }
 
