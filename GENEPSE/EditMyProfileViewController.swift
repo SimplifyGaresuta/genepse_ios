@@ -66,6 +66,13 @@ class EditMyProfileViewController: FormViewController {
                     $0.placeholder = "◯◯賞(20XX)"
                     }
                 }
+                
+                for award in profile_data.GetAwards() {
+                    $0 <<< TextRow() {
+                        $0.value = award
+                    }
+                }
+                
                 $0 <<< TextRow() {
                     $0.placeholder = "◯◯賞(20XX)"
                 }
@@ -87,6 +94,13 @@ class EditMyProfileViewController: FormViewController {
                         $0.placeholder = "Python"
                         }
                     }
+                    
+                    for skill in profile_data.GetSkills() {
+                        $0 <<< TextRow() {
+                            $0.value = skill
+                        }
+                    }
+                    
                     $0 <<< TextRow() {
                         $0.placeholder = "Python"
                     }
@@ -94,7 +108,7 @@ class EditMyProfileViewController: FormViewController {
             break
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
-            
+            //TODO : 検討
             form +++ Section()
                 <<< ButtonRow() {
                     $0.title = "作品を追加"
@@ -102,6 +116,7 @@ class EditMyProfileViewController: FormViewController {
             }
             break
         case SectionID.sns.rawValue:
+            //TODO : 検討
             form +++ Section("Twitter")
                 <<< TextRow(){
                     $0.title = ""
@@ -124,6 +139,13 @@ class EditMyProfileViewController: FormViewController {
                         $0.placeholder = "◯◯管理技術者"
                         }
                     }
+                    
+                    for license in profile_data.GetLicenses() {
+                        $0 <<< TextRow() {
+                            $0.value = license
+                        }
+                    }
+                    
                     $0 <<< TextRow() {
                         $0.placeholder = "◯◯管理技術者"
                     }
