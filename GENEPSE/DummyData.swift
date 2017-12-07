@@ -67,7 +67,8 @@ class UserDetailDummyData {
         "gender": "男",
         "age": 20,
         "address": "埼玉県さいたま市",
-        "school_career": "中央大学商学部"
+        "school_career": "中央大学商学部",
+        "activity_base": "渋谷"
         ] as [String : Any]
 }
 

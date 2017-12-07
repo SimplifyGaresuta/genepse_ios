@@ -66,6 +66,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
+        let activity_base = json["activity_base"].stringValue
         let name = json["name"].stringValue
         let overview = json["overview"].stringValue
         let profile_img = json["profile_img"].stringValue
@@ -73,13 +74,13 @@ class MyProfileViewController: UIViewController {
         let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
         let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
         let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
-        
         let licenses:[String] = json["license"].arrayValue.map({$0.stringValue})
         let gender = json["gender"].stringValue
         let age = json["age"].intValue
         let address = json["address"].stringValue
         let school_career = json["school_career"].stringValue
         
+        profile_data.SetActivityBase(activity_base: activity_base)
         profile_data.SetName(name: name)
         profile_data.SetOverview(overview: overview)
         profile_data.SetProfileImg(profile_img: profile_img)

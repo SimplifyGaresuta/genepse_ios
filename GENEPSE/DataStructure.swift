@@ -22,10 +22,15 @@ class MyProfileData {
         var age = 0
         var address = ""
         var school_career = ""
+        var activity_base = ""
     }
     
     private var profile_data = MyprofileData()
 
+    func SetActivityBase(activity_base: String) {
+        profile_data.activity_base = activity_base
+    }
+    
     func SetName(name: String) {
         profile_data.name = name
     }
@@ -72,6 +77,11 @@ class MyProfileData {
     
     func SetSchoolCareer(school_career: String) {
         profile_data.school_career = school_career
+    }
+    
+    
+    func GetActivityBase() -> String {
+        return profile_data.activity_base
     }
     
     func GetName() -> String {
