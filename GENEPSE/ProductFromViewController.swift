@@ -13,14 +13,13 @@ import SwiftyJSON
 
 class ProductFromViewController: FormViewController {
 
-    var cellImageView = UIImageView()
     private var view_title = ""
     private var product = JSON()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
@@ -30,6 +29,8 @@ class ProductFromViewController: FormViewController {
     }
     
     func CreateFrom() {
+        let productImageView = AsyncUIImageView()
+        
         form +++ Section("タイトル")
             <<< TextRow(){
                 $0.title = ""
@@ -46,11 +47,6 @@ class ProductFromViewController: FormViewController {
         
         form +++ Section("画像")
             <<< ImageRow() {
-//                let imageView = AsyncUIImageView()
-//                imageView.loadImage(urlString: product["image"].stringValue)
-                //                imageView.contentMode = .scaleAspectFill
-                //                imageView.layer.cornerRadius = 10
-                //                imageView.layer.masksToBounds = true
                 
                 $0.title = "画像を選択する"
                 $0.sourceTypes = .PhotoLibrary
@@ -60,18 +56,21 @@ class ProductFromViewController: FormViewController {
                     cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                     
                     if let image = row.value {
-                        self.cellImageView.image = image
+                        productImageView.image = image
                     }
         }
         
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
         let y = self.view.subviews[0].frame.height - h - base_margin*2
-        cellImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
-        cellImageView.layer.cornerRadius = 10
-        cellImageView.clipsToBounds = true
-        cellImageView.contentMode = .scaleAspectFill
-        self.view.subviews[0].addSubview(cellImageView)
+        
+        productImageView.loadImage(urlString: product["image"].stringValue)
+        productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
+        productImageView.layer.cornerRadius = 10
+        productImageView.clipsToBounds = true
+        productImageView.contentMode = .scaleAspectFill
+        self.view.subviews[0].addSubview(productImageView)
+
     }
     
 
