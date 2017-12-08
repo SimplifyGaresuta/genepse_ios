@@ -17,9 +17,7 @@ class ProductFromViewController: FormViewController {
     private var view_title = ""
     private var product = JSON()
     
-    override func viewWillAppear(_ animated: Bool) {
-//        CreateFrom()
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,8 +46,8 @@ class ProductFromViewController: FormViewController {
         
         form +++ Section("画像")
             <<< ImageRow() {
-                let imageView = AsyncUIImageView()
-                imageView.loadImage(urlString: product["image"].stringValue)
+//                let imageView = AsyncUIImageView()
+//                imageView.loadImage(urlString: product["image"].stringValue)
                 //                imageView.contentMode = .scaleAspectFill
                 //                imageView.layer.cornerRadius = 10
                 //                imageView.layer.masksToBounds = true
@@ -57,7 +55,6 @@ class ProductFromViewController: FormViewController {
                 $0.title = "画像を選択する"
                 $0.sourceTypes = .PhotoLibrary
                 $0.clearAction = .no
-                $0.value = imageView.image
                 }
                 .cellUpdate { cell, row in
                     cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
