@@ -13,6 +13,7 @@ import ImageRow
 class ProductFromViewController: FormViewController {
 
     var cellImageView = UIImageView()
+    private var view_title = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class ProductFromViewController: FormViewController {
         let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
-        self.navigationItem.title = "Add Product"
+        self.navigationItem.title = view_title
 
         form +++ Section("タイトル")
             <<< TextRow(){
@@ -67,6 +68,10 @@ class ProductFromViewController: FormViewController {
     func Save(sender: UIButton) {
         print("tap Add product save")
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func SetTitle(title: String) {
+        view_title = title
     }
 
     /*

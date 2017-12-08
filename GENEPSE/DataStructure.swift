@@ -18,6 +18,7 @@ class MyProfileData {
         var main_skills:[String] = []
         var awards:[String] = []
         var skills:[String] = []
+        var products:[JSON] = []
         var sns:[JSON] = []
         var licenses:[String] = []
         var gender = ""
@@ -59,6 +60,10 @@ class MyProfileData {
     
     func SetSkills(skills: Array<String>) {
         profile_data.skills = skills
+    }
+    
+    func SetProducts(products: Array<JSON>) {
+        profile_data.products = products
     }
     
     func SetSNS(sns: Array<JSON>) {
@@ -116,6 +121,10 @@ class MyProfileData {
     
     func GetSkills() -> Array<String> {
         return profile_data.skills
+    }
+    
+    func GetProducts() -> Array<JSON> {
+        return profile_data.products
     }
     
     func GetSNS() -> Array<JSON> {

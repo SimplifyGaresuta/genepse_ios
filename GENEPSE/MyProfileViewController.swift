@@ -74,6 +74,7 @@ class MyProfileViewController: UIViewController {
         let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
         let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
         let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
+        let products = json["products"].arrayValue
         let sns = json["sns"].arrayValue
         let licenses:[String] = json["license"].arrayValue.map({$0.stringValue})
         let gender = json["gender"].stringValue
@@ -89,6 +90,7 @@ class MyProfileViewController: UIViewController {
         profile_data.SetMainSkills(main_skills: main_skills)
         profile_data.SetAwards(awards: awards)
         profile_data.SetSkills(skills: skills)
+        profile_data.SetProducts(products: products)
         profile_data.SetSNS(sns: sns)
         profile_data.SetLicenses(licenses: licenses)
         profile_data.SetGender(gender: gender)
@@ -163,7 +165,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
         
-        let productsViews = self.CreateProductLabel(json: json["products"])
+        let productsViews = self.CreateProductLabel(json: products)
         for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
             
@@ -437,19 +439,19 @@ class MyProfileViewController: UIViewController {
         return labels
     }
     
-    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
+    func CreateProductLabel(json: [JSON]) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
         var last_add_view_frame = CGRect()
         
         // next_y = セクションタイトルのbottomで初期化
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+        for p in json {
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
-            titleLabel.text = obj["title"].string
+            titleLabel.text = p["title"].string
             titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
@@ -461,14 +463,14 @@ class MyProfileViewController: UIViewController {
             next_y = titleLabel.frame.origin.y + titleLabel.frame.height
             
             //URLがあったら,next_yからURLラベルの追加
-            if !(obj["url"].string?.isEmpty)! {
+            if !(p["url"].string?.isEmpty)! {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
-                urlLabel.text = obj["url"].string
+                urlLabel.text = p["url"].string
                 urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
@@ -482,9 +484,9 @@ class MyProfileViewController: UIViewController {
             }
             
             //画像があったら，next_yから画像の追加
-            if !(obj["image"].string?.isEmpty)! {
+            if !(p["image"].string?.isEmpty)! {
                 let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
-                imageView.loadImage(urlString: obj["image"].string!)
+                imageView.loadImage(urlString: p["image"].string!)
                 imageView.contentMode = .scaleAspectFill
                 imageView.layer.cornerRadius = 10
                 imageView.layer.masksToBounds = true
@@ -509,7 +511,6 @@ class MyProfileViewController: UIViewController {
             }
             
             productsViews.append(pViews)
-            
         }
         
         return (productsViews, last_add_view_frame)

@@ -20,6 +20,19 @@ class EditMyProfileViewController: FormViewController {
         CreateForms()
     }
     
+    public final class CustomPushRow<T: Equatable>: SelectorRow<PushSelectorCell<T>, SelectorViewController<T>>, RowType {
+        
+        public required init(tag: String?) {
+            super.init(tag: tag)
+            presentationMode = .show(controllerProvider: ControllerProvider.callback {
+                return SelectorViewController<T>(){ _ in }
+                }, onDismiss: { vc in
+                    _ = vc.navigationController?.popViewController(animated: true)
+            })
+        }
+    }
+
+    
     func InitNavigationController() {
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
         let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
@@ -108,7 +121,24 @@ class EditMyProfileViewController: FormViewController {
             break
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
-            //TODO: 検討
+            
+            let section = Section()
+            let vc = ProductFromViewController()
+            vc.SetTitle(title: "Edit")
+            for p in profile_data.GetProducts() {
+                let row = ButtonRow() {
+                    $0.title = p["title"].stringValue
+                    $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
+                                                onDismiss: { vc in
+                                                    vc.navigationController?.popViewController(animated: true)}
+                                            )
+                }
+                
+                section.append(row)
+            }
+            
+            form.append(section)
+            
             form +++ Section()
                 <<< ButtonRow() {
                     $0.title = "作品を追加"
@@ -187,6 +217,7 @@ class EditMyProfileViewController: FormViewController {
     
     func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
         let productVC = ProductFromViewController()
+        productVC.SetTitle(title: "Add")
         navigationController?.show(productVC, sender: nil)
     }
 
