@@ -9,12 +9,17 @@
 import UIKit
 import Eureka
 import ImageRow
+import SwiftyJSON
 
 class ProductFromViewController: FormViewController {
 
     var cellImageView = UIImageView()
     private var view_title = ""
+    private var product = JSON()
     
+    override func viewWillAppear(_ animated: Bool) {
+//        CreateFrom()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,32 +27,45 @@ class ProductFromViewController: FormViewController {
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
-
+        
+        CreateFrom()
+    }
+    
+    func CreateFrom() {
         form +++ Section("タイトル")
             <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "ポートフォリオサイト"
+                $0.value = product["title"].stringValue
         }
         
         form +++ Section("URL")
             <<< URLRow(){
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
+                $0.value = URL(string: product["url"].stringValue)
         }
         
         form +++ Section("画像")
             <<< ImageRow() {
+                let imageView = AsyncUIImageView()
+                imageView.loadImage(urlString: product["image"].stringValue)
+                //                imageView.contentMode = .scaleAspectFill
+                //                imageView.layer.cornerRadius = 10
+                //                imageView.layer.masksToBounds = true
+                
                 $0.title = "画像を選択する"
                 $0.sourceTypes = .PhotoLibrary
                 $0.clearAction = .no
-            }
-            .cellUpdate { cell, row in
-                cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-                
-                if let image = row.value {
-                    self.cellImageView.image = image
+                $0.value = imageView.image
                 }
-            }
+                .cellUpdate { cell, row in
+                    cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+                    
+                    if let image = row.value {
+                        self.cellImageView.image = image
+                    }
+        }
         
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
@@ -72,6 +90,10 @@ class ProductFromViewController: FormViewController {
     
     func SetTitle(title: String) {
         view_title = title
+    }
+    
+    func SetProduct(p: JSON) {
+        product = p
     }
 
     /*

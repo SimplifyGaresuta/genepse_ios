@@ -123,9 +123,12 @@ class EditMyProfileViewController: FormViewController {
             self.navigationItem.title = "All Products"
             
             let section = Section()
-            let vc = ProductFromViewController()
-            vc.SetTitle(title: "Edit")
+            
             for p in profile_data.GetProducts() {
+                let vc = ProductFromViewController()
+                vc.SetProduct(p: p)
+                vc.SetTitle(title: "Edit")
+                
                 let row = ButtonRow() {
                     $0.title = p["title"].stringValue
                     $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
