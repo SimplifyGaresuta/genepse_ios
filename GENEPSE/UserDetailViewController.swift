@@ -554,7 +554,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func CallUserDetailAPI() {
-        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_users/"
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
@@ -562,7 +562,8 @@ class UserDetailViewController: UIViewController {
             
             //MARK: ダミーデータ
             let dummy_data = UserDetailDummyData()
-            self.AddViews(json: JSON(dummy_data.user_data))
+            self.AddViews(json: JSON(dummy_data.user_data_empty))
+//            self.AddViews(json: json)
         }
     }
 

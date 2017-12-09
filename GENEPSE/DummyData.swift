@@ -69,5 +69,23 @@ class UserDetailDummyData {
         "school_career": "中央大学商学部",
         "activity_base": "渋谷"
         ] as [String : Any]
+    
+    let user_data_empty = [
+        "name": "岩見建汰",
+        "overview": "",
+        "avatar_url": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
+        "attribute": "",
+        "awards": [],
+        "skills": [],
+        "products": [],
+        "sns": [["provider": "facebook", "url": "https://www.facebook.com/nakao.boy"
+            ],],
+        "licenses": [],
+        "gender": "",
+        "age": 0,
+        "address": "",
+        "school_career": "",
+        "activity_base": ""
+        ] as [String : Any]
 }
 
