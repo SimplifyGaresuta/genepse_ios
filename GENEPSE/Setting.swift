@@ -59,3 +59,10 @@ enum AttributeStr: String {
     case Designer = "Designer"
     case Engineer = "Engineer"
 }
+
+enum API: String {
+    case host = "https://genepse-186713.appspot.com"
+    case version = "v1"
+    case users = "users"
+    case products = "products"
+}
