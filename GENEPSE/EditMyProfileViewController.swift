@@ -202,6 +202,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.onCellSelection(self.showVC)
             }
             break
+            
         case SectionID.sns.rawValue:
             for sns in profile_data.GetSNS() {
                 if sns["provider"] != "facebook" {
@@ -230,17 +231,21 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    for license in profile_data.GetLicenses() {
+                    let licenses = profile_data.GetLicenses()
+                    for license in licenses {
                         $0 <<< TextRow() {
                             $0.value = license
                         }
                     }
                     
-                    $0 <<< TextRow() {
-                        $0.placeholder = "◯◯管理技術者"
+                    if licenses.count == 0 {
+                        $0 <<< TextRow() {
+                            $0.placeholder = "◯◯管理技術者"
+                        }
                     }
             }
             break
+            
         default:
             self.navigationItem.title = "Edit Other Infomation"
             
