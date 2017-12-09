@@ -13,3 +13,7 @@ enum AttributeColor: String {
     case blue = "#369ff9"
     case green = "#32d961"
 }
+
+enum SkillTagColor: String {
+    case gray = "#9C9C9C"
+}

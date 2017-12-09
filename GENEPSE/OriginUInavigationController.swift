@@ -16,6 +16,7 @@ class OriginUInavigationController: UINavigationController {
         //ナビゲーションバーの色を設定
         navigationBar.barTintColor = UIColor.black
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationBar.tintColor = UIColor.white
     }
 
     override func didReceiveMemoryWarning() {

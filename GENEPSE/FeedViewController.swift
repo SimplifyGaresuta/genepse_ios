@@ -24,9 +24,14 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var offset = 0
     var has_next = true
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.navigationItem.title = "Feed"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1
@@ -76,11 +81,11 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         users.forEach { (obj) in
             let id = obj["id"].intValue
-            let name = obj["name"].stringValue
-            let avatar_url = obj["avatar_url"].stringValue
-            let attribute = obj["attribute"].stringValue
-            let skills = obj["skills"].arrayValue.map({$0.stringValue})
-            let overview = obj["overview"].stringValue
+            let name = obj[Key.name.rawValue].stringValue
+            let avatar_url = obj[Key.avatar_url.rawValue].stringValue
+            let attribute = obj[Key.attribute.rawValue].stringValue
+            let skills = obj[Key.skills.rawValue].arrayValue.map({$0.stringValue})
+            let overview = obj[Key.overview.rawValue].stringValue
             
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
@@ -188,18 +193,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
-        var bg_color: UIColor
-        switch attribute {
-        case "Designer":
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
-            break
-        case "Engineer":
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
-            break
-        default:
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
-            break
-        }
+        let bg_color = GetAttributeColor(attr: attribute)
         
         let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
         
@@ -314,19 +308,5 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 

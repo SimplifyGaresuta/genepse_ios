@@ -1,8 +1,8 @@
 //
-//  UserDetailViewController.swift
+//  MyProfileViewController.swift
 //  GENEPSE
 //
-//  Created by 岩見建汰 on 2017/12/04.
+//  Created by 岩見建汰 on 2017/12/06.
 //  Copyright © 2017年 Kenta. All rights reserved.
 //
 
@@ -10,7 +10,8 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class UserDetailViewController: UIViewController {
+class MyProfileViewController: UIViewController {
+
     private var user_id = 0
     var base_margin = 0.0 as CGFloat
     
@@ -18,6 +19,12 @@ class UserDetailViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
+    var data = DetailData()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.navigationItem.title = "MyProfile"
+    }
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -26,7 +33,6 @@ class UserDetailViewController: UIViewController {
         
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "User Detail"
         
         InitScrollView()
         InitCardView()
@@ -60,7 +66,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-        let data = GetDetailData(json: json)
+         data = GetDetailData(json: json)
         
         // プロフ画像の追加
         profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
@@ -77,7 +83,6 @@ class UserDetailViewController: UIViewController {
         
         // メインスキルの追加
         let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
-        
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
@@ -88,8 +93,9 @@ class UserDetailViewController: UIViewController {
         // 名前の追加
         let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
+        cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
         UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
-
+        
         
         // 経歴の追加
         let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
@@ -99,6 +105,7 @@ class UserDetailViewController: UIViewController {
         // 受賞歴の追加
         let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
         cardView.addSubview(awards_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: awards_sectionLable.frame, id: SectionID.awards.rawValue))
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
         
@@ -110,6 +117,7 @@ class UserDetailViewController: UIViewController {
         // スキルの追加
         let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: skills_sectionLable.frame, id: SectionID.skills.rawValue))
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
         
@@ -123,10 +131,11 @@ class UserDetailViewController: UIViewController {
         // 作品の追加
         let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
         cardView.addSubview(products_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: products_sectionLable.frame, id: SectionID.products.rawValue))
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
         
-        let productsViews = self.CreateProductLabel(json: json["products"])
+        let productsViews = self.CreateProductLabel(json: data.GetProducts())
         for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
             
@@ -146,10 +155,11 @@ class UserDetailViewController: UIViewController {
         // SNSの追加
         let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
         cardView.addSubview(sns_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: sns_sectionLable.frame, id: SectionID.sns.rawValue))
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
         
-        let snsLabels = self.CreateSNSLabel(json: json["sns"])
+        let snsLabels = self.CreateSNSLabel(json: data.GetSNS())
         for s_Label in snsLabels {
             cardView.addSubview(s_Label.icon)
             cardView.addSubview(s_Label.url)
@@ -160,6 +170,7 @@ class UserDetailViewController: UIViewController {
         // 資格の追加
         let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
         cardView.addSubview(license_sectionLable)
+        cardView.addSubview(self.CreateEditButton(cgrect: license_sectionLable.frame, id: SectionID.license.rawValue))
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
         
@@ -171,6 +182,7 @@ class UserDetailViewController: UIViewController {
         // 基本情報の追加
         let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
         cardView.addSubview(basic_info_sectionLabel)
+        cardView.addSubview(self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue))
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
         
@@ -314,6 +326,28 @@ class UserDetailViewController: UIViewController {
         return label
     }
     
+    func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
+        let x = cardView.frame.origin.x + cardView.frame.width - base_margin*2.5
+        let y = cgrect.origin.y + cgrect.height - cgrect.height/2
+        let button = UIButton(frame: CGRect(x: x, y: y, width: base_margin, height: base_margin))
+        button.contentMode = .scaleAspectFill
+        button.setImage(UIImage(named: "edit_icon"), for: .normal)
+        button.center = CGPoint(x: x, y: y)
+        button.tag = id
+        button.addTarget(self, action: #selector(self.TapEditButton(sender:)), for: .touchUpInside)
+        
+        return button
+    }
+    
+    func TapEditButton(sender: UIButton) {
+        let edit_myprofile_VC = EditMyProfileViewController()
+        edit_myprofile_VC.SetEditID(id: sender.tag)
+        edit_myprofile_VC.SetMyProfileData(data: data)
+        
+        let navController = UINavigationController(rootViewController: edit_myprofile_VC)
+        self.present(navController, animated:true, completion: nil)
+    }
+    
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
         let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
         
@@ -364,19 +398,19 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
+    func CreateProductLabel(json: [JSON]) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
         var last_add_view_frame = CGRect()
         
         // next_y = セクションタイトルのbottomで初期化
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+        for p in json {
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
-            titleLabel.text = obj["title"].string
+            titleLabel.text = p[Key.title.rawValue].string
             titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
@@ -388,14 +422,14 @@ class UserDetailViewController: UIViewController {
             next_y = titleLabel.frame.origin.y + titleLabel.frame.height
             
             //URLがあったら,next_yからURLラベルの追加
-            if !(obj["url"].string?.isEmpty)! {
+            if !(p[Key.url.rawValue].string?.isEmpty)! {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
-                urlLabel.text = obj["url"].string
+                urlLabel.text = p[Key.url.rawValue].string
                 urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
@@ -409,9 +443,9 @@ class UserDetailViewController: UIViewController {
             }
             
             //画像があったら，next_yから画像の追加
-            if !(obj["image"].string?.isEmpty)! {
+            if !(p[Key.image.rawValue].string?.isEmpty)! {
                 let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
-                imageView.loadImage(urlString: obj["image"].string!)
+                imageView.loadImage(urlString: p[Key.image.rawValue].string!)
                 imageView.contentMode = .scaleAspectFill
                 imageView.layer.cornerRadius = 10
                 imageView.layer.masksToBounds = true
@@ -430,32 +464,31 @@ class UserDetailViewController: UIViewController {
                 
                 //最後に追加したviewとして記録
                 last_add_view_frame = imageView.frame
-
+                
                 //next_yを画像に更新
                 next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
             }
             
             productsViews.append(pViews)
-
         }
         
         return (productsViews, last_add_view_frame)
     }
     
-    func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
+    func CreateSNSLabel(json: [JSON]) -> ([(icon: UIImageView, url: UILabel)]) {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+        for sns in json {
             var image_name = ""
-            switch obj["provider"] {
+            switch sns[Key.provider.rawValue] {
             case "facebook":
                 image_name = "facebook_icon"
                 break
             case "twitter":
                 image_name = "twitter_icon"
                 break
-                
+
             default:
                 break
             }
@@ -463,16 +496,16 @@ class UserDetailViewController: UIViewController {
             let iconImageView = UIImageView(image: UIImage(named: image_name))
             iconImageView.contentMode = .scaleAspectFill
             iconImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin, height: base_margin)
-            
+
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-            urlLabel.text = obj["url"].string
+            urlLabel.text = sns[Key.url.rawValue].string
             urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
             urlLabel.sizeToFit()
             
             // アイコンとのずれを調整するために高さをアイコンに揃える
             urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
-
+            
             
             next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
             SNSViews.append(icon: iconImageView, url: urlLabel)
@@ -541,7 +574,7 @@ class UserDetailViewController: UIViewController {
         button.contentVerticalAlignment = .fill
         button.addTarget(self, action: #selector(self.TapScrollTop(sender:)),
                          for: .touchUpInside)
-
+        
         return button
     }
     

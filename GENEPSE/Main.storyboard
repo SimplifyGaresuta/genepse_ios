@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kTs-Bn-3nX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kTs-Bn-3nX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -45,7 +45,7 @@
             </objects>
             <point key="canvasLocation" x="-1770" y="103"/>
         </scene>
-        <!--Feed View Controller-->
+        <!--Feed-->
         <scene sceneID="PDo-Xd-jBk">
             <objects>
                 <viewController storyboardIdentifier="Feed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="FeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,27 +55,31 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="more" id="erc-Y8-ECM"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="tabbar_feed" id="erc-Y8-ECM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ5-lP-121" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-703" y="-110"/>
         </scene>
-        <!--View Controller-->
+        <!--MyProfile-->
         <scene sceneID="xeG-TA-oZj">
             <objects>
-                <viewController storyboardIdentifier="HOGE" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" customClass="MyProfileViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V97-WR-YzM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="8Ey-6Y-XIJ"/>
+                    <tabBarItem key="tabBarItem" title="MyProfile" image="tabbar_myprofile" id="8Ey-6Y-XIJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de0-9y-h72" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-703" y="666"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tabbar_feed" width="30" height="30"/>
+        <image name="tabbar_myprofile" width="30" height="30"/>
+    </resources>
 </document>

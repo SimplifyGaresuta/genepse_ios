@@ -46,9 +46,8 @@ class UserDetailDummyData {
     let user_data = [
         "name": "岩見建汰",
         "overview": "UI/UXデザインを専門としています。これまで株式会社XYZのUIデザインのインターンで優勝経験があります。他には株式会社AAAを立ち上げ、月間PV数が1000万にもなるサイトを運営していたりします。ここにとても素晴らしい自己紹介の文章が入る。ここにとても素晴らしい自己紹介の文章が入る。ここにとても素晴らしい自己紹介の文章が入る。",
-        "profile_img": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
-        "attr": "Designer",
-        "main_skills": ["Illustrator", "Protopie", "sketch"],
+        "avatar_url": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
+        "attribute": "Designer",
         "awards": ["AdTech Charenge 優勝", "CrossOverGameJam 優勝", "ジロッカソン terateil賞"],
         "skills": ["Illustrator", "Protopie", "sketch", "ruby", "go", "unity"],
         "products": [
@@ -63,11 +62,12 @@ class UserDetailDummyData {
             ["provider": "twitter", "url": "https://www.facebook.com/nakao.boy"
             ]
         ],
-        "license": ["TOEIC 820点", "FP2級"],
-        "gender": "男",
+        "licenses": ["TOEIC 820点", "FP2級"],
+        "gender": "男性",
         "age": 20,
         "address": "埼玉県さいたま市",
-        "school_career": "中央大学商学部"
+        "school_career": "中央大学商学部",
+        "activity_base": "渋谷"
         ] as [String : Any]
 }
 
