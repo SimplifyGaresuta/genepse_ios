@@ -250,18 +250,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
-        var bg_color: UIColor
-        switch attribute {
-        case AttributeStr.Designer.rawValue:
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
-            break
-        case AttributeStr.Engineer.rawValue:
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
-            break
-        default:
-            bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
-            break
-        }
+        let bg_color = GetAttributeColor(attr: attribute)
         
         let label_start_y = profileImageView.frame.origin.y + base_margin
         
