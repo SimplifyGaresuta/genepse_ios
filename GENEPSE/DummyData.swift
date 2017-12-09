@@ -63,7 +63,7 @@ class UserDetailDummyData {
             ["provider": "twitter", "url": "https://www.facebook.com/nakao.boy"
             ]
         ],
-        "license": ["TOEIC 820点", "FP2級"],
+        "licenses": ["TOEIC 820点", "FP2級"],
         "gender": "男性",
         "age": 20,
         "address": "埼玉県さいたま市",

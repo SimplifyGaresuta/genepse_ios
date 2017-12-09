@@ -30,7 +30,7 @@ enum Key: String {
     case skills = "skills"
     case products = "products"
     case sns = "sns"
-    case license = "license"
+    case licenses = "licenses"
     case gender = "gender"
     case age = "age"
     case address = "address"

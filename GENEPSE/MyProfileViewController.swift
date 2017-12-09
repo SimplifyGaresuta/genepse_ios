@@ -76,7 +76,7 @@ class MyProfileViewController: UIViewController {
         let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
         let products = json[Key.products.rawValue].arrayValue
         let sns = json[Key.sns.rawValue].arrayValue
-        let licenses:[String] = json[Key.license.rawValue].arrayValue.map({$0.stringValue})
+        let licenses:[String] = json[Key.licenses.rawValue].arrayValue.map({$0.stringValue})
         let gender = json[Key.gender.rawValue].stringValue
         let age = json[Key.age.rawValue].intValue
         let address = json[Key.address.rawValue].stringValue
