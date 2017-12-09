@@ -53,7 +53,7 @@ class EditMyProfileViewController: FormViewController {
         }
         
         let RuleRequired_M = "必須項目です"
-        
+
         switch edit_id {
         case SectionID.name.rawValue:
             self.navigationItem.title = "Edit Main Infomation"
@@ -65,6 +65,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetActivityBase()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = "HOGE"
             }
             .onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
@@ -351,7 +352,30 @@ class EditMyProfileViewController: FormViewController {
     }
     
     func Save(sender: UIButton) {
+        let rows = form.allRows
+        var all_ok_flag = false
+        
+        for row in rows {
+            if row.isValid {
+                all_ok_flag = true
+            }else {
+                all_ok_flag = false
+                break
+            }
+        }
+        
+        if all_ok_flag {
+            // TODO: データ保存・更新処理
+            
+            self.dismiss(animated: true, completion: nil)
+        }else {
+            let alertController = UIAlertController(title: "エラー",message: "必須項目を入力してください", preferredStyle: UIAlertControllerStyle.alert)
+            let ok = UIAlertAction(title: "OK", style:UIAlertActionStyle.default)
+            
+            alertController.addAction(ok)
+            self.present(alertController,animated: true, completion: nil)
+        }
+        
         print("Tap AddRow")
-        self.dismiss(animated: true, completion: nil)
     }
 }
