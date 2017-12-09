@@ -201,15 +201,17 @@ class UserDetailViewController: UIViewController {
             cardView.addSubview(i_Label)
         }
         
+        var scroll_button_start_cgrect = CGRect()
         if infoLabels.count == 0 {
+            scroll_button_start_cgrect = basic_info_sectionLabel.frame
             UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         }else {
+            scroll_button_start_cgrect = infoLabels.last!.frame
             UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
         }
         
-        
         // トップへスクロールするボタンの追加
-//        cardView.addSubview(self.CreateTopToScrollButton(cgrect: infoLabels.last!.frame))
+        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
