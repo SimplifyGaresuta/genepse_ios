@@ -180,14 +180,14 @@ class UserDetailViewController: UIViewController {
         
         
         // 資格の追加
-//        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
-//        cardView.addSubview(license_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
-//        latest_section_frame = license_sectionLable.frame
-//
-//        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
-//        cardView.addSubview(licensesLabel)
-//        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
+        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
+        cardView.addSubview(license_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
+        latest_section_frame = license_sectionLable.frame
+
+        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
+        cardView.addSubview(licensesLabel)
+        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
         
         // 基本情報の追加
