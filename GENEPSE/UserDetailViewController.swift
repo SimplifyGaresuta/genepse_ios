@@ -191,16 +191,21 @@ class UserDetailViewController: UIViewController {
         
         
         // 基本情報の追加
-//        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
-//        cardView.addSubview(basic_info_sectionLabel)
-//        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-//        latest_section_frame = basic_info_sectionLabel.frame
-//
-//        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
-//        for i_Label in infoLabels {
-//            cardView.addSubview(i_Label)
-//        }
-//        UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
+        cardView.addSubview(basic_info_sectionLabel)
+        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+        latest_section_frame = basic_info_sectionLabel.frame
+
+        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
+        for i_Label in infoLabels {
+            cardView.addSubview(i_Label)
+        }
+        
+        if infoLabels.count == 0 {
+            UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+        }else {
+            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        }
         
         
         // トップへスクロールするボタンの追加
@@ -534,8 +539,13 @@ class UserDetailViewController: UIViewController {
                 label.text = info_name[index] + "：" + info_str
                 label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
                 
+                // 0歳(初期状態)だった場合はテキストをリセット
                 if index == 1 {
-                    label.text = label.text! + "歳"
+                    if info[index] == "0" {
+                        label.text = ""
+                    }else {
+                        label.text = label.text! + "歳"
+                    }
                 }
                 
                 label.sizeToFit()
