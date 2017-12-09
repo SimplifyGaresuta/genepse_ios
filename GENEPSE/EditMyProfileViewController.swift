@@ -158,17 +158,21 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    for skill in profile_data.GetSkills() {
+                    let skills = profile_data.GetSkills()
+                    for skill in skills {
                         $0 <<< TextRow() {
                             $0.value = skill
                         }
                     }
                     
-                    $0 <<< TextRow() {
-                        $0.placeholder = "Python"
+                    if skills.count == 0 {
+                        $0 <<< TextRow() {
+                            $0.placeholder = "Python"
+                        }
                     }
             }
             break
+            
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
             
