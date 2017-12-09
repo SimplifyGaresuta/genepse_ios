@@ -9,8 +9,8 @@
 import Foundation
 import SwiftyJSON
 
-class MyProfileData {
-    struct MyprofileData {
+class DetailData {
+    struct DetailData {
         var name = ""
         var overview = ""
         var avatar_url = ""
@@ -28,126 +28,126 @@ class MyProfileData {
         var activity_base = ""
     }
     
-    private var profile_data = MyprofileData()
+    private var data = DetailData()
 
     func SetActivityBase(activity_base: String) {
-        profile_data.activity_base = activity_base
+        data.activity_base = activity_base
     }
     
     func SetName(name: String) {
-        profile_data.name = name
+        data.name = name
     }
 
     func SetOverview(overview: String) {
-        profile_data.overview = overview
+        data.overview = overview
     }
     
     func SetAvatarUrl(avatar_url: String) {
-        profile_data.avatar_url = avatar_url
+        data.avatar_url = avatar_url
     }
     
     func SetAttr(attr: String) {
-        profile_data.attr = attr
+        data.attr = attr
     }
     
     func SetMainSkills(main_skills: Array<String>) {
-        profile_data.main_skills = main_skills
+        data.main_skills = main_skills
     }
     
     func SetAwards(awards: Array<String>) {
-        profile_data.awards = awards
+        data.awards = awards
     }
     
     func SetSkills(skills: Array<String>) {
-        profile_data.skills = skills
+        data.skills = skills
     }
     
     func SetProducts(products: Array<JSON>) {
-        profile_data.products = products
+        data.products = products
     }
     
     func SetSNS(sns: Array<JSON>) {
-        profile_data.sns = sns
+        data.sns = sns
     }
     
     func SetLicenses(licenses: Array<String>) {
-        profile_data.licenses = licenses
+        data.licenses = licenses
     }
     
     func SetGender(gender: String) {
-        profile_data.gender = gender
+        data.gender = gender
     }
     
     func SetAge(age: Int) {
-        profile_data.age = age
+        data.age = age
     }
     
     func SetAddress(address: String) {
-        profile_data.address = address
+        data.address = address
     }
     
     func SetSchoolCareer(school_career: String) {
-        profile_data.school_career = school_career
+        data.school_career = school_career
     }
     
     
     func GetActivityBase() -> String {
-        return profile_data.activity_base
+        return data.activity_base
     }
     
     func GetName() -> String {
-        return profile_data.name
+        return data.name
     }
     
     func GetOverview() -> String {
-        return profile_data.overview
+        return data.overview
     }
     
-    func GetProfileImg() -> String {
-        return profile_data.avatar_url
+    func GetAvatarURL() -> String {
+        return data.avatar_url
     }
     
     func GetAttr() -> String {
-        return profile_data.attr
+        return data.attr
     }
     
     func GetMainSkills() -> Array<String> {
-        return profile_data.main_skills
+        return data.main_skills
     }
     
     func GetAwards() -> Array<String> {
-        return profile_data.awards
+        return data.awards
     }
     
     func GetSkills() -> Array<String> {
-        return profile_data.skills
+        return data.skills
     }
     
     func GetProducts() -> Array<JSON> {
-        return profile_data.products
+        return data.products
     }
     
     func GetSNS() -> Array<JSON> {
-        return profile_data.sns
+        return data.sns
     }
     
     func GetLicenses() -> Array<String> {
-        return profile_data.licenses
+        return data.licenses
     }
     
     func GetGender() -> String {
-        return profile_data.gender
+        return data.gender
     }
     
     func GetAge() -> Int {
-        return profile_data.age
+        return data.age
     }
     
     func GetAddress() -> String {
-        return profile_data.address
+        return data.address
     }
     
     func GetSchoolCareer() -> String {
-        return profile_data.school_career
+        return data.school_career
     }
 }

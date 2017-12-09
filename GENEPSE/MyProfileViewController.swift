@@ -19,7 +19,7 @@ class MyProfileViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
-    var profile_data = MyProfileData()
+    var data = DetailData()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -66,54 +66,23 @@ class MyProfileViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-        
-        let activity_base = json[Key.activity_base.rawValue].stringValue
-        let name = json[Key.name.rawValue].stringValue
-        let overview = json[Key.overview.rawValue].stringValue
-        let avatar_url = json[Key.avatar_url.rawValue].stringValue
-        let attribute = json[Key.attribute.rawValue].stringValue
-        let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
-        let main_skills:[String] = Array(skills.prefix(3))
-        let awards:[String] = json[Key.awards.rawValue].arrayValue.map({$0.stringValue})
-        let products = json[Key.products.rawValue].arrayValue
-        let sns = json[Key.sns.rawValue].arrayValue
-        let licenses:[String] = json[Key.licenses.rawValue].arrayValue.map({$0.stringValue})
-        let gender = json[Key.gender.rawValue].stringValue
-        let age = json[Key.age.rawValue].intValue
-        let address = json[Key.address.rawValue].stringValue
-        let school_career = json[Key.school_career.rawValue].stringValue
-        
-        profile_data.SetActivityBase(activity_base: activity_base)
-        profile_data.SetName(name: name)
-        profile_data.SetOverview(overview: overview)
-        profile_data.SetAvatarUrl(avatar_url: avatar_url)
-        profile_data.SetAttr(attr: attribute)
-        profile_data.SetMainSkills(main_skills: main_skills)
-        profile_data.SetAwards(awards: awards)
-        profile_data.SetSkills(skills: skills)
-        profile_data.SetProducts(products: products)
-        profile_data.SetSNS(sns: sns)
-        profile_data.SetLicenses(licenses: licenses)
-        profile_data.SetGender(gender: gender)
-        profile_data.SetAge(age: age)
-        profile_data.SetAddress(address: address)
-        profile_data.SetSchoolCareer(school_career: school_career)
+         data = GetDetailData(json: json)
         
         // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: avatar_url)
+        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
         cardView.addSubview(profileImageView)
         UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
         
         
         // 属性の追加
-        let attributeLabels = CreateAttributeLabel(attribute: attribute)
+        let attributeLabels = CreateAttributeLabel(attribute: data.GetAttr())
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
         UpdateCardViewFrame(last_add_cgrect: attributeLabels.1.frame)
         
         
         // メインスキルの追加
-        let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
+        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
@@ -122,14 +91,14 @@ class MyProfileViewController: UIViewController {
         
         
         // 名前の追加
-        let nameLabel = self.CreateNameLabel(text: name)
+        let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
         cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
         UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
         
         
         // 経歴の追加
-        let careerLabel = self.CreateCareerLabel(text: overview, nameLabel_frame: nameLabel.frame)
+        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
         cardView.addSubview(careerLabel)
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
@@ -140,7 +109,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
         
-        let awardsLabel = self.CreateAwardsLabel(awards: awards)
+        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
         cardView.addSubview(awardsLabel)
         UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
         
@@ -152,7 +121,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
         
-        let skillsLabels = self.CreateSkillsLabel(skills: skills)
+        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
@@ -166,7 +135,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
         
-        let productsViews = self.CreateProductLabel(json: products)
+        let productsViews = self.CreateProductLabel(json: data.GetProducts())
         for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
             
@@ -190,7 +159,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
         
-        let snsLabels = self.CreateSNSLabel(json: sns)
+        let snsLabels = self.CreateSNSLabel(json: data.GetSNS())
         for s_Label in snsLabels {
             cardView.addSubview(s_Label.icon)
             cardView.addSubview(s_Label.url)
@@ -205,7 +174,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
         
-        let licensesLabel = self.CreateLicenseLabel(licenses: licenses)
+        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
         cardView.addSubview(licensesLabel)
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
@@ -217,7 +186,7 @@ class MyProfileViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
         
-        let infoLabels = self.CreateBasicInfoLabel(info: [gender, String(age), address, school_career])
+        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
         for i_Label in infoLabels {
             cardView.addSubview(i_Label)
         }
@@ -373,7 +342,7 @@ class MyProfileViewController: UIViewController {
     func TapEditButton(sender: UIButton) {
         let edit_myprofile_VC = EditMyProfileViewController()
         edit_myprofile_VC.SetEditID(id: sender.tag)
-        edit_myprofile_VC.SetMyProfileData(data: profile_data)
+        edit_myprofile_VC.SetMyProfileData(data: data)
         
         let navController = UINavigationController(rootViewController: edit_myprofile_VC)
         self.present(navController, animated:true, completion: nil)

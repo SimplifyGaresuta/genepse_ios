@@ -60,36 +60,24 @@ class UserDetailViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-        let name = json["name"].stringValue
-        let overview = json["overview"].stringValue
-        let profile_img = json["profile_img"].stringValue
-        let attr = json["attr"].stringValue
-        let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
-        let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
-        let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
-        
-        let license:[String] = json["license"].arrayValue.map({$0.stringValue})
-        let gender = json["gender"].stringValue
-        let age = json["age"].intValue
-        let address = json["address"].stringValue
-        let school_career = json["school_career"].stringValue
-        
+        let data = GetDetailData(json: json)
         
         // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: profile_img)
+        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
         cardView.addSubview(profileImageView)
         UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
         
         
         // 属性の追加
-        let attributeLabels = CreateAttributeLabel(attribute: attr)
+        let attributeLabels = CreateAttributeLabel(attribute: data.GetAttr())
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
         UpdateCardViewFrame(last_add_cgrect: attributeLabels.1.frame)
         
         
         // メインスキルの追加
-        let mainskillsLabels = self.CreateMainSkillsLabels(skills: main_skills)
+        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
+        
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
@@ -98,13 +86,13 @@ class UserDetailViewController: UIViewController {
         
         
         // 名前の追加
-        let nameLabel = self.CreateNameLabel(text: name)
+        let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
         UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
 
         
         // 経歴の追加
-        let careerLabel = self.CreateCareerLabel(text: overview, nameLabel_frame: nameLabel.frame)
+        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
         cardView.addSubview(careerLabel)
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
@@ -114,7 +102,7 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
         
-        let awardsLabel = self.CreateAwardsLabel(awards: awards)
+        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
         cardView.addSubview(awardsLabel)
         UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
         
@@ -125,7 +113,7 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
         
-        let skillsLabels = self.CreateSkillsLabel(skills: skills)
+        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
@@ -175,7 +163,7 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
         
-        let licensesLabel = self.CreateLicenseLabel(licenses: license)
+        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
         cardView.addSubview(licensesLabel)
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
         
@@ -186,7 +174,7 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
         
-        let infoLabels = self.CreateBasicInfoLabel(info: [gender, String(age), address, school_career])
+        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
         for i_Label in infoLabels {
             cardView.addSubview(i_Label)
         }

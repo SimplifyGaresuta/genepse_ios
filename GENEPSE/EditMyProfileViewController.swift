@@ -12,7 +12,7 @@ import Eureka
 class EditMyProfileViewController: FormViewController {
 
     var edit_id = 0
-    var profile_data = MyProfileData()
+    var data = DetailData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = ""
                     $0.placeholder = "◯◯区"
-                    $0.value = profile_data.GetActivityBase()
+                    $0.value = data.GetActivityBase()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
             }
@@ -87,7 +87,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextAreaRow(){
                     $0.title = ""
                     $0.placeholder = "私は今までに独学でXXを勉強し…"
-                    $0.value = profile_data.GetOverview()
+                    $0.value = data.GetOverview()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
             }
@@ -125,7 +125,7 @@ class EditMyProfileViewController: FormViewController {
                     }
                 }
                 
-                let awards = profile_data.GetAwards()
+                let awards = data.GetAwards()
                 for award in awards {
                     $0 <<< TextRow() {
                         $0.value = award
@@ -157,7 +157,7 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    let skills = profile_data.GetSkills()
+                    let skills = data.GetSkills()
                     for skill in skills {
                         $0 <<< TextRow() {
                             $0.value = skill
@@ -177,7 +177,7 @@ class EditMyProfileViewController: FormViewController {
             
             let section = Section()
             
-            for p in profile_data.GetProducts() {
+            for p in data.GetProducts() {
                 let vc = ProductFromViewController()
                 vc.SetProduct(p: p)
                 vc.SetTitle(title: "Edit")
@@ -203,7 +203,7 @@ class EditMyProfileViewController: FormViewController {
             break
             
         case SectionID.sns.rawValue:
-            for sns in profile_data.GetSNS() {
+            for sns in data.GetSNS() {
                 if sns["provider"] != "facebook" {
                     form +++ Section(sns["provider"].stringValue)
                         <<< TextRow(){
@@ -230,7 +230,7 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    let licenses = profile_data.GetLicenses()
+                    let licenses = data.GetLicenses()
                     for license in licenses {
                         $0 <<< TextRow() {
                             $0.value = license
@@ -252,13 +252,13 @@ class EditMyProfileViewController: FormViewController {
                 <<< SegmentedRow<String>("sex") {
                     $0.options = ["男性", "女性", "その他"]
                     $0.title = "性別"
-                    $0.value = profile_data.GetGender()
+                    $0.value = data.GetGender()
                 }
             
                 <<< IntRow() {
                     $0.title = "年齢"
                     $0.placeholder = ""
-                    $0.value = profile_data.GetAge()
+                    $0.value = data.GetAge()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                 }
@@ -281,7 +281,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = "居住地"
                     $0.placeholder = "◯◯区"
-                    $0.value = profile_data.GetAddress()
+                    $0.value = data.GetAddress()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                 }
@@ -304,7 +304,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = "最終学歴"
                     $0.placeholder = "XX大学YY学部 卒業"
-                    $0.value = profile_data.GetSchoolCareer()
+                    $0.value = data.GetSchoolCareer()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                 }
@@ -342,8 +342,8 @@ class EditMyProfileViewController: FormViewController {
         edit_id = id
     }
     
-    func SetMyProfileData(data: MyProfileData) {
-        profile_data = data
+    func SetMyProfileData(data: DetailData) {
+        self.data = data
     }
     
     func CloseEditMyProfileView(sender: UIButton) {
