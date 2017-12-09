@@ -21,6 +21,7 @@
 		3786DCF11FC00EA700E80AB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCEF1FC00EA700E80AB9 /* LaunchScreen.storyboard */; };
 		3786DCFE1FC016A100E80AB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3786DCFD1FC016A100E80AB9 /* Main.storyboard */; };
 		3786DD1B1FC0576400E80AB9 /* sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3786DD1A1FC0576400E80AB9 /* sample1.png */; };
+		37D551651FDC74EE0066B1F8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D551641FDC74EE0066B1F8 /* Realm.swift */; };
 		37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */; };
 		37E9E3B21FD7C4A900E3EFFC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3B11FD7C4A900E3EFFC /* Setting.swift */; };
 		37E9E3B41FD7E85800E3EFFC /* EditMyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3B31FD7E85800E3EFFC /* EditMyProfileViewController.swift */; };
@@ -49,6 +50,7 @@
 		3786DCF21FC00EA700E80AB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3786DCFD1FC016A100E80AB9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3786DD1A1FC0576400E80AB9 /* sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample1.png; sourceTree = "<group>"; };
+		37D551641FDC74EE0066B1F8 /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 		37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		37E9E3B11FD7C4A900E3EFFC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		37E9E3B31FD7E85800E3EFFC /* EditMyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				37E9E3BB1FD8F81400E3EFFC /* ProductFromViewController.swift */,
 				37E9E3C21FD9922400E3EFFC /* DataStructure.swift */,
 				374141401FDBDC2100AB01F0 /* Utility.swift */,
+				37D551641FDC74EE0066B1F8 /* Realm.swift */,
 			);
 			path = GENEPSE;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				375060911FC0B99C00BBB14D /* OriginUInavigationController.swift in Sources */,
 				37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */,
 				375FB4461FD2EBF70003B401 /* AsyncUIImageView.swift in Sources */,
+				37D551651FDC74EE0066B1F8 /* Realm.swift in Sources */,
 				37FEBD461FD545A800D07215 /* UserDetailViewController.swift in Sources */,
 				3786DCE51FC00EA700E80AB9 /* AppDelegate.swift in Sources */,
 				375FB43E1FD285E60003B401 /* FeedViewController.swift in Sources */,
