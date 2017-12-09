@@ -45,25 +45,72 @@ class EditMyProfileViewController: FormViewController {
     }
     
     func CreateForms() {
+        LabelRow.defaultCellUpdate = { cell, row in
+            cell.contentView.backgroundColor = .red
+            cell.textLabel?.textColor = .white
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+            cell.textLabel?.textAlignment = .right
+        }
+        
+        let RuleRequired_M = "必須項目です"
+        
         switch edit_id {
         case SectionID.name.rawValue:
             self.navigationItem.title = "Edit Main Infomation"
             
-            form +++ Section("活動拠点")
+            form +++ Section("活動地域")
                 <<< TextRow(){
                     $0.title = ""
                     $0.placeholder = "◯◯区"
                     $0.value = profile_data.GetActivityBase()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
             }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = RuleRequired_M
+                            // $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
+            }
+            
             
             form +++ Section("自己紹介")
                 <<< TextAreaRow(){
                     $0.title = ""
                     $0.placeholder = "私は今までに独学でXXを勉強し…"
                     $0.value = profile_data.GetOverview()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = RuleRequired_M
+//                            $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
             }
             
             break
+            
         case SectionID.awards.rawValue:
             self.navigationItem.title = "Edit Awards"
             
