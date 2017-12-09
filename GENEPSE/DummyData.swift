@@ -75,17 +75,17 @@ class UserDetailDummyData {
         "overview": "",
         "avatar_url": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
         "attribute": "",
-        "awards": [],
-        "skills": [],
-        "products": [],
+        "awards": nil,
+        "skills": nil,
+        "products": nil,
         "sns": [["provider": "facebook", "url": "https://www.facebook.com/nakao.boy"
             ],],
-        "licenses": [],
+        "licenses": nil,
         "gender": "",
         "age": 0,
         "address": "",
         "school_career": "",
         "activity_base": ""
-        ] as [String : Any]
+        ] as [String : Any?]
 }
 
