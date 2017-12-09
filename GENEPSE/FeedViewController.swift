@@ -272,16 +272,14 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CallFeedAPI(){
-        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_users/?limit=" + String(limit) + "&offset=" + String(offset)
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?limit=" + String(limit) + "&offset=" + String(offset)
         
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
             print(json.count)
             
-            //MARK: ダミーデータ
-            let dummy_data = FeedViewDummyData()
-            self.AddCard(json: JSON(dummy_data.users_data))
+            self.AddCard(json: json)
             
             self.isUpdating = false
         }

@@ -62,7 +62,7 @@ enum AttributeStr: String {
 
 enum API: String {
     case host = "https://genepse-186713.appspot.com"
-    case version = "v1"
-    case users = "users"
-    case products = "products"
+    case v1 = "/v1"
+    case users = "/users/"
+    case products = "/products/"
 }
