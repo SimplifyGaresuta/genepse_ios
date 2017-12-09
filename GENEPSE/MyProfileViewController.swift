@@ -66,21 +66,21 @@ class MyProfileViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-        let activity_base = json["activity_base"].stringValue
-        let name = json["name"].stringValue
-        let overview = json["overview"].stringValue
-        let profile_img = json["profile_img"].stringValue
-        let attr = json["attr"].stringValue
-        let main_skills:[String] = json["main_skills"].arrayValue.map({$0.stringValue})
-        let awards:[String] = json["awards"].arrayValue.map({$0.stringValue})
-        let skills:[String] = json["skills"].arrayValue.map({$0.stringValue})
-        let products = json["products"].arrayValue
-        let sns = json["sns"].arrayValue
-        let licenses:[String] = json["license"].arrayValue.map({$0.stringValue})
-        let gender = json["gender"].stringValue
-        let age = json["age"].intValue
-        let address = json["address"].stringValue
-        let school_career = json["school_career"].stringValue
+        let activity_base = json[Key.activity_base.rawValue].stringValue
+        let name = json[Key.name.rawValue].stringValue
+        let overview = json[Key.overview.rawValue].stringValue
+        let profile_img = json[Key.profile_img.rawValue].stringValue
+        let attr = json[Key.attr.rawValue].stringValue
+        let main_skills:[String] = json[Key.main_skills.rawValue].arrayValue.map({$0.stringValue})
+        let awards:[String] = json[Key.awards.rawValue].arrayValue.map({$0.stringValue})
+        let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
+        let products = json[Key.products.rawValue].arrayValue
+        let sns = json[Key.sns.rawValue].arrayValue
+        let licenses:[String] = json[Key.license.rawValue].arrayValue.map({$0.stringValue})
+        let gender = json[Key.gender.rawValue].stringValue
+        let age = json[Key.age.rawValue].intValue
+        let address = json[Key.address.rawValue].stringValue
+        let school_career = json[Key.school_career.rawValue].stringValue
         
         profile_data.SetActivityBase(activity_base: activity_base)
         profile_data.SetName(name: name)
@@ -251,10 +251,10 @@ class MyProfileViewController: UIViewController {
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
         var bg_color: UIColor
         switch attribute {
-        case "Designer":
+        case AttributeStr.Designer.rawValue:
             bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
             break
-        case "Engineer":
+        case AttributeStr.Engineer.rawValue:
             bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
             break
         default:
@@ -451,7 +451,7 @@ class MyProfileViewController: UIViewController {
             
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
-            titleLabel.text = p["title"].string
+            titleLabel.text = p[Key.title.rawValue].string
             titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
@@ -463,14 +463,14 @@ class MyProfileViewController: UIViewController {
             next_y = titleLabel.frame.origin.y + titleLabel.frame.height
             
             //URLがあったら,next_yからURLラベルの追加
-            if !(p["url"].string?.isEmpty)! {
+            if !(p[Key.url.rawValue].string?.isEmpty)! {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
-                urlLabel.text = p["url"].string
+                urlLabel.text = p[Key.url.rawValue].string
                 urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
@@ -484,9 +484,9 @@ class MyProfileViewController: UIViewController {
             }
             
             //画像があったら，next_yから画像の追加
-            if !(p["image"].string?.isEmpty)! {
+            if !(p[Key.image.rawValue].string?.isEmpty)! {
                 let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
-                imageView.loadImage(urlString: p["image"].string!)
+                imageView.loadImage(urlString: p[Key.image.rawValue].string!)
                 imageView.contentMode = .scaleAspectFill
                 imageView.layer.cornerRadius = 10
                 imageView.layer.masksToBounds = true
@@ -522,7 +522,7 @@ class MyProfileViewController: UIViewController {
         
         for sns in json {
             var image_name = ""
-            switch sns["provider"] {
+            switch sns[Key.provider.rawValue] {
             case "facebook":
                 image_name = "facebook_icon"
                 break
@@ -540,7 +540,7 @@ class MyProfileViewController: UIViewController {
 
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-            urlLabel.text = sns["url"].string
+            urlLabel.text = sns[Key.url.rawValue].string
             urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
             urlLabel.sizeToFit()
             

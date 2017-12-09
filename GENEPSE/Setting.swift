@@ -39,6 +39,14 @@ enum Key: String {
     //プロダクト登録
     case product_id = "product_id"
     
+    //プロダクト詳細
+    case title = "title"
+    case url = "url"
+    case image = "image"
+    
+    //SNS
+    case provider = "provider"
+    
     // 位置情報
     case latitude = "latitude"
     case longitude = "longitude"
@@ -46,4 +54,9 @@ enum Key: String {
     // ログイン
     case login_url = "login_url"
     case user_id = "user_id"
+}
+
+enum AttributeStr: String {
+    case Designer = "Designer"
+    case Engineer = "Engineer"
 }
