@@ -88,23 +88,22 @@ class UserDetailViewController: UIViewController {
         let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
-        
 
         
         // 経歴の追加
-//        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
-//        cardView.addSubview(careerLabel)
-//        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
+        cardView.addSubview(careerLabel)
+        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
         // 受賞歴の追加
-//        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
-//        cardView.addSubview(awards_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
-//        latest_section_frame = awards_sectionLable.frame
-//
-//        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
-//        cardView.addSubview(awardsLabel)
-//        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
+        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
+        cardView.addSubview(awards_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
+        latest_section_frame = awards_sectionLable.frame
+
+        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
+        cardView.addSubview(awardsLabel)
+        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
         
         
         // スキルの追加
