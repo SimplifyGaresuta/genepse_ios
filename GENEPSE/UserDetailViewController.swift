@@ -124,28 +124,38 @@ class UserDetailViewController: UIViewController {
         }
         
         
-        
         // 作品の追加
-//        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
-//        cardView.addSubview(products_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
-//        latest_section_frame = products_sectionLable.frame
-//
-//        let productsViews = self.CreateProductLabel(json: json["products"])
-//        for pViews in productsViews.0 {
-//            cardView.addSubview(pViews.title)
-//
-//            if let urlLabel = pViews.url {
-//                cardView.addSubview(pViews.link_img!)
-//                cardView.addSubview(urlLabel)
-//            }
-//
-//            if let imageView = pViews.image {
-//                cardView.addSubview(pViews.image_shadow!)
-//                cardView.addSubview(imageView)
-//            }
-//        }
-//        UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        var products_sectionLabel_y = 0.0 as CGFloat
+        if skillsLabels.count == 0 {
+            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
+        }else {
+            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
+        }
+        
+        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
+        
+        cardView.addSubview(products_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
+        latest_section_frame = products_sectionLable.frame
+
+        let productsViews = self.CreateProductLabel(json: json["products"])
+        for pViews in productsViews.0 {
+            cardView.addSubview(pViews.title)
+
+            if let urlLabel = pViews.url {
+                cardView.addSubview(pViews.link_img!)
+                cardView.addSubview(urlLabel)
+            }
+
+            if let imageView = pViews.image {
+                cardView.addSubview(pViews.image_shadow!)
+                cardView.addSubview(imageView)
+            }
+        }
+        
+        if productsViews.0.count != 0 {
+            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        }
         
         
         // SNSの追加
