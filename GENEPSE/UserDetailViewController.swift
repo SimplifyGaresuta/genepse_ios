@@ -159,17 +159,24 @@ class UserDetailViewController: UIViewController {
         
         
         // SNSの追加
-//        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
-//        cardView.addSubview(sns_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
-//        latest_section_frame = sns_sectionLable.frame
-//
-//        let snsLabels = self.CreateSNSLabel(json: json["sns"])
-//        for s_Label in snsLabels {
-//            cardView.addSubview(s_Label.icon)
-//            cardView.addSubview(s_Label.url)
-//        }
-//        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
+        var sns_sectionLable_y = 0.0 as CGFloat
+        if productsViews.0.count == 0 {
+            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
+        }else {
+            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
+        }
+        
+        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
+        cardView.addSubview(sns_sectionLable)
+        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
+        latest_section_frame = sns_sectionLable.frame
+
+        let snsLabels = self.CreateSNSLabel(json: json["sns"])
+        for s_Label in snsLabels {
+            cardView.addSubview(s_Label.icon)
+            cardView.addSubview(s_Label.url)
+        }
+        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
         
         
         // 資格の追加
