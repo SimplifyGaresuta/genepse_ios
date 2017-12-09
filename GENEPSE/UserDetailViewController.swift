@@ -77,18 +77,17 @@ class UserDetailViewController: UIViewController {
         
         // メインスキルの追加
         let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
-        
+
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
         }
-        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
         
         
         // 名前の追加
         let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
-        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
 
         
         // 経歴の追加
@@ -101,7 +100,7 @@ class UserDetailViewController: UIViewController {
         cardView.addSubview(awards_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
-        
+
         let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
         cardView.addSubview(awardsLabel)
         UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
@@ -112,43 +111,66 @@ class UserDetailViewController: UIViewController {
         cardView.addSubview(skills_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
-        
+
         let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
-        UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+        
+        if skillsLabels.count == 0 {
+            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
+        }else {
+            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+        }
         
         
         // 作品の追加
-        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
+        var products_sectionLabel_y = 0.0 as CGFloat
+        if skillsLabels.count == 0 {
+            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
+        }else {
+            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
+        }
+        
+        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
+        
         cardView.addSubview(products_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
-        
+
         let productsViews = self.CreateProductLabel(json: json["products"])
         for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
-            
+
             if let urlLabel = pViews.url {
                 cardView.addSubview(pViews.link_img!)
                 cardView.addSubview(urlLabel)
             }
-            
+
             if let imageView = pViews.image {
                 cardView.addSubview(pViews.image_shadow!)
                 cardView.addSubview(imageView)
             }
         }
-        UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        
+        if productsViews.0.count != 0 {
+            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        }
         
         
         // SNSの追加
-        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
+        var sns_sectionLable_y = 0.0 as CGFloat
+        if productsViews.0.count == 0 {
+            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
+        }else {
+            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
+        }
+        
+        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
         cardView.addSubview(sns_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
-        
+
         let snsLabels = self.CreateSNSLabel(json: json["sns"])
         for s_Label in snsLabels {
             cardView.addSubview(s_Label.icon)
@@ -162,7 +184,7 @@ class UserDetailViewController: UIViewController {
         cardView.addSubview(license_sectionLable)
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
-        
+
         let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
         cardView.addSubview(licensesLabel)
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
@@ -173,16 +195,23 @@ class UserDetailViewController: UIViewController {
         cardView.addSubview(basic_info_sectionLabel)
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
-        
+
         let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
         for i_Label in infoLabels {
             cardView.addSubview(i_Label)
         }
-        UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
         
+        var scroll_button_start_cgrect = CGRect()
+        if infoLabels.count == 0 {
+            scroll_button_start_cgrect = basic_info_sectionLabel.frame
+            UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+        }else {
+            scroll_button_start_cgrect = infoLabels.last!.frame
+            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        }
         
         // トップへスクロールするボタンの追加
-        cardView.addSubview(self.CreateTopToScrollButton(cgrect: infoLabels.last!.frame))
+        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -512,8 +541,13 @@ class UserDetailViewController: UIViewController {
                 label.text = info_name[index] + "：" + info_str
                 label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
                 
+                // 0歳(初期状態)だった場合はテキストをリセット
                 if index == 1 {
-                    label.text = label.text! + "歳"
+                    if info[index] == "0" {
+                        label.text = ""
+                    }else {
+                        label.text = label.text! + "歳"
+                    }
                 }
                 
                 label.sizeToFit()
@@ -560,10 +594,7 @@ class UserDetailViewController: UIViewController {
             let json = JSON(object)
             print(json.count)
             
-            //MARK: ダミーデータ
-            let dummy_data = UserDetailDummyData()
-            self.AddViews(json: JSON(dummy_data.user_data_empty))
-//            self.AddViews(json: json)
+            self.AddViews(json: json)
         }
     }
 

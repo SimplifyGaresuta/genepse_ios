@@ -27,6 +27,9 @@ class MyProfileViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        //TODO: local DBからユーザID取得
+        user_id = GetMyID()
+        
         CallUserDetailAPI()
         
         super.viewDidLoad()
@@ -36,6 +39,10 @@ class MyProfileViewController: UIViewController {
         
         InitScrollView()
         InitCardView()
+    }
+    
+    func GetMyID() -> Int {
+        return 2
     }
     
     func InitScrollView() {
@@ -87,14 +94,13 @@ class MyProfileViewController: UIViewController {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
         }
-        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
         
         
         // 名前の追加
         let nameLabel = self.CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
         cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
         
         
         // 経歴の追加
@@ -125,11 +131,23 @@ class MyProfileViewController: UIViewController {
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
-        UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+        
+        if skillsLabels.count == 0 {
+            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
+        }else {
+            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+        }
         
         
         // 作品の追加
-        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height+base_margin*3)
+        var products_sectionLabel_y = 0.0 as CGFloat
+        if skillsLabels.count == 0 {
+            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
+        }else {
+            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
+        }
+        
+        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
         cardView.addSubview(products_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: products_sectionLable.frame, id: SectionID.products.rawValue))
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
@@ -149,11 +167,21 @@ class MyProfileViewController: UIViewController {
                 cardView.addSubview(imageView)
             }
         }
-        UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        
+        if productsViews.0.count != 0 {
+            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+        }
         
         
         // SNSの追加
-        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: productsViews.1.origin.y+productsViews.1.height+base_margin*3)
+        var sns_sectionLable_y = 0.0 as CGFloat
+        if productsViews.0.count == 0 {
+            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
+        }else {
+            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
+        }
+        
+        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
         cardView.addSubview(sns_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: sns_sectionLable.frame, id: SectionID.sns.rawValue))
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
@@ -181,8 +209,9 @@ class MyProfileViewController: UIViewController {
         
         // 基本情報の追加
         let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
+        let info_editbutton = self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue)
         cardView.addSubview(basic_info_sectionLabel)
-        cardView.addSubview(self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue))
+        cardView.addSubview(info_editbutton)
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
         
@@ -190,11 +219,21 @@ class MyProfileViewController: UIViewController {
         for i_Label in infoLabels {
             cardView.addSubview(i_Label)
         }
-        UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
         
-        
+        var scroll_button_start_cgrect = CGRect()
+        if infoLabels.count == 0 {
+            scroll_button_start_cgrect = info_editbutton.frame
+            UpdateCardViewFrame(last_add_cgrect: info_editbutton.frame)
+        }else {
+            scroll_button_start_cgrect = infoLabels.last!.frame
+            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        }
+
         // トップへスクロールするボタンの追加
-        cardView.addSubview(self.CreateTopToScrollButton(cgrect: infoLabels.last!.frame))
+        let toptoscroll_button = self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect)
+        cardView.addSubview(toptoscroll_button)
+        
+        UpdateCardViewFrame(last_add_cgrect: toptoscroll_button.frame)
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
@@ -545,8 +584,13 @@ class MyProfileViewController: UIViewController {
                 label.text = info_name[index] + "：" + info_str
                 label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
                 
+                // 0歳(初期状態)だった場合はテキストをリセット
                 if index == 1 {
-                    label.text = label.text! + "歳"
+                    if info[index] == "0" {
+                        label.text = ""
+                    }else {
+                        label.text = label.text! + "歳"
+                    }
                 }
                 
                 label.sizeToFit()
@@ -564,7 +608,7 @@ class MyProfileViewController: UIViewController {
         let image = UIImage(named: "up_arrow")
         
         let x = cardView.frame.origin.x + cardView.frame.width - base_margin*3.5
-        let y = cgrect.origin.y + cgrect.height - base_margin*2
+        let y = cgrect.origin.y + cgrect.height + base_margin
         let size = base_margin*2.5
         
         button.frame = CGRect(x: x, y: y, width: size, height: size)
@@ -582,20 +626,14 @@ class MyProfileViewController: UIViewController {
         scrollView.scroll(to: .top, animated: true)
     }
     
-    func SetUserID(id: Int) {
-        user_id = id
-    }
-    
     func CallUserDetailAPI() {
-        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_users/"
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
             print(json.count)
             
-            //MARK: ダミーデータ
-            let dummy_data = UserDetailDummyData()
-            self.AddViews(json: JSON(dummy_data.user_data))
+            self.AddViews(json: json)
         }
     }
 
