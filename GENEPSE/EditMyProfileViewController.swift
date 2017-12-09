@@ -260,18 +260,72 @@ class EditMyProfileViewController: FormViewController {
                     $0.title = "年齢"
                     $0.placeholder = ""
                     $0.value = profile_data.GetAge()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                }
+                .onRowValidationChanged { cell, row in
+                    let rowIndex = row.indexPath!.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = RuleRequired_M
+                                //                            $0.title = validationMsg
+                                $0.cell.height = { 30 }
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                        }
+                    }
                 }
             
                 <<< TextRow(){
                     $0.title = "居住地"
                     $0.placeholder = "◯◯区"
                     $0.value = profile_data.GetAddress()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                }
+                .onRowValidationChanged { cell, row in
+                    let rowIndex = row.indexPath!.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = RuleRequired_M
+                                //                            $0.title = validationMsg
+                                $0.cell.height = { 30 }
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                        }
+                    }
                 }
                 
                 <<< TextRow(){
                     $0.title = "最終学歴"
                     $0.placeholder = "XX大学YY学部 卒業"
                     $0.value = profile_data.GetSchoolCareer()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                }
+                .onRowValidationChanged { cell, row in
+                    let rowIndex = row.indexPath!.row
+                    while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                        row.section?.remove(at: rowIndex + 1)
+                    }
+                    if !row.isValid {
+                        for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = RuleRequired_M
+                                //                            $0.title = validationMsg
+                                $0.cell.height = { 30 }
+                            }
+                            row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                        }
+                    }
                 }
             break
         }
