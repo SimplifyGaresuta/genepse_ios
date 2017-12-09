@@ -45,7 +45,8 @@ class ProductFromViewController: FormViewController {
                 $0.placeholder = "ポートフォリオサイト"
                 $0.value = product["title"].stringValue
                 $0.add(rule: RuleRequired())
-                $0.validationOptions = .validatesOnChange
+                $0.validationOptions = .validatesOnDemand
+                $0.tag = "title"
         }
         .onRowValidationChanged { cell, row in
             let rowIndex = row.indexPath!.row
@@ -143,8 +144,12 @@ class ProductFromViewController: FormViewController {
     }
     
     func Save(sender: UIButton) {
-        print("tap Add product save")
-        self.navigationController?.popViewController(animated: true)
+        if form.rowBy(tag: "title")?.validate().count == 0 {
+            // TODO: データ保存・更新処理
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
     }
     
     func SetTitle(title: String) {

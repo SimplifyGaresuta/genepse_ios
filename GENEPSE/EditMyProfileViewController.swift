@@ -368,13 +368,9 @@ class EditMyProfileViewController: FormViewController {
             // TODO: データ保存・更新処理
             
             self.dismiss(animated: true, completion: nil)
-        }else {
-            let alertController = UIAlertController(title: "エラー",message: "必須項目を入力してください", preferredStyle: UIAlertControllerStyle.alert)
-            let ok = UIAlertAction(title: "OK", style:UIAlertActionStyle.default)
-            
-            alertController.addAction(ok)
-            self.present(alertController,animated: true, completion: nil)
         }
+        
+        self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         
         print("Tap AddRow")
     }
