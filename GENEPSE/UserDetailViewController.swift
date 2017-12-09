@@ -594,10 +594,7 @@ class UserDetailViewController: UIViewController {
             let json = JSON(object)
             print(json.count)
             
-            //MARK: ダミーデータ
-            let dummy_data = UserDetailDummyData()
-            self.AddViews(json: JSON(dummy_data.user_data_empty))
-//            self.AddViews(json: json)
+            self.AddViews(json: json)
         }
     }
 
