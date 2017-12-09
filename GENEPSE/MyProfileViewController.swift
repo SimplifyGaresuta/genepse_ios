@@ -66,14 +66,15 @@ class MyProfileViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
+        
         let activity_base = json[Key.activity_base.rawValue].stringValue
         let name = json[Key.name.rawValue].stringValue
         let overview = json[Key.overview.rawValue].stringValue
         let avatar_url = json[Key.avatar_url.rawValue].stringValue
-        let attr = json[Key.attr.rawValue].stringValue
-        let main_skills:[String] = json[Key.main_skills.rawValue].arrayValue.map({$0.stringValue})
-        let awards:[String] = json[Key.awards.rawValue].arrayValue.map({$0.stringValue})
+        let attribute = json[Key.attribute.rawValue].stringValue
         let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
+        let main_skills:[String] = Array(skills.prefix(3))
+        let awards:[String] = json[Key.awards.rawValue].arrayValue.map({$0.stringValue})
         let products = json[Key.products.rawValue].arrayValue
         let sns = json[Key.sns.rawValue].arrayValue
         let licenses:[String] = json[Key.licenses.rawValue].arrayValue.map({$0.stringValue})
@@ -86,7 +87,7 @@ class MyProfileViewController: UIViewController {
         profile_data.SetName(name: name)
         profile_data.SetOverview(overview: overview)
         profile_data.SetAvatarUrl(avatar_url: avatar_url)
-        profile_data.SetAttr(attr: attr)
+        profile_data.SetAttr(attr: attribute)
         profile_data.SetMainSkills(main_skills: main_skills)
         profile_data.SetAwards(awards: awards)
         profile_data.SetSkills(skills: skills)
@@ -105,7 +106,7 @@ class MyProfileViewController: UIViewController {
         
         
         // 属性の追加
-        let attributeLabels = CreateAttributeLabel(attribute: attr)
+        let attributeLabels = CreateAttributeLabel(attribute: attribute)
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
         UpdateCardViewFrame(last_add_cgrect: attributeLabels.1.frame)
