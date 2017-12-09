@@ -27,6 +27,9 @@ class MyProfileViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        //TODO: local DBからユーザID取得
+        user_id = GetMyID()
+        
         CallUserDetailAPI()
         
         super.viewDidLoad()
@@ -36,6 +39,10 @@ class MyProfileViewController: UIViewController {
         
         InitScrollView()
         InitCardView()
+    }
+    
+    func GetMyID() -> Int {
+        return 2
     }
     
     func InitScrollView() {
@@ -582,12 +589,8 @@ class MyProfileViewController: UIViewController {
         scrollView.scroll(to: .top, animated: true)
     }
     
-    func SetUserID(id: Int) {
-        user_id = id
-    }
-    
     func CallUserDetailAPI() {
-        let urlString: String = "https://kentaiwami.jp/FiNote/django.cgi/api/v1/get_users/"
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
@@ -595,7 +598,8 @@ class MyProfileViewController: UIViewController {
             
             //MARK: ダミーデータ
             let dummy_data = UserDetailDummyData()
-            self.AddViews(json: JSON(dummy_data.user_data))
+            self.AddViews(json: JSON(dummy_data.user_data_empty))
+//            self.AddViews(json: json)
         }
     }
 
