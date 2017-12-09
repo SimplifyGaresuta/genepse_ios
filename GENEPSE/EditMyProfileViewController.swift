@@ -72,10 +72,9 @@ class EditMyProfileViewController: FormViewController {
                     row.section?.remove(at: rowIndex + 1)
                 }
                 if !row.isValid {
-                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
                         let labelRow = LabelRow() {
                             $0.title = RuleRequired_M
-                            // $0.title = validationMsg
                             $0.cell.height = { 30 }
                         }
                         row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
@@ -98,7 +97,7 @@ class EditMyProfileViewController: FormViewController {
                     row.section?.remove(at: rowIndex + 1)
                 }
                 if !row.isValid {
-                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
                         let labelRow = LabelRow() {
                             $0.title = RuleRequired_M
 //                            $0.title = validationMsg
