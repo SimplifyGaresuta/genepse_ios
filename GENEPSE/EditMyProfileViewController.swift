@@ -126,18 +126,22 @@ class EditMyProfileViewController: FormViewController {
                     }
                 }
                 
-                for award in profile_data.GetAwards() {
+                let awards = profile_data.GetAwards()
+                for award in awards {
                     $0 <<< TextRow() {
                         $0.value = award
                     }
                 }
                 
-                $0 <<< TextRow() {
-                    $0.placeholder = "◯◯賞(20XX)"
+                if awards.count == 0 {
+                    $0 <<< TextRow() {
+                        $0.placeholder = "◯◯賞(20XX)"
+                    }
                 }
             }
 
             break
+            
         case SectionID.skills.rawValue:
             self.navigationItem.title = "Edit Skills"
             
