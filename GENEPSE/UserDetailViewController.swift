@@ -76,19 +76,19 @@ class UserDetailViewController: UIViewController {
         
         
         // メインスキルの追加
-//        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
-//
-//        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-//            cardView.addSubview(shadowView)
-//            cardView.addSubview(skillLabel)
-//        }
-//        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
+
+        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
+            cardView.addSubview(shadowView)
+            cardView.addSubview(skillLabel)
+        }
         
         
         // 名前の追加
-//        let nameLabel = self.CreateNameLabel(text: data.GetName())
-//        cardView.addSubview(nameLabel)
-//        UpdateCardViewFrame(last_add_cgrect: mainskillsLabels.1.last!.frame)
+        let nameLabel = self.CreateNameLabel(text: data.GetName())
+        cardView.addSubview(nameLabel)
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
+        
 
         
         // 経歴の追加
