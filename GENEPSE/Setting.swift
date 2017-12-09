@@ -58,6 +58,7 @@ enum Key: String {
 enum AttributeStr: String {
     case Designer = "Designer"
     case Engineer = "Engineer"
+    case Business = "Business"
 }
 
 enum API: String {
