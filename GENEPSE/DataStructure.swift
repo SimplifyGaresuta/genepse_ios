@@ -13,7 +13,7 @@ class MyProfileData {
     struct MyprofileData {
         var name = ""
         var overview = ""
-        var profile_img = ""
+        var avatar_url = ""
         var attr = ""
         var main_skills:[String] = []
         var awards:[String] = []
@@ -42,8 +42,8 @@ class MyProfileData {
         profile_data.overview = overview
     }
     
-    func SetProfileImg(profile_img: String) {
-        profile_data.profile_img = profile_img
+    func SetAvatarUrl(avatar_url: String) {
+        profile_data.avatar_url = avatar_url
     }
     
     func SetAttr(attr: String) {
@@ -104,7 +104,7 @@ class MyProfileData {
     }
     
     func GetProfileImg() -> String {
-        return profile_data.profile_img
+        return profile_data.avatar_url
     }
     
     func GetAttr() -> String {

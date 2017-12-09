@@ -69,7 +69,7 @@ class MyProfileViewController: UIViewController {
         let activity_base = json[Key.activity_base.rawValue].stringValue
         let name = json[Key.name.rawValue].stringValue
         let overview = json[Key.overview.rawValue].stringValue
-        let profile_img = json[Key.profile_img.rawValue].stringValue
+        let avatar_url = json[Key.avatar_url.rawValue].stringValue
         let attr = json[Key.attr.rawValue].stringValue
         let main_skills:[String] = json[Key.main_skills.rawValue].arrayValue.map({$0.stringValue})
         let awards:[String] = json[Key.awards.rawValue].arrayValue.map({$0.stringValue})
@@ -85,7 +85,7 @@ class MyProfileViewController: UIViewController {
         profile_data.SetActivityBase(activity_base: activity_base)
         profile_data.SetName(name: name)
         profile_data.SetOverview(overview: overview)
-        profile_data.SetProfileImg(profile_img: profile_img)
+        profile_data.SetAvatarUrl(avatar_url: avatar_url)
         profile_data.SetAttr(attr: attr)
         profile_data.SetMainSkills(main_skills: main_skills)
         profile_data.SetAwards(awards: awards)
@@ -99,7 +99,7 @@ class MyProfileViewController: UIViewController {
         profile_data.SetSchoolCareer(school_career: school_career)
         
         // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: profile_img)
+        profileImageView = CreateProfileImageView(url: avatar_url)
         cardView.addSubview(profileImageView)
         UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
         

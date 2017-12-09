@@ -23,7 +23,7 @@ enum Key: String {
     case activity_base = "activity_base"
     case name = "name"
     case overview = "overview"
-    case profile_img = "profile_img"
+    case avatar_url = "avatar_url"
     case attr = "attr"
     case main_skills = "main_skills"
     case awards = "awards"
