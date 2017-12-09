@@ -19,8 +19,11 @@ func GetAttributeColor(attr: String) -> UIColor {
     case AttributeStr.Engineer.rawValue:
         bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
         break
-    default:
+    case AttributeStr.Business.rawValue:
         bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
+        break
+    default:
+        bg_color = UIColor.clear
         break
     }
     
