@@ -132,7 +132,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         card_view.layer.cornerRadius = 20
         card_view.layer.shadowOpacity = 0.2
         card_view.layer.shadowColor = UIColor.black.cgColor
-        card_view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        card_view.layer.shadowOffset = CGSize(width: 2, height: 2)
         card_view.layer.shadowRadius = 5
         card_view.layer.masksToBounds = false
         
