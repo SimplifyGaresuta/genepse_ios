@@ -16,8 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // TODO: テストのためデータなしでFeedへ遷移
-        if DBMethod().RecordCount(User.self) != 0 {
+        if DBMethod().RecordCount(User.self) == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let signupVC = storyboard.instantiateViewController(withIdentifier: "SignUp")
 

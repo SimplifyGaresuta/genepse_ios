@@ -10,16 +10,21 @@ import UIKit
 import WebKit
 import Alamofire
 import SwiftyJSON
+import Kanna
+import RealmSwift
 
-class SignUpViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
+class SignUpViewController: UIViewController, WKNavigationDelegate {
 
     var start_facebookButton = UIButton()
     let indicator = Indicator()
+    let instagramWebView = WKWebView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         InitView()
+        
+        
     }
     
     func InitView() {
@@ -46,7 +51,6 @@ class SignUpViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
     }
     
     func InitWebView(url: String) {
-        let instagramWebView = WKWebView()
         let requestURL = NSURL(string: url)
         let request = NSURLRequest(url: requestURL! as URL)
 
@@ -59,6 +63,38 @@ class SignUpViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.indicator.stopIndicator()
+    }
+    
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        
+        var raw_text = ""
+        
+        webView.evaluateJavaScript("document.body.innerHTML") { (obj, err) in
+            webView.evaluateJavaScript("document.getElementsByTagName('html')[0].innerHTML=\"\"", completionHandler: nil)
+            
+            let obj_str = obj as! String
+            guard let doc = HTML(html: obj_str, encoding: .utf8) else{return}
+            
+            for pre in doc.xpath("//pre") {
+                raw_text = pre.text!
+                break
+            }
+            
+            //数値のみ取り出し
+            let splitNumbers = (raw_text.components(separatedBy: NSCharacterSet.decimalDigits.inverted))
+            let number = splitNumbers.joined()
+            print("finish: ", number)
+            
+            let user = User()
+            user.user_id = Int(number)!
+            DBMethod().Add(user)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let signupVC = storyboard.instantiateViewController(withIdentifier: "Init")
+            signupVC.modalTransitionStyle = .flipHorizontal
+            self.present(signupVC, animated: true, completion: nil)
+            self.instagramWebView.removeFromSuperview()
+        }
     }
     
     func TapStartButton(sender: UIButton) {

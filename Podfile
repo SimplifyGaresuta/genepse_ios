@@ -17,4 +17,5 @@ target 'GENEPSE' do
   #pod 'ViewRow', :git => 'https://github.com/EurekaCommunity/ViewRow', :branch => 'Eureka4'
   pod 'ImageRow', '2.0.0'
   pod 'RealmSwift'
+  pod 'Kanna', '~> 2.1.0'
 end
