@@ -363,7 +363,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
         
         var text = ""
         for award in awards {
@@ -375,7 +375,7 @@ class UserDetailViewController: UIViewController {
         }
         
         label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = awards.count
         label.sizeToFit()
         
