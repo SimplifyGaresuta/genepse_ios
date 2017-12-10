@@ -164,9 +164,18 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 32
+        }else {
+            font_size = 34
+        }
+        
         let name_label = UILabel(frame: CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardViews.last!.frame.width, height: base_margin))
         name_label.text = text
-        name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 30)
+        name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
         
         return name_label
@@ -235,17 +244,17 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         for skill in skills {
             let je_num = SearchJapaneseEnglish(text: skill)
             let font_name = GetFontName(je_num: je_num, font_w: 6)
-            var font_size = 0
-            if je_num == JapaneseEnglish.English.rawValue {
-                font_size = 21
-            }else {
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
                 font_size = 20
+            }else {
+                font_size = 21
             }
             
             // skillラベルの生成
             let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
-            label.font = UIFont(name: font_name, size: CGFloat(font_size))
+            label.font = UIFont(name: font_name, size: font_size)
             label.backgroundColor = bg_color
             label.sizeToFit()
             label.layer.cornerRadius = 10
