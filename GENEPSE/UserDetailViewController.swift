@@ -437,7 +437,7 @@ class UserDetailViewController: UIViewController {
             last_add_view_frame = titleLabel.frame
             
             //next_yをプロダクトタイトルに更新
-            next_y = titleLabel.frame.origin.y + titleLabel.frame.height
+            next_y = titleLabel.frame.origin.y + titleLabel.frame.height + base_margin*0.25
             
             //URLがあったら,next_yからURLラベルの追加
             if !(obj["url"].string?.isEmpty)! {
