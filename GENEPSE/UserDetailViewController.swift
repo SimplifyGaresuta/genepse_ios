@@ -356,7 +356,7 @@ class UserDetailViewController: UIViewController {
     func CreateSectionLabel(text: String, y: CGFloat) -> UILabel {
         let label = UILabel(frame: CGRect(x: base_margin, y: y, width: 0, height: 0))
         label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 21)
         label.sizeToFit()
         
         return label
