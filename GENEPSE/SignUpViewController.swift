@@ -66,34 +66,36 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        
-        var raw_text = ""
-        
         webView.evaluateJavaScript("document.body.innerHTML") { (obj, err) in
-            webView.evaluateJavaScript("document.getElementsByTagName('html')[0].innerHTML=\"\"", completionHandler: nil)
-            
-            let obj_str = obj as! String
-            guard let doc = HTML(html: obj_str, encoding: .utf8) else{return}
-            
-            for pre in doc.xpath("//pre") {
-                raw_text = pre.text!
-                break
+            if let obj_unrap = obj {
+                //返ってきたjson文字列をviewから削除
+                webView.evaluateJavaScript("document.getElementsByTagName('html')[0].innerHTML=\"\"", completionHandler: nil)
+                
+                let obj_str = obj_unrap as! String
+                guard let doc = HTML(html: obj_str, encoding: .utf8) else{return}
+                var raw_text = ""
+                
+                //preタグ抽出
+                for pre in doc.xpath("//pre") {
+                    raw_text = pre.text!
+                    break
+                }
+                
+                //数値のみ取り出し
+                let splitNumbers = (raw_text.components(separatedBy: NSCharacterSet.decimalDigits.inverted))
+                let number = splitNumbers.joined()
+                print("user_id: ", number)
+                
+                let user = User()
+                user.user_id = Int(number)!
+                DBMethod().Add(user)
+
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let signupVC = storyboard.instantiateViewController(withIdentifier: "Init")
+                signupVC.modalTransitionStyle = .flipHorizontal
+                self.present(signupVC, animated: true, completion: nil)
+                self.instagramWebView.removeFromSuperview()
             }
-            
-            //数値のみ取り出し
-            let splitNumbers = (raw_text.components(separatedBy: NSCharacterSet.decimalDigits.inverted))
-            let number = splitNumbers.joined()
-            print("finish: ", number)
-            
-            let user = User()
-            user.user_id = Int(number)!
-            DBMethod().Add(user)
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let signupVC = storyboard.instantiateViewController(withIdentifier: "Init")
-            signupVC.modalTransitionStyle = .flipHorizontal
-            self.present(signupVC, animated: true, completion: nil)
-            self.instagramWebView.removeFromSuperview()
         }
     }
     
