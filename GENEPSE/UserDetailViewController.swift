@@ -336,11 +336,11 @@ class UserDetailViewController: UIViewController {
         let label_start_y = nameLabel_frame.origin.y+nameLabel_frame.height
         
         let career_label = UILabel(frame: CGRect(x: base_margin, y: label_start_y+base_margin*0.5, width: cardView.frame.width-base_margin*2, height: base_margin*2))
-        career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
+        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight:CGFloat = 23.0
+        let lineHeight:CGFloat = 22.0
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
