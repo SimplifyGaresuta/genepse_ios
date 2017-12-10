@@ -421,6 +421,7 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
+    //TODO: フォント調整
     func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
         var last_add_view_frame = CGRect()
@@ -453,7 +454,7 @@ class UserDetailViewController: UIViewController {
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
                 urlLabel.text = obj["url"].string
-                urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+                urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
                 pViews.link_img = linkImageView
@@ -524,7 +525,7 @@ class UserDetailViewController: UIViewController {
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
             urlLabel.text = obj["url"].string
-            urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+            urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
             urlLabel.sizeToFit()
             
             // アイコンとのずれを調整するために高さをアイコンに揃える
