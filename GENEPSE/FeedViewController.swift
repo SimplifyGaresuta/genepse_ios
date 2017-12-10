@@ -74,13 +74,21 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func AddCard(json: JSON) {
+        guard let user = DBMethod().GetAll(User.self) else {
+            return
+        }
+        
         let has_next = json["has_next"].boolValue
         self.has_next = has_next
         
         let users = json["users"].arrayValue
         
-        users.forEach { (obj) in
+        for obj in users {
             let id = obj["id"].intValue
+            if id == user.user_id {
+                continue
+            }
+            
             let name = obj[Key.name.rawValue].stringValue
             let avatar_url = obj[Key.avatar_url.rawValue].stringValue
             let attribute = obj[Key.attribute.rawValue].stringValue
@@ -304,8 +312,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             print(json.count)
             
             let dummy = FeedViewDummyData().users_data
-            self.AddCard(json: JSON(dummy))
-//            self.AddCard(json: json)
+//            self.AddCard(json: JSON(dummy))
+            self.AddCard(json: json)
             
             self.isUpdating = false
         }

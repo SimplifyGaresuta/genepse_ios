@@ -27,7 +27,6 @@ class MyProfileViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        //TODO: local DBからユーザID取得
         user_id = GetMyID()
         
         CallUserDetailAPI()
@@ -42,7 +41,11 @@ class MyProfileViewController: UIViewController {
     }
     
     func GetMyID() -> Int {
-        return 2
+        guard let user = DBMethod().GetAll(User.self) else {
+            return 0
+        }
+        
+        return user.user_id
     }
     
     func InitScrollView() {
@@ -655,8 +658,8 @@ class MyProfileViewController: UIViewController {
             print(json.count)
             
             let dummy = UserDetailDummyData().user_data
-            self.AddViews(json: JSON(dummy))
-//            self.AddViews(json: json)
+//            self.AddViews(json: JSON(dummy))
+            self.AddViews(json: json)
         }
     }
 

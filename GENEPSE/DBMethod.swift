@@ -31,4 +31,13 @@ class DBMethod {
             //Error
         }
     }
+    
+    func GetAll(_ DBName: Object.Type) -> User? {
+        do{
+            let realm = try Realm()
+            return realm.objects(User.self).first!
+        }catch{
+            return nil
+        }
+    }
 }
