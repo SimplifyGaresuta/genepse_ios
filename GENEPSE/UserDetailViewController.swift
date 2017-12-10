@@ -315,9 +315,18 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 37
+        }else {
+            font_size = 39
+        }
+        
         let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
         name_label.text = text
-        name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 40)
+        name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
         
         return name_label
