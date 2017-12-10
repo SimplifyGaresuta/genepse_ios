@@ -122,6 +122,18 @@ func GetFontName(je_num: Int, font_w: Int) -> String {
     }
 }
 
+func GetAttributedTextLineHeight(height: Int, text: String) -> NSMutableAttributedString {
+    let lineHeight = CGFloat(height)
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.minimumLineHeight = lineHeight
+    paragraphStyle.maximumLineHeight = lineHeight
+    paragraphStyle.lineBreakMode = .byTruncatingTail
+    let attributedText = NSMutableAttributedString(string: text)
+    attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+    
+    return attributedText
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

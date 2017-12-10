@@ -340,14 +340,8 @@ class UserDetailViewController: UIViewController {
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight:CGFloat = 22.0
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = lineHeight
-        paragraphStyle.maximumLineHeight = lineHeight
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        career_label.attributedText = attributedText
+        //行間調整
+        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
         
         career_label.sizeToFit()
         return career_label
@@ -374,7 +368,7 @@ class UserDetailViewController: UIViewController {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.text = text
+        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
         label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = awards.count
         label.sizeToFit()
@@ -435,7 +429,7 @@ class UserDetailViewController: UIViewController {
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
             titleLabel.text = obj["title"].string
-            titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            titleLabel.font = UIFont(name: FontName.J_W6.rawValue, size: 17)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
             
@@ -540,7 +534,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
         
         var text = ""
         for license in licenses {
@@ -551,8 +545,10 @@ class UserDetailViewController: UIViewController {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        //行間調整
+        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+        
+        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = licenses.count
         label.sizeToFit()
         
@@ -562,13 +558,13 @@ class UserDetailViewController: UIViewController {
     func CreateBasicInfoLabel(info: Array<String>) -> Array<UILabel> {
         let info_name = ["性別", "年齢", "居住地", "学歴"]
         var infoLabels = [UILabel]()
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
+        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
         for (index, info_str) in info.enumerated() {
             if !(info_str.isEmpty) {
                 let label = UILabel(frame: CGRect(x: base_margin, y: start_y, width: 0, height: 0))
                 label.text = info_name[index] + "：" + info_str
-                label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+                label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
                 
                 // 0歳(初期状態)だった場合はテキストをリセット
                 if index == 1 {
