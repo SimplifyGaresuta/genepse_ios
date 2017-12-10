@@ -50,10 +50,10 @@ class UserDetailViewController: UIViewController {
         cardView.backgroundColor = UIColor.white
         
         cardView.layer.cornerRadius = 20
-        cardView.layer.shadowOpacity = 1.0
+        cardView.layer.shadowOpacity = 0.2
         cardView.layer.shadowColor = UIColor.black.cgColor
-        cardView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cardView.layer.shadowRadius = 10
+        cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        cardView.layer.shadowRadius = 4
         cardView.layer.masksToBounds = false
         
         scrollView.addSubview(cardView)
