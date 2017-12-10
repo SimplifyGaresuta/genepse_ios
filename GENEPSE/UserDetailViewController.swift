@@ -276,9 +276,19 @@ class UserDetailViewController: UIViewController {
         let label_y = profileImageView.frame.origin.y + profileImageView.frame.height
         
         for skill in skills {
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 20
+            }else {
+                font_size = 21
+            }
+            
             // skillラベルの生成
             let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
+            label.font = UIFont(name: font_name, size: font_size)
             label.backgroundColor = bg_color
             label.sizeToFit()
             label.layer.cornerRadius = 10
@@ -594,7 +604,9 @@ class UserDetailViewController: UIViewController {
             let json = JSON(object)
             print(json.count)
             
-            self.AddViews(json: json)
+            let dummy = UserDetailDummyData().user_data
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 
