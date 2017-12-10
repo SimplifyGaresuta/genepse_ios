@@ -415,7 +415,6 @@ class UserDetailViewController: UIViewController {
         return labels
     }
     
-    //TODO: フォント調整
     func CreateProductLabel(json: JSON) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
         var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
         var last_add_view_frame = CGRect()
@@ -620,8 +619,8 @@ class UserDetailViewController: UIViewController {
             print(json.count)
             
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 

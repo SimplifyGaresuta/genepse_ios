@@ -421,13 +421,22 @@ class MyProfileViewController: UIViewController {
     
     func CreateSkillsLabel(skills: [String]) -> Array<UILabel> {
         var start_x = base_margin
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.1
+        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
         var labels = [UILabel]()
         
         for skill in skills {
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 15
+            }else {
+                font_size = 16
+            }
+            
             let label = UILabel(frame: CGRect(x: start_x, y: start_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
-            label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            label.font = UIFont(name: font_name, size: font_size)
             label.backgroundColor = UIColor.hexStr(hexStr: SkillTagColor.gray.rawValue as NSString, alpha: 1.0)
             label.textColor = UIColor.white
             label.sizeToFit()
@@ -462,7 +471,7 @@ class MyProfileViewController: UIViewController {
             //next_yからプロダクトタイトルの追加
             let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
             titleLabel.text = p[Key.title.rawValue].string
-            titleLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            titleLabel.font = UIFont(name: FontName.J_W6.rawValue, size: 17)
             titleLabel.sizeToFit()
             pViews.title = titleLabel
             
@@ -470,7 +479,7 @@ class MyProfileViewController: UIViewController {
             last_add_view_frame = titleLabel.frame
             
             //next_yをプロダクトタイトルに更新
-            next_y = titleLabel.frame.origin.y + titleLabel.frame.height
+            next_y = titleLabel.frame.origin.y + titleLabel.frame.height + base_margin*0.25
             
             //URLがあったら,next_yからURLラベルの追加
             if !(p[Key.url.rawValue].string?.isEmpty)! {
@@ -481,7 +490,7 @@ class MyProfileViewController: UIViewController {
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
                 urlLabel.text = p[Key.url.rawValue].string
-                urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+                urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
                 pViews.url = urlLabel
                 pViews.link_img = linkImageView
@@ -551,7 +560,7 @@ class MyProfileViewController: UIViewController {
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
             urlLabel.text = sns[Key.url.rawValue].string
-            urlLabel.font = UIFont(name: "AmericanTypewriter-Bold", size: 12)
+            urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
             urlLabel.sizeToFit()
             
             // アイコンとのずれを調整するために高さをアイコンに揃える
@@ -566,7 +575,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
         
         var text = ""
         for license in licenses {
@@ -577,8 +586,8 @@ class MyProfileViewController: UIViewController {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = licenses.count
         label.sizeToFit()
         
@@ -588,13 +597,13 @@ class MyProfileViewController: UIViewController {
     func CreateBasicInfoLabel(info: Array<String>) -> Array<UILabel> {
         let info_name = ["性別", "年齢", "居住地", "学歴"]
         var infoLabels = [UILabel]()
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
+        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
         for (index, info_str) in info.enumerated() {
             if !(info_str.isEmpty) {
                 let label = UILabel(frame: CGRect(x: base_margin, y: start_y, width: 0, height: 0))
                 label.text = info_name[index] + "：" + info_str
-                label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+                label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
                 
                 // 0歳(初期状態)だった場合はテキストをリセット
                 if index == 1 {
