@@ -76,6 +76,35 @@ func GetStandardAlert(title: String, message: String, b_title: String) -> UIAler
     return alertController
 }
 
+func IsJapaneseEnglish(text: String) -> Int {
+    let text_count = text.count
+    
+    //スペースの文字数をカウント
+    var regex = try! NSRegularExpression(pattern: "[ |　]", options: [.caseInsensitive])
+    var targetStringRange = NSRange(location: 0, length: (text as NSString).length)
+    let space_count = regex.numberOfMatches(in: text, options: [], range: targetStringRange)
+    
+    //英数文字の文字数をカウント
+    regex = try! NSRegularExpression(pattern: "[a-z|A-Z|0-9]", options: [.caseInsensitive])
+    targetStringRange = NSRange(location: 0, length: (text as NSString).length)
+    let e_count = regex.numberOfMatches(in: text, options: [], range: targetStringRange)
+    
+    if text_count - space_count == e_count {
+        return JapaneseEnglish.English.rawValue
+    }
+    
+    //日本語文字の文字数をカウント
+    regex = try! NSRegularExpression(pattern: "[\\p{Han}\\p{Hiragana}\\p{Katakana}]", options: [.caseInsensitive])
+    targetStringRange = NSRange(location: 0, length: (text as NSString).length)
+    let j_count = regex.numberOfMatches(in: text, options: [], range: targetStringRange)
+    
+    if text_count - space_count == j_count {
+        return JapaneseEnglish.Japanese.rawValue
+    }
+    
+    return JapaneseEnglish.Both.rawValue
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

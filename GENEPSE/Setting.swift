@@ -69,3 +69,9 @@ enum API: String {
     case login_url = "/login_url/"
     case provider = "facebook"
 }
+
+enum JapaneseEnglish: Int {
+    case Japanese = 0
+    case English = 1
+    case Both = 2
+}
