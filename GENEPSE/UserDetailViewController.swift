@@ -620,8 +620,8 @@ class UserDetailViewController: UIViewController {
             print(json.count)
             
             let dummy = UserDetailDummyData().user_data
-            self.AddViews(json: JSON(dummy))
-//            self.AddViews(json: json)
+//            self.AddViews(json: JSON(dummy))
+            self.AddViews(json: json)
         }
     }
 

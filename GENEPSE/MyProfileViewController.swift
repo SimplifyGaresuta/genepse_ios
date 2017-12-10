@@ -298,10 +298,20 @@ class MyProfileViewController: UIViewController {
         let label_y = profileImageView.frame.origin.y + profileImageView.frame.height
         
         for skill in skills {
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 20
+            }else {
+                font_size = 21
+            }
+            
             // skillラベルの生成
             let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
             label.backgroundColor = bg_color
+            label.font = UIFont(name: font_name, size: font_size)
             label.sizeToFit()
             label.layer.cornerRadius = 10
             label.layer.masksToBounds = true
@@ -327,9 +337,18 @@ class MyProfileViewController: UIViewController {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 37
+        }else {
+            font_size = 39
+        }
+        
         let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
         name_label.text = text
-        name_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 40)
+        name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
         
         return name_label
@@ -633,7 +652,9 @@ class MyProfileViewController: UIViewController {
             let json = JSON(object)
             print(json.count)
             
-            self.AddViews(json: json)
+            let dummy = UserDetailDummyData().user_data
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 
