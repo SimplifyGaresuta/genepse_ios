@@ -15,6 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        if DBMethod().RecordCount(User.self) == 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let signupVC = storyboard.instantiateViewController(withIdentifier: "SignUp")
+
+            self.window?.rootViewController = signupVC
+            self.window?.makeKeyAndVisible()
+        }
+        
         return true
     }
 

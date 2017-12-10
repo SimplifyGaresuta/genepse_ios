@@ -66,4 +66,6 @@ enum API: String {
     case v1 = "/v1"
     case users = "/users/"
     case products = "/products/"
+    case login_url = "/login_url/"
+    case provider = "facebook"
 }

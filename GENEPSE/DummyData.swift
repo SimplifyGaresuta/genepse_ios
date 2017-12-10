@@ -82,7 +82,7 @@ class UserDetailDummyData {
             ],],
         "licenses": nil,
         "gender": "",
-        "age": 0,
+        "age": nil,
         "address": "",
         "school_career": "",
         "activity_base": ""
