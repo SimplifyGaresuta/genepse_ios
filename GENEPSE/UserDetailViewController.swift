@@ -384,13 +384,22 @@ class UserDetailViewController: UIViewController {
     
     func CreateSkillsLabel(skills: [String]) -> Array<UILabel> {
         var start_x = base_margin
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.1
+        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
         var labels = [UILabel]()
         
         for skill in skills {
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 15
+            }else {
+                font_size = 16
+            }
+            
             let label = UILabel(frame: CGRect(x: start_x, y: start_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
-            label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+            label.font = UIFont(name: font_name, size: font_size)
             label.backgroundColor = UIColor.hexStr(hexStr: SkillTagColor.gray.rawValue as NSString, alpha: 1.0)
             label.textColor = UIColor.white
             label.sizeToFit()
