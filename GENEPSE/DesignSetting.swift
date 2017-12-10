@@ -17,3 +17,9 @@ enum AttributeColor: String {
 enum SkillTagColor: String {
     case gray = "#9C9C9C"
 }
+
+enum FontName: String {
+    case J_W3 = "HiraginoSans-W3"
+    case J_W6 = "HiraginoSans-W6"
+    case E = "HelveticaNeue-Medium"
+}
