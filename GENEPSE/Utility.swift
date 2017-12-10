@@ -76,7 +76,7 @@ func GetStandardAlert(title: String, message: String, b_title: String) -> UIAler
     return alertController
 }
 
-func IsJapaneseEnglish(text: String) -> Int {
+func SearchJapaneseEnglish(text: String) -> Int {
     let text_count = text.count
     
     //スペースの文字数をカウント
@@ -103,6 +103,23 @@ func IsJapaneseEnglish(text: String) -> Int {
     }
     
     return JapaneseEnglish.Both.rawValue
+}
+
+func GetFontName(je_num: Int, font_w: Int) -> String {
+    switch je_num {
+    //日本語のみ
+    case 0:
+        if font_w == 3 {
+            return FontName.J_W3.rawValue
+        }
+        return FontName.J_W6.rawValue
+        
+    //英語のみ
+    case 1:
+        return FontName.E.rawValue
+    default:
+        return FontName.J_W3.rawValue
+    }
 }
 
 class Indicator {

@@ -233,15 +233,26 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let label_y = profileImageView.frame.origin.y + profileImageView.frame.height
         
         for skill in skills {
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0
+            if je_num == JapaneseEnglish.English.rawValue {
+                font_size = 21
+            }else {
+                font_size = 20
+            }
+            
             // skillラベルの生成
             let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
             label.text = "  " + skill + "  "
+            label.font = UIFont(name: font_name, size: CGFloat(font_size))
             label.backgroundColor = bg_color
             label.sizeToFit()
             label.layer.cornerRadius = 10
             label.layer.masksToBounds = true
             label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)   //プロフ画像のbottomからマージン分だけ上に
             label.sizeToFit()   //w, hの再調整
+            
             
             labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
             
@@ -279,6 +290,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let json = JSON(object)
             print(json.count)
             
+//            let dummy = FeedViewDummyData().users_data
+//            self.AddCard(json: JSON(dummy))
             self.AddCard(json: json)
             
             self.isUpdating = false
