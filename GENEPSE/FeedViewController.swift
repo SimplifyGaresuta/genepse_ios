@@ -262,6 +262,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)   //プロフ画像のbottomからマージン分だけ上に
             label.sizeToFit()   //w, hの再調整
             
+            //TODO: はみ出したラベルがある場合は調整
+            if (label.frame.origin.x+label.frame.width) > (profileImageView.frame.origin.x+profileImageView.frame.width-base_margin*0.25) {
+            }
+            
             
             labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
             
