@@ -185,11 +185,11 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let label_start_y = nameLabel.frame.origin.y+nameLabel.frame.height
         
         let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardViews.last!.frame.width-base_margin, height: base_margin*2))
-        career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
+        career_label.font = UIFont(name: FontName.J_W6.rawValue, size: 15)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight:CGFloat = 23.0
+        let lineHeight:CGFloat = 21.0
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
