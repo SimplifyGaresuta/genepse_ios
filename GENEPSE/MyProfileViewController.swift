@@ -358,18 +358,11 @@ class MyProfileViewController: UIViewController {
         let label_start_y = nameLabel_frame.origin.y+nameLabel_frame.height
         
         let career_label = UILabel(frame: CGRect(x: base_margin, y: label_start_y+base_margin*0.5, width: cardView.frame.width-base_margin*2, height: base_margin*2))
-        career_label.font = UIFont(name: "AmericanTypewriter-Bold", size: UIFont.systemFontSize)
+        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight:CGFloat = 23.0
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = lineHeight
-        paragraphStyle.maximumLineHeight = lineHeight
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        career_label.attributedText = attributedText
+        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
         
         career_label.sizeToFit()
         return career_label
@@ -378,7 +371,7 @@ class MyProfileViewController: UIViewController {
     func CreateSectionLabel(text: String, y: CGFloat) -> UILabel {
         let label = UILabel(frame: CGRect(x: base_margin, y: y, width: 0, height: 0))
         label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 21)
         label.sizeToFit()
         
         return label
@@ -407,7 +400,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func CreateAwardsLabel(awards: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.1, width: 0, height: 0))
+        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
         
         var text = ""
         for award in awards {
@@ -418,8 +411,8 @@ class MyProfileViewController: UIViewController {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.text = text
-        label.font = UIFont(name: "AmericanTypewriter-Bold", size: 15)
+        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = awards.count
         label.sizeToFit()
         
