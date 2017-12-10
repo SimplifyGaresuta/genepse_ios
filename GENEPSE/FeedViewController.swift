@@ -130,10 +130,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
         card_view.layer.cornerRadius = 20
-        card_view.layer.shadowOpacity = 0.5
+        card_view.layer.shadowOpacity = 0.2
         card_view.layer.shadowColor = UIColor.black.cgColor
-        card_view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        card_view.layer.shadowRadius = 20
+        card_view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        card_view.layer.shadowRadius = 5
         card_view.layer.masksToBounds = false
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapCard(sender:)))
