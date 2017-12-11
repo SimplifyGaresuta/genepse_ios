@@ -65,6 +65,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetAttr()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.attribute.rawValue
             }
             .onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
@@ -89,6 +90,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetActivityBase()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.activity_base.rawValue
             }
             .onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
@@ -114,6 +116,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetOverview()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.overview.rawValue
             }
             .onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
@@ -146,13 +149,15 @@ class EditMyProfileViewController: FormViewController {
                 }
                 $0.multivaluedRowToInsertAt = { index in return NameRow() {
                     $0.placeholder = "◯◯賞(20XX)"
+                    $0.tag = String(index)
                     }
                 }
                 
                 let awards = data.GetAwards()
-                for award in awards {
+                for (i, award) in awards.enumerated() {
                     $0 <<< TextRow() {
                         $0.value = award
+                        $0.tag = String(i)
                     }
                 }
             }
@@ -173,13 +178,15 @@ class EditMyProfileViewController: FormViewController {
                     }
                     $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
                         $0.options = skills
+                        $0.tag = String(index)
                         }
                     }
                     
                     let user_skills = data.GetSkills()
-                    for skill in user_skills {
+                    for (i, skill) in user_skills.enumerated() {
                         $0 <<< PickerInputRow<String>() {
                             $0.value = skill
+                            $0.tag = String(i)
                         }
                     }
             }
@@ -230,6 +237,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.title = ""
                     $0.placeholder = "@◯◯◯◯◯◯"
                     $0.value = url
+                    $0.tag = Key.sns.rawValue
             }
             break
             
@@ -246,13 +254,15 @@ class EditMyProfileViewController: FormViewController {
                     }
                     $0.multivaluedRowToInsertAt = { index in return TextRow() {
                         $0.placeholder = "◯◯管理技術者"
+                        $0.tag = String(index)
                         }
                     }
                     
                     let licenses = data.GetLicenses()
-                    for license in licenses {
+                    for (i, license) in licenses.enumerated() {
                         $0 <<< TextRow() {
                             $0.value = license
+                            $0.tag = String(i)
                         }
                     }
             }
@@ -266,6 +276,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.options = ["男性", "女性", "その他"]
                     $0.title = "性別"
                     $0.value = data.GetGender()
+                    $0.tag = Key.gender.rawValue
                 }
             
                 <<< IntRow() {
@@ -274,6 +285,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetAge()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.age.rawValue
                 }
                 .onRowValidationChanged { cell, row in
                     let rowIndex = row.indexPath!.row
@@ -297,6 +309,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetAddress()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.address.rawValue
                 }
                 .onRowValidationChanged { cell, row in
                     let rowIndex = row.indexPath!.row
@@ -320,6 +333,7 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetSchoolCareer()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.school_career.rawValue
                 }
                 .onRowValidationChanged { cell, row in
                     let rowIndex = row.indexPath!.row
@@ -372,6 +386,8 @@ class EditMyProfileViewController: FormViewController {
         
         if validate_err_count == 0 {
             // TODO: データ保存・更新処理
+            
+            print(form.values())
             
             self.dismiss(animated: true, completion: nil)
         }
