@@ -45,7 +45,8 @@ class MyProfileViewController: UIViewController {
             return 0
         }
         
-        return user_id
+        //MARK: テストのため1を設定
+        return 1
     }
     
     func InitScrollView() {
@@ -651,6 +652,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func CallUserDetailAPI() {
+        //MARK:
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}

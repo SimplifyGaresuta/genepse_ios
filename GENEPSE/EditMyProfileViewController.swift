@@ -401,9 +401,10 @@ class EditMyProfileViewController: FormViewController {
         display = flag
     }
     
-    func UpdateData(product: JSON) {
+    func SetUpdateData(title: String, url: URL, image: UIImage) {
         //TODO: データ更新処理
-        
+        print("*********************")
+        print(title, url, image)
     }
     
     func CloseEditMyProfileView(sender: UIButton) {

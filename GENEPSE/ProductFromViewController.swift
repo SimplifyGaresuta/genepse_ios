@@ -95,7 +95,6 @@ class ProductFromViewController: FormViewController {
             }
         }
         
-        //TODO: 画像がある場合はvalueに設定
         form +++ Section("画像")
             <<< ImageRow() {
                 $0.title = "画像を選択する"
@@ -176,9 +175,12 @@ class ProductFromViewController: FormViewController {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
         
-        // TODO: productへのデータ挿入
-        print(form.values())
-        editMyprofVC.UpdateData(product: product)
+        let values = form.values()
+        guard let image = values[Key.image.rawValue] as? UIImage else {return}
+        guard let title = values[Key.title.rawValue] as? String else {return}
+        guard let url = values[Key.url.rawValue] as? URL else {return}
+        
+        editMyprofVC.SetUpdateData(title: title, url: url, image: image)
         editMyprofVC.SetIsProductFromVCDisplay(flag: true)
         self.navigationController?.popViewController(animated: true)
     }

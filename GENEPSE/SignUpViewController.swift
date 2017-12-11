@@ -89,6 +89,7 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
                 let user = User()
                 user.user_id = Int(number)!
                 DBMethod().Add(user)
+                GetAppDelegate().user_id = user.user_id
 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let signupVC = storyboard.instantiateViewController(withIdentifier: "Init")
