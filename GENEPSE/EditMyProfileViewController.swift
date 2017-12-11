@@ -14,17 +14,10 @@ import SwiftyJSON
 class EditMyProfileViewController: FormViewController {
 
     var edit_id = 0
-    var user_id = 0
-    var data = DetailData()
+//    var data = DetailData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let user_id = GetAppDelegate().user_id else {
-            return
-        }
-        
-        self.user_id = user_id
         
         InitNavigationController()
         CreateForms()
@@ -412,7 +405,11 @@ class EditMyProfileViewController: FormViewController {
     }
     
     func CallUpdateUserDataAPI() {
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(self.user_id)
+        guard let user_id = GetAppDelegate().user_id else {
+            return
+        }
+        
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
 //        Alamofire.request(urlString, method: .patch).responseJSON { (response) in
 //            guard let object = response.result.value else{return}
 //            let json = JSON(object)
