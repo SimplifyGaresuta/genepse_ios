@@ -49,7 +49,11 @@ class EditMyProfileViewController: FormViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.setLeftBarButton(cancel_button, animated: true)
-        self.navigationItem.setRightBarButton(check_button, animated: true)
+        
+        // プロダクト一覧画面になるため、その画面ではボタンを表示させない
+        if edit_id != SectionID.products.rawValue {
+            self.navigationItem.setRightBarButton(check_button, animated: true)
+        }
     }
     
     func CreateForms() {

@@ -21,7 +21,7 @@ class ProductFromViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.TapCheckButton(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_upload"), style: .plain, target: self, action: #selector(self.TapUploadButton(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
@@ -179,7 +179,7 @@ class ProductFromViewController: FormViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func TapCheckButton(sender: UIButton) {
+    func TapUploadButton(sender: UIButton) {
         // タイトルが埋まっているかどうか
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
