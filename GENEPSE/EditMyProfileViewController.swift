@@ -401,6 +401,11 @@ class EditMyProfileViewController: FormViewController {
         display = flag
     }
     
+    func UpdateData(product: JSON) {
+        //TODO: データ更新処理
+        
+    }
+    
     func CloseEditMyProfileView(sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }

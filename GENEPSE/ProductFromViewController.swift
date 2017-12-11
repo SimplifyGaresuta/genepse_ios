@@ -91,6 +91,7 @@ class ProductFromViewController: FormViewController {
             }
         }
         
+        //TODO: 画像がある場合はvalueに設定
         form +++ Section("画像")
             <<< ImageRow() {
                 $0.title = "画像を選択する"
@@ -147,8 +148,9 @@ class ProductFromViewController: FormViewController {
     
     func Save(sender: UIButton) {
         if form.rowBy(tag: "title")?.validate().count == 0 {
-            // TODO: データ保存・更新処理
-            editMyprofVC.data.SetProducts(products: [product, product])
+            // TODO: productへのデータ挿入
+            print(form.values())
+            editMyprofVC.UpdateData(product: product)
             editMyprofVC.SetIsProductFromVCDisplay(flag: true)
             self.navigationController?.popViewController(animated: true)
         }
