@@ -85,6 +85,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         for obj in users {
             let id = obj["id"].intValue
+            
+            //表示しようとしているカードが自分と同じ場合はスキップ
             if id == user.user_id {
                 continue
             }
