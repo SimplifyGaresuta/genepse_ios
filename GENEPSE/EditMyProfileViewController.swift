@@ -233,6 +233,8 @@ class EditMyProfileViewController: FormViewController {
             break
             
         case SectionID.sns.rawValue:
+            self.navigationItem.title = "Edit SNS"
+
             var url = ""
             
             for sns in data.GetSNS() {

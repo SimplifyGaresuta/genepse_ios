@@ -46,7 +46,7 @@ class ProductFromViewController: FormViewController {
                 $0.value = product["title"].stringValue
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnDemand
-                $0.tag = "title"
+                $0.tag = Key.title.rawValue
         }
         .onRowValidationChanged { cell, row in
             let rowIndex = row.indexPath!.row
@@ -72,6 +72,7 @@ class ProductFromViewController: FormViewController {
                 $0.value = URL(string: product["url"].stringValue)
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
+                $0.tag = Key.url.rawValue
         }
         .onRowValidationChanged { cell, row in
             let rowIndex = row.indexPath!.row
@@ -97,6 +98,7 @@ class ProductFromViewController: FormViewController {
                 $0.clearAction = .yes(style: UIAlertActionStyle.destructive)
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
+                $0.tag = Key.image.rawValue
             }
             .cellUpdate { cell, row in
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
@@ -146,6 +148,7 @@ class ProductFromViewController: FormViewController {
     func Save(sender: UIButton) {
         if form.rowBy(tag: "title")?.validate().count == 0 {
             // TODO: データ保存・更新処理
+            
             self.navigationController?.popViewController(animated: true)
         }
         
