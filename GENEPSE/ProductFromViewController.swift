@@ -17,7 +17,8 @@ class ProductFromViewController: FormViewController {
     private var product = JSON()
     private var editMyprofVC = EditMyProfileViewController()
     let productImageView = AsyncUIImageView()
-    
+    private var is_imageloaded = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +26,8 @@ class ProductFromViewController: FormViewController {
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
+        
+        is_imageloaded = false
         
         CreateFrom()
     }
@@ -150,6 +153,8 @@ class ProductFromViewController: FormViewController {
                 imageRow.value = self.productImageView.image
                 print(self.productImageView.image)
                 print(imageRow.value)
+                
+                self.is_imageloaded = true
             }else {
                 print("AsyncImageView:Error \(String(describing: err?.localizedDescription))")
             }
@@ -163,6 +168,10 @@ class ProductFromViewController: FormViewController {
     }
     
     func Save(sender: UIButton) {
+        if !is_imageloaded {
+            self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
+        }
+        
         if form.rowBy(tag: "title")?.validate().count == 0 {
             // TODO: productへのデータ挿入
             print(form.values())
