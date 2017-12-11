@@ -200,8 +200,7 @@ class ProductFromViewController: FormViewController {
             print(image, title, url)
             print("******************")
             
-            
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
