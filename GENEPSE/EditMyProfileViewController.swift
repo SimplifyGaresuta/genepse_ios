@@ -409,30 +409,70 @@ class EditMyProfileViewController: FormViewController {
         
         if validate_err_count == 0 {
             // TODO: データ保存・更新処理
-            
-            DataShaping(values: form.values())
-            self.dismiss(animated: true, completion: nil)
+            HEIRETU(values: form.values())
+        }else {
+            self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
-        
-        self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
-        
-        print("Tap AddRow")
     }
     
-    func DataShaping(values: [String:Any?]) {
-        print(values)
+    func DataShaping(json: JSON) -> JSON {
+//        awards
+//        skills
+//        sns
+//        sikaku
+//        gender, age, school_career, address
+        
+        return json
     }
     
-    func CallUpdateUserDataAPI() {
+    func HEIRETU(values: [String:Any?]) {
         guard let user_id = GetAppDelegate().user_id else {
             return
         }
         
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
-//        Alamofire.request(urlString, method: .patch).responseJSON { (response) in
-//            guard let object = response.result.value else{return}
-//            let json = JSON(object)
-//            print(json)
+        let group = DispatchGroup()
+        let form_values = DataShaping(json: JSON(values))
+        print(form_values)
+        
+        switch edit_id {
+        case SectionID.name.rawValue:
+            for form_value in form_values {
+                let queue = DispatchQueue(label: "jp.classmethod.app.queue\(form_value.0)")
+                queue.async(group: group) {
+                    self.CallUpdateUserDataAPI(req: [form_value.0:form_value.1.stringValue], user_id: user_id)
+                    print("queue \(form_value.0) done.")
+                }
+            }
+            break
+        default:
+            break
+        }
+        
+        
+        
+//            print(form_value.key, form_value.value)
+//            let queue = DispatchQueue(label: "jp.classmethod.app.queue\(dic.key)")
+//            queue.async(group: group) {
+//                print("queue \(dic.key) done.")
+//            }
 //        }
+        
+        
+        // タスクが全て完了したらメインスレッド上で処理を実行する
+        group.notify(queue: DispatchQueue.main) {
+            print("all task done.")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func CallUpdateUserDataAPI(req: [String:String], user_id: Int) {
+        print("CALL API", req)
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
+        Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+            guard let object = response.result.value else{return}
+            let json = JSON(object)
+            print(response.response?.statusCode)
+            print(json)
+        }
     }
 }
