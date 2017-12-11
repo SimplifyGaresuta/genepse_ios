@@ -416,12 +416,7 @@ class EditMyProfileViewController: FormViewController {
     }
     
     func DataShaping(json: JSON) -> JSON {
-//        awards
-//        skills
 //        sns
-//        sikaku
-//        gender, age, school_career, address
-        
         return json
     }
     
@@ -430,23 +425,34 @@ class EditMyProfileViewController: FormViewController {
             return
         }
         
-        let group = DispatchGroup()
+        var group = DispatchGroup()
         let form_values = DataShaping(json: JSON(values))
         print(form_values)
         
+        var req_array:[String] = []
+        
         for form_value in form_values {
-            var req = [String:Any]()
+            var req_dict = [String:Any]()
             
-            if form_value.0 == Key.age.rawValue {
-                req[form_value.0] = form_value.1.intValue
-            }else {
-                req[form_value.0] = form_value.1.stringValue
+            switch edit_id {
+                case SectionID.name.rawValue, SectionID.info.rawValue:
+                    if form_value.0 == Key.age.rawValue {
+                        req_dict[form_value.0] = form_value.1.intValue
+                    }else {
+                        req_dict[form_value.0] = form_value.1.stringValue
+                    }
+                    group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
+            case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
+                req_array.append(form_value.1.stringValue)
+            default:
+                print("")
             }
-
-            let queue = DispatchQueue(label: "jp.classmethod.app.queue\(form_value.0)")
-            queue.async(group: group) {
-                self.CallUpdateUserDataAPI(req: req, user_id: user_id)
-            }
+        }
+        
+        
+        //req_arrayを使用していた場合(awards,skills,licenses)
+        if req_array.count != 0 {
+            group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
         }
         
         // タスクが全て完了したらメインスレッド上で処理を実行する
@@ -456,10 +462,19 @@ class EditMyProfileViewController: FormViewController {
         }
     }
     
-    func CallUpdateUserDataAPI(req: [String:Any], user_id: Int) {
-        print("CALL API", req)
+    func CreateQueue(key: String, group: DispatchGroup, user_id: Int, req_dict: [String:Any]) -> DispatchGroup {
+        let queue = DispatchQueue(label: "jp.classmethod.app.queue\(key)")
+        queue.async(group: group) {
+            self.CallUpdateUserDataAPI(req_dict: req_dict, user_id: user_id)
+        }
+        return group
+    }
+    
+    func CallUpdateUserDataAPI(req_dict: [String:Any], user_id: Int) {
+        
+        print("CALL API", req_dict)
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
-        Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+        Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             guard let object = response.result.value else{return}
 //            print(response.response!.statusCode)
 //            print(json)

@@ -49,7 +49,7 @@ class UserDetailDummyData {
         "avatar_url": "https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg",
         "attribute": "Designer",
         "awards": ["AdTech Charenge 優勝", "CrossOverGameJam 優勝", "ジロッカソン terateil賞"],
-        "skills": ["Illustrator", "Protopie", "sketch", "ruby", "go", "unity"],
+        "skills": ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"],
         "products": [
             ["id":1, "title": "リア充無双", "url": "https://appsto.re/jp/26J0gb.i","image":"https://res.cloudinary.com/demo/image/upload/w_500/sample.jpg"
             ],

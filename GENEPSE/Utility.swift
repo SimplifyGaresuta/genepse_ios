@@ -138,6 +138,27 @@ func GetAppDelegate() -> AppDelegate {
     return UIApplication.shared.delegate as! AppDelegate
 }
 
+func GetSectionName(id: Int) -> String {
+    switch id {
+    case SectionID.name.rawValue:
+        return Key.name.rawValue
+    case SectionID.awards.rawValue:
+        return Key.awards.rawValue
+    case SectionID.skills.rawValue:
+        return Key.skills.rawValue
+    case SectionID.products.rawValue:
+        return Key.products.rawValue
+    case SectionID.sns.rawValue:
+        return Key.sns.rawValue
+    case SectionID.license.rawValue:
+        return Key.licenses.rawValue
+    case SectionID.info.rawValue:
+        return "info"
+    default:
+        return ""
+    }
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
