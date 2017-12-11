@@ -435,17 +435,17 @@ class EditMyProfileViewController: FormViewController {
         print(form_values)
         
         for form_value in form_values {
-            var hoge = [String:Any]()
+            var req = [String:Any]()
             
             if form_value.0 == Key.age.rawValue {
-                hoge[form_value.0] = form_value.1.intValue
+                req[form_value.0] = form_value.1.intValue
             }else {
-                hoge[form_value.0] = form_value.1.stringValue
+                req[form_value.0] = form_value.1.stringValue
             }
 
             let queue = DispatchQueue(label: "jp.classmethod.app.queue\(form_value.0)")
             queue.async(group: group) {
-                self.CallUpdateUserDataAPI(req: hoge, user_id: user_id)
+                self.CallUpdateUserDataAPI(req: req, user_id: user_id)
             }
         }
         
