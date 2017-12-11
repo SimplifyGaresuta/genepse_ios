@@ -155,12 +155,6 @@ class EditMyProfileViewController: FormViewController {
                         $0.value = award
                     }
                 }
-                
-                if awards.count == 0 {
-                    $0 <<< TextRow() {
-                        $0.placeholder = "◯◯賞(20XX)"
-                    }
-                }
             }
 
             break
@@ -259,12 +253,6 @@ class EditMyProfileViewController: FormViewController {
                     for license in licenses {
                         $0 <<< TextRow() {
                             $0.value = license
-                        }
-                    }
-                    
-                    if licenses.count == 0 {
-                        $0 <<< TextRow() {
-                            $0.placeholder = "◯◯管理技術者"
                         }
                     }
             }
