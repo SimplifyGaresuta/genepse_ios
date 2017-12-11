@@ -34,6 +34,7 @@ class ProductFromViewController: FormViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         UpdateSelfProduct()
     }
     
@@ -54,7 +55,7 @@ class ProductFromViewController: FormViewController {
                 $0.placeholder = "ポートフォリオサイト"
                 $0.value = product[Key.title.rawValue].stringValue
                 $0.add(rule: RuleRequired())
-                $0.validationOptions = .validatesOnDemand
+                $0.validationOptions = .validatesOnChange
                 $0.tag = Key.title.rawValue
         }
         .onRowValidationChanged { cell, row in
@@ -112,6 +113,7 @@ class ProductFromViewController: FormViewController {
             .cellUpdate { cell, row in
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
+                print("cellUpdate", row.value)
                 if let image = row.value {
                     self.productImageView.image = image
                 }else {
@@ -135,7 +137,7 @@ class ProductFromViewController: FormViewController {
             }
         }
         
-        SetLoadedImage()
+//        SetLoadedImage()
     }
     
     func SetLoadedImage() {
@@ -172,25 +174,29 @@ class ProductFromViewController: FormViewController {
     }
     
     func TapCheckButton(sender: UIButton) {
-        //新規追加時は画像取得の通信を行わない(編集時のみ)
-        if !is_add {
-            if !is_imageloaded {
-                self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
-            }
-        }
-        
-        
+        // タイトルが埋まっているかどうか
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
+        }else {
+            if is_add {
+                
+            }else {
+                if !is_imageloaded {
+                    self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
+                }
+            }
+            
+            let values = form.values()
+            let image = values[Key.image.rawValue] as? UIImage
+            guard let title = values[Key.title.rawValue] as? String else {return}
+            let url = values[Key.url.rawValue] as? URL
+            //        let id = product["id"].intValue
+            print(image, title, url)
+            print("******************")
+            
+            
+            self.navigationController?.popViewController(animated: true)
         }
-        
-        let values = form.values()
-        let image = values[Key.image.rawValue] as? UIImage
-        guard let title = values[Key.title.rawValue] as? String else {return}
-        let url = values[Key.url.rawValue] as? URL
-//        let id = product["id"].intValue
-        
-        self.navigationController?.popViewController(animated: true)
     }
     
     func SetTitle(title: String) {
