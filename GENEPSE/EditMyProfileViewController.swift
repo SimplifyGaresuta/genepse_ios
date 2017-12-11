@@ -140,7 +140,7 @@ class EditMyProfileViewController: FormViewController {
             self.navigationItem.title = "Edit Awards"
             
             form +++ MultivaluedSection(
-                multivaluedOptions: [.Reorder, .Insert, .Delete],
+                multivaluedOptions: [.Insert, .Delete],
                header: "受賞歴",
                footer: "") {
                 $0.addButtonProvider = { section in return ButtonRow(){
@@ -169,7 +169,7 @@ class EditMyProfileViewController: FormViewController {
             let skills = ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
 
             form +++ MultivaluedSection(
-                multivaluedOptions: [.Reorder, .Insert, .Delete],
+                multivaluedOptions: [.Insert, .Delete],
                 header: "スキル",
                 footer: "") {
                     $0.addButtonProvider = { section in return ButtonRow(){
@@ -245,7 +245,7 @@ class EditMyProfileViewController: FormViewController {
             self.navigationItem.title = "Edit Licenses"
             
             form +++ MultivaluedSection(
-                multivaluedOptions: [.Reorder, .Insert, .Delete],
+                multivaluedOptions: [.Insert, .Delete],
                 header: "資格",
                 footer: "") {
                     $0.addButtonProvider = { section in return ButtonRow(){
