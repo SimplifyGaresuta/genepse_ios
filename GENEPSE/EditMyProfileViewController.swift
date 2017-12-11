@@ -203,33 +203,41 @@ class EditMyProfileViewController: FormViewController {
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
             
-            let section = Section()
-            section.tag = "ALL_P"
-
-            for p in (data?.GetProducts())! {
-                let vc = ProductFromViewController()
-                vc.SetTitle(title: "Edit")
-                vc.SetIsAdd(flag: false)
-                
-                let row = ButtonRow() {
-                    $0.title = p["title"].stringValue
-                    $0.tag = p["id"].stringValue
-                    $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
-                                                onDismiss: { vc in
-                                                    vc.navigationController?.popViewController(animated: true)}
-                    )
+            if (data?.GetProducts())!.count == 0 {
+                form +++ Section()
+                    <<< ButtonRow() {
+                        $0.title = "作品を追加"
+                        $0.onCellSelection(self.showVC)
                 }
-                section.append(row)
+            }else {
+                let section = Section()
+                section.tag = "ALL_P"
+                
+                for p in (data?.GetProducts())! {
+                    let vc = ProductFromViewController()
+                    vc.SetTitle(title: "Edit")
+                    vc.SetIsAdd(flag: false)
+                    
+                    let row = ButtonRow() {
+                        $0.title = p["title"].stringValue
+                        $0.tag = p["id"].stringValue
+                        $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
+                                                    onDismiss: { vc in
+                                                        vc.navigationController?.popViewController(animated: true)}
+                        )
+                    }
+                    section.append(row)
+                }
+                
+                form.append(section)
+                
+                form +++ Section()
+                    <<< ButtonRow() {
+                        $0.title = "作品を追加"
+                        $0.onCellSelection(self.showVC)
+                }
             }
             
-            form.append(section)
-
-            
-            form +++ Section()
-                <<< ButtonRow() {
-                    $0.title = "作品を追加"
-                    $0.onCellSelection(self.showVC)
-            }
             break
             
         case SectionID.sns.rawValue:
