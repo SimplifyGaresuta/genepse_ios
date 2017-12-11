@@ -26,13 +26,15 @@ class ProductFromViewController: FormViewController {
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
         
+        UpdateSelfProduct()
+        
         CreateFrom()
         
         print("product_id:", product_id)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        products = (GetAppDelegate().data?.GetProducts())!
+        UpdateSelfProduct()
     }
     
     func CreateFrom() {
@@ -50,7 +52,7 @@ class ProductFromViewController: FormViewController {
             <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "ポートフォリオサイト"
-                $0.value = product["title"].stringValue
+                $0.value = product[Key.title.rawValue].stringValue
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnDemand
                 $0.tag = Key.title.rawValue
@@ -76,7 +78,7 @@ class ProductFromViewController: FormViewController {
             <<< URLRow(){
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
-//                $0.value = URL(string: product["url"].stringValue)
+                $0.value = URL(string: product[Key.url.rawValue].stringValue)
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
@@ -203,5 +205,14 @@ class ProductFromViewController: FormViewController {
     var is_add = false
     func SetIsAdd(flag: Bool) {
         is_add = flag
+    }
+    
+    func UpdateSelfProduct() {
+        for p in (GetAppDelegate().data?.GetProducts())! {
+            if p["id"].intValue == product_id {
+                product = p
+                break
+            }
+        }
     }
 }
