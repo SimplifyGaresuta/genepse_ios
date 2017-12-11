@@ -179,8 +179,9 @@ class ProductFromViewController: FormViewController {
         guard let image = values[Key.image.rawValue] as? UIImage else {return}
         guard let title = values[Key.title.rawValue] as? String else {return}
         guard let url = values[Key.url.rawValue] as? URL else {return}
+        let id = product["id"].intValue
         
-        editMyprofVC.SetUpdateData(title: title, url: url, image: image)
+        editMyprofVC.SetUpdateData(title: title, url: url, image: image, id: id)
         editMyprofVC.SetIsProductFromVCDisplay(flag: true)
         self.navigationController?.popViewController(animated: true)
     }

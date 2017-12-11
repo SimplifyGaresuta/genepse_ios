@@ -18,6 +18,9 @@ class EditMyProfileViewController: FormViewController {
     var data = DetailData()
     var display = false
     
+    var is_updated = false
+    var prev_products:[JSON] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,9 +48,13 @@ class EditMyProfileViewController: FormViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         if edit_id == SectionID.products.rawValue && display {
-            //TODO: update cell
-//            form.rowBy(tag: "1")?.title = "UNKO"
-//            form.rowBy(tag: "1")?.updateCell()
+            for p in data.GetProducts() {
+                let id = String(p["id"].intValue)
+                form.rowBy(tag: id)?.title = p[Key.title.rawValue].stringValue
+                form.rowBy(tag: id)?.updateCell()
+            }
+            
+            
             
             display = false
         }
@@ -401,13 +408,29 @@ class EditMyProfileViewController: FormViewController {
         display = flag
     }
     
-    func SetUpdateData(title: String, url: URL, image: UIImage) {
-        //TODO: データ更新処理
-        print("*********************")
-        print(title, url, image)
+    
+    func SetUpdateData(title: String, url: URL, image: UIImage, id: Int) {
+        is_updated = true
+        
+        var products = data.GetProducts()
+        prev_products = products
+        
+        for (i, p) in products.enumerated() {
+            if p["id"].intValue == id {
+                products[i][Key.title.rawValue].string = title
+                products[i][Key.url.rawValue].string = String(describing: url)
+                break
+            }
+        }
+        
+        data.SetProducts(products: products)
     }
     
     func CloseEditMyProfileView(sender: UIButton) {
+        if is_updated {
+            data.SetProducts(products: prev_products)
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
