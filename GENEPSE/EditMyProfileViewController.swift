@@ -202,7 +202,7 @@ class EditMyProfileViewController: FormViewController {
             
         case SectionID.products.rawValue:
             self.navigationItem.title = "All Products"
-            
+            //MARK: Products
             if (data?.GetProducts())!.count == 0 {
                 form +++ Section()
                     <<< ButtonRow() {
@@ -217,6 +217,7 @@ class EditMyProfileViewController: FormViewController {
                     let vc = ProductFromViewController()
                     vc.SetTitle(title: "Edit")
                     vc.SetIsAdd(flag: false)
+                    vc.SetProductID(id: p["id"].intValue)
                     
                     let row = ButtonRow() {
                         $0.title = p["title"].stringValue
@@ -378,6 +379,7 @@ class EditMyProfileViewController: FormViewController {
         let productVC = ProductFromViewController()
         productVC.SetTitle(title: "Add")
         productVC.SetIsAdd(flag: true)
+        productVC.SetProductID(id: 0)
         navigationController?.show(productVC, sender: nil)
     }
 

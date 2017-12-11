@@ -16,6 +16,7 @@ class ProductFromViewController: FormViewController {
     private var view_title = ""
     let productImageView = AsyncUIImageView()
     private var is_imageloaded = false
+    private var product = JSON()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,12 @@ class ProductFromViewController: FormViewController {
         self.navigationItem.title = view_title
         
         CreateFrom()
+        
+        print("product_id:", product_id)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        products = (GetAppDelegate().data?.GetProducts())!
     }
     
     func CreateFrom() {
@@ -43,7 +50,7 @@ class ProductFromViewController: FormViewController {
             <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "ポートフォリオサイト"
-//                $0.value = product["title"].stringValue
+                $0.value = product["title"].stringValue
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnDemand
                 $0.tag = Key.title.rawValue
@@ -129,8 +136,6 @@ class ProductFromViewController: FormViewController {
         SetLoadedImage()
     }
     
-    //MARK: 仮置き
-    var product = JSON()
     func SetLoadedImage() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
@@ -188,6 +193,11 @@ class ProductFromViewController: FormViewController {
     
     func SetTitle(title: String) {
         view_title = title
+    }
+    
+    var product_id = 0
+    func SetProductID(id: Int) {
+        product_id = id
     }
     
     var is_add = false
