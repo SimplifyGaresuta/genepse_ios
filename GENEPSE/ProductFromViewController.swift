@@ -113,7 +113,6 @@ class ProductFromViewController: FormViewController {
             .cellUpdate { cell, row in
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
-                print("cellUpdate", row.value)
                 if let image = row.value {
                     self.productImageView.image = image
                 }else {
@@ -137,23 +136,30 @@ class ProductFromViewController: FormViewController {
             }
         }
         
-//        SetLoadedImage()
+        InitProductImageView()
+        
+        if !is_add {
+            SetLoadedImage()
+        }
     }
     
-    func SetLoadedImage() {
+    func InitProductImageView() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
         let y = self.view.subviews[0].frame.height - h - base_margin*2
         
+        self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
+        self.productImageView.layer.cornerRadius = 10
+        self.productImageView.clipsToBounds = true
+        self.productImageView.contentMode = .scaleAspectFill
+        self.view.subviews[0].addSubview(self.productImageView)
+    }
+    
+    func SetLoadedImage() {
         productImageView.loadImageWithHandler(urlString: product["image"].stringValue) { (data, resp, err) in
             if err == nil {
                 let image = UIImage(data:data!)
                 self.productImageView.image = image
-                self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
-                self.productImageView.layer.cornerRadius = 10
-                self.productImageView.clipsToBounds = true
-                self.productImageView.contentMode = .scaleAspectFill
-                self.view.subviews[0].addSubview(self.productImageView)
                 
                 let imageRow = self.form.rowBy(tag: Key.image.rawValue) as! ImageRow
                 imageRow.value = self.productImageView.image
