@@ -35,7 +35,7 @@ class EditMyProfileViewController: FormViewController {
     
     func InitNavigationController() {
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.TapCheckButton(sender:)))
         
         self.navigationController?.navigationBar.barTintColor = UIColor.black
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -58,6 +58,30 @@ class EditMyProfileViewController: FormViewController {
         case SectionID.name.rawValue:
             self.navigationItem.title = "Edit Main Infomation"
             
+            form +++ Section("属性")
+                <<< PickerInputRow<String>(""){
+                    $0.title = ""
+                    $0.options = ["Engineer", "Designer", "Business"]
+                    $0.value = data.GetAttr()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = RuleRequired_M
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
+            }
+            
             form +++ Section("活動地域")
                 <<< TextRow(){
                     $0.title = ""
@@ -65,7 +89,6 @@ class EditMyProfileViewController: FormViewController {
                     $0.value = data.GetActivityBase()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
-                    $0.tag = "HOGE"
             }
             .onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
@@ -351,20 +374,14 @@ class EditMyProfileViewController: FormViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func Save(sender: UIButton) {
-        let rows = form.allRows
-        var all_ok_flag = false
+    func TapCheckButton(sender: UIButton) {
+        var validate_err_count = 0
         
-        for row in rows {
-            if row.isValid {
-                all_ok_flag = true
-            }else {
-                all_ok_flag = false
-                break
-            }
+        for row in form.allRows {
+            validate_err_count += row.validate().count
         }
         
-        if all_ok_flag {
+        if validate_err_count == 0 {
             // TODO: データ保存・更新処理
             
             self.dismiss(animated: true, completion: nil)
