@@ -167,30 +167,25 @@ class EditMyProfileViewController: FormViewController {
             
         case SectionID.skills.rawValue:
             self.navigationItem.title = "Edit Skills"
-            
+            let skills = ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
+
             form +++ MultivaluedSection(
                 multivaluedOptions: [.Reorder, .Insert, .Delete],
                 header: "スキル",
-                footer: "プログラミング言語、使用可能ツールなど様々なスキルを1つずつ入力してください") {
+                footer: "") {
                     $0.addButtonProvider = { section in return ButtonRow(){
                         $0.title = "追加"
                         }
                     }
-                    $0.multivaluedRowToInsertAt = { index in return TextRow() {
-                        $0.placeholder = "Python"
+                    $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
+                        $0.options = skills
                         }
                     }
                     
-                    let skills = data.GetSkills()
-                    for skill in skills {
-                        $0 <<< TextRow() {
+                    let user_skills:[String] = []
+                    for skill in user_skills {
+                        $0 <<< PickerInputRow<String>() {
                             $0.value = skill
-                        }
-                    }
-                    
-                    if skills.count == 0 {
-                        $0 <<< TextRow() {
-                            $0.placeholder = "Python"
                         }
                     }
             }
