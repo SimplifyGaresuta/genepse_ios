@@ -19,11 +19,16 @@ class MyProfileViewController: UIViewController {
     var cardView = UIView()
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
-    var data = DetailData()
     
     override func viewWillAppear(_ animated: Bool) {
+        CallUserDetailAPI()
+        
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = "MyProfile"
+        
+        cardView.removeFromSuperview()
+        
+        InitCardView()
     }
     
     override func viewDidLoad() {
@@ -77,72 +82,74 @@ class MyProfileViewController: UIViewController {
     }
     
     func AddViews(json: JSON) {
-         data = GetDetailData(json: json)
+        //MARK: delegateに保存
+        let appdelegate = GetAppDelegate()
+        appdelegate.data = GetDetailData(json: json)
         
         // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
+        profileImageView = CreateProfileImageView(url: (appdelegate.data?.GetAvatarURL())!)
         cardView.addSubview(profileImageView)
         UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
-        
-        
+
+
         // 属性の追加
-        let attributeLabels = CreateAttributeLabel(attribute: data.GetAttr())
+        let attributeLabels = CreateAttributeLabel(attribute: (appdelegate.data?.GetAttr())!)
         cardView.addSubview(attributeLabels.0)
         cardView.addSubview(attributeLabels.1)
         UpdateCardViewFrame(last_add_cgrect: attributeLabels.1.frame)
-        
-        
+
+
         // メインスキルの追加
-        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
+        let mainskillsLabels = self.CreateMainSkillsLabels(skills: (appdelegate.data?.GetMainSkills())!)
         for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
             cardView.addSubview(shadowView)
             cardView.addSubview(skillLabel)
         }
-        
-        
+
+
         // 名前の追加
-        let nameLabel = self.CreateNameLabel(text: data.GetName())
+        let nameLabel = self.CreateNameLabel(text: (appdelegate.data?.GetName())!)
         cardView.addSubview(nameLabel)
         cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
-        
-        
+
+
         // 経歴の追加
-        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
+        let careerLabel = self.CreateCareerLabel(text: (appdelegate.data?.GetOverview())!, nameLabel_frame: nameLabel.frame)
         cardView.addSubview(careerLabel)
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
-        
+
         // 受賞歴の追加
         let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
         cardView.addSubview(awards_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: awards_sectionLable.frame, id: SectionID.awards.rawValue))
         UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
         latest_section_frame = awards_sectionLable.frame
-        
-        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
+
+        let awardsLabel = self.CreateAwardsLabel(awards: (appdelegate.data?.GetAwards())!)
         cardView.addSubview(awardsLabel)
         UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
-        
-        
+
+
         // スキルの追加
         let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
         cardView.addSubview(skills_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: skills_sectionLable.frame, id: SectionID.skills.rawValue))
         UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         latest_section_frame = skills_sectionLable.frame
-        
-        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
+
+        let skillsLabels = self.CreateSkillsLabel(skills: (appdelegate.data?.GetSkills())!)
         for skillLabel in skillsLabels {
             cardView.addSubview(skillLabel)
         }
-        
+
         if skillsLabels.count == 0 {
             UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
         }else {
             UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
         }
-        
-        
+
+
         // 作品の追加
         var products_sectionLabel_y = 0.0 as CGFloat
         if skillsLabels.count == 0 {
@@ -150,33 +157,33 @@ class MyProfileViewController: UIViewController {
         }else {
             products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
         }
-        
+
         let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
         cardView.addSubview(products_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: products_sectionLable.frame, id: SectionID.products.rawValue))
         UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
         latest_section_frame = products_sectionLable.frame
-        
-        let productsViews = self.CreateProductLabel(json: data.GetProducts())
+
+        let productsViews = self.CreateProductLabel(json: (appdelegate.data?.GetProducts())!)
         for pViews in productsViews.0 {
             cardView.addSubview(pViews.title)
-            
+
             if let urlLabel = pViews.url {
                 cardView.addSubview(pViews.link_img!)
                 cardView.addSubview(urlLabel)
             }
-            
+
             if let imageView = pViews.image {
                 cardView.addSubview(pViews.image_shadow!)
                 cardView.addSubview(imageView)
             }
         }
-        
+
         if productsViews.0.count != 0 {
             UpdateCardViewFrame(last_add_cgrect: productsViews.1)
         }
-        
-        
+
+
         // SNSの追加
         var sns_sectionLable_y = 0.0 as CGFloat
         if productsViews.0.count == 0 {
@@ -184,33 +191,33 @@ class MyProfileViewController: UIViewController {
         }else {
             sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
         }
-        
+
         let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
         cardView.addSubview(sns_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: sns_sectionLable.frame, id: SectionID.sns.rawValue))
         UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
         latest_section_frame = sns_sectionLable.frame
-        
-        let snsLabels = self.CreateSNSLabel(json: data.GetSNS())
+
+        let snsLabels = self.CreateSNSLabel(json: (appdelegate.data?.GetSNS())!)
         for s_Label in snsLabels {
             cardView.addSubview(s_Label.icon)
             cardView.addSubview(s_Label.url)
         }
         UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
-        
-        
+
+
         // 資格の追加
         let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
         cardView.addSubview(license_sectionLable)
         cardView.addSubview(self.CreateEditButton(cgrect: license_sectionLable.frame, id: SectionID.license.rawValue))
         UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
         latest_section_frame = license_sectionLable.frame
-        
-        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
+
+        let licensesLabel = self.CreateLicenseLabel(licenses: (appdelegate.data?.GetLicenses())!)
         cardView.addSubview(licensesLabel)
         UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
-        
-        
+
+
         // 基本情報の追加
         let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
         let info_editbutton = self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue)
@@ -218,12 +225,14 @@ class MyProfileViewController: UIViewController {
         cardView.addSubview(info_editbutton)
         UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
         latest_section_frame = basic_info_sectionLabel.frame
+
+        let age = (appdelegate.data?.GetAge())!
         
-        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
+        let infoLabels = self.CreateBasicInfoLabel(info: [(appdelegate.data?.GetGender())!, String(age), (appdelegate.data?.GetAddress())!, (appdelegate.data?.GetSchoolCareer())!])
         for i_Label in infoLabels {
             cardView.addSubview(i_Label)
         }
-        
+
         var scroll_button_start_cgrect = CGRect()
         if infoLabels.count == 0 {
             scroll_button_start_cgrect = info_editbutton.frame
@@ -236,9 +245,9 @@ class MyProfileViewController: UIViewController {
         // トップへスクロールするボタンの追加
         let toptoscroll_button = self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect)
         cardView.addSubview(toptoscroll_button)
-        
+
         UpdateCardViewFrame(last_add_cgrect: toptoscroll_button.frame)
-        
+
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
     
@@ -658,9 +667,9 @@ class MyProfileViewController: UIViewController {
             let json = JSON(object)
             print("MyProfile results: ", json.count)
             
-            let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            let dummy = UserDetailDummyData().user_data_empty
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 

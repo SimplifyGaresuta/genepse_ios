@@ -43,7 +43,7 @@ class ProductFromViewController: FormViewController {
             <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "ポートフォリオサイト"
-                $0.value = product["title"].stringValue
+//                $0.value = product["title"].stringValue
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnDemand
                 $0.tag = Key.title.rawValue
@@ -69,7 +69,7 @@ class ProductFromViewController: FormViewController {
             <<< URLRow(){
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
-                $0.value = URL(string: product["url"].stringValue)
+//                $0.value = URL(string: product["url"].stringValue)
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
@@ -129,6 +129,8 @@ class ProductFromViewController: FormViewController {
         SetLoadedImage()
     }
     
+    //MARK: 仮置き
+    var product = JSON()
     func SetLoadedImage() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
@@ -179,7 +181,7 @@ class ProductFromViewController: FormViewController {
         let image = values[Key.image.rawValue] as? UIImage
         guard let title = values[Key.title.rawValue] as? String else {return}
         let url = values[Key.url.rawValue] as? URL
-        let id = product["id"].intValue
+//        let id = product["id"].intValue
         
         self.navigationController?.popViewController(animated: true)
     }
