@@ -14,14 +14,19 @@ import SwiftyJSON
 class EditMyProfileViewController: FormViewController {
 
     var edit_id = 0
-//    var data = DetailData()
+    var data = GetAppDelegate().data
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         InitNavigationController()
         CreateForms()
+//        data = GetAppDelegate().data!
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        data = GetAppDelegate().data!
+//    }
     
     public final class CustomPushRow<T: Equatable>: SelectorRow<PushSelectorCell<T>, SelectorViewController<T>>, RowType {
         
@@ -65,7 +70,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< PickerInputRow<String>(""){
                     $0.title = ""
                     $0.options = ["Engineer", "Designer", "Business"]
-                    $0.value = data.GetAttr()
+                    $0.value = data?.GetAttr()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.attribute.rawValue
@@ -90,7 +95,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = ""
                     $0.placeholder = "◯◯区"
-                    $0.value = data.GetActivityBase()
+                    $0.value = data?.GetActivityBase()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.activity_base.rawValue
@@ -116,7 +121,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextAreaRow(){
                     $0.title = ""
                     $0.placeholder = "私は今までに独学でXXを勉強し…"
-                    $0.value = data.GetOverview()
+                    $0.value = data?.GetOverview()
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.overview.rawValue
@@ -156,8 +161,8 @@ class EditMyProfileViewController: FormViewController {
                     }
                 }
                 
-                let awards = data.GetAwards()
-                for (i, award) in awards.enumerated() {
+                let awards = data?.GetAwards()
+                for (i, award) in (awards?.enumerated())! {
                     $0 <<< TextRow() {
                         $0.value = award
                         $0.tag = String(i)
@@ -185,8 +190,8 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    let user_skills = data.GetSkills()
-                    for (i, skill) in user_skills.enumerated() {
+                    let user_skills = data?.GetSkills()
+                    for (i, skill) in (user_skills?.enumerated())! {
                         $0 <<< PickerInputRow<String>() {
                             $0.value = skill
                             $0.tag = String(i)
@@ -201,7 +206,7 @@ class EditMyProfileViewController: FormViewController {
             let section = Section()
             section.tag = "ALL_P"
 
-            for p in data.GetProducts() {
+            for p in (data?.GetProducts())! {
                 let vc = ProductFromViewController()
                 vc.SetTitle(title: "Edit")
                 vc.SetIsAdd(flag: false)
@@ -232,7 +237,7 @@ class EditMyProfileViewController: FormViewController {
 
             var url = ""
             
-            for sns in data.GetSNS() {
+            for sns in (data?.GetSNS())! {
                 if sns["provider"] == "twitter" {
                     url = sns["url"].stringValue
                     break
@@ -265,7 +270,7 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    let licenses = data.GetLicenses()
+                    let licenses = (data?.GetLicenses())!
                     for (i, license) in licenses.enumerated() {
                         $0 <<< TextRow() {
                             $0.value = license
@@ -282,14 +287,14 @@ class EditMyProfileViewController: FormViewController {
                 <<< SegmentedRow<String>("sex") {
                     $0.options = ["男性", "女性", "その他"]
                     $0.title = "性別"
-                    $0.value = data.GetGender()
+                    $0.value = (data?.GetGender())!
                     $0.tag = Key.gender.rawValue
                 }
             
                 <<< IntRow() {
                     $0.title = "年齢"
                     $0.placeholder = ""
-                    $0.value = data.GetAge()
+                    $0.value = (data?.GetAge())!
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.age.rawValue
@@ -313,7 +318,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = "居住地"
                     $0.placeholder = "◯◯区"
-                    $0.value = data.GetAddress()
+                    $0.value = (data?.GetAddress())!
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.address.rawValue
@@ -337,7 +342,7 @@ class EditMyProfileViewController: FormViewController {
                 <<< TextRow(){
                     $0.title = "最終学歴"
                     $0.placeholder = "XX大学YY学部 卒業"
-                    $0.value = data.GetSchoolCareer()
+                    $0.value = (data?.GetSchoolCareer())!
                     $0.add(rule: RuleRequired())
                     $0.validationOptions = .validatesOnChange
                     $0.tag = Key.school_career.rawValue

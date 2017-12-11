@@ -667,7 +667,7 @@ class MyProfileViewController: UIViewController {
             let json = JSON(object)
             print("MyProfile results: ", json.count)
             
-            let dummy = UserDetailDummyData().user_data_empty
+            let dummy = UserDetailDummyData().user_data
             self.AddViews(json: JSON(dummy))
 //            self.AddViews(json: json)
         }
