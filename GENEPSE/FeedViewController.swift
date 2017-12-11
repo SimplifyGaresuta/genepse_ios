@@ -311,7 +311,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
-            print(json.count)
+            print("Feed results: ", json.count)
             
             let dummy = FeedViewDummyData().users_data
 //            self.AddCard(json: JSON(dummy))

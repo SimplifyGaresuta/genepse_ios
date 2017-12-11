@@ -655,7 +655,7 @@ class MyProfileViewController: UIViewController {
         Alamofire.request(urlString, method: .get).responseJSON { (response) in
             guard let object = response.result.value else{return}
             let json = JSON(object)
-            print(json.count)
+            print("MyProfile results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
 //            self.AddViews(json: JSON(dummy))
