@@ -13,11 +13,9 @@ class AsyncUIImageView: UIImageView {
     
     //画像を非同期で読み込む
     func loadImage(urlString: String){
-        let req = URLRequest(url: NSURL(string:urlString)! as URL,
-                             cachePolicy: .returnCacheDataElseLoad,
-                             timeoutInterval: CACHE_SEC);
-        let conf =  URLSessionConfiguration.default;
-        let session = URLSession(configuration: conf, delegate: nil, delegateQueue: OperationQueue.main);
+        let req = URLRequest(url: NSURL(string:urlString)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
+        let conf =  URLSessionConfiguration.default
+        let session = URLSession(configuration: conf, delegate: nil, delegateQueue: OperationQueue.main)
         
         session.dataTask(with: req, completionHandler:
             { (data, resp, err) in
@@ -29,5 +27,13 @@ class AsyncUIImageView: UIImageView {
                     print("AsyncImageView:Error \(String(describing: err?.localizedDescription))");
                 }
         }).resume();
+    }
+    
+    func loadImageWithHandler(urlString: String, handler: @escaping (Data?, URLResponse?, Error?) -> Void ) {
+        let req = URLRequest(url: NSURL(string:urlString)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
+        let conf =  URLSessionConfiguration.default
+        let session = URLSession(configuration: conf, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        session.dataTask(with: req, completionHandler: handler).resume()
     }
 }

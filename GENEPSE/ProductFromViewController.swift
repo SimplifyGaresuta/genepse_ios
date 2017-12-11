@@ -16,6 +16,7 @@ class ProductFromViewController: FormViewController {
     private var view_title = ""
     private var product = JSON()
     private var editMyprofVC = EditMyProfileViewController()
+    let productImageView = AsyncUIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class ProductFromViewController: FormViewController {
         let RuleRequired_M = "必須項目です"
         let RuleRequired_Warning_M = "項目を埋めてアピール力をあげましょう"
         
-        let productImageView = AsyncUIImageView()
+        
         
         form +++ Section("タイトル")
             <<< TextRow(){
@@ -105,9 +106,9 @@ class ProductFromViewController: FormViewController {
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
                 
                 if let image = row.value {
-                    productImageView.image = image
+                    self.productImageView.image = image
                 }else {
-                    productImageView.image = nil
+                    self.productImageView.image = nil
                 }
         }
         .onRowValidationChanged { cell, row in
@@ -127,17 +128,32 @@ class ProductFromViewController: FormViewController {
             }
         }
         
+        SetLoadedImage()
+    }
+    
+    func SetLoadedImage() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
         let y = self.view.subviews[0].frame.height - h - base_margin*2
         
-        productImageView.loadImage(urlString: product["image"].stringValue)
-        productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
-        productImageView.layer.cornerRadius = 10
-        productImageView.clipsToBounds = true
-        productImageView.contentMode = .scaleAspectFill
-        self.view.subviews[0].addSubview(productImageView)
-
+        productImageView.loadImageWithHandler(urlString: product["image"].stringValue) { (data, resp, err) in
+            if err == nil {
+                let image = UIImage(data:data!)
+                self.productImageView.image = image
+                self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
+                self.productImageView.layer.cornerRadius = 10
+                self.productImageView.clipsToBounds = true
+                self.productImageView.contentMode = .scaleAspectFill
+                self.view.subviews[0].addSubview(self.productImageView)
+                
+                let imageRow = self.form.rowBy(tag: Key.image.rawValue) as! ImageRow
+                imageRow.value = self.productImageView.image
+                print(self.productImageView.image)
+                print(imageRow.value)
+            }else {
+                print("AsyncImageView:Error \(String(describing: err?.localizedDescription))")
+            }
+        }
     }
     
 
