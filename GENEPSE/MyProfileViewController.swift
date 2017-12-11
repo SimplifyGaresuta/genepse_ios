@@ -397,7 +397,6 @@ class MyProfileViewController: UIViewController {
     func TapEditButton(sender: UIButton) {
         let edit_myprofile_VC = EditMyProfileViewController()
         edit_myprofile_VC.SetEditID(id: sender.tag)
-        edit_myprofile_VC.SetMyProfileData(data: data)
         
         let navController = UINavigationController(rootViewController: edit_myprofile_VC)
         self.present(navController, animated:true, completion: nil)

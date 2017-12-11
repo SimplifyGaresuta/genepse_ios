@@ -14,11 +14,9 @@ import SwiftyJSON
 class ProductFromViewController: FormViewController {
 
     private var view_title = ""
-    private var product = JSON()
-    private var editMyprofVC = EditMyProfileViewController()
     let productImageView = AsyncUIImageView()
     private var is_imageloaded = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,9 +24,6 @@ class ProductFromViewController: FormViewController {
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
-        
-//        is_imageloaded = false
-//        is_add = false
         
         CreateFrom()
     }
@@ -186,8 +181,6 @@ class ProductFromViewController: FormViewController {
         let url = values[Key.url.rawValue] as? URL
         let id = product["id"].intValue
         
-        editMyprofVC.SetUpdateData(title: title, url: url, image: image, id: id)
-        editMyprofVC.SetIsProductFromVCDisplay(flag: true)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -198,13 +191,5 @@ class ProductFromViewController: FormViewController {
     var is_add = false
     func SetIsAdd(flag: Bool) {
         is_add = flag
-    }
-    
-    func SetProduct(p: JSON) {
-        product = p
-    }
-    
-    func SetAllProductVC(vc: EditMyProfileViewController) {
-        editMyprofVC = vc
     }
 }

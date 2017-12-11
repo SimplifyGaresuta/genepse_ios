@@ -16,10 +16,6 @@ class EditMyProfileViewController: FormViewController {
     var edit_id = 0
     var user_id = 0
     var data = DetailData()
-    var display = false
-    
-    var is_updated = false
-    var prev_products:[JSON] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +28,6 @@ class EditMyProfileViewController: FormViewController {
         
         InitNavigationController()
         CreateForms()
-        
-        prev_products = data.GetProducts()
     }
     
     public final class CustomPushRow<T: Equatable>: SelectorRow<PushSelectorCell<T>, SelectorViewController<T>>, RowType {
@@ -48,22 +42,6 @@ class EditMyProfileViewController: FormViewController {
         }
     }
     
-
-    override func viewWillAppear(_ animated: Bool) {
-        print(data.GetProducts())
-        
-        if edit_id == SectionID.products.rawValue && display {
-            for p in data.GetProducts() {
-                let id = String(p["id"].intValue)
-                form.rowBy(tag: id)?.title = p[Key.title.rawValue].stringValue
-                form.rowBy(tag: id)?.updateCell()
-            }
-            
-            
-            
-            display = false
-        }
-    }
     
     func InitNavigationController() {
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
@@ -232,8 +210,6 @@ class EditMyProfileViewController: FormViewController {
 
             for p in data.GetProducts() {
                 let vc = ProductFromViewController()
-                vc.SetProduct(p: p)
-                vc.SetAllProductVC(vc: self)
                 vc.SetTitle(title: "Edit")
                 vc.SetIsAdd(flag: false)
                 
@@ -247,6 +223,8 @@ class EditMyProfileViewController: FormViewController {
                 }
                 section.append(row)
             }
+            
+            form.append(section)
 
             
             form +++ Section()
@@ -406,55 +384,7 @@ class EditMyProfileViewController: FormViewController {
         edit_id = id
     }
     
-    func SetMyProfileData(data: DetailData) {
-        self.data = data
-    }
-    
-    func SetIsProductFromVCDisplay(flag: Bool) {
-        display = flag
-    }
-    
-    
-    func SetUpdateData(title: String, url: URL?, image: UIImage?, id: Int) {
-        is_updated = true
-        var products = data.GetProducts()
-        
-        var edited_url = ""
-        if url == nil {
-            edited_url = ""
-        }else {
-            edited_url = String(describing: url!)
-        }
-        
-        var is_add_flag = true
-        for (i, p) in products.enumerated() {
-            if p["id"].intValue == id {
-                products[i][Key.title.rawValue].stringValue = title
-                products[i][Key.url.rawValue].stringValue = edited_url
-                is_add_flag = false
-                break
-            }
-        }
-        
-        
-        //全部見つからなkッタら新規登録
-        var hoge2 = data.GetProducts()
-        print(hoge2)
-        if is_add_flag {
-            print("*********")
-            let hoge = ["title": title, "url": edited_url, "image": ""]
-            
-            hoge2.append(JSON(hoge))
-            data.SetProducts(products: hoge2)
-            print(data.GetProducts())
-        }
-    }
-    
     func CloseEditMyProfileView(sender: UIButton) {
-        if is_updated {
-            data.SetProducts(products: prev_products)
-        }
-        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -475,53 +405,6 @@ class EditMyProfileViewController: FormViewController {
         self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         
         print("Tap AddRow")
-    }
-    
-    //TODO: InsertRow
-    func InsertRow(p: JSON) {
-//        form +++ Section("属性")
-//            <<< PickerInputRow<String>(""){
-//                $0.title = ""
-//                $0.options = ["Engineer", "Designer", "Business"]
-//                $0.value = data.GetAttr()
-//                $0.add(rule: RuleRequired())
-//                $0.validationOptions = .validatesOnChange
-//                $0.tag = Key.attribute.rawValue
-//        }
-        
-        
-        var hoge = data.GetProducts()
-        hoge.append(p)
-        data.SetProducts(products: hoge)
-//
-//        let section = Section()
-//        section.tag = "ALL_P"
-//
-//        for p in data.GetProducts() {
-//            let vc = ProductFromViewController()
-//            vc.SetProduct(p: p)
-//            vc.SetAllProductVC(vc: self)
-//            vc.SetTitle(title: "Edit")
-//            vc.SetIsAdd(flag: false)
-//
-//            let row = ButtonRow() {
-//                $0.title = p["title"].stringValue
-//                $0.tag = p["id"].stringValue
-//                $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
-//                                            onDismiss: { vc in
-//                                                vc.navigationController?.popViewController(animated: true)}
-//                )
-//            }
-//            form +++ row
-////            section.append(row)
-//        }
-        
-//        form +++ section
-//        self.form.sectionBy(tag: "ALL_P")?.reload()
-        
-//        print(self.form.sectionBy(tag: "ALL_P"), "insert")
-//        form.sectionBy(tag: "ALL_P")?.append(row)
-//        form.sectionBy(tag: "ALL_P")?.reload()
     }
     
     func DataShaping(values: [String:Any?]) {
