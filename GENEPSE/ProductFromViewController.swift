@@ -15,7 +15,7 @@ class ProductFromViewController: FormViewController {
 
     private var view_title = ""
     private var product = JSON()
-    
+    private var editMyprofVC = EditMyProfileViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +148,8 @@ class ProductFromViewController: FormViewController {
     func Save(sender: UIButton) {
         if form.rowBy(tag: "title")?.validate().count == 0 {
             // TODO: データ保存・更新処理
-            
+            editMyprofVC.data.SetProducts(products: [product, product])
+            editMyprofVC.SetIsProductFromVCDisplay(flag: true)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -161,5 +162,9 @@ class ProductFromViewController: FormViewController {
     
     func SetProduct(p: JSON) {
         product = p
+    }
+    
+    func SetAllProductVC(vc: EditMyProfileViewController) {
+        editMyprofVC = vc
     }
 }

@@ -16,6 +16,7 @@ class EditMyProfileViewController: FormViewController {
     var edit_id = 0
     var user_id = 0
     var data = DetailData()
+    var display = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,16 @@ class EditMyProfileViewController: FormViewController {
             })
         }
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if edit_id == SectionID.products.rawValue && display {
+            //TODO: update cell
+//            form.rowBy(tag: "1")?.title = "UNKO"
+//            form.rowBy(tag: "1")?.updateCell()
+            
+            display = false
+        }
+    }
     
     func InitNavigationController() {
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
@@ -210,20 +220,22 @@ class EditMyProfileViewController: FormViewController {
             for p in data.GetProducts() {
                 let vc = ProductFromViewController()
                 vc.SetProduct(p: p)
+                vc.SetAllProductVC(vc: self)
                 vc.SetTitle(title: "Edit")
                 
                 let row = ButtonRow() {
                     $0.title = p["title"].stringValue
+                    $0.tag = p["id"].stringValue
                     $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
                                                 onDismiss: { vc in
                                                     vc.navigationController?.popViewController(animated: true)}
-                                            )
+                    )
                 }
-                
                 section.append(row)
             }
             
             form.append(section)
+            
             
             form +++ Section()
                 <<< ButtonRow() {
@@ -383,6 +395,10 @@ class EditMyProfileViewController: FormViewController {
     
     func SetMyProfileData(data: DetailData) {
         self.data = data
+    }
+    
+    func SetIsProductFromVCDisplay(flag: Bool) {
+        display = flag
     }
     
     func CloseEditMyProfileView(sender: UIButton) {
