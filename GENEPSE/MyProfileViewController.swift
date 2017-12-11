@@ -20,10 +20,6 @@ class MyProfileViewController: UIViewController {
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        CallUserDetailAPI()
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
