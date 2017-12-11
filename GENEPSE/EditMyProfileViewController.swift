@@ -182,7 +182,7 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                     
-                    let user_skills:[String] = []
+                    let user_skills = data.GetSkills()
                     for skill in user_skills {
                         $0 <<< PickerInputRow<String>() {
                             $0.value = skill
@@ -222,17 +222,23 @@ class EditMyProfileViewController: FormViewController {
             break
             
         case SectionID.sns.rawValue:
+            var url = ""
+            
             for sns in data.GetSNS() {
-                if sns["provider"] != "facebook" {
-                    form +++ Section(sns["provider"].stringValue)
-                        <<< TextRow(){
-                            $0.title = ""
-                            $0.placeholder = "@◯◯◯◯◯◯"
-                            $0.value = sns["url"].stringValue
-                    }
+                if sns["provider"] == "twitter" {
+                    url = sns["url"].stringValue
+                    break
                 }
             }
+            
+            form +++ Section("Twitter")
+                <<< TextRow(){
+                    $0.title = ""
+                    $0.placeholder = "@◯◯◯◯◯◯"
+                    $0.value = url
+            }
             break
+            
         case SectionID.license.rawValue:
             self.navigationItem.title = "Edit Licenses"
             
