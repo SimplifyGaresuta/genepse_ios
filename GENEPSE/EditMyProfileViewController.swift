@@ -229,6 +229,7 @@ class EditMyProfileViewController: FormViewController {
                 vc.SetProduct(p: p)
                 vc.SetAllProductVC(vc: self)
                 vc.SetTitle(title: "Edit")
+                vc.SetIsAdd(flag: false)
                 
                 let row = ButtonRow() {
                     $0.title = p["title"].stringValue
@@ -388,6 +389,7 @@ class EditMyProfileViewController: FormViewController {
     func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
         let productVC = ProductFromViewController()
         productVC.SetTitle(title: "Add")
+        productVC.SetIsAdd(flag: true)
         navigationController?.show(productVC, sender: nil)
     }
 

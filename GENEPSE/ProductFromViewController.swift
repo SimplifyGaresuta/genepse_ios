@@ -27,7 +27,8 @@ class ProductFromViewController: FormViewController {
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
         
-        is_imageloaded = false
+//        is_imageloaded = false
+//        is_add = false
         
         CreateFrom()
     }
@@ -188,6 +189,11 @@ class ProductFromViewController: FormViewController {
     
     func SetTitle(title: String) {
         view_title = title
+    }
+    
+    var is_add = false
+    func SetIsAdd(flag: Bool) {
+        is_add = flag
     }
     
     func SetProduct(p: JSON) {
