@@ -397,8 +397,7 @@ class EditMyProfileViewController: FormViewController {
         if validate_err_count == 0 {
             // TODO: データ保存・更新処理
             
-            print(form.values())
-            
+            DataShaping(values: form.values())
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -407,12 +406,16 @@ class EditMyProfileViewController: FormViewController {
         print("Tap AddRow")
     }
     
+    func DataShaping(values: [String:Any?]) {
+        print(values)
+    }
+    
     func CallUpdateUserDataAPI() {
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(self.user_id)
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print(json)
-        }
+//        Alamofire.request(urlString, method: .patch).responseJSON { (response) in
+//            guard let object = response.result.value else{return}
+//            let json = JSON(object)
+//            print(json)
+//        }
     }
 }
