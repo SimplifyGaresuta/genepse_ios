@@ -32,6 +32,8 @@ class EditMyProfileViewController: FormViewController {
         
         InitNavigationController()
         CreateForms()
+        
+        prev_products = data.GetProducts()
     }
     
     public final class CustomPushRow<T: Equatable>: SelectorRow<PushSelectorCell<T>, SelectorViewController<T>>, RowType {
@@ -62,7 +64,7 @@ class EditMyProfileViewController: FormViewController {
     
     func InitNavigationController() {
         let cancel_button = UIBarButtonItem(image: UIImage(named: "icon_close"), style: .plain, target: self, action: #selector(self.CloseEditMyProfileView(sender:)))
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.TapCheckButton(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_upload"), style: .plain, target: self, action: #selector(self.TapUploadButton(sender:)))
         
         self.navigationController?.navigationBar.barTintColor = UIColor.black
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -411,16 +413,21 @@ class EditMyProfileViewController: FormViewController {
     }
     
     
-    func SetUpdateData(title: String, url: URL, image: UIImage, id: Int) {
+    func SetUpdateData(title: String, url: URL?, image: UIImage?, id: Int) {
         is_updated = true
-        
         var products = data.GetProducts()
-        prev_products = products
+        
+        var edited_url = ""
+        if url == nil {
+            edited_url = ""
+        }else {
+            edited_url = String(describing: url!)
+        }
         
         for (i, p) in products.enumerated() {
             if p["id"].intValue == id {
-                products[i][Key.title.rawValue].string = title
-                products[i][Key.url.rawValue].string = String(describing: url)
+                products[i][Key.title.rawValue].stringValue = title
+                products[i][Key.url.rawValue].stringValue = edited_url
                 break
             }
         }
@@ -436,7 +443,7 @@ class EditMyProfileViewController: FormViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func TapCheckButton(sender: UIButton) {
+    func TapUploadButton(sender: UIButton) {
         var validate_err_count = 0
         
         for row in form.allRows {

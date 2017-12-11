@@ -22,7 +22,7 @@ class ProductFromViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.TapCheckButton(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
@@ -167,19 +167,23 @@ class ProductFromViewController: FormViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func Save(sender: UIButton) {
-        if !is_imageloaded {
-            self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
+    func TapCheckButton(sender: UIButton) {
+        //新規追加時は画像取得の通信を行わない(編集時のみ)
+        if !is_add {
+            if !is_imageloaded {
+                self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
+            }
         }
+        
         
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
         
         let values = form.values()
-        guard let image = values[Key.image.rawValue] as? UIImage else {return}
+        let image = values[Key.image.rawValue] as? UIImage
         guard let title = values[Key.title.rawValue] as? String else {return}
-        guard let url = values[Key.url.rawValue] as? URL else {return}
+        let url = values[Key.url.rawValue] as? URL
         let id = product["id"].intValue
         
         editMyprofVC.SetUpdateData(title: title, url: url, image: image, id: id)
