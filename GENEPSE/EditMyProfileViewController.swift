@@ -434,29 +434,20 @@ class EditMyProfileViewController: FormViewController {
         let form_values = DataShaping(json: JSON(values))
         print(form_values)
         
-        switch edit_id {
-        case SectionID.name.rawValue:
-            for form_value in form_values {
-                let queue = DispatchQueue(label: "jp.classmethod.app.queue\(form_value.0)")
-                queue.async(group: group) {
-                    self.CallUpdateUserDataAPI(req: [form_value.0:form_value.1.stringValue], user_id: user_id)
-                    print("queue \(form_value.0) done.")
-                }
+        for form_value in form_values {
+            var hoge = [String:Any]()
+            
+            if form_value.0 == Key.age.rawValue {
+                hoge[form_value.0] = form_value.1.intValue
+            }else {
+                hoge[form_value.0] = form_value.1.stringValue
             }
-            break
-        default:
-            break
+
+            let queue = DispatchQueue(label: "jp.classmethod.app.queue\(form_value.0)")
+            queue.async(group: group) {
+                self.CallUpdateUserDataAPI(req: hoge, user_id: user_id)
+            }
         }
-        
-        
-        
-//            print(form_value.key, form_value.value)
-//            let queue = DispatchQueue(label: "jp.classmethod.app.queue\(dic.key)")
-//            queue.async(group: group) {
-//                print("queue \(dic.key) done.")
-//            }
-//        }
-        
         
         // タスクが全て完了したらメインスレッド上で処理を実行する
         group.notify(queue: DispatchQueue.main) {
@@ -465,14 +456,13 @@ class EditMyProfileViewController: FormViewController {
         }
     }
     
-    func CallUpdateUserDataAPI(req: [String:String], user_id: Int) {
+    func CallUpdateUserDataAPI(req: [String:Any], user_id: Int) {
         print("CALL API", req)
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print(response.response?.statusCode)
-            print(json)
+//            print(response.response!.statusCode)
+//            print(json)
         }
     }
 }
