@@ -14,22 +14,28 @@ import SwiftyJSON
 class ProductFromViewController: FormViewController {
 
     private var view_title = ""
-    private var product = JSON()
-    private var editMyprofVC = EditMyProfileViewController()
     let productImageView = AsyncUIImageView()
     private var is_imageloaded = false
-
+    private var product = JSON()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let check_button = UIBarButtonItem(image: UIImage(named: "icon_check"), style: .plain, target: self, action: #selector(self.Save(sender:)))
+        let check_button = UIBarButtonItem(image: UIImage(named: "icon_upload"), style: .plain, target: self, action: #selector(self.TapUploadButton(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
         self.navigationItem.title = view_title
         
-        is_imageloaded = false
+        UpdateSelfProduct()
         
         CreateFrom()
+        
+        print("product_id:", product_id)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        UpdateSelfProduct()
     }
     
     func CreateFrom() {
@@ -47,9 +53,9 @@ class ProductFromViewController: FormViewController {
             <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "ポートフォリオサイト"
-                $0.value = product["title"].stringValue
+                $0.value = product[Key.title.rawValue].stringValue
                 $0.add(rule: RuleRequired())
-                $0.validationOptions = .validatesOnDemand
+                $0.validationOptions = .validatesOnChange
                 $0.tag = Key.title.rawValue
         }
         .onRowValidationChanged { cell, row in
@@ -73,7 +79,7 @@ class ProductFromViewController: FormViewController {
             <<< URLRow(){
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
-                $0.value = URL(string: product["url"].stringValue)
+                $0.value = URL(string: product[Key.url.rawValue].stringValue)
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
@@ -130,23 +136,30 @@ class ProductFromViewController: FormViewController {
             }
         }
         
-        SetLoadedImage()
+        InitProductImageView()
+        
+        if !is_add {
+            SetLoadedImage()
+        }
     }
     
-    func SetLoadedImage() {
+    func InitProductImageView() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
         let y = self.view.subviews[0].frame.height - h - base_margin*2
         
+        self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
+        self.productImageView.layer.cornerRadius = 10
+        self.productImageView.clipsToBounds = true
+        self.productImageView.contentMode = .scaleAspectFill
+        self.view.subviews[0].addSubview(self.productImageView)
+    }
+    
+    func SetLoadedImage() {
         productImageView.loadImageWithHandler(urlString: product["image"].stringValue) { (data, resp, err) in
             if err == nil {
                 let image = UIImage(data:data!)
                 self.productImageView.image = image
-                self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
-                self.productImageView.layer.cornerRadius = 10
-                self.productImageView.clipsToBounds = true
-                self.productImageView.contentMode = .scaleAspectFill
-                self.view.subviews[0].addSubview(self.productImageView)
                 
                 let imageRow = self.form.rowBy(tag: Key.image.rawValue) as! ImageRow
                 imageRow.value = self.productImageView.image
@@ -166,35 +179,51 @@ class ProductFromViewController: FormViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func Save(sender: UIButton) {
-        if !is_imageloaded {
-            self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
-        }
-        
+    func TapUploadButton(sender: UIButton) {
+        // タイトルが埋まっているかどうか
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
+        }else {
+            if is_add {
+                
+            }else {
+                if !is_imageloaded {
+                    self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
+                }
+            }
+            
+            let values = form.values()
+            let image = values[Key.image.rawValue] as? UIImage
+            guard let title = values[Key.title.rawValue] as? String else {return}
+            let url = values[Key.url.rawValue] as? URL
+            //        let id = product["id"].intValue
+            print(image, title, url)
+            print("******************")
+            
+            self.dismiss(animated: true, completion: nil)
         }
-        
-        let values = form.values()
-        guard let image = values[Key.image.rawValue] as? UIImage else {return}
-        guard let title = values[Key.title.rawValue] as? String else {return}
-        guard let url = values[Key.url.rawValue] as? URL else {return}
-        let id = product["id"].intValue
-        
-        editMyprofVC.SetUpdateData(title: title, url: url, image: image, id: id)
-        editMyprofVC.SetIsProductFromVCDisplay(flag: true)
-        self.navigationController?.popViewController(animated: true)
     }
     
     func SetTitle(title: String) {
         view_title = title
     }
     
-    func SetProduct(p: JSON) {
-        product = p
+    var product_id = 0
+    func SetProductID(id: Int) {
+        product_id = id
     }
     
-    func SetAllProductVC(vc: EditMyProfileViewController) {
-        editMyprofVC = vc
+    var is_add = false
+    func SetIsAdd(flag: Bool) {
+        is_add = flag
+    }
+    
+    func UpdateSelfProduct() {
+        for p in (GetAppDelegate().data?.GetProducts())! {
+            if p["id"].intValue == product_id {
+                product = p
+                break
+            }
+        }
     }
 }

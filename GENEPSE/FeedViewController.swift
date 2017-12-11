@@ -318,8 +318,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             print("Feed results: ", json.count)
             
             let dummy = FeedViewDummyData().users_data
-            self.AddCard(json: JSON(dummy))
-//            self.AddCard(json: json)
+//            self.AddCard(json: JSON(dummy))
+            self.AddCard(json: json)
             
             self.isUpdating = false
         }
