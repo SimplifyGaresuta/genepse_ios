@@ -134,6 +134,10 @@ func GetAttributedTextLineHeight(height: Int, text: String) -> NSMutableAttribut
     return attributedText
 }
 
+func GetAppDelegate() -> AppDelegate {
+    return UIApplication.shared.delegate as! AppDelegate
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

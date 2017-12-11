@@ -24,6 +24,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var offset = 0
     var has_next = true
     
+    var user_id = 0
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = "Feed"
@@ -31,6 +33,12 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let user_id = GetAppDelegate().user_id else {
+            return
+        }
+        
+        self.user_id = user_id
 
         self.view.layoutIfNeeded()
         
@@ -74,10 +82,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func AddCard(json: JSON) {
-        guard let user = DBMethod().GetAll(User.self) else {
-            return
-        }
-        
         let has_next = json["has_next"].boolValue
         self.has_next = has_next
         
@@ -87,7 +91,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let id = obj["id"].intValue
             
             //表示しようとしているカードが自分と同じ場合はスキップ
-            if id == user.user_id {
+            if id == user_id {
                 continue
             }
             

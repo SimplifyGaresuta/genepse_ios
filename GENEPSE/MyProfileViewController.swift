@@ -41,11 +41,11 @@ class MyProfileViewController: UIViewController {
     }
     
     func GetMyID() -> Int {
-        guard let user = DBMethod().GetAll(User.self) else {
+        guard let user_id = GetAppDelegate().user_id else {
             return 0
         }
         
-        return user.user_id
+        return user_id
     }
     
     func InitScrollView() {

@@ -32,7 +32,7 @@ class DBMethod {
         }
     }
     
-    func GetAll(_ DBName: Object.Type) -> User? {
+    func GetUserID(_ DBName: Object.Type) -> User? {
         do{
             let realm = try Realm()
             return realm.objects(User.self).first!

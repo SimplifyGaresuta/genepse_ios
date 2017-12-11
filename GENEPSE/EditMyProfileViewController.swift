@@ -8,14 +8,24 @@
 
 import UIKit
 import Eureka
+import Alamofire
+import SwiftyJSON
 
 class EditMyProfileViewController: FormViewController {
 
     var edit_id = 0
+    var user_id = 0
     var data = DetailData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let user_id = GetAppDelegate().user_id else {
+            return
+        }
+        
+        self.user_id = user_id
+        
         InitNavigationController()
         CreateForms()
     }
@@ -395,5 +405,14 @@ class EditMyProfileViewController: FormViewController {
         self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         
         print("Tap AddRow")
+    }
+    
+    func CallUpdateUserDataAPI() {
+        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(self.user_id)
+        Alamofire.request(urlString, method: .get).responseJSON { (response) in
+            guard let object = response.result.value else{return}
+            let json = JSON(object)
+            print(json)
+        }
     }
 }
