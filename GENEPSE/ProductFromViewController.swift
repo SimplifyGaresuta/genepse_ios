@@ -172,15 +172,15 @@ class ProductFromViewController: FormViewController {
             self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
         }
         
-        if form.rowBy(tag: "title")?.validate().count == 0 {
-            // TODO: productへのデータ挿入
-            print(form.values())
-            editMyprofVC.UpdateData(product: product)
-            editMyprofVC.SetIsProductFromVCDisplay(flag: true)
-            self.navigationController?.popViewController(animated: true)
+        if form.rowBy(tag: "title")?.validate().count != 0 {
+            self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
         
-        self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
+        // TODO: productへのデータ挿入
+        print(form.values())
+        editMyprofVC.UpdateData(product: product)
+        editMyprofVC.SetIsProductFromVCDisplay(flag: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func SetTitle(title: String) {
