@@ -113,6 +113,11 @@ class MyProfileViewController: UIViewController {
         cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
 
+        
+        //拠点ラベルを追加
+        let activitybaseLabel = self.CreateActivityBaseLabel(name: (appdelegate.data?.GetActivityBase())!, namelabel_cgrect: nameLabel.frame)
+        cardView.addSubview(activitybaseLabel)
+
 
         // 経歴の追加
         let careerLabel = self.CreateCareerLabel(text: (appdelegate.data?.GetOverview())!, nameLabel_frame: nameLabel.frame)
@@ -332,9 +337,9 @@ class MyProfileViewController: UIViewController {
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
         if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 37
+            font_size = 32
         }else {
-            font_size = 39
+            font_size = 34
         }
         
         let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
@@ -343,6 +348,37 @@ class MyProfileViewController: UIViewController {
         name_label.sizeToFit()
         
         return name_label
+    }
+    
+    func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
+        
+        if name == "" {
+            return UILabel()
+        }
+        
+        let x = namelabel_cgrect.origin.x + namelabel_cgrect.width + base_margin*1.5
+        let y = namelabel_cgrect.origin.y
+        
+        let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: namelabel_cgrect.width, height: namelabel_cgrect.height+base_margin))
+        label.text = name
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 23)
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.black
+        
+        //サイズをfitさせて残りの高さを計算
+        label.sizeToFit()
+        let fit_height = label.frame.height
+        let rest_h = namelabel_cgrect.height - fit_height
+        
+        label.topTextInset = rest_h/2
+        label.bottomTextInset = rest_h/2
+        label.leftTextInset = 20
+        label.rightTextInset = 20
+        label.sizeToFit()
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        
+        return label
     }
     
     func CreateCareerLabel(text: String, nameLabel_frame: CGRect) -> UILabel {
