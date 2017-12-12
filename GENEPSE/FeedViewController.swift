@@ -111,8 +111,8 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(self.profileImageView)
             
             // 属性を追加
-            let attributeLabels = self.CreateAttributeImageView(attribute: attribute)
-            cardViews.last!.addSubview(attributeLabels)
+            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
+            cardViews.last!.addSubview(attributeImageView)
 
             
             // メインスキルを追加
@@ -216,10 +216,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateAttributeImageView(attribute: String) -> UIImageView {
-        let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
+        let y = profileImageView.frame.origin.y + base_margin*0.5
         
         let attributeImageView = UIImageView(image: UIImage(named: "attr_"+attribute))
-        attributeImageView.frame = CGRect(x: base_margin*0.33, y: label_start_y, width: profileImageView.frame.width*0.45, height: profileImageView.frame.height*0.2)
+        attributeImageView.frame = CGRect(x: base_margin*0.33, y: y, width: profileImageView.frame.width*0.45, height: profileImageView.frame.height*0.2)
         attributeImageView.contentMode = .scaleAspectFill
         
         return attributeImageView
