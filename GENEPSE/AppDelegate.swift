@@ -12,7 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var user_id: Int?
+    var data: DetailData?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -22,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             self.window?.rootViewController = signupVC
             self.window?.makeKeyAndVisible()
+        }else {
+            guard let user_id = DBMethod().GetUserID(User.self)?.user_id else{return false}
+            self.user_id = user_id
         }
         
         return true
