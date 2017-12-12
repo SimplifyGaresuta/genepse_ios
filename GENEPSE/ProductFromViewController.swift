@@ -215,9 +215,9 @@ class ProductFromViewController: FormViewController {
         guard var user_id = GetAppDelegate().user_id else {return}
         var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
         let headers: HTTPHeaders =
-            [
-            "Content-Type":"multipart/form-data;boundary=------------------------cc40c1c469b56466",
-            "Accept":"*/*"
+            [:
+//            "Content-Type":"multipart/form-data;boundary=------------------------cc40c1c469b56466",
+//            "Accept":"*/*"
             ]
         let nil_str: Data = "".data(using: .utf8)!
         
@@ -275,19 +275,20 @@ class ProductFromViewController: FormViewController {
                                          withName: "title",
                                          mimeType: "form-data")
                 
-                print(multipartFormData.boundary)
-                print(multipartFormData.contentLength)
-                print(multipartFormData.contentType)
+//                print(multipartFormData.boundary)
+//                print(multipartFormData.contentLength)
+//                print(multipartFormData.contentType)
                 
                 print("************************************")
 
         },
             to: host_url,
             method: method,
-            headers: headers,
+            headers: nil,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                     case .success(let upload, _, _):
+                        print(upload.request?.allHTTPHeaderFields)
                         upload
                         .uploadProgress(closure: { (progress) in
                             print("Upload Progress: \(progress.fractionCompleted)")
