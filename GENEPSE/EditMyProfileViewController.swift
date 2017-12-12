@@ -21,12 +21,7 @@ class EditMyProfileViewController: FormViewController {
         
         InitNavigationController()
         CreateForms()
-//        data = GetAppDelegate().data!
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        data = GetAppDelegate().data!
-//    }
     
     public final class CustomPushRow<T: Equatable>: SelectorRow<PushSelectorCell<T>, SelectorViewController<T>>, RowType {
         
@@ -408,26 +403,19 @@ class EditMyProfileViewController: FormViewController {
         }
         
         if validate_err_count == 0 {
-            // TODO: データ保存・更新処理
-            HEIRETU(values: form.values())
+            AsyncCallAPI(values: form.values())
         }else {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
     }
     
-    func DataShaping(json: JSON) -> JSON {
-//        sns
-        return json
-    }
-    
-    //TODO: 関数名、上記関数の削除
-    func HEIRETU(values: [String:Any?]) {
+    func AsyncCallAPI(values: [String:Any?]) {
         guard let user_id = GetAppDelegate().user_id else {
             return
         }
         
         var group = DispatchGroup()
-        let form_values = DataShaping(json: JSON(values))
+        let form_values = JSON(values)
         print(form_values)
         
         var req_array:[String] = []
@@ -449,7 +437,6 @@ class EditMyProfileViewController: FormViewController {
                 print("")
             }
         }
-        
         
         //req_arrayを使用していた場合(awards,skills,licenses)
         if req_array.count != 0 {
