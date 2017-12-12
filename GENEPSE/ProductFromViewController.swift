@@ -274,6 +274,12 @@ class ProductFromViewController: FormViewController {
                 multipartFormData.append(title.data(using: .utf8)!,
                                          withName: "title",
                                          mimeType: "form-data")
+                
+                print(multipartFormData.boundary)
+                print(multipartFormData.contentLength)
+                print(multipartFormData.contentType)
+                
+                print("************************************")
 
         },
             to: host_url,
