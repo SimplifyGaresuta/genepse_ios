@@ -64,7 +64,28 @@ func GetDetailData(json: JSON) -> DetailData {
     data.SetAddress(address: address)
     data.SetSchoolCareer(school_career: school_career)
     
-    return data
+    return EscapeSpace(data: data)
+}
+
+func EscapeSpace(data: DetailData) -> DetailData {
+    let escaped = data
+
+    if data.GetActivityBase() == " " {
+        escaped.SetActivityBase(activity_base: "")
+    }
+    
+    if data.GetOverview() == " " {
+        escaped.SetOverview(overview: "")
+    }
+    
+    if data.GetAddress() == " " {
+        escaped.SetAddress(address: "")
+    }
+    
+    if data.GetSchoolCareer() == " " {
+        escaped.SetSchoolCareer(school_career: "")
+    }
+    return escaped
 }
 
 func GetStandardAlert(title: String, message: String, b_title: String) -> UIAlertController {
