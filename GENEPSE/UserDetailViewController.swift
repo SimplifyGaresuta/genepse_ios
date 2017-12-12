@@ -89,6 +89,11 @@ class UserDetailViewController: UIViewController {
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
 
         
+        //拠点ラベルを追加
+        let activitybaseLabel = self.CreateActivityBaseLabel(name: data.GetActivityBase(), namelabel_cgrect: nameLabel.frame)
+        cardView.addSubview(activitybaseLabel)
+        
+        
         // 経歴の追加
         let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
         cardView.addSubview(careerLabel)
@@ -307,6 +312,33 @@ class UserDetailViewController: UIViewController {
         name_label.sizeToFit()
         
         return name_label
+    }
+    
+    
+    func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
+        let x = namelabel_cgrect.origin.x + namelabel_cgrect.width + base_margin*1.5
+        let y = namelabel_cgrect.origin.y
+        
+        let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: namelabel_cgrect.width, height: namelabel_cgrect.height+base_margin))
+        label.text = name
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 23)
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.black
+        
+        //サイズをfitさせて残りの高さを計算
+        label.sizeToFit()
+        let fit_height = label.frame.height
+        let rest_h = namelabel_cgrect.height - fit_height
+        
+        label.topTextInset = rest_h/2
+        label.bottomTextInset = rest_h/2
+        label.leftTextInset = 20
+        label.rightTextInset = 20
+        label.sizeToFit()
+        label.layer.cornerRadius = 20
+        label.layer.masksToBounds = true
+        
+        return label
     }
     
     func CreateCareerLabel(text: String, nameLabel_frame: CGRect) -> UILabel {
@@ -596,8 +628,8 @@ class UserDetailViewController: UIViewController {
             print("User Detail results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 
