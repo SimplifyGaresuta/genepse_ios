@@ -351,6 +351,11 @@ class MyProfileViewController: UIViewController {
     }
     
     func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
+        
+        if name == "" {
+            return UILabel()
+        }
+        
         let x = namelabel_cgrect.origin.x + namelabel_cgrect.width + base_margin*1.5
         let y = namelabel_cgrect.origin.y
         

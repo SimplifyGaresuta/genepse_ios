@@ -316,6 +316,11 @@ class UserDetailViewController: UIViewController {
     
     
     func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
+        
+        if name == "" {
+            return UILabel()
+        }
+        
         let x = namelabel_cgrect.origin.x + namelabel_cgrect.width + base_margin*1.5
         let y = namelabel_cgrect.origin.y
         
@@ -628,8 +633,8 @@ class UserDetailViewController: UIViewController {
             print("User Detail results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
-            self.AddViews(json: JSON(dummy))
-//            self.AddViews(json: json)
+//            self.AddViews(json: JSON(dummy))
+            self.AddViews(json: json)
         }
     }
 
