@@ -216,33 +216,33 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateAttributeLabel(attribute: String) -> (UIView, UILabel) {
-        let bg_color = GetAttributeColor(attr: attribute)
+//        let bg_color = GetAttributeColor(attr: attribute)
         
         let label_start_y = profileImageView.frame.origin.y + base_margin*0.5
         
         // 属性ラベル
-        let attribute_label = UILabel(frame: CGRect(x: 0, y: label_start_y, width: 0, height: 0))
-        attribute_label.text = "   " + attribute + "   "
-        attribute_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
-        attribute_label.backgroundColor = bg_color
-        attribute_label.textColor = UIColor.white
-        attribute_label.sizeToFit()
-        
-        // 右上，右下を角丸に
-        let maskPath = UIBezierPath(roundedRect: attribute_label.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 20, height: 20)).cgPath
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = attribute_label.bounds
-        maskLayer.path = maskPath
-        attribute_label.layer.mask = maskLayer
-        
-        // 影をつけるためのViewを作成
-        let shadow_view = UIView(frame: attribute_label.frame)
-        shadow_view.backgroundColor = bg_color
-        shadow_view.layer.shadowColor = UIColor.black.cgColor
-        shadow_view.layer.shadowOpacity = 1.0
-        shadow_view.layer.shadowOffset = CGSize(width: 1, height: 1)
-        shadow_view.layer.shadowRadius = 2
-        shadow_view.layer.cornerRadius = 10
+//        let attribute_label = UILabel(frame: CGRect(x: 0, y: label_start_y, width: 0, height: 0))
+//        attribute_label.text = "   " + attribute + "   "
+//        attribute_label.font = UIFont(name: "AmericanTypewriter-Bold", size: 20)
+//        attribute_label.backgroundColor = bg_color
+//        attribute_label.textColor = UIColor.white
+//        attribute_label.sizeToFit()
+//
+//        // 右上，右下を角丸に
+//        let maskPath = UIBezierPath(roundedRect: attribute_label.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 20, height: 20)).cgPath
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.frame = attribute_label.bounds
+//        maskLayer.path = maskPath
+//        attribute_label.layer.mask = maskLayer
+//
+//        // 影をつけるためのViewを作成
+//        let shadow_view = UIView(frame: attribute_label.frame)
+//        shadow_view.backgroundColor = bg_color
+//        shadow_view.layer.shadowColor = UIColor.black.cgColor
+//        shadow_view.layer.shadowOpacity = 1.0
+//        shadow_view.layer.shadowOffset = CGSize(width: 1, height: 1)
+//        shadow_view.layer.shadowRadius = 2
+//        shadow_view.layer.cornerRadius = 10
         
         return (shadow_view, attribute_label)
     }
