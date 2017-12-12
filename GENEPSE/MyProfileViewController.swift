@@ -332,9 +332,9 @@ class MyProfileViewController: UIViewController {
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
         if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 37
+            font_size = 28
         }else {
-            font_size = 39
+            font_size = 30
         }
         
         let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
