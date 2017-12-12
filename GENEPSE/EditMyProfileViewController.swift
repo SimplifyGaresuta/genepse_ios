@@ -419,6 +419,7 @@ class EditMyProfileViewController: FormViewController {
         print(form_values)
         
         var req_array:[String] = []
+        var is_used_array = false
         
         for form_value in form_values {
             var req_dict = [String:Any]()
@@ -432,17 +433,20 @@ class EditMyProfileViewController: FormViewController {
                     }
                     group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
             case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
+                is_used_array = true
                 req_array.append(form_value.1.stringValue)
             default:
                 print("")
             }
         }
         
-        //req_arrayを使用していた場合(awards,skills,licenses)
-        if req_array.count == 0 {
-            group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
-        }else {
-            group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
+        if is_used_array {
+            //req_arrayを使用していた場合(awards,skills,licenses)
+            if req_array.count == 0 {
+                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
+            }else {
+                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
+            }
         }
         
         // タスクが全て完了したらメインスレッド上で処理を実行する

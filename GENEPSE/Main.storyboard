@@ -103,7 +103,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="XvP-pN-wVF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Location" image="tabbar_location" id="TS6-Zx-7K8"/>
+                    <tabBarItem key="tabBarItem" title="Location" image="tabbar_locationfeed" id="TS6-Zx-7K8"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-4l-FyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -112,7 +112,7 @@
     </scenes>
     <resources>
         <image name="tabbar_feed" width="30" height="30"/>
-        <image name="tabbar_location" width="30" height="30"/>
+        <image name="tabbar_locationfeed" width="30" height="30"/>
         <image name="tabbar_myprofile" width="30" height="30"/>
     </resources>
 </document>
