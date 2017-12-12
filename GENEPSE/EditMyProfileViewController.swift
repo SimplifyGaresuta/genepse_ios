@@ -439,7 +439,9 @@ class EditMyProfileViewController: FormViewController {
         }
         
         //req_arrayを使用していた場合(awards,skills,licenses)
-        if req_array.count != 0 {
+        if req_array.count == 0 {
+            group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
+        }else {
             group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
         }
         
