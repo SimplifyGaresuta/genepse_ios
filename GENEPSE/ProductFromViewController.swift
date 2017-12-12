@@ -10,13 +10,18 @@ import UIKit
 import Eureka
 import ImageRow
 import SwiftyJSON
+import Alamofire
 
 class ProductFromViewController: FormViewController {
 
     private var view_title = ""
     let productImageView = AsyncUIImageView()
+    
     private var is_imageloaded = false
+    private var is_add = false
+    
     private var product = JSON()
+    private var product_id = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +51,7 @@ class ProductFromViewController: FormViewController {
         }
         let RuleRequired_M = "必須項目です"
         let RuleRequired_Warning_M = "項目を埋めてアピール力をあげましょう"
-        
-        
+        let RuleURL_M = "URLの形式をもう一度、確認してください"
         
         form +++ Section("タイトル")
             <<< TextRow(){
@@ -80,7 +84,8 @@ class ProductFromViewController: FormViewController {
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
                 $0.value = URL(string: product[Key.url.rawValue].stringValue)
-                $0.add(rule: RuleRequired())
+                $0.add(rule: RuleRequired(msg: RuleRequired_Warning_M))
+                $0.add(rule: RuleURL(msg: RuleURL_M))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
         }
@@ -90,11 +95,16 @@ class ProductFromViewController: FormViewController {
                 row.section?.remove(at: rowIndex + 1)
             }
             if !row.isValid {
-                for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (index, err) in row.validationErrors.map({ $0.msg }).enumerated() {
                     let labelRow = LabelRow() {
-                        $0.title = RuleRequired_Warning_M
+                        $0.title = err
                         $0.cell.height = { 30 }
-                        $0.cell.backgroundColor = UIColor.orange
+                        
+                        if err == RuleRequired_Warning_M {
+                            $0.cell.backgroundColor = UIColor.orange
+                        }else {
+                            $0.cell.backgroundColor = UIColor.red
+                        }
                     }
                     row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                 }
@@ -184,9 +194,7 @@ class ProductFromViewController: FormViewController {
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }else {
-            if is_add {
-                
-            }else {
+            if !is_add {
                 if !is_imageloaded {
                     self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
                 }
@@ -196,24 +204,107 @@ class ProductFromViewController: FormViewController {
             let image = values[Key.image.rawValue] as? UIImage
             guard let title = values[Key.title.rawValue] as? String else {return}
             let url = values[Key.url.rawValue] as? URL
-            //        let id = product["id"].intValue
-            print(image, title, url)
-            print("******************")
+            
+            CallProductAddAPI(title: title, image: image, url: url)
             
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func CallProductAddAPI(title: String, image: UIImage?, url: URL?) {
+        guard var user_id = GetAppDelegate().user_id else {return}
+        var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
+        let headers: HTTPHeaders =
+            [
+            "Content-Type":"multipart/form-data;boundary=------------------------cc40c1c469b56466",
+            "Accept":"*/*"
+            ]
+        let nil_str: Data = "".data(using: .utf8)!
+        
+        var req_url = Data()
+        var req_image = Data()
+        var method = HTTPMethod.post
+        
+        //imageのnilチェック
+        if image == nil {
+            req_image = nil_str
+        }else {
+            req_image = UIImageJPEGRepresentation(image!, 1.0)!
+        }
+        
+        //urlのnilチェック
+        if url == nil {
+            req_url = nil_str
+        }else {
+            do{
+                try req_url = Data(contentsOf: url!)
+            }catch{
+                print("url encode err")
+            }
+        }
+        
+        //編集なら(product_id != 0)プロダクトIDをURLに付与、メソッド切り替え
+        if !is_add {
+            host_url += String(product_id)
+            method = HTTPMethod.put
+        }
+        
+        print("******** send Data ********")
+        print(req_image)
+        print(req_url)
+        print(title.data(using: .utf8)!)
+        print(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)))
+        print("******** send Data ********")
+        
+        Alamofire.upload(
+            multipartFormData: { (multipartFormData) in
+                multipartFormData.append(req_image,
+                                         withName: "image",
+                                         fileName: title+".JPG",
+                                         mimeType: "application/octet-stream")
+
+                multipartFormData.append(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)),
+                                         withName: "user_id",
+                                         mimeType: "form-data")
+
+                multipartFormData.append(req_url,
+                                         withName: "url",
+                                         mimeType: "form-data")
+
+                multipartFormData.append(title.data(using: .utf8)!,
+                                         withName: "title",
+                                         mimeType: "form-data")
+
+        },
+            to: host_url,
+            method: method,
+            headers: headers,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    case .success(let upload, _, _):
+                        upload
+                        .uploadProgress(closure: { (progress) in
+                            print("Upload Progress: \(progress.fractionCompleted)")
+                        })
+                        .responseString { response in
+                            debugPrint(response)
+                            print(response.result.value)
+                        }
+                    case .failure(let encodingError):
+                        print(encodingError)
+                }
+            }
+        )
     }
     
     func SetTitle(title: String) {
         view_title = title
     }
     
-    var product_id = 0
     func SetProductID(id: Int) {
         product_id = id
     }
     
-    var is_add = false
     func SetIsAdd(flag: Bool) {
         is_add = flag
     }

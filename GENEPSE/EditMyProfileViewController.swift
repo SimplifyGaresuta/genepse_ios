@@ -420,6 +420,7 @@ class EditMyProfileViewController: FormViewController {
         return json
     }
     
+    //TODO: 関数名、上記関数の削除
     func HEIRETU(values: [String:Any?]) {
         guard let user_id = GetAppDelegate().user_id else {
             return

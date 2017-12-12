@@ -20,11 +20,10 @@ class MyProfileViewController: UIViewController {
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
     
-    override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         CallUserDetailAPI()
-        
-        super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = "MyProfile"
         
         cardView.removeFromSuperview()
         
@@ -32,6 +31,8 @@ class MyProfileViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        self.tabBarController?.navigationItem.title = "MyProfile"
+        
         user_id = GetMyID()
         
         CallUserDetailAPI()
@@ -668,8 +669,8 @@ class MyProfileViewController: UIViewController {
             print("MyProfile results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
-            self.AddViews(json: JSON(dummy))
-//            self.AddViews(json: json)
+//            self.AddViews(json: JSON(dummy))
+            self.AddViews(json: json)
         }
     }
 
