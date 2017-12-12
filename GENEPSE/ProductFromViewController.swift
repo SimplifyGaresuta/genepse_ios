@@ -15,8 +15,12 @@ class ProductFromViewController: FormViewController {
 
     private var view_title = ""
     let productImageView = AsyncUIImageView()
+    
     private var is_imageloaded = false
+    private var is_add = false
+    
     private var product = JSON()
+    private var product_id = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -208,12 +212,10 @@ class ProductFromViewController: FormViewController {
         view_title = title
     }
     
-    var product_id = 0
     func SetProductID(id: Int) {
         product_id = id
     }
     
-    var is_add = false
     func SetIsAdd(flag: Bool) {
         is_add = flag
     }
