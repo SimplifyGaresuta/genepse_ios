@@ -19,7 +19,7 @@ class UserDetailViewController: UIViewController {
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
     
-    var current_link = ""
+    var product_link:[String:String] = [:]
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -438,7 +438,8 @@ class UserDetailViewController: UIViewController {
         // next_y = セクションタイトルのbottomで初期化
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+//        for (i, obj) in json.enumerated() {
+        json.forEach { (i, obj) in
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
             //next_yからプロダクトタイトルの追加
@@ -459,13 +460,15 @@ class UserDetailViewController: UIViewController {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapURLLabel(sender:)))
-                current_link = obj["url"].stringValue
+                product_link[i] = obj["url"].stringValue
                 
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
+                
+                urlLabel.tag = Int(i)!
                 urlLabel.text = obj["url"].string
                 urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
@@ -517,7 +520,9 @@ class UserDetailViewController: UIViewController {
     }
     
     func TapURLLabel(sender: UITapGestureRecognizer){
-        let url = URL(string: current_link)!
+        let id = (sender.view?.tag)!
+        
+        let url = URL(string: product_link[String(id)]!)!
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
