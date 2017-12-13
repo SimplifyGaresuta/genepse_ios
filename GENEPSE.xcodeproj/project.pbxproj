@@ -27,6 +27,7 @@
 		3790522D1FDD005D00F7C839 /* start_facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 3790522C1FDD005D00F7C839 /* start_facebook.png */; };
 		3790522F1FDD00D900F7C839 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790522E1FDD00D900F7C839 /* SignUpViewController.swift */; };
 		37BA7FB81FE0492F00705A07 /* LocationFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BA7FB71FE0492F00705A07 /* LocationFeedViewController.swift */; };
+		37BA7FBA1FE10F5600705A07 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37BA7FB91FE10F5500705A07 /* CoreLocation.framework */; };
 		37D551651FDC74EE0066B1F8 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D551641FDC74EE0066B1F8 /* Realm.swift */; };
 		37E9E3B01FD7AEE000E3EFFC /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */; };
 		37E9E3B21FD7C4A900E3EFFC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E9E3B11FD7C4A900E3EFFC /* Setting.swift */; };
@@ -62,6 +63,7 @@
 		3790522C1FDD005D00F7C839 /* start_facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start_facebook.png; sourceTree = "<group>"; };
 		3790522E1FDD00D900F7C839 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		37BA7FB71FE0492F00705A07 /* LocationFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFeedViewController.swift; sourceTree = "<group>"; };
+		37BA7FB91FE10F5500705A07 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		37D551641FDC74EE0066B1F8 /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 		37E9E3AF1FD7AEE000E3EFFC /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		37E9E3B11FD7C4A900E3EFFC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37BA7FBA1FE10F5600705A07 /* CoreLocation.framework in Frameworks */,
 				E52F159891594EBC0665E7B7 /* Pods_GENEPSE.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +160,7 @@
 		8CACDED15E07376A4B4BB552 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37BA7FB91FE10F5500705A07 /* CoreLocation.framework */,
 				06132015016BA89DF8EF0BF7 /* Pods_GENEPSE.framework */,
 			);
 			name = Frameworks;
