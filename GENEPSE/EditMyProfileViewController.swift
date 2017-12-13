@@ -419,7 +419,11 @@ class EditMyProfileViewController: FormViewController {
         print(form_values)
         
         var req_array:[String] = []
-        var is_used_array = false
+        
+        var is_used_array_section = false
+        if edit_id == SectionID.awards.rawValue || edit_id == SectionID.license.rawValue || edit_id == SectionID.skills.rawValue {
+            is_used_array_section = true
+        }
         
         for form_value in form_values {
             var req_dict = [String:Any]()
@@ -433,14 +437,13 @@ class EditMyProfileViewController: FormViewController {
                     }
                     group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
             case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
-                is_used_array = true
                 req_array.append(form_value.1.stringValue)
             default:
                 print("")
             }
         }
         
-        if is_used_array {
+        if is_used_array_section {
             //req_arrayを使用していた場合(awards,skills,licenses)
             if req_array.count == 0 {
                 group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
