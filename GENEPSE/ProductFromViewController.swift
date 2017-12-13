@@ -211,7 +211,7 @@ class ProductFromViewController: FormViewController {
     }
     
     func CallProductAddAPI(title: String, image: UIImage?, url: String?) {
-        guard var user_id = GetAppDelegate().user_id else {return}
+        guard let user_id = GetAppDelegate().user_id else {return}
         var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
         
         var req_url = ""
