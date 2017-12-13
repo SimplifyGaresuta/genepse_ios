@@ -19,6 +19,8 @@ class UserDetailViewController: UIViewController {
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
     
+    var current_link = ""
+    
     override func viewDidLoad() {
         CallUserDetailAPI()
         
@@ -455,6 +457,10 @@ class UserDetailViewController: UIViewController {
             //URLがあったら,next_yからURLラベルの追加
             if !(obj["url"].string?.isEmpty)! {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapURLLabel(sender:)))
+                current_link = obj["url"].stringValue
+                
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
                 
@@ -463,6 +469,9 @@ class UserDetailViewController: UIViewController {
                 urlLabel.text = obj["url"].string
                 urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
+                urlLabel.isUserInteractionEnabled = true
+                urlLabel.addGestureRecognizer(tap)
+
                 pViews.url = urlLabel
                 pViews.link_img = linkImageView
                 
@@ -505,6 +514,13 @@ class UserDetailViewController: UIViewController {
         }
         
         return (productsViews, last_add_view_frame)
+    }
+    
+    func TapURLLabel(sender: UITapGestureRecognizer){
+        let url = URL(string: current_link)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
