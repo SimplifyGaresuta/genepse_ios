@@ -438,7 +438,6 @@ class UserDetailViewController: UIViewController {
         // next_y = セクションタイトルのbottomで初期化
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-//        for (i, obj) in json.enumerated() {
         json.forEach { (i, obj) in
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
@@ -456,11 +455,11 @@ class UserDetailViewController: UIViewController {
             next_y = titleLabel.frame.origin.y + titleLabel.frame.height + base_margin*0.25
             
             //URLがあったら,next_yからURLラベルの追加
-            if !(obj["url"].string?.isEmpty)! {
+            if !(obj[Key.url.rawValue].string?.isEmpty)! {
                 let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapURLLabel(sender:)))
-                product_link[i] = obj["url"].stringValue
+                product_link[i] = obj[Key.url.rawValue].stringValue
                 
                 linkImageView.contentMode = .scaleAspectFill
                 linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
@@ -469,7 +468,7 @@ class UserDetailViewController: UIViewController {
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
                 
                 urlLabel.tag = Int(i)!
-                urlLabel.text = obj["url"].string
+                urlLabel.text = obj[Key.url.rawValue].string
                 urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
                 urlLabel.isUserInteractionEnabled = true

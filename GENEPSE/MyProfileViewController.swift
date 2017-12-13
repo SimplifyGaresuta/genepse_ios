@@ -20,6 +20,8 @@ class MyProfileViewController: UIViewController {
     var profileImageView = UIImageView()
     var latest_section_frame = CGRect()
     
+    var product_link:[Int:String] = [:]
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -491,7 +493,7 @@ class MyProfileViewController: UIViewController {
         // next_y = セクションタイトルのbottomで初期化
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        for p in json {
+        for (i, p) in json.enumerated() {
             var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
             
             //next_yからプロダクトタイトルの追加
@@ -515,9 +517,17 @@ class MyProfileViewController: UIViewController {
                 
                 let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
                 let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapURLLabel(sender:)))
+
+                product_link[i] = p[Key.url.rawValue].stringValue
+                
+                urlLabel.tag = i
                 urlLabel.text = p[Key.url.rawValue].string
                 urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
                 urlLabel.sizeToFit()
+                urlLabel.isUserInteractionEnabled = true
+                urlLabel.addGestureRecognizer(tap)
+                
                 pViews.url = urlLabel
                 pViews.link_img = linkImageView
                 
@@ -559,6 +569,15 @@ class MyProfileViewController: UIViewController {
         }
         
         return (productsViews, last_add_view_frame)
+    }
+    
+    func TapURLLabel(sender: UITapGestureRecognizer){
+        let id = (sender.view?.tag)!
+        
+        let url = URL(string: product_link[id]!)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func CreateSNSLabel(json: [JSON]) -> ([(icon: UIImageView, url: UILabel)]) {
@@ -682,8 +701,8 @@ class MyProfileViewController: UIViewController {
             print("MyProfile results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 
