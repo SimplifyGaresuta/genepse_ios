@@ -20,6 +20,7 @@ class UserDetailViewController: UIViewController {
     var latest_section_frame = CGRect()
     
     var product_link:[String:String] = [:]
+    var sns_link:[String:String] = [:]
     
     override func viewDidLoad() {
         CallUserDetailAPI()
@@ -531,7 +532,7 @@ class UserDetailViewController: UIViewController {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        json.forEach { (_, obj) in
+        json.forEach { (i, obj) in
             var image_name = ""
             switch obj["provider"] {
             case "facebook":
@@ -551,9 +552,16 @@ class UserDetailViewController: UIViewController {
             
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-            urlLabel.text = obj["url"].string
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapSNSURLLabel(sender:)))
+
+            sns_link[i] = obj[Key.url.rawValue].string
+            
+            urlLabel.tag = Int(i)!
+            urlLabel.text = obj[Key.url.rawValue].string
             urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
             urlLabel.sizeToFit()
+            urlLabel.isUserInteractionEnabled = true
+            urlLabel.addGestureRecognizer(tap)
             
             // アイコンとのずれを調整するために高さをアイコンに揃える
             urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
@@ -564,6 +572,15 @@ class UserDetailViewController: UIViewController {
         }
         
         return SNSViews
+    }
+    
+    func TapSNSURLLabel(sender: UITapGestureRecognizer){
+        let id = (sender.view?.tag)!
+        
+        let url = URL(string: sns_link[String(id)]!)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
@@ -653,8 +670,8 @@ class UserDetailViewController: UIViewController {
             print("User Detail results: ", json.count)
             
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+//            self.AddViews(json: json)
         }
     }
 
