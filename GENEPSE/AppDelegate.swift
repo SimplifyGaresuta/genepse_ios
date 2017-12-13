@@ -28,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             locationManager.startMonitoringSignificantLocationChanges()
         }
         
+        //TODO: ここで起動時に位置情報をPUT
+//        print(locationManager.location)
+        
         if DBMethod().RecordCount(User.self) == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let signupVC = storyboard.instantiateViewController(withIdentifier: "SignUp")
@@ -69,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     // MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //TODO: ここで位置情報をPUT
         print("****** Location ******")
         print(locations)
         print("****** Location ******")
