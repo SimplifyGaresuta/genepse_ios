@@ -21,7 +21,7 @@ class MyProfileViewController: UIViewController {
     var latest_section_frame = CGRect()
     
     var product_link:[Int:String] = [:]
-    
+    var sns_link:[Int:String] = [:]
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -584,7 +584,7 @@ class MyProfileViewController: UIViewController {
         var SNSViews: [(icon: UIImageView, url: UILabel)] = []
         var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
         
-        for sns in json {
+        for (i, sns) in json.enumerated() {
             var image_name = ""
             switch sns[Key.provider.rawValue] {
             case "facebook":
@@ -604,9 +604,16 @@ class MyProfileViewController: UIViewController {
 
             let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
             let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapSNSURLLabel(sender:)))
+            
+            sns_link[i] = sns[Key.url.rawValue].string
+            
+            urlLabel.tag = i
             urlLabel.text = sns[Key.url.rawValue].string
             urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
             urlLabel.sizeToFit()
+            urlLabel.isUserInteractionEnabled = true
+            urlLabel.addGestureRecognizer(tap)
             
             // アイコンとのずれを調整するために高さをアイコンに揃える
             urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
@@ -617,6 +624,15 @@ class MyProfileViewController: UIViewController {
         }
         
         return SNSViews
+    }
+    
+    func TapSNSURLLabel(sender: UITapGestureRecognizer){
+        let id = (sender.view?.tag)!
+        
+        let url = URL(string: sns_link[id]!)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
