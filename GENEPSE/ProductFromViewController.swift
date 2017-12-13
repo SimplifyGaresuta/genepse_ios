@@ -80,12 +80,11 @@ class ProductFromViewController: FormViewController {
         }
         
         form +++ Section("URL")
-            <<< URLRow(){
+            <<< TextRow(){
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
-                $0.value = URL(string: product[Key.url.rawValue].stringValue)
+                $0.value = product[Key.url.rawValue].stringValue
                 $0.add(rule: RuleRequired(msg: RuleRequired_Warning_M))
-                $0.add(rule: RuleURL(msg: RuleURL_M))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
         }
@@ -203,7 +202,7 @@ class ProductFromViewController: FormViewController {
             let values = form.values()
             let image = values[Key.image.rawValue] as? UIImage
             guard let title = values[Key.title.rawValue] as? String else {return}
-            let url = values[Key.url.rawValue] as? URL
+            let url = values[Key.url.rawValue] as? String
             
             CallProductAddAPI(title: title, image: image, url: url)
             
@@ -211,36 +210,27 @@ class ProductFromViewController: FormViewController {
         }
     }
     
-    func CallProductAddAPI(title: String, image: UIImage?, url: URL?) {
+    func CallProductAddAPI(title: String, image: UIImage?, url: String?) {
         guard var user_id = GetAppDelegate().user_id else {return}
         var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
-        let headers: HTTPHeaders =
-            [:
-//            "Content-Type":"multipart/form-data;boundary=------------------------cc40c1c469b56466",
-//            "Accept":"*/*"
-            ]
-        let nil_str: Data = "".data(using: .utf8)!
         
-        var req_url = Data()
+        var req_url = ""
         var req_image = Data()
         var method = HTTPMethod.post
         
+        //TODO nilの時は何を送る？
         //imageのnilチェック
         if image == nil {
-            req_image = nil_str
+            req_image = UIImageJPEGRepresentation(UIImage(), 0.1)!
         }else {
-            req_image = UIImageJPEGRepresentation(image!, 1.0)!
+            req_image = UIImageJPEGRepresentation(image!, 0.1)!
         }
         
         //urlのnilチェック
         if url == nil {
-            req_url = nil_str
+            req_url = ""
         }else {
-            do{
-                try req_url = Data(contentsOf: url!)
-            }catch{
-                print("url encode err")
-            }
+            req_url = url!
         }
         
         //編集なら(product_id != 0)プロダクトIDをURLに付与、メソッド切り替え
@@ -249,12 +239,12 @@ class ProductFromViewController: FormViewController {
             method = HTTPMethod.put
         }
         
-        print("******** send Data ********")
-        print(req_image)
-        print(req_url)
-        print(title.data(using: .utf8)!)
-        print(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)))
-        print("******** send Data ********")
+//        print("******** send Data ********")
+//        print(req_image)
+//        print(req_url)
+//        print(title.data(using: .utf8)!)
+//        print(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)))
+//        print("******** send Data ********")
         
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
@@ -263,11 +253,11 @@ class ProductFromViewController: FormViewController {
                                          fileName: title+".JPG",
                                          mimeType: "application/octet-stream")
 
-                multipartFormData.append(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)),
+                multipartFormData.append(String(user_id).data(using: .utf8)!,
                                          withName: "user_id",
                                          mimeType: "form-data")
 
-                multipartFormData.append(req_url,
+                multipartFormData.append(req_url.data(using: .utf8)!,
                                          withName: "url",
                                          mimeType: "form-data")
 
@@ -275,11 +265,6 @@ class ProductFromViewController: FormViewController {
                                          withName: "title",
                                          mimeType: "form-data")
                 
-//                print(multipartFormData.boundary)
-//                print(multipartFormData.contentLength)
-//                print(multipartFormData.contentType)
-                
-                print("************************************")
 
         },
             to: host_url,
@@ -288,7 +273,6 @@ class ProductFromViewController: FormViewController {
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                     case .success(let upload, _, _):
-                        print(upload.request?.allHTTPHeaderFields)
                         upload
                         .uploadProgress(closure: { (progress) in
                             print("Upload Progress: \(progress.fractionCompleted)")
