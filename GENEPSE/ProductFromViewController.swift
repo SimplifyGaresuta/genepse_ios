@@ -234,7 +234,7 @@ class ProductFromViewController: FormViewController {
             multipartFormData: { (multipartFormData) in
                 
                 if image != nil {
-                    multipartFormData.append(UIImageJPEGRepresentation(image!, 0.1)!,
+                    multipartFormData.append(UIImageJPEGRepresentation(image!.resized(withPercentage: 0.3)!, 1.0)!,
                                              withName: "image",
                                              fileName: title+".JPG",
                                              mimeType: "application/octet-stream")
