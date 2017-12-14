@@ -10,8 +10,10 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class MyProfileViewController: UIViewController {
+class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
 
+    var preViewName = "MyProfile"
+    
     private var user_id = 0
     var base_margin = 0.0 as CGFloat
     
@@ -43,6 +45,8 @@ class MyProfileViewController: UIViewController {
         
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
+        
+        self.tabBarController?.delegate = self
         
         InitScrollView()
         InitCardView()
@@ -706,6 +710,15 @@ class MyProfileViewController: UIViewController {
     
     func TapScrollTop(sender: UIButton) {
         scrollView.scroll(to: .top, animated: true)
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        
+        if viewController.restorationIdentifier! == "MyProfile" && preViewName == "MyProfile" {
+            scrollView.scroll(to: .top, animated: true)
+        }
+        
+        preViewName = viewController.restorationIdentifier!
     }
     
     func CallUserDetailAPI() {
