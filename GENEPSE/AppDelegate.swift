@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func CallUpdateLocationAPI(location: CLLocation?) {
-        if location != nil {
+        if location != nil && DBMethod().RecordCount(User.self) != 0 {
             guard let user_id = DBMethod().GetUserID(User.self)?.user_id else{return}
             
             let urlString: String = API.host.rawValue + API.v1.rawValue + API.locations.rawValue + String(user_id)
