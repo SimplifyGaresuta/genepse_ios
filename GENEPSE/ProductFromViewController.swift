@@ -205,8 +205,6 @@ class ProductFromViewController: FormViewController {
             let url = values[Key.url.rawValue] as? String
             
             CallProductAddAPI(title: title, image: image, url: url)
-            
-            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -280,6 +278,8 @@ class ProductFromViewController: FormViewController {
                         .responseString { response in
                             debugPrint(response)
                             print(response.result.value)
+                            
+                            self.dismiss(animated: true, completion: nil)
                         }
                     case .failure(let encodingError):
                         print(encodingError)
