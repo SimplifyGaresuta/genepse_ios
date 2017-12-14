@@ -220,7 +220,8 @@ class EditMyProfileViewController: FormViewController {
                     
                     let row = ButtonRow() {
                         $0.title = p["title"].stringValue
-                        $0.tag = p["id"].stringValue
+                        //MARK: 未使用っぽい？
+//                        $0.tag = p["id"].stringValue
                         $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
                                                     onDismiss: { vc in
                                                         vc.navigationController?.popViewController(animated: true)}
