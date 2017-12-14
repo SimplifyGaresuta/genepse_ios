@@ -193,6 +193,7 @@ class ProductFromViewController: FormViewController {
         if form.rowBy(tag: "title")?.validate().count != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }else {
+            //TODO: 更新時に画像がnilの場合に通信エラー扱いされる
             if !is_add {
                 if !is_imageloaded {
                     self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
