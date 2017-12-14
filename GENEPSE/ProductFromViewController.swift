@@ -209,6 +209,9 @@ class ProductFromViewController: FormViewController {
     }
     
     func CallProductAddAPI(title: String, image: UIImage?, url: String?) {
+        let indicator = Indicator()
+        indicator.showIndicator(view: self.view)
+        
         guard let user_id = GetAppDelegate().user_id else {return}
         var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
         var method = HTTPMethod.post
@@ -266,6 +269,7 @@ class ProductFromViewController: FormViewController {
                             debugPrint(response)
                             print(response.result.value)
                             
+                            indicator.stopIndicator()
                             self.dismiss(animated: true, completion: nil)
                         }
                     case .failure(let encodingError):
