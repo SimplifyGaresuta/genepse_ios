@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
 
-    var preViewName = "MyProfile"
+    var preViewName = StoryboardID.MyProfile.rawValue
     
     private var user_id = 0
     var base_margin = 0.0 as CGFloat
@@ -34,9 +34,15 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         InitCardView()
     }
     
-    override func viewDidLoad() {
-        self.tabBarController?.navigationItem.title = "MyProfile"
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.navigationItem.title = StoryboardID.MyProfile.rawValue
         
+        preViewName = StoryboardID.MyProfile.rawValue
+        self.tabBarController?.delegate = self
+    }
+    
+    override func viewDidLoad() {
         user_id = GetMyID()
         
         CallUserDetailAPI()
@@ -46,7 +52,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
         
-        self.tabBarController?.delegate = self
+//        self.tabBarController?.delegate = self
         
         InitScrollView()
         InitCardView()
@@ -713,11 +719,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
-        if viewController.restorationIdentifier! == "MyProfile" && preViewName == "MyProfile" {
+        print("MYPROF")
+        print(viewController.restorationIdentifier!, preViewName)
+
+        if viewController.restorationIdentifier! == StoryboardID.MyProfile.rawValue && preViewName == StoryboardID.MyProfile.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
-        
+
         preViewName = viewController.restorationIdentifier!
     }
     

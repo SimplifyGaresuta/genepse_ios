@@ -19,7 +19,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
-    var preViewName = "Feed"
+    var preViewName = StoryboardID.Feed.rawValue
     var limit = 20
     var offset = 0
     var has_next = true
@@ -28,7 +28,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = "Feed"
+        self.tabBarController?.navigationItem.title = StoryboardID.Feed.rawValue
+        
+        preViewName = StoryboardID.Feed.rawValue
+        self.tabBarController?.delegate = self
     }
 
     override func viewDidLoad() {
@@ -48,7 +51,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
-        self.tabBarController?.delegate = self
+//        self.tabBarController?.delegate = self
         
         card_start_y = base_margin
         
@@ -304,8 +307,10 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        print("FEED")
+        print(viewController.restorationIdentifier!, preViewName)
         
-        if viewController.restorationIdentifier! == "Feed" && preViewName == "Feed" {
+        if viewController.restorationIdentifier! == StoryboardID.Feed.rawValue && preViewName == StoryboardID.Feed.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
         
