@@ -211,25 +211,7 @@ class ProductFromViewController: FormViewController {
     func CallProductAddAPI(title: String, image: UIImage?, url: String?) {
         guard let user_id = GetAppDelegate().user_id else {return}
         var host_url: String = API.host.rawValue + API.v1.rawValue + API.products.rawValue
-        
-        var req_url = ""
-        var req_image = Data()
         var method = HTTPMethod.post
-        
-        //TODO nilの時は何を送る？
-        //imageのnilチェック
-        if image == nil {
-            req_image = UIImageJPEGRepresentation(UIImage(), 0.1)!
-        }else {
-            req_image = UIImageJPEGRepresentation(image!, 0.1)!
-        }
-        
-        //urlのnilチェック
-        if url == nil {
-            req_url = ""
-        }else {
-            req_url = url!
-        }
         
         //編集なら(product_id != 0)プロダクトIDをURLに付与、メソッド切り替え
         if !is_add {
@@ -246,19 +228,24 @@ class ProductFromViewController: FormViewController {
         
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
-                multipartFormData.append(req_image,
-                                         withName: "image",
-                                         fileName: title+".JPG",
-                                         mimeType: "application/octet-stream")
-
+                
+                if image != nil {
+                    multipartFormData.append(UIImageJPEGRepresentation(image!, 0.1)!,
+                                             withName: "image",
+                                             fileName: title+".JPG",
+                                             mimeType: "application/octet-stream")
+                }
+                
+                if url != nil {
+                    multipartFormData.append(url!.data(using: .utf8)!,
+                                             withName: "url",
+                                             mimeType: "form-data")
+                }
+                
                 multipartFormData.append(String(user_id).data(using: .utf8)!,
                                          withName: "user_id",
                                          mimeType: "form-data")
-
-                multipartFormData.append(req_url.data(using: .utf8)!,
-                                         withName: "url",
-                                         mimeType: "form-data")
-
+                
                 multipartFormData.append(title.data(using: .utf8)!,
                                          withName: "title",
                                          mimeType: "form-data")
