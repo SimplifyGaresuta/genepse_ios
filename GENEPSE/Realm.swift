@@ -12,7 +12,3 @@ import RealmSwift
 class User: Object {
     dynamic var user_id = 0
 }
-
-class Product: Object {
-    dynamic var product_id = 0
-}
