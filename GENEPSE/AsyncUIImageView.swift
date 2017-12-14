@@ -13,7 +13,8 @@ class AsyncUIImageView: UIImageView {
     
     //画像を非同期で読み込む
     func loadImage(urlString: String){
-        let req = URLRequest(url: NSURL(string:urlString)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
+        let encodedURL = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        let req = URLRequest(url: NSURL(string:encodedURL!)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
         let conf =  URLSessionConfiguration.default
         let session = URLSession(configuration: conf, delegate: nil, delegateQueue: OperationQueue.main)
         
@@ -30,7 +31,8 @@ class AsyncUIImageView: UIImageView {
     }
     
     func loadImageWithHandler(urlString: String, handler: @escaping (Data?, URLResponse?, Error?) -> Void ) {
-        let req = URLRequest(url: NSURL(string:urlString)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
+        let encodedURL = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        let req = URLRequest(url: NSURL(string:encodedURL!)! as URL, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: CACHE_SEC)
         let conf =  URLSessionConfiguration.default
         let session = URLSession(configuration: conf, delegate: nil, delegateQueue: OperationQueue.main)
         
