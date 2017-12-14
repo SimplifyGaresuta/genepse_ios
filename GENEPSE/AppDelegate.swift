@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import Alamofire
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -29,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
         
         //TODO: ここで起動時に位置情報をPUT
+        CallUpdateLocationAPI(location: locationManager.location)
 //        print(locationManager.location)
         
         if DBMethod().RecordCount(User.self) == 0 {
@@ -75,9 +78,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         //TODO: ここで位置情報をPUT
         print("****** Location ******")
         print(locations)
+        CallUpdateLocationAPI(location: locations.last)
         print("****** Location ******")
     }
-
-
+    
+    func CallUpdateLocationAPI(location: CLLocation?) {
+        if location != nil {
+            guard let user_id = DBMethod().GetUserID(User.self)?.user_id else{return}
+            
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.locations.rawValue + String(user_id)
+            
+            let req_dict = [
+                "latitude": Double(location!.coordinate.latitude),
+                "longitude": Double(location!.coordinate.latitude)
+            ]
+            
+            Alamofire.request(urlString, method: .put, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
+                print("****** Location Update Results******")
+                let object = response.result.value
+                let json = JSON(object)
+                print("Location Update results: ", json)
+                print("****** Location Update Results******")
+            }
+        }
+    }
 }
 
