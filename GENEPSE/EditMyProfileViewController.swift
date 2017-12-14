@@ -474,6 +474,7 @@ class EditMyProfileViewController: FormViewController {
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             guard let object = response.result.value else{return}
+            //TODO: 500系が発生することがあるので、アラートを出す
 //            print(response.response!.statusCode)
 //            print(json)
         }

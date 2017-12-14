@@ -270,6 +270,7 @@ class ProductFromViewController: FormViewController {
                             debugPrint(response)
                             print(response.result.value)
                             
+                            //TODO: 500系が発生することがあるので、アラートを出す
                             indicator.stopIndicator()
                             self.dismiss(animated: true, completion: nil)
                         }
