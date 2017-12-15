@@ -27,6 +27,9 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     var user_id = 0
     
+    //MARK: DEBUG
+    let DEGUG = true
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = StoryboardID.Feed.rawValue
@@ -313,18 +316,20 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CallFeedAPI(){
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?limit=" + String(limit) + "&offset=" + String(offset)
-        
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print("Feed results: ", json.count)
-            
+        if DEGUG {
             let dummy = FeedViewDummyData().users_data
-//            self.AddCard(json: JSON(dummy))
-            self.AddCard(json: json)
+            self.AddCard(json: JSON(dummy))
+        }else {
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?limit=" + String(limit) + "&offset=" + String(offset)
             
-            self.isUpdating = false
+            Alamofire.request(urlString, method: .get).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("Feed results: ", json.count)
+                
+                self.AddCard(json: json)
+                self.isUpdating = false
+            }
         }
     }
     
