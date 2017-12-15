@@ -19,4 +19,5 @@ target 'GENEPSE' do
   pod 'RealmSwift'
   pod 'Kanna', '~> 2.1.0'
   pod "FaceCropper"
+  pod "Toucan"
 end
