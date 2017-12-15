@@ -128,6 +128,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let attribute = obj[Key.attribute.rawValue].stringValue
             let skills = obj[Key.skills.rawValue].arrayValue.map({$0.stringValue})
             let overview = obj[Key.overview.rawValue].stringValue
+            let activity_base = obj[Key.activity_base.rawValue].stringValue
             
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
