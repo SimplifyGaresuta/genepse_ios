@@ -168,7 +168,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
         let card_width = self.view.bounds.width * 0.8
-        let card_height = self.view.bounds.height * 0.65
+        let card_height = self.view.bounds.height * 0.5
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
