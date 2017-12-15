@@ -69,23 +69,23 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
         
         //MARK: Toucan Sample
-        let myImage = UIImage(named: "sample3.jpg")
+//        let myImage = UIImage(named: "sample3.jpg")
 //        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
-        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+//        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
         
-        let hoge = UIImageView(image: resizedAndMaskedImage)
-        hoge.frame = CGRect(x: 0, y: 200, width: 100, height: 100)
-        self.view.addSubview(hoge)
-        self.view.bringSubview(toFront: hoge)
+//        let hoge = UIImageView(image: resizedAndMaskedImage)
+//        hoge.frame = CGRect(x: 0, y: 200, width: 100, height: 100)
+//        self.view.addSubview(hoge)
+//        self.view.bringSubview(toFront: hoge)
         
-        let myImage2 = UIImage(named: "sample4.jpg")
+//        let myImage2 = UIImage(named: "sample4.jpg")
         //        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
-        let resizedAndMaskedImage2 = Toucan(image: myImage2!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+//        let resizedAndMaskedImage2 = Toucan(image: myImage2!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
         
-        let hoge2 = UIImageView(image: resizedAndMaskedImage2)
-        hoge2.frame = CGRect(x: 0, y: 400, width: 100, height: 100)
-        self.view.addSubview(hoge2)
-        self.view.bringSubview(toFront: hoge2)
+//        let hoge2 = UIImageView(image: resizedAndMaskedImage2)
+//        hoge2.frame = CGRect(x: 0, y: 400, width: 100, height: 100)
+//        self.view.addSubview(hoge2)
+//        self.view.bringSubview(toFront: hoge2)
 
 //        }
 
