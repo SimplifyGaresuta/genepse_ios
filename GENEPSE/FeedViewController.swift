@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import FaceCropper
+import Toucan
 
 class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     var scrollView = UIScrollView()
@@ -68,26 +69,44 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         scrollView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
         
-        let image = UIImage(named: "sample3.jpg")
-        image?.face.crop { result in
-            switch result {
-            case .success(let faces):
-                for (i, face) in faces.enumerated() {
-                    let hoge = UIImageView(image: face)
-                    hoge.frame = CGRect(x: 0, y: i*100+100, width: 100, height: 100)
-                    self.view.addSubview(hoge)
-                    self.view.bringSubview(toFront: hoge)
-                }
-                
-                break
-                // When the `Vision` successfully find faces, and `FaceCropper` cropped it.
-            // `faces` argument is a collection of cropped images.
-            case .notFound: break
-            // When the image doesn't contain any face, `result` will be `.notFound`.
-            case .failure(let error): break
-                // When the any error occured, `result` will be `failure`.
-            }
-        }
+//        let image = UIImage(named: "sample3.jpg")
+//        image?.face.crop { result in
+//            switch result {
+//            case .success(let faces):
+//                for (i, face) in faces.enumerated() {
+//                    let hoge = UIImageView(image: face)
+//                    hoge.frame = CGRect(x: 0, y: i*100+100, width: 100, height: 100)
+//                    self.view.addSubview(hoge)
+//                    self.view.bringSubview(toFront: hoge)
+//                }
+//
+//                break
+//                // When the `Vision` successfully find faces, and `FaceCropper` cropped it.
+//            // `faces` argument is a collection of cropped images.
+//            case .notFound: break
+//            // When the image doesn't contain any face, `result` will be `.notFound`.
+//            case .failure(let error): break
+//                // When the any error occured, `result` will be `failure`.
+        //            }
+        let myImage = UIImage(named: "sample3.jpg")
+//        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
+        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+        
+        let hoge = UIImageView(image: resizedAndMaskedImage)
+        hoge.frame = CGRect(x: 0, y: 200, width: 100, height: 100)
+        self.view.addSubview(hoge)
+        self.view.bringSubview(toFront: hoge)
+        
+        let myImage2 = UIImage(named: "sample4.jpg")
+        //        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
+        let resizedAndMaskedImage2 = Toucan(image: myImage2!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+        
+        let hoge2 = UIImageView(image: resizedAndMaskedImage2)
+        hoge2.frame = CGRect(x: 0, y: 400, width: 100, height: 100)
+        self.view.addSubview(hoge2)
+        self.view.bringSubview(toFront: hoge2)
+
+//        }
 
     }
     
