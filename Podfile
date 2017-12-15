@@ -18,4 +18,5 @@ target 'GENEPSE' do
   pod 'ImageRow', '2.0.0'
   pod 'RealmSwift'
   pod 'Kanna', '~> 2.1.0'
+  pod "Toucan"
 end
