@@ -52,8 +52,6 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
-//        self.tabBarController?.delegate = self
-        
         card_start_y = base_margin
         
         CallFeedAPI()
