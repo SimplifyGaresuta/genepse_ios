@@ -136,28 +136,28 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.tag = id
             
             // プロフィール画像を追加
-            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
-            cardViews.last!.addSubview(self.profileImageView)
+//            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
+//            cardViews.last!.addSubview(self.profileImageView)
             
             // 属性を追加
-            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
-            cardViews.last!.addSubview(attributeImageView)
+//            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
+//            cardViews.last!.addSubview(attributeImageView)
 
             
             // メインスキルを追加
-            let mainskillsLabels = self.CreateMainSkillsLabels(skills: skills)
-            for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-                cardViews.last!.addSubview(shadowView)
-                cardViews.last!.addSubview(skillLabel)
-            }
+//            let mainskillsLabels = self.CreateMainSkillsLabels(skills: skills)
+//            for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
+//                cardViews.last!.addSubview(shadowView)
+//                cardViews.last!.addSubview(skillLabel)
+//            }
             
             // 名前のラベルを追加
-            self.nameLabel = self.CreateNameLabel(text: name)
-            cardViews.last!.addSubview(self.nameLabel)
+//            self.nameLabel = self.CreateNameLabel(text: name)
+//            cardViews.last!.addSubview(self.nameLabel)
             
             // 経歴のラベルを追加
-            let careerLabel = self.CreateCareerLabel(text: overview)
-            cardViews.last!.addSubview(careerLabel)
+//            let careerLabel = self.CreateCareerLabel(text: overview)
+//            cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
             self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.5
@@ -172,7 +172,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
-        card_view.layer.cornerRadius = 20
+        card_view.layer.cornerRadius = 10
         card_view.layer.shadowOpacity = 0.2
         card_view.layer.shadowColor = UIColor.black.cgColor
         card_view.layer.shadowOffset = CGSize(width: 2, height: 2)
