@@ -69,14 +69,15 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
         
         //MARK: Toucan Sample
-//        let myImage = UIImage(named: "sample3.jpg")
+        let myImage = UIImage(named: "sample5.jpg")
+        let w = 150, h = 150
 //        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
-//        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: w, height: h), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
         
-//        let hoge = UIImageView(image: resizedAndMaskedImage)
-//        hoge.frame = CGRect(x: 0, y: 200, width: 100, height: 100)
-//        self.view.addSubview(hoge)
-//        self.view.bringSubview(toFront: hoge)
+        let hoge = UIImageView(image: resizedAndMaskedImage)
+        hoge.frame = CGRect(x: 0, y: 200, width: w, height: h)
+        self.view.addSubview(hoge)
+        self.view.bringSubview(toFront: hoge)
         
 //        let myImage2 = UIImage(named: "sample4.jpg")
         //        let resizedAndMaskedImage = Toucan(image: myImage!).resize(CGSize(width: 100, height: 150)).maskWithEllipse().image
