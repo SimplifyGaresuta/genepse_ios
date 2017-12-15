@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kTs-Bn-3nX">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--OriginU Inavigation Controller-->
+        <scene sceneID="WRT-Gn-72m">
+            <objects>
+                <navigationController storyboardIdentifier="Init" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kTs-Bn-3nX" customClass="OriginUInavigationController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="p8K-mr-R4R">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dac-xu-GpU" kind="relationship" relationship="rootViewController" id="hTF-Tv-pn4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CIT-84-TM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2485" y="103"/>
+        </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="eze-ZE-QhL">
+            <objects>
+                <viewController storyboardIdentifier="SignUp" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PxK-t6-AjX" customClass="SignUpViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bW1-uq-0JP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="lFV-O5-MTk"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0fW-fG-W6l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2487.1999999999998" y="827.13643178410803"/>
+        </scene>
+        <!--GENEPSE-->
+        <scene sceneID="yJN-CA-ggs">
+            <objects>
+                <tabBarController id="dac-xu-GpU" customClass="OriginUITabBarController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="GENEPSE" id="dHg-IE-8lp"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bfz-2g-xVy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.179411979" green="0.54291062420000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="53V-3E-FdM" kind="relationship" relationship="viewControllers" id="Ved-TU-JSG"/>
+                        <segue destination="kk0-EZ-qNW" kind="relationship" relationship="viewControllers" id="6DQ-mz-V9N"/>
+                        <segue destination="89N-ip-KJc" kind="relationship" relationship="viewControllers" id="IPX-Rq-DyX"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BV8-fC-E8L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1770" y="103"/>
+        </scene>
+        <!--Feed-->
+        <scene sceneID="PDo-Xd-jBk">
+            <objects>
+                <viewController storyboardIdentifier="Feed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="FeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MYh-vM-dtr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Feed" image="tabbar_feed" id="erc-Y8-ECM"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PJ5-lP-121" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-754" y="-631"/>
+        </scene>
+        <!--MyProfile-->
+        <scene sceneID="xeG-TA-oZj">
+            <objects>
+                <viewController storyboardIdentifier="MyProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" customClass="MyProfileViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V97-WR-YzM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="MyProfile" image="tabbar_myprofile" id="8Ey-6Y-XIJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="de0-9y-h72" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-754" y="884"/>
+        </scene>
+        <!--Location-->
+        <scene sceneID="YUo-Jr-y2h">
+            <objects>
+                <viewController storyboardIdentifier="LocationFeed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kk0-EZ-qNW" customClass="LocationFeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sxb-7b-UzK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="XvP-pN-wVF"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Location" image="tabbar_locationfeed" id="TS6-Zx-7K8"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-4l-FyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-754" y="102"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="tabbar_feed" width="30" height="30"/>
+        <image name="tabbar_locationfeed" width="30" height="30"/>
+        <image name="tabbar_myprofile" width="30" height="30"/>
+    </resources>
+</document>

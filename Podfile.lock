@@ -1,0 +1,43 @@
+PODS:
+  - Alamofire (4.5.1)
+  - Eureka (3.0.0)
+  - ImageRow (2.0.0):
+    - Eureka (= 3.0)
+  - Kanna (2.1.1)
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
+  - SwiftyJSON (3.1.4)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - Eureka (from `https://github.com/xmartlabs/Eureka.git`, branch `feature/Xcode9-Swift3_2`)
+  - ImageRow (= 2.0.0)
+  - Kanna (~> 2.1.0)
+  - RealmSwift
+  - SwiftyJSON
+
+EXTERNAL SOURCES:
+  Eureka:
+    :branch: feature/Xcode9-Swift3_2
+    :git: https://github.com/xmartlabs/Eureka.git
+
+CHECKOUT OPTIONS:
+  Eureka:
+    :commit: 05acfb04c24a480f1868e671d19b39e0f22fc265
+    :git: https://github.com/xmartlabs/Eureka.git
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Eureka: 5b9418d7bfdc21ca977d69d124a6409f3e9af2c7
+  ImageRow: 9dfbfa38c1e62c25d638bc40e97a48c1809443c4
+  Kanna: 9b4b086c218703f2b94f5b21a466217dd2f9332e
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+
+PODFILE CHECKSUM: 5ef3bd587c8c138da6b9459d18aed7a5033c5358
+
+COCOAPODS: 1.3.1
