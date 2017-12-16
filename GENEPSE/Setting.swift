@@ -49,6 +49,7 @@ enum Key: String {
     // 位置情報
     case latitude = "latitude"
     case longitude = "longitude"
+    case distance = "distance"
     
     // ログイン
     case login_url = "login_url"

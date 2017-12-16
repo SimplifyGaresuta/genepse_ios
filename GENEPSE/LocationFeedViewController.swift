@@ -72,7 +72,21 @@ class LocationFeedViewController: UIViewController {
     }
     
     func AddCard(json: JSON) {
+        let users = json["users"].arrayValue
         
+        for user in users {
+            //表示しようとしているカードが自分と同じ場合はスキップ
+            if user["id"].intValue == user_id {
+                continue
+            }
+            
+            let name = user[Key.name.rawValue].stringValue
+            let avatar_url = user[Key.avatar_url.rawValue].stringValue
+            let attribute = user[Key.attribute.rawValue].stringValue
+            let skills = user[Key.skills.rawValue].arrayValue.map({$0.stringValue})
+            let sns = user[Key.sns.rawValue].arrayValue
+            let distance = user[Key.distance.rawValue].intValue
+        }
     }
     
     func CallLocationFeedAPI(){
