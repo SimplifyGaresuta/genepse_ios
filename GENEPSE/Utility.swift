@@ -10,13 +10,12 @@ import UIKit
 import SwiftyJSON
 
 func GetAttributeColor(attr: String) -> NSMutableAttributedString {
-    let text = AttributeStr_L.Designer.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Business.rawValue
+    let text = AttributeStr_L.Business.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Designer.rawValue
     let attributedText = NSMutableAttributedString(string: text)
-    
     
     switch attr {
     case AttributeStr.Designer.rawValue:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 8, length: 18))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 17))
         return attributedText
         
     case AttributeStr.Engineer.rawValue:
@@ -25,7 +24,7 @@ func GetAttributeColor(attr: String) -> NSMutableAttributedString {
         return attributedText
         
     case AttributeStr.Business.rawValue:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 17))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 8, length: 18))
         return attributedText
         
     default:
