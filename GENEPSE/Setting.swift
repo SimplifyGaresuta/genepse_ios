@@ -61,6 +61,12 @@ enum AttributeStr: String {
     case Business = "Business"
 }
 
+enum AttributeStr_L: String {
+    case Designer = "DESIGNER"
+    case Engineer = "ENGINEER"
+    case Business = "BUSINESS"
+}
+
 enum API: String {
     case host = "https://genepse-186713.appspot.com"
     case v1 = "/v1"

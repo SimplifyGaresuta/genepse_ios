@@ -129,10 +129,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let skills = obj[Key.skills.rawValue].arrayValue.map({$0.stringValue})
             let overview = obj[Key.overview.rawValue].stringValue
             let activity_base = obj[Key.activity_base.rawValue].stringValue
-            
+
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
-            self.self.scrollView.addSubview(cardViews.last!)
+            scrollView.addSubview(cardViews.last!)
             cardViews.last!.tag = id
             
             // 属性を追加
@@ -246,14 +246,22 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return career_label
     }
     
-    func CreateAttributeImageView(attribute: String) -> UIImageView {
-        let y = profileImageView.frame.origin.y + base_margin*0.5
+    func CreateAttributeImageView(attribute: String) -> UILabel {
+        let x = 0 as CGFloat
+        let y = base_margin * 0.5
+        let w = cardViews.last!.frame.width
+        let f_size = 16 as CGFloat
         
-        let attributeImageView = UIImageView(image: UIImage(named: "attr_"+attribute))
-        attributeImageView.frame = CGRect(x: base_margin*0.33, y: y, width: profileImageView.frame.width*0.45, height: profileImageView.frame.height*0.2)
-        attributeImageView.contentMode = .scaleAspectFill
+        let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
+        label.attributedText = GetAttributeColor(attr: attribute)
+        label.textAlignment = .center
+        label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
+        label.topTextInset = 30
+        label.rightTextInset = 20
+        label.bottomTextInset = 30
+        label.leftTextInset = 20
         
-        return attributeImageView
+        return label
     }
     
     func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
