@@ -230,8 +230,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
-        //TODO: もう少し幅をとる
-        let start_y = last_frame.origin.y+last_frame.height+base_margin*0.25
+        let start_y = last_frame.origin.y+last_frame.height+base_margin*0.35
         let homeImageView_wh = 13 as CGFloat
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
