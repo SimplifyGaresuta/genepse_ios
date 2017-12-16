@@ -14,7 +14,7 @@ import Toucan
 class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
-    var last_fram = CGRect()
+    var last_frame = CGRect()
     
     var base_margin = 0.0 as CGFloat
     var card_start_y = 0.0 as CGFloat
@@ -115,22 +115,24 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             // 属性を追加
             let attributeLabel = self.CreateAttributeLabel(attribute: attribute)
             cardViews.last!.addSubview(attributeLabel)
-            last_fram = attributeLabel.frame
+            last_frame = attributeLabel.frame
             
             // プロフィール画像を追加
             let profileImageView = self.CreateProfileImageView(url: avatar_url)
             cardViews.last!.addSubview(profileImageView)
-            last_fram = profileImageView.frame
+            last_frame = profileImageView.frame
             
             // 名前のラベルを追加
             let nameLabel = self.CreateNameLabel(text: name)
             cardViews.last!.addSubview(nameLabel)
-            last_fram = nameLabel.frame
+            last_frame = nameLabel.frame
             
             
-            //TODO: 活動拠点の追加
-            
-            
+            // 活動拠点の追加
+            let activity_baseView = self.CreateActivityBase(name: activity_base)
+            cardViews.last!.addSubview(activity_baseView.0)
+            cardViews.last!.addSubview(activity_baseView.1)
+            last_frame = activity_baseView.1.frame
 
             
             // メインスキルを追加
@@ -186,7 +188,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 3
             let x = cardViews.last!.frame.width / 2 - wh/2
-            let y = last_fram.origin.y + last_fram.height + base_margin * 0.25
+            let y = last_frame.origin.y + last_frame.height + base_margin * 0.25
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -211,7 +213,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         }
         
         let x = 0 as CGFloat
-        let y = last_fram.origin.y+last_fram.height+base_margin * 0.25
+        let y = last_frame.origin.y+last_frame.height+base_margin * 0.25
         let w = cardViews.last!.frame.width
         
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
@@ -222,13 +224,27 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return name_label
     }
     
-    //TODO: 活動拠点の追加
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
-        return (UIImageView(), UILabel())
+        let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
+        let start_y = last_frame.origin.y+last_frame.height+base_margin*0.25
+        let homeImageView_wh = 15 as CGFloat
+        homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 15)
+        label.text = name
+        label.sizeToFit()
+        
+        let label_start_x = (cardViews.last!.frame.width - (homeImageView.frame.width + label.frame.width)) / 2
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
+        label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin*0.25, y: start_y, width: 0, height: 0)
+        label.sizeToFit()
+
+        return (homeImageView, label)
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        let label_start_y = last_fram.origin.y+last_fram.height
+        let label_start_y = last_frame.origin.y+last_frame.height
         
         let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardViews.last!.frame.width-base_margin, height: base_margin*2))
         career_label.font = UIFont(name: FontName.J_W6.rawValue, size: 15)
@@ -271,7 +287,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let bg_color = UIColor.white
         
         var labelstart_x = base_margin * 0.25
-        let label_y = last_fram.origin.y + last_fram.height
+        let label_y = last_frame.origin.y + last_frame.height
         
         for skill in skills {
             let je_num = SearchJapaneseEnglish(text: skill)
@@ -295,7 +311,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             label.sizeToFit()   //w, hの再調整
             
             //TODO: はみ出したラベルがある場合は調整
-            if (label.frame.origin.x+label.frame.width) > (last_fram.origin.x+last_fram.width-base_margin*0.25) {
+            if (label.frame.origin.x+label.frame.width) > (last_frame.origin.x+last_frame.width-base_margin*0.25) {
             }
             
             
