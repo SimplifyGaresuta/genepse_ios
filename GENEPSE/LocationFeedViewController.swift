@@ -234,7 +234,7 @@ class LocationFeedViewController: UIViewController {
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 2
+        let y = name_frame.height+name_frame.origin.y+base_margin * 1.25
         var x = base_margin * 2.5
         
         for skill in skills {
