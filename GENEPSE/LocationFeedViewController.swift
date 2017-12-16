@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import SwiftyJSON
+import Alamofire
 
 class LocationFeedViewController: UIViewController {
 
@@ -65,6 +67,27 @@ class LocationFeedViewController: UIViewController {
         cannotavailable_msg.center = self.view.center
         
         self.view.addSubview(cannotavailable_msg)
+    }
+    
+    func AddCard(json: JSON) {
+        
+    }
+    
+    func CallLocationFeedAPI(){
+        if DEGUG {
+            let dummy = LocationFeedDummyData().users_data
+            self.AddCard(json: JSON(dummy))
+        }else {
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?user_id=" + String(user_id)
+            
+            Alamofire.request(urlString, method: .get).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("Location Feed results: ", json.count)
+                
+                self.AddCard(json: json)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
