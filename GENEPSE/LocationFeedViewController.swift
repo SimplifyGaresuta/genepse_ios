@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 import Alamofire
+import Toucan
 
 class LocationFeedViewController: UIViewController {
 
@@ -125,10 +126,12 @@ class LocationFeedViewController: UIViewController {
             cardViews.last!.addSubview(distanceLabel)
             distance_frame = distanceLabel.frame
             
+            
             // 名前の設置
             let nameLabel = CreateNameLabel(text: name)
             cardViews.last!.addSubview(nameLabel)
             name_frame = nameLabel.frame
+            
             
             // メインスキルの設置
             let mainskillsViews = CreateMainSkillsLabels(skills: skills)
@@ -139,6 +142,11 @@ class LocationFeedViewController: UIViewController {
                     cardViews.last!.addSubview(view as! UIImageView)
                 }
             }
+            
+            
+            //TODO: プロフィール画像の設置
+            let profileImageView = CreateProfileImageView(url: avatar_url)
+            cardViews.last!.addSubview(profileImageView)
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
@@ -250,6 +258,28 @@ class LocationFeedViewController: UIViewController {
         _ = views.popLast()
         
         return views
+    }
+    
+    func CreateProfileImageView(url: String) -> UIImageView {
+        let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let url = URL(string: escapedAddress!)!
+        
+        do {
+            let imageData: NSData = try NSData(contentsOf: url)
+            let wh = base_margin * 7
+            let x = cardViews.last!.frame.origin.x + cardViews.last!.frame.width - wh*1.4
+            let y = distance_frame.origin.y + distance_frame.height + base_margin*2
+            
+            let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+            let imageview = UIImageView(image: resizedAndMaskedImage)
+            imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
+            
+            return imageview
+        }catch{
+            print(error)
+        }
+        
+        return UIImageView()
     }
     
     func GenerateDistanceString(distance: Int) -> String {
