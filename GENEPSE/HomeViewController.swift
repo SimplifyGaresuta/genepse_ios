@@ -338,8 +338,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             }
         }
         
-        
-        
         return views
     }
     
