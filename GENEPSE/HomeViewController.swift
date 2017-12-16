@@ -245,7 +245,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         name_label.text = text
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
-//        name_label.sizeToFit()
         
         return name_label
     }
