@@ -136,11 +136,14 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
 
             
             // メインスキルを追加
-//            let mainskillsLabels = self.CreateMainSkillsLabels(skills: skills)
-//            for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-//                cardViews.last!.addSubview(shadowView)
-//                cardViews.last!.addSubview(skillLabel)
-//            }
+            let mainskillsViews = self.CreateMainSkillsLabels(skills: skills)
+            for view in mainskillsViews {
+                if let label = view as? UILabel {
+                    cardViews.last!.addSubview(label)
+                }else {
+                    cardViews.last!.addSubview(view as! UIImageView)
+                }
+            }
             
             
             
@@ -281,56 +284,54 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return label
     }
     
-    func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
-        var labels = [UILabel]()
-        var views = [UIView]()
-        let bg_color = UIColor.white
+    func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
+        var views:[Any] = []
+        let y = last_frame.height+last_frame.origin.y+base_margin*0.5
+        var x = 0 as CGFloat
+        var sum_w = 0 as CGFloat
         
-        var labelstart_x = base_margin * 0.25
-        let label_y = last_frame.origin.y + last_frame.height
-        
+        //初期配置をしてサイズを求めるためのループ
         for skill in skills {
-            let je_num = SearchJapaneseEnglish(text: skill)
-            let font_name = GetFontName(je_num: je_num, font_w: 6)
-            var font_size = 0 as CGFloat
-            if je_num == JapaneseEnglish.Japanese.rawValue {
-                font_size = 20
-            }else {
-                font_size = 21
-            }
-            
-            // skillラベルの生成
-            let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
-            label.text = "  " + skill + "  "
-            label.font = UIFont(name: font_name, size: font_size)
-            label.backgroundColor = bg_color
+            //skillラベル追加
+            let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+            label.text = skill
+            label.font = UIFont(name: FontName.E.rawValue, size: 12)
             label.sizeToFit()
-            label.layer.cornerRadius = 10
-            label.layer.masksToBounds = true
-            label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)   //プロフ画像のbottomからマージン分だけ上に
-            label.sizeToFit()   //w, hの再調整
+            views.append(label)
             
-            //TODO: はみ出したラベルがある場合は調整
-            if (label.frame.origin.x+label.frame.width) > (last_frame.origin.x+last_frame.width-base_margin*0.25) {
-            }
+            x = label.frame.origin.x + label.frame.width + base_margin*0.25
+            sum_w += label.frame.width+base_margin*0.25
             
+            //スラッシュ画像追加
+            let slash = UIImageView(image: UIImage(named: "icon_slash"))
+            slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
+            views.append(slash)
             
-            labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
-            
-            // 影Viewの生成
-            let offset = 1.5
-            let shadow = UIView(frame: CGRect(x: label.frame.origin.x, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height))
-            shadow.layer.shadowColor = UIColor.black.cgColor
-            shadow.backgroundColor = bg_color
-            shadow.layer.shadowOpacity = 1.0
-            shadow.layer.shadowOffset = CGSize(width: offset, height: offset)
-            shadow.layer.shadowRadius = CGFloat(offset)
-            shadow.layer.cornerRadius = 10
-            
-            labels.append(label)
-            views.append(shadow)
+            x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
+            sum_w += slash.frame.width+base_margin*0.25
         }
-        return (views, labels)
+        
+        let last_view = views.last! as! UIImageView
+        sum_w -= last_view.frame.width+base_margin*0.25
+        _ = views.popLast()
+        
+        var start_x = (cardViews.last!.frame.width - sum_w) / 2
+        
+        for view in views {
+            if let label = view as? UILabel {
+                label.frame = CGRect(x: start_x, y: y, width: 0, height: 0)
+                label.sizeToFit()
+                start_x = label.frame.origin.x + label.frame.width + base_margin*0.25
+            }else {
+                let slash = view as! UIImageView
+                slash.frame = CGRect(x: start_x, y: y, width: 5, height: 15)
+                start_x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
+            }
+        }
+        
+        
+        
+        return views
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
