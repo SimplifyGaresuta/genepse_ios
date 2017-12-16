@@ -192,7 +192,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 3
             let x = cardViews.last!.frame.width / 2 - wh/2
-            let y = last_frame.origin.y + last_frame.height + base_margin * 0.4
+            let y = last_frame.origin.y + last_frame.height + base_margin * 0.45
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -228,6 +228,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return name_label
     }
     
+    //TODO: 活動拠点の中心がずれているので調整
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = last_frame.origin.y+last_frame.height+base_margin*0.35
@@ -248,18 +249,15 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        let label_start_y = last_frame.origin.y+last_frame.height
+        let label_start_y = last_frame.origin.y+last_frame.height + base_margin*0.2
         
-        //TODO: テキストviewの幅が小さい
-        let x = cardViews.last!.frame.width * 0.15
-        let w = cardViews.last!.frame.width * 0.7
+        let x = cardViews.last!.frame.width * 0.1
+        let w = cardViews.last!.frame.width * 0.8
         
         let career_label = UILabel(frame: CGRect(x: x, y: label_start_y, width: w, height: base_margin*2))
         career_label.font = UIFont(name: FontName.J_W6.rawValue, size: 12)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
-        
-        print(base_margin*2)
         
         let lineHeight = CGFloat(21)
         let paragraphStyle = NSMutableParagraphStyle()
@@ -294,6 +292,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return label
     }
     
+    //TODO: スキルの中心がずれているので調整
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
         let y = last_frame.height+last_frame.origin.y+base_margin*0.5
