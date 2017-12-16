@@ -14,6 +14,8 @@ import Alamofire
 class LocationFeedViewController: UIViewController {
 
     var cannotavailable_msg = EdgeInsetLabel()
+    var scrollView = UIScrollView()
+    var cardViews: [UIView] = [UIView()]
     
     var user_id = 0
     
@@ -26,6 +28,7 @@ class LocationFeedViewController: UIViewController {
         
         if CLLocationManager.locationServicesEnabled() {
             cannotavailable_msg.isHidden = true
+            scrollView.isScrollEnabled = true
             
             guard let user_id = GetAppDelegate().user_id else {
                 return
@@ -38,20 +41,32 @@ class LocationFeedViewController: UIViewController {
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
                 cannotavailable_msg.isHidden = false
-                
+                scrollView.isScrollEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
                 break
             }
         }else {
             cannotavailable_msg.isHidden = false
+            scrollView.isScrollEnabled = false
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.view.addSubview(scrollView)
+        
         SetUpCanNotAvailableLocationFeedMSG()
-        // Do any additional setup after loading the view.
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo:self.view.topAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
+        
+        //TODO: heightを要素に合わせて変更
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
     }
     
     func SetUpCanNotAvailableLocationFeedMSG() {
@@ -75,6 +90,9 @@ class LocationFeedViewController: UIViewController {
         let users = json["users"].arrayValue
         let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
 
+        let base_margin = self.view.bounds.width * 0.1
+        var card_start_y = base_margin
+        
         for user in sorted_users {
             //表示しようとしているカードが自分と同じ場合はスキップ
             if user["id"].intValue == user_id {
@@ -88,8 +106,15 @@ class LocationFeedViewController: UIViewController {
             let sns = user[Key.sns.rawValue].arrayValue
             let distance = user[Key.distance.rawValue].intValue
             
-            
+            //TODO: カードを追加
+//            cardViews.append(CreateCard(card_start_y: card_start_y))
+//            scrollView.addSubview(cardViews.last!)
+//            cardViews.last!.tag = id
         }
+    }
+    
+    func CreateCard(start_y: CGFloat) {
+        
     }
     
     func CallLocationFeedAPI(){
