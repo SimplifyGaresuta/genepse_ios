@@ -145,6 +145,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 }
             }
             
+            let lastview = mainskillsViews.last! as! UILabel
+            last_frame = lastview.frame
             
             // 経歴のラベルを追加
             let careerLabel = self.CreateCareerLabel(text: overview)
@@ -158,6 +160,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
+        //TODO: カードの縦幅を大きく
         let card_width = self.view.bounds.width * 0.8
         let card_height = self.view.bounds.height * 0.5
         
@@ -209,9 +212,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
         if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 24
+            font_size = 22
         }else {
-            font_size = 26
+            font_size = 23
         }
         
         let x = 0 as CGFloat
@@ -228,12 +231,13 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
+        //TODO: もう少し幅をとる
         let start_y = last_frame.origin.y+last_frame.height+base_margin*0.25
-        let homeImageView_wh = 15 as CGFloat
+        let homeImageView_wh = 13 as CGFloat
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 15)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 13)
         label.text = name
         label.sizeToFit()
         
@@ -248,20 +252,29 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func CreateCareerLabel(text: String) -> UILabel {
         let label_start_y = last_frame.origin.y+last_frame.height
         
-        let career_label = UILabel(frame: CGRect(x: base_margin*0.5, y: label_start_y, width: cardViews.last!.frame.width-base_margin, height: base_margin*2))
-        career_label.font = UIFont(name: FontName.J_W6.rawValue, size: 15)
+        //TODO: テキストviewの幅が小さい
+        let x = cardViews.last!.frame.width * 0.15
+        let w = cardViews.last!.frame.width * 0.7
+        
+        let career_label = UILabel(frame: CGRect(x: x, y: label_start_y, width: w, height: base_margin*2))
+        career_label.font = UIFont(name: FontName.J_W6.rawValue, size: 12)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight:CGFloat = 21.0
+        print(base_margin*2)
+        
+        let lineHeight = CGFloat(21)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
         paragraphStyle.lineBreakMode = .byTruncatingTail
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
-        career_label.attributedText = attributedText
         
+        let customLetterSpacing = -0.05
+        attributedText.addAttribute(NSKernAttributeName, value: customLetterSpacing, range: NSMakeRange(0, attributedText.length))
+        career_label.attributedText = attributedText
+
         return career_label
     }
     
@@ -269,7 +282,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let x = 0 as CGFloat
         let y = base_margin * 0.5
         let w = cardViews.last!.frame.width
-        let f_size = 16 as CGFloat
+        let f_size = 13 as CGFloat
         
         let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
         label.attributedText = GetAttributeColor(attr: attribute)
