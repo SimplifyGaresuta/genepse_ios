@@ -13,6 +13,10 @@ class LocationFeedViewController: UIViewController {
 
     var cannotavailable_msg = EdgeInsetLabel()
     
+    //MARK: DEBUG
+    let DEGUG = true
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
