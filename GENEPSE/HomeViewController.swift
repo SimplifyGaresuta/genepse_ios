@@ -145,6 +145,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(self.profileImageView)
             
             
+            // 名前のラベルを追加
+            self.nameLabel = self.CreateNameLabel(text: name)
+            cardViews.last!.addSubview(self.nameLabel)
+            
+            
             //TODO: 活動拠点の追加
             
             
@@ -157,9 +162,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
 //                cardViews.last!.addSubview(skillLabel)
 //            }
             
-            // 名前のラベルを追加
-//            self.nameLabel = self.CreateNameLabel(text: name)
-//            cardViews.last!.addSubview(self.nameLabel)
+            
             
             // 経歴のラベルを追加
 //            let careerLabel = self.CreateCareerLabel(text: overview)
@@ -205,7 +208,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 3
             let x = cardViews.last!.frame.width / 2 - wh/2
-            let y = attributeLabel.frame.origin.y + attributeLabel.frame.height + base_margin * 0.5
+            let y = attributeLabel.frame.origin.y + attributeLabel.frame.height + base_margin * 0.25
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -229,15 +232,20 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
         if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 32
+            font_size = 24
         }else {
-            font_size = 34
+            font_size = 26
         }
         
-        let name_label = UILabel(frame: CGRect(x: base_margin*0.5, y: profileImageView.frame.height+base_margin*0.25, width: cardViews.last!.frame.width, height: base_margin))
+        let x = 0 as CGFloat
+        let y = profileImageView.frame.origin.y+profileImageView.frame.height+base_margin * 0.25
+        let w = cardViews.last!.frame.width
+        
+        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
         name_label.text = text
+        name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
-        name_label.sizeToFit()
+//        name_label.sizeToFit()
         
         return name_label
     }
