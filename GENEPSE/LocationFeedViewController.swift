@@ -17,6 +17,7 @@ class LocationFeedViewController: UIViewController {
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var base_margin = 0.0 as CGFloat
+    var last_frame = CGRect()
     
     var user_id = 0
     
@@ -106,9 +107,15 @@ class LocationFeedViewController: UIViewController {
             let sns = user[Key.sns.rawValue].arrayValue
             let distance = user[Key.distance.rawValue].intValue
             
-            //TODO: カードを追加
+            // カードを追加
             cardViews.append(CreateCard(start_y: card_start_y))
             scrollView.addSubview(cardViews.last!)
+            
+            
+            // 属性を追加
+            let attributeLabel = CreateAttributeLabel(attribute: attribute)
+            cardViews.last!.addSubview(attributeLabel)
+            last_frame = attributeLabel.frame
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
@@ -128,6 +135,20 @@ class LocationFeedViewController: UIViewController {
         card_view.layer.masksToBounds = false
         
         return card_view
+    }
+    
+    func CreateAttributeLabel(attribute: String) -> UILabel {
+        let x = base_margin * 1.5
+        let y = base_margin * 1
+        let w = cardViews.last!.frame.width
+        let f_size = 13 as CGFloat
+        
+        let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
+        label.attributedText = GetAttributeColor(attr: attribute)
+        label.textAlignment = .left
+        label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
+        
+        return label
     }
     
     func CallLocationFeedAPI(){
