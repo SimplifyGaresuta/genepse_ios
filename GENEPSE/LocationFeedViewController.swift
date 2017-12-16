@@ -118,10 +118,15 @@ class LocationFeedViewController: UIViewController {
             last_frame = attributeLabel.frame
             
             
-            //TODO: 距離の設置
+            // 距離の設置
             let distanceLabel = CreateDistanceLabel(distance: distance)
             cardViews.last!.addSubview(distanceLabel)
             last_frame = distanceLabel.frame
+            
+            //TODO: 名前の設置
+            let nameLabel = CreateNameLabel(text: name)
+            cardViews.last!.addSubview(nameLabel)
+            last_frame = nameLabel.frame
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
@@ -183,6 +188,28 @@ class LocationFeedViewController: UIViewController {
         
         label.frame = CGRect(x: x, y: 0, width: label.frame.width, height: f_size+15)
         return label
+    }
+    
+    func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 22
+        }else {
+            font_size = 23
+        }
+        
+        let x = 0 as CGFloat
+        let y = last_frame.origin.y+last_frame.height+base_margin * 0.4
+        let w = cardViews.last!.frame.width
+        
+        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
+        name_label.text = text
+        name_label.textAlignment = .center
+        name_label.font = UIFont(name: font_name, size: font_size)
+        
+        return name_label
     }
     
     func GenerateDistanceString(distance: Int) -> String {
