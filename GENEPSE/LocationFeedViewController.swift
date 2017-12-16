@@ -17,7 +17,9 @@ class LocationFeedViewController: UIViewController {
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var base_margin = 0.0 as CGFloat
-    var last_frame = CGRect()
+    var attr_frame = CGRect()
+    var distance_frame = CGRect()
+    var name_frame = CGRect()
     
     var user_id = 0
     
@@ -115,18 +117,18 @@ class LocationFeedViewController: UIViewController {
             // 属性を追加
             let attributeLabel = CreateAttributeLabel(attribute: attribute)
             cardViews.last!.addSubview(attributeLabel)
-            last_frame = attributeLabel.frame
+            attr_frame = attributeLabel.frame
             
             
             // 距離の設置
             let distanceLabel = CreateDistanceLabel(distance: distance)
             cardViews.last!.addSubview(distanceLabel)
-            last_frame = distanceLabel.frame
+            distance_frame = distanceLabel.frame
             
-            //TODO: 名前の設置
+            // 名前の設置
             let nameLabel = CreateNameLabel(text: name)
             cardViews.last!.addSubview(nameLabel)
-            last_frame = nameLabel.frame
+            name_frame = nameLabel.frame
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
@@ -200,13 +202,13 @@ class LocationFeedViewController: UIViewController {
             font_size = 23
         }
         
-        let x = 0 as CGFloat
-        let y = last_frame.origin.y+last_frame.height+base_margin * 0.4
+        let x = base_margin * 2.5
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 3
         let w = cardViews.last!.frame.width
         
-        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
+        let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
         name_label.text = text
-        name_label.textAlignment = .center
+        name_label.textAlignment = .left
         name_label.font = UIFont(name: font_name, size: font_size)
         
         return name_label
