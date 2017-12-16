@@ -268,7 +268,7 @@ class LocationFeedViewController: UIViewController {
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 7
             let x = cardViews.last!.frame.origin.x + cardViews.last!.frame.width - wh*1.4
-            let y = distance_frame.origin.y + distance_frame.height + base_margin*2
+            let y = distance_frame.origin.y + distance_frame.height + base_margin*1.5
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
