@@ -148,6 +148,9 @@ class LocationFeedViewController: UIViewController {
             let profileImageView = CreateProfileImageView(url: avatar_url)
             cardViews.last!.addSubview(profileImageView)
             
+            
+            //TODO: SNSの設置
+            
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
     }
@@ -280,6 +283,10 @@ class LocationFeedViewController: UIViewController {
         }
         
         return UIImageView()
+    }
+    
+    func CreateSNSButton(sns: [JSON]) -> [UIButton] {
+        return [UIButton()]
     }
     
     func GenerateDistanceString(distance: Int) -> String {
