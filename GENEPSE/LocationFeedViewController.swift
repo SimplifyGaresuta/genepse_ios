@@ -130,6 +130,16 @@ class LocationFeedViewController: UIViewController {
             cardViews.last!.addSubview(nameLabel)
             name_frame = nameLabel.frame
             
+            // メインスキルの設置
+            let mainskillsViews = CreateMainSkillsLabels(skills: skills)
+            for view in mainskillsViews {
+                if let label = view as? UILabel {
+                    cardViews.last!.addSubview(label)
+                }else {
+                    cardViews.last!.addSubview(view as! UIImageView)
+                }
+            }
+            
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
     }
@@ -212,6 +222,34 @@ class LocationFeedViewController: UIViewController {
         name_label.font = UIFont(name: font_name, size: font_size)
         
         return name_label
+    }
+    
+    func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
+        var views:[Any] = []
+        let y = name_frame.height+name_frame.origin.y+base_margin * 2
+        var x = base_margin * 2.5
+        
+        for skill in skills {
+            //skillラベル追加
+            let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+            label.text = skill
+            label.font = UIFont(name: FontName.E.rawValue, size: 12)
+            label.sizeToFit()
+            views.append(label)
+            
+            x = label.frame.origin.x + label.frame.width + base_margin * 1
+            
+            //スラッシュ画像追加
+            let slash = UIImageView(image: UIImage(named: "icon_slash"))
+            slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
+            views.append(slash)
+            
+            x = slash.frame.origin.x + slash.frame.width + base_margin * 1
+        }
+        
+        _ = views.popLast()
+        
+        return views
     }
     
     func GenerateDistanceString(distance: Int) -> String {
