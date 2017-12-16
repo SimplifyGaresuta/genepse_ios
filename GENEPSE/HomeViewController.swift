@@ -135,13 +135,15 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             self.self.scrollView.addSubview(cardViews.last!)
             cardViews.last!.tag = id
             
+            // 属性を追加
+            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
+            cardViews.last!.addSubview(attributeImageView)
+            
             // プロフィール画像を追加
 //            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
 //            cardViews.last!.addSubview(self.profileImageView)
             
-            // 属性を追加
-//            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
-//            cardViews.last!.addSubview(attributeImageView)
+            
 
             
             // メインスキルを追加
