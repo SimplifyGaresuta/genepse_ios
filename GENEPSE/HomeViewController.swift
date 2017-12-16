@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import Toucan
 
-class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
+class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var profileImageView = UIImageView()
@@ -20,7 +20,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var card_start_y = 0.0 as CGFloat
     
     var isUpdating = false
-    var preViewName = StoryboardID.Feed.rawValue
+    var preViewName = StoryboardID.Home.rawValue
     var limit = 20
     var offset = 0
     var has_next = true
@@ -32,9 +32,9 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = StoryboardID.Feed.rawValue
+        self.tabBarController?.navigationItem.title = StoryboardID.Home.rawValue
         
-        preViewName = StoryboardID.Feed.rawValue
+        preViewName = StoryboardID.Home.rawValue
         self.tabBarController?.delegate = self
     }
 
@@ -338,7 +338,7 @@ class FeedViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         print("FEED")
         print(viewController.restorationIdentifier!, preViewName)
         
-        if viewController.restorationIdentifier! == StoryboardID.Feed.rawValue && preViewName == StoryboardID.Feed.rawValue {
+        if viewController.restorationIdentifier! == StoryboardID.Home.rawValue && preViewName == StoryboardID.Home.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
         

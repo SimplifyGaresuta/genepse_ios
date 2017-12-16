@@ -61,17 +61,19 @@
             </objects>
             <point key="canvasLocation" x="-1770" y="103"/>
         </scene>
-        <!--Feed-->
+        <!--Home-->
         <scene sceneID="PDo-Xd-jBk">
             <objects>
-                <viewController storyboardIdentifier="Feed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="FeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="HomeViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MYh-vM-dtr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Feed" image="tabbar_feed" id="erc-Y8-ECM"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="tabbar_feed" id="erc-Y8-ECM">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ5-lP-121" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
