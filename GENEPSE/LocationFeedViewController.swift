@@ -13,6 +13,8 @@ class LocationFeedViewController: UIViewController {
 
     var cannotavailable_msg = EdgeInsetLabel()
     
+    var user_id = 0
+    
     //MARK: DEBUG
     let DEGUG = true
     
@@ -22,6 +24,12 @@ class LocationFeedViewController: UIViewController {
         
         if CLLocationManager.locationServicesEnabled() {
             cannotavailable_msg.isHidden = true
+            
+            guard let user_id = GetAppDelegate().user_id else {
+                return
+            }
+            
+            self.user_id = user_id
             
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
