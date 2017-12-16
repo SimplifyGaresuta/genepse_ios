@@ -285,6 +285,7 @@ class LocationFeedViewController: UIViewController {
         return UIImageView()
     }
     
+    //TODO: sns
     func CreateSNSButton(sns: [JSON]) -> [UIButton] {
         return [UIButton()]
     }
