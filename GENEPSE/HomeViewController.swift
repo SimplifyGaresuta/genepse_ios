@@ -160,9 +160,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        //TODO: カードの縦幅を大きく
         let card_width = self.view.bounds.width * 0.8
-        let card_height = self.view.bounds.height * 0.5
+        let card_height = self.view.bounds.height * 0.53
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
@@ -193,7 +192,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 3
             let x = cardViews.last!.frame.width / 2 - wh/2
-            let y = last_frame.origin.y + last_frame.height + base_margin * 0.25
+            let y = last_frame.origin.y + last_frame.height + base_margin * 0.4
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
