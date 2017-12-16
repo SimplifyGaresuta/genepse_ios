@@ -9,25 +9,28 @@
 import UIKit
 import SwiftyJSON
 
-func GetAttributeColor(attr: String) -> UIColor {
-    var bg_color: UIColor
+func GetAttributeColor(attr: String) -> NSMutableAttributedString {
+    let text = AttributeStr_L.Business.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Designer.rawValue
+    let attributedText = NSMutableAttributedString(string: text)
     
     switch attr {
     case AttributeStr.Designer.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 17))
+        return attributedText
+        
     case AttributeStr.Engineer.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 8))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 18, length: 8))
+        return attributedText
+        
     case AttributeStr.Business.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 8, length: 18))
+        return attributedText
+        
     default:
-        bg_color = UIColor.clear
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 26))
+        return attributedText
     }
-    
-    return bg_color
 }
 
 func GetDetailData(json: JSON) -> DetailData {
