@@ -73,8 +73,9 @@ class LocationFeedViewController: UIViewController {
     
     func AddCard(json: JSON) {
         let users = json["users"].arrayValue
-        
-        for user in users {
+        let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
+
+        for user in sorted_users {
             //表示しようとしているカードが自分と同じ場合はスキップ
             if user["id"].intValue == user_id {
                 continue
@@ -86,6 +87,8 @@ class LocationFeedViewController: UIViewController {
             let skills = user[Key.skills.rawValue].arrayValue.map({$0.stringValue})
             let sns = user[Key.sns.rawValue].arrayValue
             let distance = user[Key.distance.rawValue].intValue
+            
+            
         }
     }
     
