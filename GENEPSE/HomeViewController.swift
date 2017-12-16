@@ -217,7 +217,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         }
         
         let x = 0 as CGFloat
-        let y = last_frame.origin.y+last_frame.height+base_margin * 0.25
+        let y = last_frame.origin.y+last_frame.height+base_margin * 0.4
         let w = cardViews.last!.frame.width
         
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
