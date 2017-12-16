@@ -33,6 +33,8 @@ class LocationFeedViewController: UIViewController {
             
             self.user_id = user_id
             
+            CallLocationFeedAPI()
+            
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
                 cannotavailable_msg.isHidden = false
