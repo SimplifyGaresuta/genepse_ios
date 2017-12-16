@@ -16,6 +16,7 @@ class LocationFeedViewController: UIViewController {
     var cannotavailable_msg = EdgeInsetLabel()
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
+    var base_margin = 0.0 as CGFloat
     
     var user_id = 0
     
@@ -37,6 +38,8 @@ class LocationFeedViewController: UIViewController {
             self.user_id = user_id
             
             CallLocationFeedAPI()
+
+            scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
             
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
@@ -64,9 +67,6 @@ class LocationFeedViewController: UIViewController {
         scrollView.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
-        
-        //TODO: heightを要素に合わせて変更
-        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
     }
     
     func SetUpCanNotAvailableLocationFeedMSG() {
@@ -90,7 +90,7 @@ class LocationFeedViewController: UIViewController {
         let users = json["users"].arrayValue
         let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
 
-        let base_margin = self.view.bounds.width * 0.1
+        base_margin = self.view.bounds.width * 0.025
         var card_start_y = base_margin
         
         for user in sorted_users {
@@ -107,14 +107,27 @@ class LocationFeedViewController: UIViewController {
             let distance = user[Key.distance.rawValue].intValue
             
             //TODO: カードを追加
-//            cardViews.append(CreateCard(card_start_y: card_start_y))
-//            scrollView.addSubview(cardViews.last!)
-//            cardViews.last!.tag = id
+            cardViews.append(CreateCard(start_y: card_start_y))
+            scrollView.addSubview(cardViews.last!)
+            
+            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
     }
     
-    func CreateCard(start_y: CGFloat) {
+    func CreateCard(start_y: CGFloat) -> UIView {
+        let card_width = self.view.bounds.width * 0.95
+        let card_height = self.view.bounds.height * 0.27
         
+        let card_view = UIView(frame: CGRect(x: base_margin, y: start_y, width: card_width, height: card_height))
+        card_view.backgroundColor = UIColor.white
+        card_view.layer.cornerRadius = 5
+        card_view.layer.shadowOpacity = 0.2
+        card_view.layer.shadowColor = UIColor.black.cgColor
+        card_view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        card_view.layer.shadowRadius = 5
+        card_view.layer.masksToBounds = false
+        
+        return card_view
     }
     
     func CallLocationFeedAPI(){
