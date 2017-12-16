@@ -14,6 +14,7 @@ import Toucan
 class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarControllerDelegate {
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
+    var attributeLabel = UILabel()
     var profileImageView = UIImageView()
     var nameLabel = UILabel()
     var base_margin = 0.0 as CGFloat
@@ -136,12 +137,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.tag = id
             
             // 属性を追加
-            let attributeImageView = self.CreateAttributeImageView(attribute: attribute)
-            cardViews.last!.addSubview(attributeImageView)
+            attributeLabel = self.CreateAttributeLabel(attribute: attribute)
+            cardViews.last!.addSubview(self.attributeLabel)
             
             // プロフィール画像を追加
-//            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
-//            cardViews.last!.addSubview(self.profileImageView)
+            self.profileImageView = self.CreateProfileImageView(url: avatar_url)
+            cardViews.last!.addSubview(self.profileImageView)
             
             
 
@@ -194,18 +195,25 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
-        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardViews.last!.frame.width, height: cardViews.last!.frame.height*0.7))
-        imageView.loadImage(urlString: url)
-        imageView.contentMode = .scaleAspectFill
+        let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let url = URL(string: escapedAddress!)!
         
-        let maskPath = UIBezierPath(roundedRect: imageView.frame,
-                                    byRoundingCorners: [.topLeft, .topRight],
-                                    cornerRadii: CGSize(width: 20, height: 20))
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = maskPath.cgPath
-        imageView.layer.mask = maskLayer
+        do {
+            let imageData: NSData = try NSData(contentsOf: url)
+            let wh = base_margin * 3
+            let x = cardViews.last!.frame.width / 2 - wh/2
+            let y = attributeLabel.frame.origin.y + attributeLabel.frame.height + base_margin * 0.5
+            
+            let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+            let imageview = UIImageView(image: resizedAndMaskedImage)
+            imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
+            
+            return imageview
+        }catch{
+            print(error)
+        }
         
-        return imageView
+        return UIImageView()
     }
     
     func CreateNameLabel(text: String) -> UILabel {
@@ -246,7 +254,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         return career_label
     }
     
-    func CreateAttributeImageView(attribute: String) -> UILabel {
+    func CreateAttributeLabel(attribute: String) -> UILabel {
         let x = 0 as CGFloat
         let y = base_margin * 0.5
         let w = cardViews.last!.frame.width
