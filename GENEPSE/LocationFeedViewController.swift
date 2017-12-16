@@ -117,6 +117,12 @@ class LocationFeedViewController: UIViewController {
             cardViews.last!.addSubview(attributeLabel)
             last_frame = attributeLabel.frame
             
+            
+            //TODO: 距離の設置
+            let distanceLabel = CreateDistanceLabel(distance: distance)
+            cardViews.last!.addSubview(distanceLabel)
+            last_frame = distanceLabel.frame
+            
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
     }
@@ -149,6 +155,44 @@ class LocationFeedViewController: UIViewController {
         label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
         
         return label
+    }
+    
+    func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
+        let f_size = 15 as CGFloat
+        let label = EdgeInsetLabel()
+        label.text = GenerateDistanceString(distance: distance)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: f_size)
+        label.frame = CGRect(x: 0, y: 0, width: 0, height: f_size+15)
+        label.backgroundColor = UIColor.black
+        label.textColor = UIColor.white
+        label.topTextInset = 7.5
+        label.rightTextInset = 12.5
+        label.bottomTextInset = 7.5
+        label.leftTextInset = 12.5
+        label.sizeToFit()
+        
+        let x = cardViews.last!.frame.width - label.frame.width
+        
+        let maskPath = UIBezierPath(roundedRect: label.frame,
+                                    byRoundingCorners: [.topRight],
+                                    cornerRadii: CGSize(width: 5, height: 5))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = maskPath.cgPath
+        label.layer.mask = maskLayer
+
+        
+        label.frame = CGRect(x: x, y: 0, width: label.frame.width, height: f_size+15)
+        return label
+    }
+    
+    func GenerateDistanceString(distance: Int) -> String {
+        let km: Double = Double(distance) / 1000.0
+        
+        if km < 1.0 {
+            return String(distance) + "m"
+        }
+        
+        return String(km) + "km"
     }
     
     func CallLocationFeedAPI(){
