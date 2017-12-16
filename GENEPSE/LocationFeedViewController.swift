@@ -144,7 +144,7 @@ class LocationFeedViewController: UIViewController {
             }
             
             
-            //TODO: プロフィール画像の設置
+            // プロフィール画像の設置
             let profileImageView = CreateProfileImageView(url: avatar_url)
             cardViews.last!.addSubview(profileImageView)
             
