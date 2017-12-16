@@ -32,23 +32,6 @@ func GetAttributeColor(attr: String) -> NSMutableAttributedString {
         attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 26))
         return attributedText
     }
-    
-//    switch attr {
-//    case AttributeStr.Designer.rawValue:
-//        bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
-//        break
-//    case AttributeStr.Engineer.rawValue:
-//        bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
-//        break
-//    case AttributeStr.Business.rawValue:
-//        bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
-//        break
-//    default:
-//        bg_color = UIColor.clear
-//        break
-//    }
-    
-//    return bg_color
 }
 
 func GetDetailData(json: JSON) -> DetailData {

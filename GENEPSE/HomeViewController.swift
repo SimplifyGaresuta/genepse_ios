@@ -146,10 +146,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             }
             
             
-            
             // 経歴のラベルを追加
-//            let careerLabel = self.CreateCareerLabel(text: overview)
-//            cardViews.last!.addSubview(careerLabel)
+            let careerLabel = self.CreateCareerLabel(text: overview)
+            cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
             self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.5
