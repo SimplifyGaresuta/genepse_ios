@@ -145,6 +145,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(self.profileImageView)
             
             
+            //TODO: 活動拠点の追加
+            
+            
 
             
             // メインスキルを追加
@@ -214,6 +217,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         }
         
         return UIImageView()
+    }
+    
+    //TODO: 活動拠点の追加
+    func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
+        return (UIImageView(), UILabel())
     }
     
     func CreateNameLabel(text: String) -> UILabel {
