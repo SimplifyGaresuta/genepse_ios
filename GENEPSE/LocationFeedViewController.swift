@@ -221,7 +221,7 @@ class LocationFeedViewController: UIViewController {
         }
         
         let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 4.5
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 2.85
         let w = cardViews.last!.frame.width
         
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
