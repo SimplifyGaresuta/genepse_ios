@@ -89,8 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let urlString: String = API.host.rawValue + API.v1.rawValue + API.locations.rawValue + String(user_id)
             
             let req_dict = [
-                "latitude": Double(location!.coordinate.latitude),
-                "longitude": Double(location!.coordinate.latitude)
+                Key.latitude.rawValue: Double(location!.coordinate.latitude),
+                Key.longitude.rawValue: Double(location!.coordinate.latitude)
             ]
             
             Alamofire.request(urlString, method: .put, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
