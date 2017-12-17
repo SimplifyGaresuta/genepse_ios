@@ -150,6 +150,11 @@ class LocationFeedViewController: UIViewController {
             
             
             //TODO: SNSの設置
+            let snsButtons = CreateSNSButton(sns: sns)
+            for snsButton in snsButtons {
+                cardViews.last!.addSubview(snsButton)
+            }
+            
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
         }
@@ -287,6 +292,13 @@ class LocationFeedViewController: UIViewController {
     
     //TODO: sns
     func CreateSNSButton(sns: [JSON]) -> [UIButton] {
+        for obj in sns {
+            let provider = obj[Key.provider.rawValue]
+            let url = obj[Key.url.rawValue]
+            
+            
+        }
+        
         return [UIButton()]
     }
     
