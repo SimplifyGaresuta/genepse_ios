@@ -298,6 +298,7 @@ class LocationFeedViewController: UIViewController {
         
         let icon_name = ["icon_facebook", "icon_twitter"]
         let title = ["Facebook", "Twitter"]
+        let color:[NSString] = ["#344d96", "#2999d7"]
         let s_x = [0, cardViews.last!.frame.width/2]
         let y = skill_frame.origin.y+skill_frame.height+base_margin*2.5
         let h = cardViews.last!.bounds.height-y
@@ -313,7 +314,7 @@ class LocationFeedViewController: UIViewController {
                                       width: w,
                                       height: h)
             button.setImage(buttonImageDefault!, for: .normal)
-            button.setTitleColor(UIColor.blue, for: .normal)
+            button.setTitleColor(UIColor.hexStr(hexStr: color[i], alpha: 1.0), for: .normal)
             button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
             button.setTitle(title[i], for: .normal)
             
