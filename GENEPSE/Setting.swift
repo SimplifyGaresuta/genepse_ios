@@ -89,3 +89,8 @@ enum StoryboardID: String {
     case MyProfile = "MyProfile"
     case Location = "Location"
 }
+
+enum Provider: String {
+    case FB = "facebook"
+    case TW = "twitter"
+}

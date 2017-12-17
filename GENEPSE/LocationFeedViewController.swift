@@ -23,7 +23,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var distance_frame = CGRect()
     var name_frame = CGRect()
     var skill_frame = CGRect()
+    var tag_count = 1
     
+    var users = [JSON()]
     var user_id = 0
     
     //MARK: DEBUG
@@ -103,6 +105,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func AddCard(json: JSON) {
         let users = json["users"].arrayValue
+        self.users = users
+        
         let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
 
         base_margin = self.view.bounds.width * 0.025
@@ -118,8 +122,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let avatar_url = user[Key.avatar_url.rawValue].stringValue
             let attribute = user[Key.attribute.rawValue].stringValue
             let skills = user[Key.skills.rawValue].arrayValue.map({$0.stringValue})
-            let sns = user[Key.sns.rawValue].arrayValue
+            let sns_count = user[Key.sns.rawValue].arrayValue.count
             let distance = user[Key.distance.rawValue].intValue
+            
             
             // カードを追加
             cardViews.append(CreateCard(start_y: card_start_y))
@@ -161,8 +166,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             cardViews.last!.addSubview(profileImageView)
             
             
-            //TODO: SNSの設置
-            let snsButtons = CreateSNSButton(sns: sns)
+            // SNSの設置
+            let snsButtons = CreateSNSButton(count: sns_count)
             for snsButton in snsButtons {
                 cardViews.last!.addSubview(snsButton)
             }
@@ -302,8 +307,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         return UIImageView()
     }
     
-    //TODO: sns
-    func CreateSNSButton(sns: [JSON]) -> [UIButton] {
+    func CreateSNSButton(count: Int) -> [UIButton] {
         var buttons:[UIButton] = []
         
         let icon_name = ["icon_facebook", "icon_twitter"]
@@ -314,9 +318,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         
-        for (i, obj) in sns.enumerated() {
-            let provider = obj[Key.provider.rawValue]
-            let url = obj[Key.url.rawValue]
+        for i in 0..<count {
             let buttonImageDefault :UIImage? = UIImage(named: icon_name[i])
             let button = UIButton(type: UIButtonType.custom)
             button.frame = CGRect(x: s_x[i],
@@ -327,6 +329,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.setTitleColor(UIColor.hexStr(hexStr: color[i], alpha: 1.0), for: .normal)
             button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
             button.setTitle(title[i], for: .normal)
+            button.addTarget(self, action: #selector(Tap(sender:)), for: .touchUpInside)
+            
+            button.tag = tag_count
+            tag_count += 1
             
             //imageの表示サイズ調整
             let offset = 12.5 as CGFloat
@@ -352,6 +358,29 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         }
         
         return buttons
+    }
+    
+    func Tap(sender: UIButton) {
+        let all_count = [Int](1..<tag_count)
+        let even = all_count.filter({ $0 % 2 == 0})
+        let uneven = all_count.filter({ $0 % 2 != 0})
+        var user_index = 0
+        var scheme_name = ""
+        
+        if sender.tag % 2 == 0 {
+            user_index = even.index(of: sender.tag)!
+            scheme_name = users[user_index][Key.sns.rawValue][1][Key.url.rawValue].stringValue
+        }else {
+            user_index = uneven.index(of: sender.tag)!
+            scheme_name = users[user_index][Key.sns.rawValue][0][Key.url.rawValue].stringValue
+        }
+        
+        let url = URL(string: scheme_name)!
+        if (UIApplication.shared.canOpenURL(url)) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else {
+            self.present(GetStandardAlert(title: "URLエラー", message: "設定されているURLが間違っているため、開けませんでした", b_title: "OK"), animated: true, completion: nil)
+        }
     }
     
     func GenerateDistanceString(distance: Int) -> String {
