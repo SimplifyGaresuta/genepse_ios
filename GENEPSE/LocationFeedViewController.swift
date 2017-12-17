@@ -318,6 +318,11 @@ class LocationFeedViewController: UIViewController {
             button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
             button.setTitle(title[i], for: .normal)
             
+            //imageの表示サイズ調整
+            let offset = 12.5 as CGFloat
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset, 0, offset, 0)
+            button.imageView?.contentMode = .scaleAspectFit
+            
             //Top_borderの描画
             let border_w = 1 as CGFloat
             let top_border = CALayer()
