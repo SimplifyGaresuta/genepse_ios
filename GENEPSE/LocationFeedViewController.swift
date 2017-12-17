@@ -317,12 +317,20 @@ class LocationFeedViewController: UIViewController {
             button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
             button.setTitle(title[i], for: .normal)
             
-            //Top border
+            //Top_borderの描画
             let border_w = 1 as CGFloat
             let top_border = CALayer()
             top_border.backgroundColor = UIColor.hexStr(hexStr: "#EEEEEE", alpha: 1.0).cgColor
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
+            
+            //片方のボタンのみRight_borderを描画
+            if i == 0 {
+                let right_border = CALayer()
+                right_border.backgroundColor = UIColor.hexStr(hexStr: "#EEEEEE", alpha: 1.0).cgColor
+                right_border.frame = CGRect(x: button.frame.size.width - border_w,y: 0, width:border_w, height:button.frame.size.height)
+                button.layer.addSublayer(right_border)
+            }
 
             buttons.append(button)
         }
