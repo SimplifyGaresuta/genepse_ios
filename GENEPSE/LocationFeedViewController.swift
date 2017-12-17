@@ -21,6 +21,7 @@ class LocationFeedViewController: UIViewController {
     var attr_frame = CGRect()
     var distance_frame = CGRect()
     var name_frame = CGRect()
+    var skill_frame = CGRect()
     
     var user_id = 0
     
@@ -138,6 +139,7 @@ class LocationFeedViewController: UIViewController {
             for view in mainskillsViews {
                 if let label = view as? UILabel {
                     cardViews.last!.addSubview(label)
+                    skill_frame = label.frame
                 }else {
                     cardViews.last!.addSubview(view as! UIImageView)
                 }
@@ -292,14 +294,40 @@ class LocationFeedViewController: UIViewController {
     
     //TODO: sns
     func CreateSNSButton(sns: [JSON]) -> [UIButton] {
-        for obj in sns {
+        var buttons:[UIButton] = []
+        
+        let icon_name = ["icon_facebook", "icon_twitter"]
+        let title = ["Facebook", "Twitter"]
+        let s_x = [0, cardViews.last!.frame.width/2]
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.5
+        let h = cardViews.last!.bounds.height-y
+        let w = cardViews.last!.frame.width/2
+        
+        for (i, obj) in sns.enumerated() {
             let provider = obj[Key.provider.rawValue]
             let url = obj[Key.url.rawValue]
+            let buttonImageDefault :UIImage? = UIImage(named: icon_name[i])
+            let button = UIButton(type: UIButtonType.custom)
+            button.frame = CGRect(x: s_x[i],
+                                      y: y,
+                                      width: w,
+                                      height: h)
+            button.setImage(buttonImageDefault!, for: .normal)
+            button.setTitleColor(UIColor.blue, for: .normal)
+            button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
+            button.setTitle(title[i], for: .normal)
             
-            
+            //Top border
+            let border_w = 1 as CGFloat
+            let top_border = CALayer()
+            top_border.backgroundColor = UIColor.hexStr(hexStr: "#EEEEEE", alpha: 1.0).cgColor
+            top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
+            button.layer.addSublayer(top_border)
+
+            buttons.append(button)
         }
         
-        return [UIButton()]
+        return buttons
     }
     
     func GenerateDistanceString(distance: Int) -> String {
