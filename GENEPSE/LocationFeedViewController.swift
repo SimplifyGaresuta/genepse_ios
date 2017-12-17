@@ -38,6 +38,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        for cardView in cardViews {
+            cardView.removeFromSuperview()
+        }
+        
         if CLLocationManager.locationServicesEnabled() {
             cannotavailable_msg.isHidden = true
             scrollView.isScrollEnabled = true
