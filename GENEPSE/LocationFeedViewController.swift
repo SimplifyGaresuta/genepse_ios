@@ -12,8 +12,9 @@ import SwiftyJSON
 import Alamofire
 import Toucan
 
-class LocationFeedViewController: UIViewController {
+class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
 
+    var preViewName = StoryboardID.Location.rawValue
     var cannotavailable_msg = EdgeInsetLabel()
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
@@ -28,6 +29,11 @@ class LocationFeedViewController: UIViewController {
     //MARK: DEBUG
     let DEGUG = true
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.navigationItem.title = StoryboardID.Location.rawValue
+        self.tabBarController?.delegate = self
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -369,6 +375,14 @@ class LocationFeedViewController: UIViewController {
                 self.AddCard(json: json)
             }
         }
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController.restorationIdentifier! == StoryboardID.Location.rawValue && preViewName == StoryboardID.Location.rawValue {
+            scrollView.scroll(to: .top, animated: true)
+        }
+        
+        preViewName = viewController.restorationIdentifier!
     }
 
     override func didReceiveMemoryWarning() {

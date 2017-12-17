@@ -719,9 +719,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print("MYPROF")
-        print(viewController.restorationIdentifier!, preViewName)
-
         if viewController.restorationIdentifier! == StoryboardID.MyProfile.rawValue && preViewName == StoryboardID.MyProfile.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
