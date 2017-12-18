@@ -213,16 +213,19 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
-        let f_size = 15 as CGFloat
+        var attr_text = NSMutableAttributedString(string: GenerateDistanceString(distance: distance))
+        attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
+        
+        let f_size = 16 as CGFloat
         let label = EdgeInsetLabel()
-        label.text = GenerateDistanceString(distance: distance)
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: f_size)
-        label.frame = CGRect(x: 0, y: 0, width: 0, height: f_size+15)
+        label.attributedText = attr_text
+        label.font = UIFont(name: FontName.E_B.rawValue, size: f_size)
+        label.frame = CGRect(x: 0, y: 0, width: 0, height: f_size+16)
         label.backgroundColor = UIColor.black
         label.textColor = UIColor.white
-        label.topTextInset = 7.5
+        label.topTextInset = f_size/2
         label.rightTextInset = 12.5
-        label.bottomTextInset = 7.5
+        label.bottomTextInset = f_size/2
         label.leftTextInset = 12.5
         label.sizeToFit()
         
