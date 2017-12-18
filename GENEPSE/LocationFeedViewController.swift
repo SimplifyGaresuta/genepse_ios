@@ -335,23 +335,28 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let w = cardViews.last!.frame.width/2
         
         for i in 0..<2 {
+            let button = UIButton(type: UIButtonType.custom)
             var icon = icon_name[i]
             var isEnabled = true
             var font_color = color[i]
+            
+            button.tag = tag_count
             
             //FBの次(Twitter)かつsnsがFBのみ
             if i == 1 && json.count == 1 {
                 icon += "_dis"
                 isEnabled = false
                 font_color = "#9B9B9B"
+                button.tag = 0
+            }else {
+                tag_count += 1
             }
-
+            
             var attr_str = NSMutableAttributedString(string: title[i])
             attr_str = AddAttributedTextLetterSpacing(space: 0.5, text: attr_str)
             attr_str = AddAttributedTextColor(color: UIColor.hexStr(hexStr: font_color, alpha: 1.0), text: attr_str)
             
             let buttonImageDefault :UIImage? = UIImage(named: icon)
-            let button = UIButton(type: UIButtonType.custom)
             button.frame = CGRect(x: s_x[i],
                                       y: y,
                                       width: w,
@@ -361,8 +366,6 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.setAttributedTitle(attr_str, for: .normal)
             button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
             button.isEnabled = isEnabled
-            button.tag = tag_count
-            tag_count += 1
             
             //imageの表示サイズ調整
             let offset = 8 as CGFloat
