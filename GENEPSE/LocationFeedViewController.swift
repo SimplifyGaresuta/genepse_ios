@@ -23,7 +23,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var distance_frame = CGRect()
     var name_frame = CGRect()
     var skill_frame = CGRect()
+    
     var tag_count = 1
+    var users_tag:[Int:Array<Int>] = [:]
+    var users_count = 1
     
     var users = [JSON()]
     var user_id = 0
@@ -40,9 +43,15 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        /*初期化処理*/
         for cardView in cardViews {
             cardView.removeFromSuperview()
         }
+        tag_count = 1
+        users_tag = [:]
+        users_count = 1
+        /*初期化処理*/
+        
         
         if CLLocationManager.locationServicesEnabled() {
             cannotavailable_msg.isHidden = true
@@ -333,6 +342,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
+        var tag_array:[Int] = []
         
         for i in 0..<2 {
             let button = UIButton(type: UIButtonType.custom)
@@ -351,6 +361,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             }else {
                 tag_count += 1
             }
+            
+            tag_array.append(button.tag)
             
             var attr_str = NSMutableAttributedString(string: title[i])
             attr_str = AddAttributedTextLetterSpacing(space: 0.5, text: attr_str)
@@ -390,6 +402,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             buttons.append(button)
         }
         
+        users_tag[users_count] = tag_array
+        users_count += 1
+                
         return buttons
     }
     
