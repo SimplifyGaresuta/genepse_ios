@@ -142,6 +142,7 @@ func GetFontName(je_num: Int, font_w: Int) -> String {
     //英語のみ
     case 1:
         return FontName.E_M.rawValue
+        
     default:
         return FontName.J_W3.rawValue
     }

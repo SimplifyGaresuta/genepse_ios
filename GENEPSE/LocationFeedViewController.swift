@@ -246,12 +246,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     func CreateNameLabel(text: String) -> UILabel {
         let je_num = SearchJapaneseEnglish(text: text)
         let font_name = GetFontName(je_num: je_num, font_w: 6)
-        var font_size = 0 as CGFloat
-        if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 22
-        }else {
-            font_size = 23
-        }
+        let font_size = 22 as CGFloat
         
         let x = base_margin * 2.5
         let y = attr_frame.origin.y + attr_frame.height + base_margin * 2.85
