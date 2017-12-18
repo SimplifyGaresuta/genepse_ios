@@ -276,7 +276,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 font_name = FontName.J_W6.rawValue
                 font_size = 10
             }else {
-                font_name = FontName.E.rawValue
+                font_name = FontName.E_M.rawValue
                 font_size = 11
                 attr_str = AddAttributedTextLetterSpacing(space: 0.4, text: attr_str)
             }
@@ -345,7 +345,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                                       height: h)
             button.setImage(buttonImageDefault!, for: .normal)
             button.setTitleColor(UIColor.hexStr(hexStr: color[i], alpha: 1.0), for: .normal)
-            button.titleLabel?.font = UIFont(name: FontName.E.rawValue, size: 13)
+            button.titleLabel?.font = UIFont(name: FontName.E_M.rawValue, size: 13)
             button.setTitle(title[i], for: .normal)
             button.addTarget(self, action: #selector(Tap(sender:)), for: .touchUpInside)
             

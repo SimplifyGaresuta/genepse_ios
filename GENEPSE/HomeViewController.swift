@@ -298,7 +298,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             //skillラベル追加
             let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
             label.text = skill
-            label.font = UIFont(name: FontName.E.rawValue, size: 12)
+            label.font = UIFont(name: FontName.E_M.rawValue, size: 12)
             label.sizeToFit()
             views.append(label)
             

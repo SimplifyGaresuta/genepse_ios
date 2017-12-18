@@ -21,7 +21,8 @@ enum SkillTagColor: String {
 enum FontName: String {
     case J_W3 = "HiraginoSans-W3"
     case J_W6 = "HiraginoSans-W6"
-    case E = "HelveticaNeue-Medium"
+    case E_M = "HelveticaNeue-Medium"
+    case E_B = "HelveticaNeue-Bold"
     case URL = "HelveticaNeue-Light"
     case DIN = "DINAlternate-Bold"
 }
