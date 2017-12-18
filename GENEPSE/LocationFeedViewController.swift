@@ -26,7 +26,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     var tag_count = 1
     var users_tag:[Int:Array<Int>] = [:]
-    var users_count = 1
+    var users_count = 0
     
     var users = [JSON()]
     var user_id = 0
@@ -49,7 +49,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         }
         tag_count = 1
         users_tag = [:]
-        users_count = 1
+        users_count = 0
         /*初期化処理*/
         
         
@@ -116,9 +116,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func AddCard(json: JSON) {
         let users = json["users"].arrayValue
-        self.users = users
-        
         let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
+        self.users = sorted_users
 
         base_margin = self.view.bounds.width * 0.035
         var card_start_y = base_margin
@@ -360,9 +359,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 button.tag = 0
             }else {
                 tag_count += 1
+                tag_array.append(button.tag)
             }
-            
-            tag_array.append(button.tag)
             
             var attr_str = NSMutableAttributedString(string: title[i])
             attr_str = AddAttributedTextLetterSpacing(space: 0.5, text: attr_str)
@@ -404,26 +402,26 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         
         users_tag[users_count] = tag_array
         users_count += 1
-                
+        
+        print(users_tag)
+        
         return buttons
     }
     
     func TapSNSButton(sender: UIButton) {
-        let all_count = [Int](1..<tag_count)
-        let even = all_count.filter({ $0 % 2 == 0})
-        let uneven = all_count.filter({ $0 % 2 != 0})
-        var user_index = 0
-        var scheme_name = ""
-        
-        if sender.tag % 2 == 0 {
-            user_index = even.index(of: sender.tag)!
-            scheme_name = users[user_index][Key.sns.rawValue][1][Key.url.rawValue].stringValue
-        }else {
-            user_index = uneven.index(of: sender.tag)!
-            scheme_name = users[user_index][Key.sns.rawValue][0][Key.url.rawValue].stringValue
+        var user_count = 0
+        for hoge in users_tag.keys {
+            for hoge2 in users_tag[hoge]! {
+                if sender.tag == hoge2 {
+                    user_count = hoge
+                    break
+                }
+            }
         }
         
-        let url = URL(string: scheme_name)!
+        let index = users_tag[user_count]!.index(of: sender.tag)!
+
+        let url = URL(string: users[user_count][Key.sns.rawValue][index][Key.url.rawValue].stringValue)!
         if (UIApplication.shared.canOpenURL(url)) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }else {
