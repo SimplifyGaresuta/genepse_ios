@@ -124,7 +124,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let avatar_url = user[Key.avatar_url.rawValue].stringValue
             let attribute = user[Key.attribute.rawValue].stringValue
             let skills = user[Key.skills.rawValue].arrayValue.map({$0.stringValue})
-            let sns_count = user[Key.sns.rawValue].arrayValue.count
+            let sns = user[Key.sns.rawValue].arrayValue
             let distance = user[Key.distance.rawValue].intValue
             
             
@@ -169,7 +169,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             
             // SNSの設置
-            let snsButtons = CreateSNSButton(count: sns_count)
+            let snsButtons = CreateSNSButton(json: sns)
             for snsButton in snsButtons {
                 cardViews.last!.addSubview(snsButton)
             }
@@ -323,7 +323,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         return UIImageView()
     }
     
-    func CreateSNSButton(count: Int) -> [UIButton] {
+    func CreateSNSButton(json: [JSON]) -> [UIButton] {
         var buttons:[UIButton] = []
         
         let icon_name = ["icon_facebook", "icon_twitter"]
@@ -334,12 +334,23 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         
-        for i in 0..<count {
+        for i in 0..<2 {
+            var icon = icon_name[i]
+            var isEnabled = true
+            var font_color = color[i]
+            
+            //FBの次(Twitter)かつsnsがFBのみ
+            if i == 1 && json.count == 1 {
+                icon += "_dis"
+                isEnabled = false
+                font_color = "#9B9B9B"
+            }
+
             var attr_str = NSMutableAttributedString(string: title[i])
             attr_str = AddAttributedTextLetterSpacing(space: 0.5, text: attr_str)
-            attr_str = AddAttributedTextColor(color: UIColor.hexStr(hexStr: color[i], alpha: 1.0), text: attr_str)
+            attr_str = AddAttributedTextColor(color: UIColor.hexStr(hexStr: font_color, alpha: 1.0), text: attr_str)
             
-            let buttonImageDefault :UIImage? = UIImage(named: icon_name[i])
+            let buttonImageDefault :UIImage? = UIImage(named: icon)
             let button = UIButton(type: UIButtonType.custom)
             button.frame = CGRect(x: s_x[i],
                                       y: y,
@@ -348,8 +359,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.setImage(buttonImageDefault!, for: .normal)
             button.titleLabel?.font = UIFont(name: FontName.E_B.rawValue, size: 13)
             button.setAttributedTitle(attr_str, for: .normal)
-            button.addTarget(self, action: #selector(Tap(sender:)), for: .touchUpInside)
-            
+            button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
+            button.isEnabled = isEnabled
             button.tag = tag_count
             tag_count += 1
             
@@ -379,7 +390,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         return buttons
     }
     
-    func Tap(sender: UIButton) {
+    func TapSNSButton(sender: UIButton) {
         let all_count = [Int](1..<tag_count)
         let even = all_count.filter({ $0 % 2 == 0})
         let uneven = all_count.filter({ $0 % 2 != 0})
