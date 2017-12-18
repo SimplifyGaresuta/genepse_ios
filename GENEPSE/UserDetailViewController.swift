@@ -43,13 +43,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         super.viewDidLoad()
         
-        base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "User Detail"
         scrollView.delegate = self
         
         InitScrollView()
-//        InitCardView()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -72,20 +70,23 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     func InitCardView() {
         cardView = UIView()
         
-        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
+        let y = cover_img.frame.height * 0.8
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
         cardView.backgroundColor = UIColor.white
         
-        cardView.layer.cornerRadius = 20
+        cardView.layer.cornerRadius = 3
         cardView.layer.shadowOpacity = 0.2
         cardView.layer.shadowColor = UIColor.black.cgColor
         cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cardView.layer.shadowRadius = 4
+        cardView.layer.shadowRadius = 3
         cardView.layer.masksToBounds = false
         
         scrollView.addSubview(cardView)
     }
     
     func AddViews(json: JSON) {
+        base_margin = self.view.bounds.width * 0.025
+        
         let data = GetDetailData(json: json)
         
         // 背景画像の追加
@@ -97,6 +98,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let back_button = CreateBackButton()
         scrollView.addSubview(back_button)
         self.back_button = back_button
+        
+        // カードの追加
+        InitCardView()
+
         
         
         
