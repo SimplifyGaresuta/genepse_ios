@@ -111,7 +111,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         
         let sorted_users = users.sorted { $0["distance"].intValue < $1["distance"].intValue }
 
-        base_margin = self.view.bounds.width * 0.025
+        base_margin = self.view.bounds.width * 0.035
         var card_start_y = base_margin
         
         for user in sorted_users {
@@ -175,12 +175,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             }
             
             
-            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*1.5
+            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin
         }
     }
     
     func CreateCard(start_y: CGFloat) -> UIView {
-        let card_width = self.view.bounds.width * 0.95
+        let card_width = self.view.bounds.width * 0.93
         let card_height = self.view.bounds.height * 0.27
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: start_y, width: card_width, height: card_height))
