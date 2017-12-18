@@ -281,7 +281,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let f_size = 13 as CGFloat
         
         let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
-        label.attributedText = GetAttributeColor(attr: attribute)
+        label.attributedText = GetAttributeString(attr: attribute)
         label.textAlignment = .center
         label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
         label.topTextInset = 30

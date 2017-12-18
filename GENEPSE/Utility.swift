@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-func GetAttributeColor(attr: String) -> NSMutableAttributedString {
+func GetAttributeString(attr: String) -> NSMutableAttributedString {
     let text = AttributeStr_L.Business.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Designer.rawValue
     let attributedText = NSMutableAttributedString(string: text)
     
