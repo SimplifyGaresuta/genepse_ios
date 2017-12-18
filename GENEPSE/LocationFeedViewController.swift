@@ -266,12 +266,25 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         var views:[Any] = []
         let y = name_frame.height+name_frame.origin.y+base_margin * 1.25
         var x = base_margin * 2.5
-        
+
         for skill in skills {
+            var font_name = ""
+            var font_size = 0 as CGFloat
+            var attr_str = NSMutableAttributedString(string: skill)
+            
+            if SearchJapaneseEnglish(text: skill) == JapaneseEnglish.Japanese.rawValue {
+                font_name = FontName.J_W6.rawValue
+                font_size = 10
+            }else {
+                font_name = FontName.E.rawValue
+                font_size = 11
+                attr_str = AddAttributedTextLetterSpacing(space: 0.4, text: attr_str)
+            }
+            
             //skillラベル追加
             let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
-            label.text = skill
-            label.font = UIFont(name: FontName.E.rawValue, size: 12)
+            label.attributedText = attr_str
+            label.font = UIFont(name: font_name, size: font_size)
             label.sizeToFit()
             views.append(label)
             
