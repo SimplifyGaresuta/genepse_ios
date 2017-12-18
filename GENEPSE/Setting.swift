@@ -49,6 +49,7 @@ enum Key: String {
     // 位置情報
     case latitude = "latitude"
     case longitude = "longitude"
+    case distance = "distance"
     
     // ログイン
     case login_url = "login_url"
@@ -86,5 +87,10 @@ enum JapaneseEnglish: Int {
 enum StoryboardID: String {
     case Home = "Home"
     case MyProfile = "MyProfile"
-    case LocationFeed = "LocationFeed"
+    case Location = "Location"
+}
+
+enum Provider: String {
+    case FB = "facebook"
+    case TW = "twitter"
 }

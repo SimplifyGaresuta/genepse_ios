@@ -259,16 +259,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight = CGFloat(21)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = lineHeight
-        paragraphStyle.maximumLineHeight = lineHeight
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        var attributedText = NSMutableAttributedString(string: text)
+        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLetterSpacing(space: -0.05, text: attributedText)
         
-        let customLetterSpacing = -0.05
-        attributedText.addAttribute(NSKernAttributeName, value: customLetterSpacing, range: NSMakeRange(0, attributedText.length))
         career_label.attributedText = attributedText
 
         return career_label
@@ -281,7 +275,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let f_size = 13 as CGFloat
         
         let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
-        label.attributedText = GetAttributeColor(attr: attribute)
+        label.attributedText = GetAttributeString(attr: attribute)
         label.textAlignment = .center
         label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
         label.topTextInset = 30
@@ -304,7 +298,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             //skillラベル追加
             let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
             label.text = skill
-            label.font = UIFont(name: FontName.E.rawValue, size: 12)
+            label.font = UIFont(name: FontName.E_M.rawValue, size: 12)
             label.sizeToFit()
             views.append(label)
             
@@ -337,8 +331,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 start_x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
             }
         }
-        
-        
         
         return views
     }
