@@ -109,6 +109,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
 
 
+        // SNSの設置
+        
         
         
         
