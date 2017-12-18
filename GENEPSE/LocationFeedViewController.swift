@@ -185,7 +185,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
-        card_view.layer.cornerRadius = 5
+        card_view.layer.cornerRadius = 2
         card_view.layer.shadowOpacity = 0.2
         card_view.layer.shadowColor = UIColor.black.cgColor
         card_view.layer.shadowOffset = CGSize(width: 2, height: 2)
@@ -230,7 +230,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         
         let maskPath = UIBezierPath(roundedRect: label.frame,
                                     byRoundingCorners: [.topRight],
-                                    cornerRadii: CGSize(width: 5, height: 5))
+                                    cornerRadii: CGSize(width: 2, height: 2))
         let maskLayer = CAShapeLayer()
         maskLayer.path = maskPath.cgPath
         label.layer.mask = maskLayer
