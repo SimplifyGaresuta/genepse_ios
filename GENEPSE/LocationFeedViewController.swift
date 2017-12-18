@@ -328,13 +328,17 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         
         let icon_name = ["icon_facebook", "icon_twitter"]
         let title = ["Facebook", "Twitter"]
-        let color:[NSString] = ["#344d96", "#2999d7"]
+        let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
         let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         
         for i in 0..<count {
+            var attr_str = NSMutableAttributedString(string: title[i])
+            attr_str = AddAttributedTextLetterSpacing(space: 0.5, text: attr_str)
+            attr_str = AddAttributedTextColor(color: UIColor.hexStr(hexStr: color[i], alpha: 1.0), text: attr_str)
+            
             let buttonImageDefault :UIImage? = UIImage(named: icon_name[i])
             let button = UIButton(type: UIButtonType.custom)
             button.frame = CGRect(x: s_x[i],
@@ -342,16 +346,15 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                                       width: w,
                                       height: h)
             button.setImage(buttonImageDefault!, for: .normal)
-            button.setTitleColor(UIColor.hexStr(hexStr: color[i], alpha: 1.0), for: .normal)
-            button.titleLabel?.font = UIFont(name: FontName.E_M.rawValue, size: 13)
-            button.setTitle(title[i], for: .normal)
+            button.titleLabel?.font = UIFont(name: FontName.E_B.rawValue, size: 13)
+            button.setAttributedTitle(attr_str, for: .normal)
             button.addTarget(self, action: #selector(Tap(sender:)), for: .touchUpInside)
             
             button.tag = tag_count
             tag_count += 1
             
             //imageの表示サイズ調整
-            let offset = 12.5 as CGFloat
+            let offset = 8 as CGFloat
             button.imageEdgeInsets = UIEdgeInsetsMake(offset, 0, offset, 0)
             button.imageView?.contentMode = .scaleAspectFit
             

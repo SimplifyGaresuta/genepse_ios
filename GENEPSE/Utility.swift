@@ -165,6 +165,12 @@ func AddAttributedTextLetterSpacing(space: Double, text: NSMutableAttributedStri
     return text
 }
 
+func AddAttributedTextColor(color: UIColor, text: NSMutableAttributedString) -> NSMutableAttributedString {
+    text.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location:0,length:text.length))
+    
+    return text
+}
+
 func GetAppDelegate() -> AppDelegate {
     return UIApplication.shared.delegate as! AppDelegate
 }
