@@ -23,4 +23,5 @@ enum FontName: String {
     case J_W6 = "HiraginoSans-W6"
     case E = "HelveticaNeue-Medium"
     case URL = "HelveticaNeue-Light"
+    case DIN = "DINAlternate-Bold"
 }
