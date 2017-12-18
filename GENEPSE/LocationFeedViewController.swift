@@ -262,7 +262,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 1.25
+        let y = name_frame.height+name_frame.origin.y+base_margin * 1
         var x = base_margin * 2.5
 
         for skill in skills {
@@ -286,14 +286,14 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             label.sizeToFit()
             views.append(label)
             
-            x = label.frame.origin.x + label.frame.width + base_margin * 1
+            x = label.frame.origin.x + label.frame.width + base_margin * 0.5
             
             //スラッシュ画像追加
             let slash = UIImageView(image: UIImage(named: "icon_slash"))
             slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
             views.append(slash)
             
-            x = slash.frame.origin.x + slash.frame.width + base_margin * 1
+            x = slash.frame.origin.x + slash.frame.width + base_margin * 0.5
         }
         
         _ = views.popLast()
