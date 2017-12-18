@@ -78,7 +78,10 @@ class UserDetailViewController: UIViewController {
     
     func AddViews(json: JSON) {
         let data = GetDetailData(json: json)
-//
+        
+        // 背景画像の追加
+        
+
 //        // プロフ画像の追加
 //        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
 //        cardView.addSubview(profileImageView)
@@ -234,6 +237,15 @@ class UserDetailViewController: UIViewController {
 //        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
+    }
+    
+    func CreateCoverImageView(url: String) -> AsyncUIImageView {
+        let h = self.view.frame.height * 0.3
+        let cover_img = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: h))
+        cover_img.loadImage(urlString: url)
+        cover_img.contentMode = .scaleAspectFill
+        
+        return cover_img
     }
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {

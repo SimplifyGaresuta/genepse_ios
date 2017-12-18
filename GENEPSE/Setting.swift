@@ -24,6 +24,7 @@ enum Key: String {
     case name = "name"
     case overview = "overview"
     case avatar_url = "avatar_url"
+    case cover_url = "cover_url"
     case attribute = "attribute"
     case awards = "awards"
     case skills = "skills"
