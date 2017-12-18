@@ -22,6 +22,9 @@ class UserDetailViewController: UIViewController {
     var product_link:[String:String] = [:]
     var sns_link:[String:String] = [:]
     
+    //MARK: DEBUG
+    var debug = true
+    
     override func viewDidLoad() {
         CallUserDetailAPI()
         
@@ -663,15 +666,18 @@ class UserDetailViewController: UIViewController {
     }
     
     func CallUserDetailAPI() {
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print("User Detail results: ", json.count)
-            
+        if debug {
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+        }else {
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
+            Alamofire.request(urlString, method: .get).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("User Detail results: ", json.count)
+                
+                self.AddViews(json: json)
+            }
         }
     }
 
