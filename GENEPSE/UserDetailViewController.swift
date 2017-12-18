@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Toucan
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     private var user_id = 0
@@ -101,16 +102,18 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         // カードの追加
         InitCardView()
+        
+        // プロフ画像の追加
+        let profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
+        cardView.addSubview(profileImageView)
+//        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
+
 
         
         
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
 
-//        // プロフ画像の追加
-//        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
-//        cardView.addSubview(profileImageView)
-//        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
 //
 //        // 属性の追加
 //        let attributeImageView = CreateAttributeImageView(attribute: data.GetAttr())
@@ -301,20 +304,27 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
     }
     
-//    func CreateProfileImageView(url: String) -> UIImageView {
-//        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardView.frame.width, height: self.view.frame.height*0.5))
-//        imageView.loadImage(urlString: url)
-//        imageView.contentMode = .scaleAspectFill
-//
-//        let maskPath = UIBezierPath(roundedRect: imageView.frame,
-//                                    byRoundingCorners: [.topLeft, .topRight],
-//                                    cornerRadii: CGSize(width: 20, height: 20))
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.path = maskPath.cgPath
-//        imageView.layer.mask = maskLayer
-//
-//        return imageView
-//    }
+    func CreateProfileImageView(url: String) -> UIImageView {
+        let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let url = URL(string: escapedAddress!)!
+        
+        do {
+            let imageData: NSData = try NSData(contentsOf: url)
+            let wh = base_margin * 12.5
+            let x = cardView.frame.width / 2 - wh/2
+            let y = cardView.bounds.origin.y - wh/2
+            
+            let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+            let imageview = UIImageView(image: resizedAndMaskedImage)
+            imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
+            
+            return imageview
+        }catch{
+            print(error)
+        }
+        
+        return UIImageView()
+    }
     
 //    func CreateAttributeImageView(attribute: String) -> UIImageView {
 //        let y = profileImageView.frame.origin.y + base_margin
