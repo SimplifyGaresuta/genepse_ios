@@ -25,6 +25,16 @@ class UserDetailViewController: UIViewController {
     //MARK: DEBUG
     var debug = true
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     override func viewDidLoad() {
         CallUserDetailAPI()
         
@@ -34,8 +44,9 @@ class UserDetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "User Detail"
         
-        InitScrollView()
-        InitCardView()
+        
+//        InitScrollView()
+//        InitCardView()
     }
     
     func InitScrollView() {
@@ -67,161 +78,160 @@ class UserDetailViewController: UIViewController {
     
     func AddViews(json: JSON) {
         let data = GetDetailData(json: json)
-        
-        // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
-        cardView.addSubview(profileImageView)
-        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
-        
-        
-        // 属性の追加
-        let attributeImageView = CreateAttributeImageView(attribute: data.GetAttr())
-        cardView.addSubview(attributeImageView)
-        UpdateCardViewFrame(last_add_cgrect: attributeImageView.frame)
-        
-        
-        // メインスキルの追加
-        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
-
-        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-            cardView.addSubview(shadowView)
-            cardView.addSubview(skillLabel)
-        }
-        
-        
-        // 名前の追加
-        let nameLabel = self.CreateNameLabel(text: data.GetName())
-        cardView.addSubview(nameLabel)
-        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
-
-        
-        //拠点ラベルを追加
-        let activitybaseLabel = self.CreateActivityBaseLabel(name: data.GetActivityBase(), namelabel_cgrect: nameLabel.frame)
-        cardView.addSubview(activitybaseLabel)
-        
-        
-        // 経歴の追加
-        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
-        cardView.addSubview(careerLabel)
-        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
-        
-        // 受賞歴の追加
-        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
-        cardView.addSubview(awards_sectionLable)
-        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
-        latest_section_frame = awards_sectionLable.frame
-
-        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
-        cardView.addSubview(awardsLabel)
-        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
-        
-        
-        // スキルの追加
-        let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
-        cardView.addSubview(skills_sectionLable)
-        UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-        latest_section_frame = skills_sectionLable.frame
-
-        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
-        for skillLabel in skillsLabels {
-            cardView.addSubview(skillLabel)
-        }
-        
-        if skillsLabels.count == 0 {
-            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-        }else {
-            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
-        }
-        
-        
-        // 作品の追加
-        var products_sectionLabel_y = 0.0 as CGFloat
-        if skillsLabels.count == 0 {
-            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
-        }else {
-            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
-        }
-        
-        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
-        
-        cardView.addSubview(products_sectionLable)
-        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
-        latest_section_frame = products_sectionLable.frame
-
-        let productsViews = self.CreateProductLabel(json: json["products"])
-        for pViews in productsViews.0 {
-            cardView.addSubview(pViews.title)
-
-            if let urlLabel = pViews.url {
-                cardView.addSubview(pViews.link_img!)
-                cardView.addSubview(urlLabel)
-            }
-
-            if let imageView = pViews.image {
-                cardView.addSubview(pViews.image_shadow!)
-                cardView.addSubview(imageView)
-            }
-        }
-        
-        if productsViews.0.count != 0 {
-            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
-        }
-        
-        
-        // SNSの追加
-        var sns_sectionLable_y = 0.0 as CGFloat
-        if productsViews.0.count == 0 {
-            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
-        }else {
-            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
-        }
-        
-        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
-        cardView.addSubview(sns_sectionLable)
-        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
-        latest_section_frame = sns_sectionLable.frame
-
-        let snsLabels = self.CreateSNSLabel(json: json["sns"])
-        for s_Label in snsLabels {
-            cardView.addSubview(s_Label.icon)
-            cardView.addSubview(s_Label.url)
-        }
-        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
-        
-        
-        // 資格の追加
-        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
-        cardView.addSubview(license_sectionLable)
-        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
-        latest_section_frame = license_sectionLable.frame
-
-        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
-        cardView.addSubview(licensesLabel)
-        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
-        
-        
-        // 基本情報の追加
-        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
-        cardView.addSubview(basic_info_sectionLabel)
-        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-        latest_section_frame = basic_info_sectionLabel.frame
-
-        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
-        for i_Label in infoLabels {
-            cardView.addSubview(i_Label)
-        }
-        
-        var scroll_button_start_cgrect = CGRect()
-        if infoLabels.count == 0 {
-            scroll_button_start_cgrect = basic_info_sectionLabel.frame
-            UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-        }else {
-            scroll_button_start_cgrect = infoLabels.last!.frame
-            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
-        }
-        
-        // トップへスクロールするボタンの追加
-        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
+//
+//        // プロフ画像の追加
+//        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
+//        cardView.addSubview(profileImageView)
+//        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
+//
+//        // 属性の追加
+//        let attributeImageView = CreateAttributeImageView(attribute: data.GetAttr())
+//        cardView.addSubview(attributeImageView)
+//        UpdateCardViewFrame(last_add_cgrect: attributeImageView.frame)
+//
+//
+//        // メインスキルの追加
+//        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
+//
+//        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
+//            cardView.addSubview(shadowView)
+//            cardView.addSubview(skillLabel)
+//        }
+//
+//
+//        // 名前の追加
+//        let nameLabel = self.CreateNameLabel(text: data.GetName())
+//        cardView.addSubview(nameLabel)
+//        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
+//
+//
+//        //拠点ラベルを追加
+//        let activitybaseLabel = self.CreateActivityBaseLabel(name: data.GetActivityBase(), namelabel_cgrect: nameLabel.frame)
+//        cardView.addSubview(activitybaseLabel)
+//
+//
+//        // 経歴の追加
+//        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
+//        cardView.addSubview(careerLabel)
+//        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+//
+//        // 受賞歴の追加
+//        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
+//        cardView.addSubview(awards_sectionLable)
+//        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
+//        latest_section_frame = awards_sectionLable.frame
+//
+//        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
+//        cardView.addSubview(awardsLabel)
+//        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
+//
+//
+//        // スキルの追加
+//        let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
+//        cardView.addSubview(skills_sectionLable)
+//        UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
+//        latest_section_frame = skills_sectionLable.frame
+//
+//        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
+//        for skillLabel in skillsLabels {
+//            cardView.addSubview(skillLabel)
+//        }
+//
+//        if skillsLabels.count == 0 {
+//            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
+//        }else {
+//            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
+//        }
+//
+//
+//        // 作品の追加
+//        var products_sectionLabel_y = 0.0 as CGFloat
+//        if skillsLabels.count == 0 {
+//            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
+//        }else {
+//            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
+//        }
+//
+//        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
+//
+//        cardView.addSubview(products_sectionLable)
+//        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
+//        latest_section_frame = products_sectionLable.frame
+//
+//        let productsViews = self.CreateProductLabel(json: json["products"])
+//        for pViews in productsViews.0 {
+//            cardView.addSubview(pViews.title)
+//
+//            if let urlLabel = pViews.url {
+//                cardView.addSubview(pViews.link_img!)
+//                cardView.addSubview(urlLabel)
+//            }
+//
+//            if let imageView = pViews.image {
+//                cardView.addSubview(pViews.image_shadow!)
+//                cardView.addSubview(imageView)
+//            }
+//        }
+//
+//        if productsViews.0.count != 0 {
+//            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
+//        }
+//
+//
+//        // SNSの追加
+//        var sns_sectionLable_y = 0.0 as CGFloat
+//        if productsViews.0.count == 0 {
+//            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
+//        }else {
+//            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
+//        }
+//
+//        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
+//        cardView.addSubview(sns_sectionLable)
+//        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
+//        latest_section_frame = sns_sectionLable.frame
+//
+//        let snsLabels = self.CreateSNSLabel(json: json["sns"])
+//        for s_Label in snsLabels {
+//            cardView.addSubview(s_Label.icon)
+//            cardView.addSubview(s_Label.url)
+//        }
+//        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
+//
+//
+//        // 資格の追加
+//        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
+//        cardView.addSubview(license_sectionLable)
+//        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
+//        latest_section_frame = license_sectionLable.frame
+//
+//        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
+//        cardView.addSubview(licensesLabel)
+//        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
+//
+//
+//        // 基本情報の追加
+//        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
+//        cardView.addSubview(basic_info_sectionLabel)
+//        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+//        latest_section_frame = basic_info_sectionLabel.frame
+//
+//        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
+//        for i_Label in infoLabels {
+//            cardView.addSubview(i_Label)
+//        }
+//
+//        var scroll_button_start_cgrect = CGRect()
+//        if infoLabels.count == 0 {
+//            scroll_button_start_cgrect = basic_info_sectionLabel.frame
+//            UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
+//        }else {
+//            scroll_button_start_cgrect = infoLabels.last!.frame
+//            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+//        }
+//
+//        // トップへスクロールするボタンの追加
+//        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
     }
