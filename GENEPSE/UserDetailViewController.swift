@@ -256,7 +256,8 @@ class UserDetailViewController: UIViewController {
     }
     
     func CreateBackButton() -> UIButton {
-        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        let statusBar_h = UIApplication.shared.statusBarFrame.height
+        let button = UIButton(frame: CGRect(x: base_margin, y: statusBar_h+base_margin*5, width: 50, height: 50))
         button.setImage(UIImage(named: "icon_back"), for: .normal)
         button.addTarget(self, action: #selector(TapBackButton(sender:)), for: .touchUpInside)
         return button
