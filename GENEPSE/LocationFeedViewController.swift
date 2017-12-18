@@ -202,9 +202,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let f_size = 13 as CGFloat
         
         let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: f_size))
-        label.attributedText = GetAttributeString(attr: attribute)
+        var attr_str = GetAttributeString(attr: attribute)
+        attr_str = AddAttributedTextLetterSpacing(space: 1, text: attr_str)
+        
+        label.attributedText = attr_str
         label.textAlignment = .left
-        label.font = UIFont(name: "DINAlternate-Bold", size: f_size)
+        label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
         
         return label
     }

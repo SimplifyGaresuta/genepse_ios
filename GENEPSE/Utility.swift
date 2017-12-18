@@ -12,23 +12,24 @@ import SwiftyJSON
 func GetAttributeString(attr: String) -> NSMutableAttributedString {
     let text = AttributeStr_L.Business.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Designer.rawValue
     let attributedText = NSMutableAttributedString(string: text)
+    let gray = UIColor.hexStr(hexStr: "#BCBCBC", alpha: 1.0)
     
     switch attr {
     case AttributeStr.Designer.rawValue:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 17))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 17))
         return attributedText
         
     case AttributeStr.Engineer.rawValue:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 8))
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 18, length: 8))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 8))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 18, length: 8))
         return attributedText
         
     case AttributeStr.Business.rawValue:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 8, length: 18))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 8, length: 18))
         return attributedText
         
     default:
-        attributedText.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range: NSRange(location: 0, length: 26))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 26))
         return attributedText
     }
 }
