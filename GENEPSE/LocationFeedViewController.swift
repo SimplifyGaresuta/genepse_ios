@@ -309,7 +309,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 5
             let x = cardViews.last!.frame.origin.x + cardViews.last!.frame.width - wh*1.5
-            let y = distance_frame.origin.y + distance_frame.height + base_margin*1.5
+            let y = distance_frame.origin.y + distance_frame.height + base_margin*1.25
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -330,7 +330,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#344d96", "#2999d7"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.5
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         
