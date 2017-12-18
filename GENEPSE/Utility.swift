@@ -146,16 +146,21 @@ func GetFontName(je_num: Int, font_w: Int) -> String {
     }
 }
 
-func GetAttributedTextLineHeight(height: Int, text: String) -> NSMutableAttributedString {
+func AddAttributedTextLineHeight(height: Int, text: NSMutableAttributedString) -> NSMutableAttributedString {
     let lineHeight = CGFloat(height)
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.minimumLineHeight = lineHeight
     paragraphStyle.maximumLineHeight = lineHeight
     paragraphStyle.lineBreakMode = .byTruncatingTail
-    let attributedText = NSMutableAttributedString(string: text)
-    attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+    text.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, text.length))
     
-    return attributedText
+    return text
+}
+
+func AddAttributedTextLetterSpacing(space: Double, text: NSMutableAttributedString) -> NSMutableAttributedString {
+    text.addAttribute(NSKernAttributeName, value: space, range: NSMakeRange(0, text.length))
+    
+    return text
 }
 
 func GetAppDelegate() -> AppDelegate {

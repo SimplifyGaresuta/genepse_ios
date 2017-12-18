@@ -259,16 +259,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        let lineHeight = CGFloat(21)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = lineHeight
-        paragraphStyle.maximumLineHeight = lineHeight
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+        var attributedText = NSMutableAttributedString(string: text)
+        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLetterSpacing(space: -0.05, text: attributedText)
         
-        let customLetterSpacing = -0.05
-        attributedText.addAttribute(NSKernAttributeName, value: customLetterSpacing, range: NSMakeRange(0, attributedText.length))
         career_label.attributedText = attributedText
 
         return career_label

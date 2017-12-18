@@ -358,7 +358,7 @@ class UserDetailViewController: UIViewController {
         career_label.numberOfLines = 0
         
         //行間調整
-        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
+//        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
         
         career_label.sizeToFit()
         return career_label
@@ -385,7 +385,7 @@ class UserDetailViewController: UIViewController {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+//        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
         label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = awards.count
         label.sizeToFit()
@@ -596,7 +596,7 @@ class UserDetailViewController: UIViewController {
         }
         
         //行間調整
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+//        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
         
         label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = licenses.count

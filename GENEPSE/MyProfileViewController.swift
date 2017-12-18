@@ -401,7 +401,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
+//        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
         
         career_label.sizeToFit()
         return career_label
@@ -449,7 +449,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+//        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
         label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = awards.count
         label.sizeToFit()
@@ -657,7 +657,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
             text = text.substring(to: text.index(before: text.endIndex))
         }
         
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
+//        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
         label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         label.numberOfLines = licenses.count
         label.sizeToFit()

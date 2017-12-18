@@ -87,11 +87,13 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func SetUpCanNotAvailableLocationFeedMSG() {
+        let attred_str = NSMutableAttributedString(string: "位置情報サービスが無効のため、\n情報を表示することができません")
+        
         cannotavailable_msg.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
         cannotavailable_msg.numberOfLines = 0
         cannotavailable_msg.textAlignment = .center
         cannotavailable_msg.textColor = UIColor.gray
-        cannotavailable_msg.attributedText = GetAttributedTextLineHeight(height: 20, text: "位置情報サービスが無効のため、\n情報を表示することができません")
+        cannotavailable_msg.attributedText = AddAttributedTextLineHeight(height: 20, text: attred_str)
         cannotavailable_msg.topTextInset = 20
         cannotavailable_msg.leftTextInset = 20
         cannotavailable_msg.bottomTextInset = 20
