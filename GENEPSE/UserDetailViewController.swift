@@ -80,7 +80,8 @@ class UserDetailViewController: UIViewController {
         let data = GetDetailData(json: json)
         
         // 背景画像の追加
-        
+        let cover_img = CreateCoverImageView(url: data.GetCoverUrl())
+        self.view.addSubview(cover_img)
 
 //        // プロフ画像の追加
 //        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
