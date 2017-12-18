@@ -34,6 +34,7 @@ class UserDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     override func viewDidLoad() {
@@ -83,6 +84,10 @@ class UserDetailViewController: UIViewController {
         // 背景画像の追加
         let cover_img = CreateCoverImageView(url: data.GetCoverUrl())
         self.view.addSubview(cover_img)
+        
+        // Backボタンの追加
+        let back_button = CreateBackButton()
+        self.view.addSubview(back_button)
 
 //        // プロフ画像の追加
 //        profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
@@ -249,6 +254,31 @@ class UserDetailViewController: UIViewController {
         
         return cover_img
     }
+    
+    func CreateBackButton() -> UIButton {
+        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        button.setImage(UIImage(named: "icon_back"), for: .normal)
+        button.addTarget(self, action: #selector(TapBackButton(sender:)), for: .touchUpInside)
+        return button
+    }
+    
+    func TapBackButton(sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
         cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
