@@ -32,15 +32,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     //MARK: DEBUG
     let debug = true
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        CallUserDetailAPI()
-        InitScrollView()
-        InitCardView()
-        
-        cardView.removeFromSuperview()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = StoryboardID.MyProfile.rawValue
@@ -50,23 +41,22 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarStyle = .default
         
-        //init
-        cover_img.removeFromSuperview()
         cardView.removeFromSuperview()
+        cover_img.removeFromSuperview()
+        scrollView.removeFromSuperview()
+        
+        InitScrollView()
+        CallUserDetailAPI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
         UIApplication.shared.statusBarStyle = .lightContent
-        
-        
     }
     
     override func viewDidLoad() {
         user_id = GetMyID()
-        
-//        CallUserDetailAPI()
         
         super.viewDidLoad()
         
@@ -74,9 +64,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.view.backgroundColor = UIColor.white
         
         scrollView.delegate = self
-        
-//        InitScrollView()
-//        InitCardView()
     }
     
     func GetMyID() -> Int {
@@ -152,12 +139,10 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         do {
             let imageData: NSData = try NSData(contentsOf: url)
-            let wh = base_margin * 12.5
+            let wh = base_margin * 6
             let x = cardView.frame.width / 2 - wh/2
             let y = cardView.bounds.origin.y - wh/2
             
-            print(base_margin)
-            print("***************")
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
             imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
