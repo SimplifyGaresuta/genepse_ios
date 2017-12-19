@@ -18,6 +18,12 @@ enum SectionID: Int {
     case info = 7
 }
 
+enum SectionID_New: Int {
+    case main = 1
+    case works = 2
+    case info = 3
+}
+
 enum Key: String {
     // ユーザデータ
     case activity_base = "activity_base"
