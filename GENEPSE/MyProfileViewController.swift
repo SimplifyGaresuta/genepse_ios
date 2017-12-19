@@ -25,6 +25,9 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     var product_link:[Int:String] = [:]
     var sns_link:[Int:String] = [:]
     
+    //MARK: DEBUG
+    let debug = true
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CallUserDetailAPI()
@@ -727,16 +730,18 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CallUserDetailAPI() {
-        //MARK:
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print("MyProfile results: ", json.count)
-            
+        if debug {
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+        }else {
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
+            Alamofire.request(urlString, method: .get).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("MyProfile results: ", json.count)
+                
+                self.AddViews(json: json)
+            }
         }
     }
 
