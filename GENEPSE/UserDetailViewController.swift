@@ -544,17 +544,34 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let w = self.view.bounds.width+1000
         let product_scrollview = UIScrollView()
         product_scrollview.frame = CGRect(x: x, y: y, width: self.view.bounds.width, height: h)
-        product_scrollview.backgroundColor = UIColor.blue
-        
-        let hoge = UIView(frame: CGRect(x: 10, y: 10, width: 100, height: 50))
-        hoge.backgroundColor = UIColor.red
-        product_scrollview.addSubview(hoge)
+//        product_scrollview.backgroundColor = UIColor.blue
         
         cardView.addSubview(product_scrollview)
         /*** scrollviewの設置 ***/
         
+        //id,url,title,image
+        var p_start_x = product_scrollview.bounds.origin.x
+        let p_w = cardView.frame.width * 0.55
         
-        product_scrollview.contentSize = CGSize(width: w, height: h)
+        for product in products {
+//            let id = product["id"].intValue
+//            let title = product[Key.title.rawValue].stringValue
+//            let url = product[Key.url.rawValue].stringValue
+            let image = product[Key.image.rawValue].stringValue
+            
+            let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
+            productImageView.loadImage(urlString: image)
+            productImageView.backgroundColor = UIColor.brown
+            productImageView.contentMode = .scaleAspectFill
+            productImageView.layer.cornerRadius = 8
+            productImageView.clipsToBounds = true
+            product_scrollview.addSubview(productImageView)
+            
+            p_start_x = productImageView.frame.width + base_margin * 2.5
+            
+            let last = productImageView.frame.width + productImageView.frame.origin.x + base_margin*7
+            product_scrollview.contentSize = CGSize(width: last, height: h)
+        }
 
         return product_scrollview
     }
