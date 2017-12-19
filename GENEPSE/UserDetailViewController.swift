@@ -23,9 +23,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     var back_button = UIButton()
     var latest_frame = CGRect()
     
-    var product_link:[String:String] = [:]
-    var sns_link:[String:String] = [:]
-    
     //MARK: DEBUG
     var debug = true
     
@@ -162,15 +159,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
 
         
-        //TODO: worksの追加
+        // worksの追加
         let works_sectionLable = CreateSectionLabel(text: "Works")
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
 
-        
         let works_scrollview = CreateWorks(products: data.GetProducts(), works_sectionLable: works_sectionLable)
-        
         latest_frame = works_scrollview.frame
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
         
@@ -193,44 +188,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        cardView.addSubview(awardsLabel)
 //        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
 //
-//
-//
-//
-//        // 作品の追加
-//        var products_sectionLabel_y = 0.0 as CGFloat
-//        if skillsLabels.count == 0 {
-//            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
-//        }else {
-//            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
-//        }
-//
-//        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
-//
-//        cardView.addSubview(products_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
-//        latest_section_frame = products_sectionLable.frame
-//
-//        let productsViews = self.CreateProductLabel(json: json["products"])
-//        for pViews in productsViews.0 {
-//            cardView.addSubview(pViews.title)
-//
-//            if let urlLabel = pViews.url {
-//                cardView.addSubview(pViews.link_img!)
-//                cardView.addSubview(urlLabel)
-//            }
-//
-//            if let imageView = pViews.image {
-//                cardView.addSubview(pViews.image_shadow!)
-//                cardView.addSubview(imageView)
-//            }
-//        }
-//
-//        if productsViews.0.count != 0 {
-//            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
-//        }
-//
-//
-
 
 //
 //
@@ -549,16 +506,17 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         cardView.addSubview(product_scrollview)
         /*** scrollviewの設置 ***/
         
-        //id,url,title,image
+        /*** productの設置 ***/
         var p_start_x = product_scrollview.bounds.origin.x
         let p_w = cardView.frame.width * 0.55
         
         for product in products {
-//            let id = product["id"].intValue
+            let id = product["id"].intValue
 //            let title = product[Key.title.rawValue].stringValue
-//            let url = product[Key.url.rawValue].stringValue
+            let url = product[Key.url.rawValue].stringValue
             let image = product[Key.image.rawValue].stringValue
             
+            // 画像の設置
             let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
             productImageView.loadImage(urlString: image)
             productImageView.backgroundColor = UIColor.brown
@@ -571,9 +529,45 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             
             let last = productImageView.frame.width + productImageView.frame.origin.x + base_margin*7
             product_scrollview.contentSize = CGSize(width: last, height: h)
+            
+            if url != "" {
+                // linkボタンの設置
+                let image_wh = 30 as CGFloat
+                let EdgeInset = 5 as CGFloat
+                let link_x = productImageView.frame.origin.x + base_margin*0.5
+                let link_y = productImageView.frame.height - image_wh/2 - base_margin*2
+                let link_button = UIButton(frame: CGRect(x: link_x, y: link_y, width: image_wh, height: image_wh))
+                link_button.setImage(UIImage(named: "icon_link"), for: .normal)
+                link_button.imageEdgeInsets = UIEdgeInsets(top: EdgeInset, left: EdgeInset, bottom: EdgeInset, right: EdgeInset)
+                link_button.backgroundColor = UIColor.black
+                link_button.layer.cornerRadius = image_wh/2
+                link_button.layer.masksToBounds = true
+                link_button.tag = id
+                link_button.addTarget(self, action: #selector(TapLinkButton(sender:)), for: .touchUpInside)
+                
+                product_scrollview.addSubview(link_button)
+            }
         }
+        /*** productの設置 ***/
 
         return product_scrollview
+    }
+    
+    func TapLinkButton(sender: UIButton){
+        let id = sender.tag
+        var url_str = ""
+        
+        for product in data.GetProducts() {
+            if id == product["id"].intValue {
+                url_str = product[Key.url.rawValue].stringValue
+                break
+            }
+        }
+        
+        let url = URL(string: url_str)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func CreateSectionLabel(text: String) -> UILabel {
@@ -588,16 +582,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         return label
     }
-    
-    func TapURLLabel(sender: UITapGestureRecognizer){
-        let id = (sender.view?.tag)!
-        
-        let url = URL(string: product_link[String(id)]!)!
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
     
     func TapScrollTop(sender: UIButton) {
         scrollView.scroll(to: .top, animated: true)
