@@ -498,10 +498,9 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let x = latest_frame.origin.x
         let y = latest_frame.origin.y+latest_frame.height+base_margin*1.5
         let h = cardView.frame.width * 0.4
-        let w = self.view.bounds.width+1000
+        let w = self.view.bounds.width
         let product_scrollview = UIScrollView()
-        product_scrollview.frame = CGRect(x: x, y: y, width: self.view.bounds.width, height: h)
-//        product_scrollview.backgroundColor = UIColor.blue
+        product_scrollview.frame = CGRect(x: x, y: y, width: w, height: h)
         
         cardView.addSubview(product_scrollview)
         /*** scrollviewの設置 ***/
