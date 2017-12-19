@@ -145,8 +145,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 }
             }
             
-            let lastview = mainskillsViews.last! as! UILabel
-            last_frame = lastview.frame
+            if mainskillsViews.count != 0 {
+                let lastview = mainskillsViews.last! as! UILabel
+                last_frame = lastview.frame
+            }
             
             // 経歴のラベルを追加
             let careerLabel = self.CreateCareerLabel(text: overview)
@@ -314,9 +316,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             sum_w += slash.frame.width+base_margin*0.25
         }
         
-        let last_view = views.last! as! UIImageView
-        sum_w -= last_view.frame.width+base_margin*0.25
-        _ = views.popLast()
+        if views.count != 0 {
+            let last_view = views.last! as! UIImageView
+            sum_w -= last_view.frame.width+base_margin*0.25
+            _ = views.popLast()
+        }
         
         var start_x = (cardViews.last!.frame.width - sum_w) / 2
         
@@ -356,6 +360,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Feed results: ", json.count)
+                print(json)
                 
                 self.AddCard(json: json)
                 self.isUpdating = false
