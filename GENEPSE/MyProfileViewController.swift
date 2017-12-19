@@ -136,6 +136,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
         cardView.addSubview(CreateEditButton(cgrect: nameLabel.frame, id: SectionID_New.main.rawValue))
         
+        
+        // 属性の追加
+        let attributeLabel = CreateAttributeLabel(attribute: (appdelegate.data?.GetAttr())!)
+        cardView.addSubview(attributeLabel)
+        latest_frame = attributeLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: attributeLabel.frame)
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -230,6 +237,42 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
                 UIApplication.shared.open(url)
             }
         }
+    }
+    
+    func CreateAttributeLabel(attribute: String) -> UILabel {
+        var text = ""
+        switch attribute {
+        case AttributeStr.Designer.rawValue:
+            text = AttributeStr_L.Designer.rawValue
+        case AttributeStr.Engineer.rawValue:
+            text = AttributeStr_L.Engineer.rawValue
+        case AttributeStr.Business.rawValue:
+            text = AttributeStr_L.Business.rawValue
+        default:
+            break
+        }
+        
+        var attr_text = NSMutableAttributedString(string: text)
+        attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
+        
+        let y = latest_frame.origin.y+latest_frame.height + base_margin * 0.5
+        let f_size = 14 as CGFloat
+        let label = EdgeInsetLabel(frame: CGRect(x: 0, y: y, width: 0, height: f_size))
+        
+        label.attributedText = attr_text
+        label.textAlignment = .left
+        label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
+        label.borderWidth = 1
+        label.borderColor = UIColor.black
+        label.topTextInset = 2
+        label.rightTextInset = 5
+        label.bottomTextInset = 2
+        label.leftTextInset = 5
+        label.sizeToFit()
+        
+        label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
+        
+        return label
     }
     
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
