@@ -21,13 +21,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     var scrollView = UIScrollView()
     var cardView = UIView()
-//    var profileImageView = UIImageView()
     var cover_img = UIImageView()
-//    var latest_section_frame = CGRect()
     var latest_frame = CGRect()
-    
-//    var product_link:[Int:String] = [:]
-//    var sns_link:[Int:String] = [:]
     
     //MARK: DEBUG
     let debug = true
