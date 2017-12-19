@@ -122,10 +122,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         
-        //TODO: 名前の追加
+        // 名前の追加
         let nameLabel = CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
-
+        latest_frame = nameLabel.frame
         
         
         
@@ -360,6 +360,28 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
                 UIApplication.shared.open(url)
             }
         }
+    }
+    
+    func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 26
+        }else {
+            font_size = 27
+        }
+        
+        let x = 0 as CGFloat
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let w = cardView.frame.width
+        
+        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
+        name_label.text = text
+        name_label.textAlignment = .center
+        name_label.font = UIFont(name: font_name, size: font_size)
+        
+        return name_label
     }
     
 //    func CreateAttributeImageView(attribute: String) -> UIImageView {
