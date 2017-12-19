@@ -153,13 +153,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 
 //
 //
-//
-//
-//        //拠点ラベルを追加
-//        let activitybaseLabel = self.CreateActivityBaseLabel(name: data.GetActivityBase(), namelabel_cgrect: nameLabel.frame)
-//        cardView.addSubview(activitybaseLabel)
-//
-//
 //        // 経歴の追加
 //        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
 //        cardView.addSubview(careerLabel)
