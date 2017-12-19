@@ -62,9 +62,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
-        
-//        self.tabBarController?.delegate = self
-        
+                
         InitScrollView()
         InitCardView()
     }
