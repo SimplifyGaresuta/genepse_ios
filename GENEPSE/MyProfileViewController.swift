@@ -122,7 +122,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         latest_frame = profileImageView.frame
         
         
-        // SNSの設置
+        // SNSの追加
         let snsButtons = CreateSNSLabel(json: (appdelegate.data?.GetSNS())!)
         for s_button in snsButtons {
             cardView.addSubview(s_button)
