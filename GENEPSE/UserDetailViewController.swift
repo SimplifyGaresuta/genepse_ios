@@ -126,12 +126,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let nameLabel = CreateNameLabel(text: data.GetName())
         cardView.addSubview(nameLabel)
         latest_frame = nameLabel.frame
-        
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
         
         // 属性の追加
         let attributeLabel = CreateAttributeLabel(attribute: data.GetAttr())
         cardView.addSubview(attributeLabel)
         latest_frame = attributeLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: attributeLabel.frame)
         
         
         // 活動拠点の追加
@@ -139,7 +140,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         cardView.addSubview(activity_baseView.0)
         cardView.addSubview(activity_baseView.1)
         latest_frame = activity_baseView.1.frame
-        
+        UpdateCardViewFrame(last_add_cgrect: activity_baseView.1.frame)
+
         
         // スキルの追加
         let mainskillsLabels = CreateSkillsLabels(skills: data.GetSkills())
@@ -147,16 +149,26 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             cardView.addSubview(skillLabel as! UIView)
         }
         
-        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
+        if mainskillsLabels.count != 0 {
+            let tmp_view = mainskillsLabels.last! as! UIView
+            latest_frame = tmp_view.frame
+            UpdateCardViewFrame(last_add_cgrect: tmp_view.frame)
+        }
+        
+        // 経歴の追加
+        let careerLabel = CreateCareerLabel(text: data.GetOverview())
+        cardView.addSubview(careerLabel)
+        latest_frame = careerLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+
+        
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
 
 
 
 //
 //
-//        // 経歴の追加
-//        let careerLabel = self.CreateCareerLabel(text: data.GetOverview(), nameLabel_frame: nameLabel.frame)
-//        cardView.addSubview(careerLabel)
-//        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+//
 //
 //        // 受賞歴の追加
 //        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
@@ -282,7 +294,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
-        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
+        let y = cover_img.frame.height * 0.8
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
@@ -503,6 +516,27 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         return views
+    }
+    
+    func CreateCareerLabel(text: String) -> UILabel {
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*3
+        
+        let x = cardView.frame.width * 0.1
+        let w = cardView.frame.width * 0.8
+        
+        let career_label = UILabel(frame: CGRect(x: x, y: label_start_y, width: w, height: base_margin*2))
+        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
+        career_label.backgroundColor = UIColor.clear
+        career_label.numberOfLines = 0
+        
+        var attributedText = NSMutableAttributedString(string: text)
+        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
+        
+        career_label.attributedText = attributedText
+        career_label.sizeToFit()
+        
+        return career_label
     }
     
     func TapURLLabel(sender: UITapGestureRecognizer){
