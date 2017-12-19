@@ -160,7 +160,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 
         
         // worksの追加
-        let works_sectionLable = CreateSectionLabel(text: "Works")
+        let works_sectionLable = CreateSectionLabel(text: "Works", space: 2.5)
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
@@ -168,6 +168,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let works_scrollview = CreateWorks(products: data.GetProducts(), works_sectionLable: works_sectionLable)
         latest_frame = works_scrollview.frame
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
+        
+        
+        //TODO: basic infoの追加
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
+        cardView.addSubview(info_sectionLable)
+        latest_frame = info_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
         
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
@@ -569,12 +576,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func CreateSectionLabel(text: String) -> UILabel {
+    func CreateSectionLabel(text: String, space: Double) -> UILabel {
         let x = latest_frame.origin.x
         let y = latest_frame.origin.y+latest_frame.height+base_margin*3
         let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
         var attr_str = NSMutableAttributedString(string: text)
-        attr_str = AddAttributedTextLetterSpacing(space: 2.5, text: attr_str)
+        attr_str = AddAttributedTextLetterSpacing(space: space, text: attr_str)
         label.attributedText = attr_str
         label.font = UIFont(name: FontName.DIN.rawValue, size: 30)
         label.sizeToFit()
