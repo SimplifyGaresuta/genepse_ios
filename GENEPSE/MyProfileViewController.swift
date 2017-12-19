@@ -121,6 +121,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(profileImageView)
         latest_frame = profileImageView.frame
         
+        
+        // SNSの設置
+        let snsButtons = CreateSNSLabel(json: (appdelegate.data?.GetSNS())!)
+        for s_button in snsButtons {
+            cardView.addSubview(s_button)
+        }
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -153,6 +160,45 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         }
         
         return UIImageView()
+    }
+    
+    func CreateSNSLabel(json: [JSON]) -> [UIButton] {
+        let wh = base_margin * 2
+        let y = cardView.bounds.origin.y - wh/2
+        let x = [cardView.bounds.origin.x + base_margin * 2.5, cardView.bounds.width-base_margin * 2.5-wh]
+        let icon = ["icon_facebook_circle", "icon_twitter_circle"]
+        var isEnabled = true
+        var buttons: [UIButton] = []
+        
+        for i in 0..<2 {
+            let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
+            button.tag = i
+            
+            var icon_name = icon[i]
+            
+            if i == 1 && json.count == 1 {
+                isEnabled = false
+                button.adjustsImageWhenDisabled = false
+                icon_name = "icon_twitter_circle_dis"
+                button.tag = -1
+            }
+            
+            button.setImage(UIImage(named: icon_name), for: .normal)
+            button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
+            button.isEnabled = isEnabled
+            
+            buttons.append(button)
+        }
+        return buttons
+    }
+    
+    func TapSNSButton(sender: UIButton) {
+        if sender.tag != -1 {
+            let url = URL(string: (appdelegate.data?.GetSNS())![sender.tag][Key.url.rawValue].stringValue)!
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
