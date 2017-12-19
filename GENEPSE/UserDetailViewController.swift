@@ -181,22 +181,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
 //
 //
-//        // スキルの追加
-//        let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
-//        cardView.addSubview(skills_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-//        latest_section_frame = skills_sectionLable.frame
-//
-//        let skillsLabels = self.CreateSkillsLabel(skills: data.GetSkills())
-//        for skillLabel in skillsLabels {
-//            cardView.addSubview(skillLabel)
-//        }
-//
-//        if skillsLabels.count == 0 {
-//            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-//        }else {
-//            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
-//        }
 //
 //
 //        // 作品の追加
