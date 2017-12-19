@@ -129,19 +129,21 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         
         // 属性の追加
-        let attributeImageView = CreateAttributeLabel(attribute: data.GetAttr())
-        cardView.addSubview(attributeImageView)
+        let attributeLabel = CreateAttributeLabel(attribute: data.GetAttr())
+        cardView.addSubview(attributeLabel)
+        latest_frame = attributeLabel.frame
+        
+        //TODO: スキルの追加
+        let mainskillsLabels = CreateSkillsLabels(skills: data.GetSkills())
+        
+        for skillLabel in mainskillsLabels {
+            cardView.addSubview(skillLabel as! UIView)
+        }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
 
 
-//        // メインスキルの追加
-//        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
-//
-//        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-//            cardView.addSubview(shadowView)
-//            cardView.addSubview(skillLabel)
-//        }
+
 //
 //
 //
@@ -279,20 +281,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
         cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
     }
@@ -414,6 +402,74 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
         
         return label
+    }
+    
+    //TODO: スキルの追加
+    func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
+        var views:[Any] = []
+        var y = latest_frame.height+latest_frame.origin.y + base_margin
+        var x = 0 as CGFloat
+        var sum_w = 0 as CGFloat
+        
+        //初期配置をしてサイズを求めるためのループ
+        for (i, skill) in skills.enumerated() {
+            //スキルを3つ配置したら改行
+            if i != 0 && i % 3 == 0 {
+                _ = views.popLast()
+                let last_view = views.last! as! UILabel
+                x = 0
+                y = last_view.frame.origin.y+last_view.frame.height + base_margin*3
+            }
+            
+            var attr_str = NSMutableAttributedString(string: skill)
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 14
+            }else {
+                font_size = 15
+                attr_str = AddAttributedTextLetterSpacing(space: 0.2, text: attr_str)
+            }
+            
+            //skillラベル追加
+            let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+            label.attributedText = attr_str
+            label.font = UIFont(name: font_name, size: font_size)
+            label.sizeToFit()
+            views.append(label)
+            
+            x = label.frame.origin.x + label.frame.width + base_margin*0.25
+            sum_w += label.frame.width+base_margin*0.25
+            
+            //スラッシュ画像追加
+            let slash = UIImageView(image: UIImage(named: "icon_slash"))
+            slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
+            views.append(slash)
+            
+            x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
+            sum_w += slash.frame.width+base_margin*0.25
+        }
+        
+        let last_view = views.last! as! UIImageView
+        sum_w -= last_view.frame.width+base_margin*0.25
+        _ = views.popLast()
+        
+        var start_x = (cardView.frame.width - sum_w) / 2
+        
+//        for view in views {
+//            if let label = view as? UILabel {
+//                label.frame = CGRect(x: start_x, y: label.frame.origin.y, width: 0, height: 0)
+//                label.sizeToFit()
+//                start_x = label.frame.origin.x + label.frame.width + base_margin*0.25
+//            }else {
+//                let slash = view as! UIImageView
+//                slash.frame = CGRect(x: start_x, y: slash.frame.origin.y, width: 5, height: 15)
+//                start_x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
+//            }
+//        }
+        
+        return views
     }
     
     func TapURLLabel(sender: UITapGestureRecognizer){
