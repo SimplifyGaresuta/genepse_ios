@@ -134,6 +134,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(nameLabel)
         latest_frame = nameLabel.frame
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
+        cardView.addSubview(CreateEditButton(cgrect: nameLabel.frame))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
@@ -228,6 +229,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
                 UIApplication.shared.open(url)
             }
         }
+    }
+    
+    func CreateEditButton(cgrect: CGRect) -> UIButton {
+        
+        return UIButton()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
