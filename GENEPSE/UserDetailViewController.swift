@@ -432,9 +432,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        var y = latest_frame.height+latest_frame.origin.y + base_margin
+        var y = latest_frame.height+latest_frame.origin.y + base_margin*2
         var x = 0 as CGFloat
         var sum_w = 0 as CGFloat
+        let margin_offset = 1 as CGFloat
         
         //初期配置をしてサイズを求めるためのループ
         for (i, skill) in skills.enumerated() {
@@ -443,7 +444,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
                 _ = views.popLast()
                 let last_view = views.last! as! UILabel
                 x = 0
-                y = last_view.frame.origin.y+last_view.frame.height + base_margin*3
+                y = last_view.frame.origin.y+last_view.frame.height + base_margin
             }
             
             var attr_str = NSMutableAttributedString(string: skill)
@@ -464,20 +465,20 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             label.sizeToFit()
             views.append(label)
             
-            x = label.frame.origin.x + label.frame.width + base_margin*0.25
-            sum_w += label.frame.width+base_margin*0.25
+            x = label.frame.origin.x + label.frame.width + base_margin*margin_offset
+            sum_w += label.frame.width+base_margin*0.5
             
             //スラッシュ画像追加
             let slash = UIImageView(image: UIImage(named: "icon_slash"))
             slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
             views.append(slash)
             
-            x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
-            sum_w += slash.frame.width+base_margin*0.25
+            x = slash.frame.origin.x + slash.frame.width + base_margin*margin_offset
+            sum_w += slash.frame.width+base_margin*margin_offset
         }
         
         let last_view = views.last! as! UIImageView
-        sum_w -= last_view.frame.width+base_margin*0.25
+        sum_w -= last_view.frame.width+base_margin*margin_offset
         _ = views.popLast()
         
         var start_x = (cardView.frame.width - sum_w) / 2
