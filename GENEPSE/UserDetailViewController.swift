@@ -122,6 +122,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         
+        //TODO: 名前の追加
+        let nameLabel = CreateNameLabel(text: data.GetName())
+        cardView.addSubview(nameLabel)
+
+        
+        
+        
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
 
@@ -141,10 +148,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        }
 //
 //
-//        // 名前の追加
-//        let nameLabel = self.CreateNameLabel(text: data.GetName())
-//        cardView.addSubview(nameLabel)
-//        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
 //
 //
 //        //拠点ラベルを追加
@@ -416,24 +419,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        return (views, labels)
 //    }
     
-//    func CreateNameLabel(text: String) -> UILabel {
-//        let je_num = SearchJapaneseEnglish(text: text)
-//        let font_name = GetFontName(je_num: je_num, font_w: 6)
-//        var font_size = 0 as CGFloat
-//        if je_num == JapaneseEnglish.Japanese.rawValue {
-//            font_size = 37
-//        }else {
-//            font_size = 39
-//        }
-//
-//        let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
-//        name_label.text = text
-//        name_label.font = UIFont(name: font_name, size: font_size)
-//        name_label.sizeToFit()
-//
-//        return name_label
-//    }
-    
     
 //    func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
 //
@@ -644,7 +629,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             UIApplication.shared.open(url)
         }
     }
-        
+    
     
 //    func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
 //        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
