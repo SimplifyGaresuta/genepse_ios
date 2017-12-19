@@ -162,6 +162,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
 
         
+        //TODO: worksの追加
+        let works_sectionLable = CreateSectionLabel(text: "Works")
+        cardView.addSubview(works_sectionLable)
+        latest_frame = works_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
+
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
 
 
@@ -521,6 +528,19 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         career_label.sizeToFit()
         
         return career_label
+    }
+    
+    func CreateSectionLabel(text: String) -> UILabel {
+        let x = latest_frame.origin.x
+        let y = latest_frame.origin.y+latest_frame.height+base_margin*3
+        let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 2.5, text: attr_str)
+        label.attributedText = attr_str
+        label.font = UIFont(name: FontName.DIN.rawValue, size: 30)
+        label.sizeToFit()
+        
+        return label
     }
     
     func TapURLLabel(sender: UITapGestureRecognizer){
