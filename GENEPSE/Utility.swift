@@ -198,6 +198,18 @@ func GetSectionName(id: Int) -> String {
     }
 }
 
+func InsertIntervalString(array: [String], insert_str: String) -> Array<String> {
+    var new:[String] = []
+    
+    for element in array {
+        new.append(element)
+        new.append(insert_str)
+    }
+    _ = new.popLast()
+    
+    return new
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

@@ -170,67 +170,21 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
         
         
-        //TODO: basic infoの追加
+        // basic infoの追加
         let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
         cardView.addSubview(info_sectionLable)
         latest_frame = info_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
         
+        let infoLabel = CreateBasicInformation()
+        for label in infoLabel {
+            cardView.addSubview(label)
+            latest_frame = label.frame
+            UpdateCardViewFrame(last_add_cgrect: label.frame)
+        }
+        
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
-
-
-
-//
-//
-//
-//
-//        // 受賞歴の追加
-//        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
-//        cardView.addSubview(awards_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
-//        latest_section_frame = awards_sectionLable.frame
-//
-//        let awardsLabel = self.CreateAwardsLabel(awards: data.GetAwards())
-//        cardView.addSubview(awardsLabel)
-//        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
-//
-
-//
-//
-//        // 資格の追加
-//        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
-//        cardView.addSubview(license_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
-//        latest_section_frame = license_sectionLable.frame
-//
-//        let licensesLabel = self.CreateLicenseLabel(licenses: data.GetLicenses())
-//        cardView.addSubview(licensesLabel)
-//        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
-//
-//
-//        // 基本情報の追加
-//        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
-//        cardView.addSubview(basic_info_sectionLabel)
-//        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-//        latest_section_frame = basic_info_sectionLabel.frame
-//
-//        let infoLabels = self.CreateBasicInfoLabel(info: [data.GetGender(), String(data.GetAge()), data.GetAddress(), data.GetSchoolCareer()])
-//        for i_Label in infoLabels {
-//            cardView.addSubview(i_Label)
-//        }
-//
-//        var scroll_button_start_cgrect = CGRect()
-//        if infoLabels.count == 0 {
-//            scroll_button_start_cgrect = basic_info_sectionLabel.frame
-//            UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-//        }else {
-//            scroll_button_start_cgrect = infoLabels.last!.frame
-//            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
-//        }
-//
-//        // トップへスクロールするボタンの追加
-//        cardView.addSubview(self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect))
     }
     
     func CreateCoverImageView(url: String) -> AsyncUIImageView {
@@ -452,7 +406,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             var sum_w = 0 as CGFloat
             
             //スキル3つ分の幅を合算
-            for view in views[s...e].map({$0}) {
+            for view in views.safeRange(range: Range(s...e)).map({$0}) {
                 let tmp = view as! UIView
                 sum_w += tmp.frame.width
             }
@@ -461,7 +415,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             var start_x = cardView.frame.width/2 - sum_w/2
             
             //xを調整して中央に配置
-            for view in views[s...e].map({$0}) {
+            for view in views.safeRange(range: Range(s...e)).map({$0}) {
                 if let label = view as? UILabel {
                     label.frame = CGRect(x: start_x, y: label.frame.origin.y, width: 0, height: 0)
                     label.sizeToFit()
@@ -574,6 +528,42 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
+    }
+    
+    func CreateBasicInformation() -> [UILabel] {
+        let info = [
+            [data.GetGender(), "/", String(data.GetAge())+"歳"],
+            [data.GetAddress()],
+            [data.GetSchoolCareer()],
+            InsertIntervalString(array: data.GetAwards(), insert_str: "\n"),
+            InsertIntervalString(array: data.GetLicenses(), insert_str: "\n")
+            ]
+        
+        let x = latest_frame.origin.x
+        var y = latest_frame.origin.y+latest_frame.height+base_margin*3
+        let w = self.view.bounds.width
+        var labels:[UILabel] = []
+        
+        for section in info {
+            var text = ""
+            let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
+            label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
+            label.numberOfLines = 0
+            
+            for sentence in section {
+                text += sentence
+            }
+            
+            var attributedText = NSMutableAttributedString(string: text)
+            attributedText = AddAttributedTextLineHeight(height: 18, text: attributedText)
+            label.attributedText = attributedText
+            label.sizeToFit()
+            labels.append(label)
+            
+            y = label.frame.origin.y + label.frame.height + base_margin
+        }
+        
+        return labels
     }
     
     func CreateSectionLabel(text: String, space: Double) -> UILabel {
