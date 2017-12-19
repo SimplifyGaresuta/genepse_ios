@@ -133,11 +133,19 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         cardView.addSubview(attributeLabel)
         latest_frame = attributeLabel.frame
         
+        
+        // 活動拠点の追加
+        let activity_baseView = CreateActivityBase(name: data.GetActivityBase())
+        cardView.addSubview(activity_baseView.0)
+        cardView.addSubview(activity_baseView.1)
+        latest_frame = activity_baseView.1.frame
+        
+        
         //TODO: スキルの追加
         let mainskillsLabels = CreateSkillsLabels(skills: data.GetSkills())
         
         for skillLabel in mainskillsLabels {
-            cardView.addSubview(skillLabel as! UIView)
+//            cardView.addSubview(skillLabel as! UIView)
         }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
@@ -402,6 +410,25 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
         
         return label
+    }
+    
+    func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
+        let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
+        let start_y = latest_frame.origin.y+latest_frame.height+base_margin*2
+        let homeImageView_wh = 16 as CGFloat
+        homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
+        
+        let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: 16)
+        label.text = name
+        label.sizeToFit()
+        
+        let label_start_x = (cardView.frame.width - (homeImageView.frame.width + label.frame.width)) / 2
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
+        label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin, y: start_y, width: 0, height: 0)
+        label.sizeToFit()
+        
+        return (homeImageView, label)
     }
     
     //TODO: スキルの追加
