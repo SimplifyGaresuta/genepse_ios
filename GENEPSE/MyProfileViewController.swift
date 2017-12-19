@@ -164,6 +164,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             UpdateCardViewFrame(last_add_cgrect: tmp_view.frame)
         }
         
+        
+        // 経歴の追加
+        let careerLabel = CreateCareerLabel(text: (appdelegate.data?.GetOverview())!)
+        cardView.addSubview(careerLabel)
+        latest_frame = careerLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -396,6 +403,28 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         return views
     }
+    
+    func CreateCareerLabel(text: String) -> UILabel {
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.5
+        
+        let x = cardView.frame.width * 0.1
+        let w = cardView.frame.width * 0.8
+        
+        let career_label = UILabel(frame: CGRect(x: x, y: label_start_y, width: w, height: base_margin*2))
+        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
+        career_label.backgroundColor = UIColor.clear
+        career_label.numberOfLines = 0
+        
+        var attributedText = NSMutableAttributedString(string: text)
+        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
+        
+        career_label.attributedText = attributedText
+        career_label.sizeToFit()
+        
+        return career_label
+    }
+
     
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
         let image_wh = 30 as CGFloat
