@@ -43,6 +43,14 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         
         preViewName = StoryboardID.MyProfile.rawValue
         self.tabBarController?.delegate = self
+        self.navigationController?.navigationBar.isHidden = true
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     override func viewDidLoad() {
