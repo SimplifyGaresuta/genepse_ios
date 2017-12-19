@@ -141,7 +141,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         latest_frame = activity_baseView.1.frame
         
         
-        //TODO: スキルの追加
+        // スキルの追加
         let mainskillsLabels = CreateSkillsLabels(skills: data.GetSkills())
         for skillLabel in mainskillsLabels {
             cardView.addSubview(skillLabel as! UIView)
@@ -432,19 +432,20 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        var y = latest_frame.height+latest_frame.origin.y + base_margin*2
+        var y = latest_frame.height+latest_frame.origin.y + base_margin*2.5
         var x = 0 as CGFloat
-        var sum_w = 0 as CGFloat
+        var count = 0
         let margin_offset = 1 as CGFloat
         
         //初期配置をしてサイズを求めるためのループ
         for (i, skill) in skills.enumerated() {
             //スキルを3つ配置したら改行
             if i != 0 && i % 3 == 0 {
-                _ = views.popLast()
-                let last_view = views.last! as! UILabel
+                count += 1
+                let last_view = views.last! as! UIView
                 x = 0
                 y = last_view.frame.origin.y+last_view.frame.height + base_margin
+                _ = views.popLast()
             }
             
             var attr_str = NSMutableAttributedString(string: skill)
@@ -466,7 +467,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             views.append(label)
             
             x = label.frame.origin.x + label.frame.width + base_margin*margin_offset
-            sum_w += label.frame.width+base_margin*0.5
             
             //スラッシュ画像追加
             let slash = UIImageView(image: UIImage(named: "icon_slash"))
@@ -474,26 +474,40 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             views.append(slash)
             
             x = slash.frame.origin.x + slash.frame.width + base_margin*margin_offset
-            sum_w += slash.frame.width+base_margin*margin_offset
         }
         
-        let last_view = views.last! as! UIImageView
-        sum_w -= last_view.frame.width+base_margin*margin_offset
         _ = views.popLast()
         
-        var start_x = (cardView.frame.width - sum_w) / 2
-        
-//        for view in views {
-//            if let label = view as? UILabel {
-//                label.frame = CGRect(x: start_x, y: label.frame.origin.y, width: 0, height: 0)
-//                label.sizeToFit()
-//                start_x = label.frame.origin.x + label.frame.width + base_margin*0.25
-//            }else {
-//                let slash = view as! UIImageView
-//                slash.frame = CGRect(x: start_x, y: slash.frame.origin.y, width: 5, height: 15)
-//                start_x = slash.frame.origin.x + slash.frame.width + base_margin*0.25
-//            }
-//        }
+        var s = 0
+        var e = 4
+        //行数分だけループ
+        for _ in 0...count {
+            var sum_w = 0 as CGFloat
+            
+            //スキル3つ分の幅を合算
+            for view in views[s...e].map({$0}) {
+                let tmp = view as! UIView
+                sum_w += tmp.frame.width
+            }
+            sum_w += (base_margin*margin_offset)*4
+            
+            var start_x = cardView.frame.width/2 - sum_w/2
+            
+            //xを調整して中央に配置
+            for view in views[s...e].map({$0}) {
+                if let label = view as? UILabel {
+                    label.frame = CGRect(x: start_x, y: label.frame.origin.y, width: 0, height: 0)
+                    label.sizeToFit()
+                    start_x = label.frame.origin.x + label.frame.width + base_margin*margin_offset
+                }else {
+                    let slash = view as! UIImageView
+                    slash.frame = CGRect(x: start_x, y: slash.frame.origin.y, width: 5, height: 15)
+                    start_x = slash.frame.origin.x + slash.frame.width + base_margin*margin_offset
+                }
+            }
+            s = e+1
+            e = s+4
+        }
         
         return views
     }
