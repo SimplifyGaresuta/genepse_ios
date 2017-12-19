@@ -128,17 +128,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         latest_frame = nameLabel.frame
         
         
-        
+        // 属性の追加
+        let attributeImageView = CreateAttributeLabel(attribute: data.GetAttr())
+        cardView.addSubview(attributeImageView)
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
 
-//
-//        // 属性の追加
-//        let attributeImageView = CreateAttributeImageView(attribute: data.GetAttr())
-//        cardView.addSubview(attributeImageView)
-//        UpdateCardViewFrame(last_add_cgrect: attributeImageView.frame)
-//
-//
+
 //        // メインスキルの追加
 //        let mainskillsLabels = self.CreateMainSkillsLabels(skills: data.GetMainSkills())
 //
@@ -384,15 +380,41 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         return name_label
     }
     
-//    func CreateAttributeImageView(attribute: String) -> UIImageView {
-//        let y = profileImageView.frame.origin.y + base_margin
-//
-//        let attributeImageView = UIImageView(image: UIImage(named: "attr_"+attribute))
-//        attributeImageView.frame = CGRect(x: base_margin, y: y, width: profileImageView.frame.width*0.45, height: profileImageView.frame.height*0.2)
-//        attributeImageView.contentMode = .scaleAspectFill
-//
-//        return attributeImageView
-//    }
+    func CreateAttributeLabel(attribute: String) -> UILabel {
+        var text = ""
+        switch attribute {
+        case AttributeStr.Designer.rawValue:
+            text = AttributeStr_L.Designer.rawValue
+        case AttributeStr.Engineer.rawValue:
+            text = AttributeStr_L.Engineer.rawValue
+        case AttributeStr.Business.rawValue:
+            text = AttributeStr_L.Business.rawValue
+        default:
+            break
+        }
+        
+        var attr_text = NSMutableAttributedString(string: text)
+        attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
+        
+        let y = latest_frame.origin.y+latest_frame.height + base_margin
+        let f_size = 14 as CGFloat
+        let label = EdgeInsetLabel(frame: CGRect(x: 0, y: y, width: 0, height: f_size))
+        
+        label.attributedText = attr_text
+        label.textAlignment = .left
+        label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
+        label.borderWidth = 1
+        label.borderColor = UIColor.black
+        label.topTextInset = 2
+        label.rightTextInset = 5
+        label.bottomTextInset = 2
+        label.leftTextInset = 5
+        label.sizeToFit()
+        
+        label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
+        
+        return label
+    }
     
 //    func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
 //        var labels = [UILabel]()
