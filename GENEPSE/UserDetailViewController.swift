@@ -143,9 +143,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         //TODO: スキルの追加
         let mainskillsLabels = CreateSkillsLabels(skills: data.GetSkills())
-        
         for skillLabel in mainskillsLabels {
-//            cardView.addSubview(skillLabel as! UIView)
+            cardView.addSubview(skillLabel as! UIView)
         }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: 1000)
@@ -423,7 +422,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.text = name
         label.sizeToFit()
         
-        let label_start_x = (cardView.frame.width - (homeImageView.frame.width + label.frame.width)) / 2
+        let label_start_x = cardView.frame.width/2 - (homeImageView.frame.width + label.frame.width+base_margin) / 2
         homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin, y: start_y, width: 0, height: 0)
         label.sizeToFit()
@@ -431,7 +430,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         return (homeImageView, label)
     }
     
-    //TODO: スキルの追加
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
         var y = latest_frame.height+latest_frame.origin.y + base_margin
