@@ -51,8 +51,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let back_button_y = UIApplication.shared.statusBarFrame.height
+        
         cover_img.frame = CGRect(x:cover_img.frame.origin.x, y:scrollView.contentOffset.y, width:cover_img.frame.width, height:cover_img.frame.height)
-        back_button.frame = CGRect(x:back_button.frame.origin.x, y:scrollView.contentOffset.y, width:back_button.frame.width, height:back_button.frame.height)
+        back_button.frame = CGRect(x:back_button.frame.origin.x, y:back_button_y+scrollView.contentOffset.y, width:back_button.frame.width, height:back_button.frame.height)
     }
 
     
@@ -197,8 +199,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func CreateBackButton() -> UIButton {
-        let statusBar_h = UIApplication.shared.statusBarFrame.height
-        let button = UIButton(frame: CGRect(x: base_margin, y: statusBar_h+base_margin*5, width: 50, height: 50))
+        let button = UIButton(frame: CGRect(x: base_margin, y: 0, width: 50, height: 50))
         button.setImage(UIImage(named: "icon_back"), for: .normal)
         button.addTarget(self, action: #selector(TapBackButton(sender:)), for: .touchUpInside)
         return button
