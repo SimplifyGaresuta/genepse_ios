@@ -182,6 +182,20 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         latest_frame = works_scrollview.frame
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
         
+        
+        // basic infoの追加
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
+        cardView.addSubview(info_sectionLable)
+        latest_frame = info_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
+        
+        let infoLabel = CreateBasicInformation()
+        for label in infoLabel {
+            cardView.addSubview(label)
+            latest_frame = label.frame
+            UpdateCardViewFrame(last_add_cgrect: label.frame)
+        }
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -510,6 +524,42 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
+    }
+    
+    func CreateBasicInformation() -> [UILabel] {
+        let info = [
+            [(appdelegate.data?.GetGender())!, "/", String((appdelegate.data?.GetAge())!)+"歳"],
+            [(appdelegate.data?.GetAddress())!],
+            [(appdelegate.data?.GetSchoolCareer())!],
+            InsertIntervalString(array: (appdelegate.data?.GetAwards())!, insert_str: "\n"),
+            InsertIntervalString(array: (appdelegate.data?.GetLicenses())!, insert_str: "\n")
+        ]
+        
+        let x = latest_frame.origin.x
+        var y = latest_frame.origin.y+latest_frame.height+base_margin
+        let w = self.view.bounds.width
+        var labels:[UILabel] = []
+        
+        for section in info {
+            var text = ""
+            let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
+            label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
+            label.numberOfLines = 0
+            
+            for sentence in section {
+                text += sentence
+            }
+            
+            var attributedText = NSMutableAttributedString(string: text)
+            attributedText = AddAttributedTextLineHeight(height: 18, text: attributedText)
+            label.attributedText = attributedText
+            label.sizeToFit()
+            labels.append(label)
+            
+            y = label.frame.origin.y + label.frame.height + base_margin * 0.5
+        }
+        
+        return labels
     }
 
     func CreateSectionLabel(text: String, space: Double) -> UILabel {
