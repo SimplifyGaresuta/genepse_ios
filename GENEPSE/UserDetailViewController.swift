@@ -13,13 +13,15 @@ import Toucan
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     private var user_id = 0
+    var data = DetailData()
+    
     var base_margin = 0.0 as CGFloat
     
     var scrollView = UIScrollView()
     var cardView = UIView()
     var cover_img = UIImageView()
     var back_button = UIButton()
-    var latest_section_frame = CGRect()
+    var latest_frame = CGRect()
     
     var product_link:[String:String] = [:]
     var sns_link:[String:String] = [:]
@@ -88,29 +90,36 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     func AddViews(json: JSON) {
         base_margin = self.view.bounds.width * 0.025
         
-        let data = GetDetailData(json: json)
+        data = GetDetailData(json: json)
+        
         
         // 背景画像の追加
         let cover_img = CreateCoverImageView(url: data.GetCoverUrl())
         scrollView.addSubview(cover_img)
         self.cover_img = cover_img
         
+        
         // Backボタンの追加
         let back_button = CreateBackButton()
         scrollView.addSubview(back_button)
         self.back_button = back_button
         
+        
         // カードの追加
         InitCardView()
+        
         
         // プロフ画像の追加
         let profileImageView = CreateProfileImageView(url: data.GetAvatarURL())
         cardView.addSubview(profileImageView)
-//        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
+        latest_frame = profileImageView.frame
 
 
         // SNSの設置
-        
+        let snsButtons = self.CreateSNSLabel(json: data.GetSNS())
+        for s_button in snsButtons {
+            cardView.addSubview(s_button)
+        }
         
         
         
@@ -211,25 +220,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 //        }
 //
 //
-//        // SNSの追加
-//        var sns_sectionLable_y = 0.0 as CGFloat
-//        if productsViews.0.count == 0 {
-//            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
-//        }else {
-//            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
-//        }
-//
-//        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
-//        cardView.addSubview(sns_sectionLable)
-//        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
-//        latest_section_frame = sns_sectionLable.frame
-//
-//        let snsLabels = self.CreateSNSLabel(json: json["sns"])
-//        for s_Label in snsLabels {
-//            cardView.addSubview(s_Label.icon)
-//            cardView.addSubview(s_Label.url)
-//        }
-//        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
+
+
 //
 //
 //        // 資格の追加
@@ -326,6 +318,40 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         return UIImageView()
+    }
+    
+    func CreateSNSLabel(json: [JSON]) -> [UIButton] {
+        let wh = base_margin * 4.5
+        let y = cardView.bounds.origin.y - wh/2
+        let x = [cardView.bounds.origin.x + base_margin * 5, cardView.bounds.width-base_margin * 5-wh]
+        let icon = ["icon_facebook_circle", "icon_twitter_circle"]
+        var isEnabled = true
+        var buttons: [UIButton] = []
+        
+        for i in 0..<2 {
+            let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
+            button.tag = i
+            
+            var icon_name = icon[i]
+            
+            if i == 1 && json.count == 1 {
+                isEnabled = false
+                button.adjustsImageWhenDisabled = false
+                icon_name = "icon_twitter_circle_dis"
+                button.tag = -1
+            }
+            
+            button.setImage(UIImage(named: icon_name), for: .normal)
+            button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
+            button.isEnabled = isEnabled
+            
+            buttons.append(button)
+        }
+        return buttons
+    }
+    
+    func TapSNSButton(sender: UIButton) {
+        print(sender.tag)
     }
     
 //    func CreateAttributeImageView(attribute: String) -> UIImageView {
@@ -614,7 +640,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-//    func CreateSNSLabel(json: JSON) -> ([(icon: UIImageView, url: UILabel)]) {
 //        var SNSViews: [(icon: UIImageView, url: UILabel)] = []
 //        var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
 //
