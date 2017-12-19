@@ -351,7 +351,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func TapSNSButton(sender: UIButton) {
-        print(sender.tag)
+        if sender.tag != -1 {
+            let url = URL(string: data.GetSNS()[sender.tag][Key.url.rawValue].stringValue)!
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
     }
     
 //    func CreateAttributeImageView(attribute: String) -> UIImageView {
@@ -639,60 +644,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             UIApplication.shared.open(url)
         }
     }
-    
-//        var SNSViews: [(icon: UIImageView, url: UILabel)] = []
-//        var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
-//
-//        json.forEach { (i, obj) in
-//            var image_name = ""
-//            switch obj["provider"] {
-//            case "facebook":
-//                image_name = "facebook_icon"
-//                break
-//            case "twitter":
-//                image_name = "twitter_icon"
-//                break
-//
-//            default:
-//                break
-//            }
-//
-//            let iconImageView = UIImageView(image: UIImage(named: image_name))
-//            iconImageView.contentMode = .scaleAspectFill
-//            iconImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin, height: base_margin)
-//
-//            let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
-//            let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-//            let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapSNSURLLabel(sender:)))
-//
-//            sns_link[i] = obj[Key.url.rawValue].string
-//
-//            urlLabel.tag = Int(i)!
-//            urlLabel.text = obj[Key.url.rawValue].string
-//            urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
-//            urlLabel.sizeToFit()
-//            urlLabel.isUserInteractionEnabled = true
-//            urlLabel.addGestureRecognizer(tap)
-//
-//            // アイコンとのずれを調整するために高さをアイコンに揃える
-//            urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
-//
-//
-//            next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
-//            SNSViews.append(icon: iconImageView, url: urlLabel)
-//        }
-//
-//        return SNSViews
-//    }
-    
-    func TapSNSURLLabel(sender: UITapGestureRecognizer){
-        let id = (sender.view?.tag)!
         
-        let url = URL(string: sns_link[String(id)]!)!
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
-    }
     
 //    func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
 //        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
