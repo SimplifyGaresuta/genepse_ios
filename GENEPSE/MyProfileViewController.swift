@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Toucan
 
 class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIScrollViewDelegate {
 
@@ -34,10 +35,10 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         CallUserDetailAPI()
+        InitScrollView()
+        InitCardView()
         
         cardView.removeFromSuperview()
-        
-        InitCardView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +66,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     override func viewDidLoad() {
         user_id = GetMyID()
         
-        CallUserDetailAPI()
+//        CallUserDetailAPI()
         
         super.viewDidLoad()
         
@@ -74,7 +75,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         scrollView.delegate = self
         
-        InitScrollView()
+//        InitScrollView()
+//        InitCardView()
     }
     
     func GetMyID() -> Int {
@@ -127,6 +129,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         // カードの追加
         InitCardView()
         
+        // プロフ画像の追加
+        let profileImageView = CreateProfileImageView(url: (appdelegate.data?.GetAvatarURL())!)
+        cardView.addSubview(profileImageView)
+        latest_frame = profileImageView.frame
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -137,6 +144,30 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cover_img.contentMode = .scaleAspectFill
         
         return cover_img
+    }
+    
+    func CreateProfileImageView(url: String) -> UIImageView {
+        let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let url = URL(string: escapedAddress!)!
+        
+        do {
+            let imageData: NSData = try NSData(contentsOf: url)
+            let wh = base_margin * 12.5
+            let x = cardView.frame.width / 2 - wh/2
+            let y = cardView.bounds.origin.y - wh/2
+            
+            print(base_margin)
+            print("***************")
+            let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+            let imageview = UIImageView(image: resizedAndMaskedImage)
+            imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
+            
+            return imageview
+        }catch{
+            print("profile img NSData: ", error)
+        }
+        
+        return UIImageView()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
