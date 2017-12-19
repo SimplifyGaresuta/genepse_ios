@@ -134,7 +134,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(nameLabel)
         latest_frame = nameLabel.frame
         UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
-        cardView.addSubview(CreateEditButton(cgrect: nameLabel.frame))
+        cardView.addSubview(CreateEditButton(cgrect: nameLabel.frame, id: SectionID_New.main.rawValue))
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
@@ -210,14 +210,15 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             font_size = 27
         }
         
-        let x = 0 as CGFloat
         let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
-        let w = cardView.frame.width
-        
-        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
+        let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
         name_label.text = text
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
+        name_label.sizeToFit()
+        
+        let new_x = (cardView.bounds.width/2+cardView.bounds.origin.x) - name_label.bounds.width/2
+        name_label.frame = CGRect(x: new_x, y: y, width: name_label.bounds.width, height: font_size)
         
         return name_label
     }
@@ -231,9 +232,21 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         }
     }
     
-    func CreateEditButton(cgrect: CGRect) -> UIButton {
+    func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
+        let image_wh = 30 as CGFloat
+        let EdgeInset = 5 as CGFloat
+        let x = cgrect.origin.x + cgrect.width + base_margin * 0.5
+        let button = UIButton(frame: CGRect(x: x, y: cgrect.origin.y, width: image_wh, height: image_wh))
+        button.setImage(UIImage(named: "icon_edit"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: EdgeInset, left: EdgeInset, bottom: EdgeInset, right: EdgeInset)
+        button.addTarget(self, action: #selector(TapEditButton(sender:)), for: .touchUpInside)
+        button.tag = id
         
-        return UIButton()
+        return button
+    }
+    
+    func TapEditButton(sender: UIButton) {
+        print(sender.tag)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
