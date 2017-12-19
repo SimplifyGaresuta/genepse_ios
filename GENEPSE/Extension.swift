@@ -108,4 +108,11 @@ extension UIImage {
     }
 }
 
+extension Array {
+    func safeRange(range: Range<Int>) -> ArraySlice<Element> {
+        return self.dropFirst(range.lowerBound).prefix(range.upperBound)
+    }
+}
+
+
 

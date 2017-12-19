@@ -39,6 +39,7 @@ func GetDetailData(json: JSON) -> DetailData {
     let name = json[Key.name.rawValue].stringValue
     let overview = json[Key.overview.rawValue].stringValue
     let avatar_url = json[Key.avatar_url.rawValue].stringValue
+    let cover_url = json[Key.cover_url.rawValue].stringValue
     let attribute = json[Key.attribute.rawValue].stringValue
     let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
     let main_skills:[String] = Array(skills.prefix(3))
@@ -56,6 +57,7 @@ func GetDetailData(json: JSON) -> DetailData {
     data.SetName(name: name)
     data.SetOverview(overview: overview)
     data.SetAvatarUrl(avatar_url: avatar_url)
+    data.SetCoverUrl(cover_url: cover_url)
     data.SetAttr(attr: attribute)
     data.SetMainSkills(main_skills: main_skills)
     data.SetAwards(awards: awards)
@@ -194,6 +196,18 @@ func GetSectionName(id: Int) -> String {
     default:
         return ""
     }
+}
+
+func InsertIntervalString(array: [String], insert_str: String) -> Array<String> {
+    var new:[String] = []
+    
+    for element in array {
+        new.append(element)
+        new.append(insert_str)
+    }
+    _ = new.popLast()
+    
+    return new
 }
 
 class Indicator {
