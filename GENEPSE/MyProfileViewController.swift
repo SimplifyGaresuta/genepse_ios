@@ -128,6 +128,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             cardView.addSubview(s_button)
         }
         
+        
+        // 名前の追加
+        let nameLabel = CreateNameLabel(text: (appdelegate.data?.GetName())!)
+        cardView.addSubview(nameLabel)
+        latest_frame = nameLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -192,6 +199,28 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         return buttons
     }
     
+    func CreateNameLabel(text: String) -> UILabel {
+        let je_num = SearchJapaneseEnglish(text: text)
+        let font_name = GetFontName(je_num: je_num, font_w: 6)
+        var font_size = 0 as CGFloat
+        if je_num == JapaneseEnglish.Japanese.rawValue {
+            font_size = 26
+        }else {
+            font_size = 27
+        }
+        
+        let x = 0 as CGFloat
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let w = cardView.frame.width
+        
+        let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
+        name_label.text = text
+        name_label.textAlignment = .center
+        name_label.font = UIFont(name: font_name, size: font_size)
+        
+        return name_label
+    }
+    
     func TapSNSButton(sender: UIButton) {
         if sender.tag != -1 {
             let url = URL(string: (appdelegate.data?.GetSNS())![sender.tag][Key.url.rawValue].stringValue)!
@@ -211,6 +240,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         cover_img.frame = CGRect(x:cover_img.frame.origin.x, y:scrollView.contentOffset.y, width:cover_img.frame.width, height:cover_img.frame.height)
+    }
+    
+    func UpdateCardViewFrame(last_add_cgrect: CGRect) {
+        let y = cover_img.frame.height * 0.8
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
     }
     
     func CallUserDetailAPI() {
