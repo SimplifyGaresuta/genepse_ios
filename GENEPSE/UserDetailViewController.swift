@@ -169,6 +169,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
 
         
+        let works_scrollview = CreateWorks(products: data.GetProducts(), works_sectionLable: works_sectionLable)
+        
+        latest_frame = works_scrollview.frame
+        UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
+        
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
 
 
@@ -528,6 +534,29 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         career_label.sizeToFit()
         
         return career_label
+    }
+    
+    func CreateWorks(products: [JSON], works_sectionLable: UILabel) -> UIScrollView {
+        /*** scrollviewの設置 ***/
+        let x = latest_frame.origin.x
+        let y = latest_frame.origin.y+latest_frame.height+base_margin*1.5
+        let h = cardView.frame.width * 0.4
+        let w = self.view.bounds.width+1000
+        let product_scrollview = UIScrollView()
+        product_scrollview.frame = CGRect(x: x, y: y, width: self.view.bounds.width, height: h)
+        product_scrollview.backgroundColor = UIColor.blue
+        
+        let hoge = UIView(frame: CGRect(x: 10, y: 10, width: 100, height: 50))
+        hoge.backgroundColor = UIColor.red
+        product_scrollview.addSubview(hoge)
+        
+        cardView.addSubview(product_scrollview)
+        /*** scrollviewの設置 ***/
+        
+        
+        product_scrollview.contentSize = CGSize(width: w, height: h)
+
+        return product_scrollview
     }
     
     func CreateSectionLabel(text: String) -> UILabel {
