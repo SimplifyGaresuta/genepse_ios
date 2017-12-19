@@ -177,6 +177,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
+        cardView.addSubview(CreateEditButton(cgrect: works_sectionLable.frame, id: SectionID_New.works.rawValue))
         
         let works_scrollview = CreateWorks(products: (appdelegate.data?.GetProducts())!, works_sectionLable: works_sectionLable)
         latest_frame = works_scrollview.frame
@@ -188,6 +189,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(info_sectionLable)
         latest_frame = info_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
+        cardView.addSubview(CreateEditButton(cgrect: info_sectionLable.frame, id: SectionID_New.info.rawValue))
         
         let infoLabel = CreateBasicInformation()
         for label in infoLabel {
