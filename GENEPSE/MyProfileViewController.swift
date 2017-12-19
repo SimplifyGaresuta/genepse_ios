@@ -171,6 +171,17 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         latest_frame = careerLabel.frame
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
+        
+        // worksの追加
+        let works_sectionLable = CreateSectionLabel(text: "Works", space: 2.5)
+        cardView.addSubview(works_sectionLable)
+        latest_frame = works_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
+        
+        let works_scrollview = CreateWorks(products: (appdelegate.data?.GetProducts())!, works_sectionLable: works_sectionLable)
+        latest_frame = works_scrollview.frame
+        UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
+        
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
@@ -424,8 +435,96 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         return career_label
     }
-
     
+    func CreateWorks(products: [JSON], works_sectionLable: UILabel) -> UIScrollView {
+        /*** scrollviewの設置 ***/
+        let x = latest_frame.origin.x
+        let y = latest_frame.origin.y+latest_frame.height+base_margin
+        let h = cardView.frame.width * 0.4
+        let w = self.view.bounds.width
+        let product_scrollview = UIScrollView()
+        product_scrollview.frame = CGRect(x: x, y: y, width: w, height: h)
+        
+        cardView.addSubview(product_scrollview)
+        /*** scrollviewの設置 ***/
+        
+        /*** productの設置 ***/
+        var p_start_x = product_scrollview.bounds.origin.x
+        let p_w = cardView.frame.width * 0.55
+        
+        for product in products {
+            let id = product["id"].intValue
+            //            let title = product[Key.title.rawValue].stringValue
+            let url = product[Key.url.rawValue].stringValue
+            let image = product[Key.image.rawValue].stringValue
+            
+            // 画像の設置
+            let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
+            productImageView.loadImage(urlString: image)
+            productImageView.backgroundColor = UIColor.brown
+            productImageView.contentMode = .scaleAspectFill
+            productImageView.layer.cornerRadius = 8
+            productImageView.clipsToBounds = true
+            product_scrollview.addSubview(productImageView)
+            
+            p_start_x = productImageView.frame.width + base_margin * 0.5
+            
+            let last = productImageView.frame.width + productImageView.frame.origin.x + base_margin * 5
+            product_scrollview.contentSize = CGSize(width: last, height: h)
+            
+            if url != "" {
+                // linkボタンの設置
+                let image_wh = 30 as CGFloat
+                let EdgeInset = 5 as CGFloat
+                let link_x = productImageView.frame.origin.x + base_margin*0.5
+                let link_y = productImageView.frame.height - image_wh/2 - base_margin
+                let link_button = UIButton(frame: CGRect(x: link_x, y: link_y, width: image_wh, height: image_wh))
+                link_button.setImage(UIImage(named: "icon_link"), for: .normal)
+                link_button.imageEdgeInsets = UIEdgeInsets(top: EdgeInset, left: EdgeInset, bottom: EdgeInset, right: EdgeInset)
+                link_button.backgroundColor = UIColor.black
+                link_button.layer.cornerRadius = image_wh/2
+                link_button.layer.masksToBounds = true
+                link_button.tag = id
+                link_button.addTarget(self, action: #selector(TapLinkButton(sender:)), for: .touchUpInside)
+                
+                product_scrollview.addSubview(link_button)
+            }
+        }
+        /*** productの設置 ***/
+        
+        return product_scrollview
+    }
+    
+    func TapLinkButton(sender: UIButton){
+        let id = sender.tag
+        var url_str = ""
+        
+        for product in (appdelegate.data?.GetProducts())! {
+            if id == product["id"].intValue {
+                url_str = product[Key.url.rawValue].stringValue
+                break
+            }
+        }
+        
+        let url = URL(string: url_str)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    func CreateSectionLabel(text: String, space: Double) -> UILabel {
+        let x = latest_frame.origin.x
+        let y = latest_frame.origin.y+latest_frame.height+base_margin*2.5
+        let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: space, text: attr_str)
+        label.attributedText = attr_str
+        label.font = UIFont(name: FontName.DIN.rawValue, size: 30)
+        label.sizeToFit()
+        
+        return label
+    }
+
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
         let image_wh = 30 as CGFloat
         let EdgeInset = 5 as CGFloat
