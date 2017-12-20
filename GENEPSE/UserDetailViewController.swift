@@ -310,6 +310,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             break
         }
         
+        var border_w = 1.5
+        if text.count == 0 {
+            border_w = 0.0
+        }
+        
         var attr_text = NSMutableAttributedString(string: text)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -320,7 +325,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1.5
+        label.borderWidth = border_w
         label.borderColor = UIColor.black
         label.topTextInset = 2
         label.rightTextInset = 3.5
