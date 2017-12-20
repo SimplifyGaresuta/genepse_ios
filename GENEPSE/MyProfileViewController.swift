@@ -59,6 +59,12 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.view.backgroundColor = UIColor.white
         
         scrollView.delegate = self
+        
+        cardView.removeFromSuperview()
+        cover_img.removeFromSuperview()
+        scrollView.removeFromSuperview()
+        InitScrollView()
+        CallUserDetailAPI()
     }
     
     func GetMyID() -> Int {
@@ -82,7 +88,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func InitCardView() {
-        //TODO: yを小さく。左の人の膝あたりにくるように。
         cardView = UIView()
         
         let y = cover_img.frame.height * 0.8
