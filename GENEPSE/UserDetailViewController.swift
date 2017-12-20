@@ -446,7 +446,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         career_label.numberOfLines = 0
         
         var attributedText = NSMutableAttributedString(string: text)
-        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLineHeight(height: 26, text: attributedText)
         attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
         
         career_label.attributedText = attributedText

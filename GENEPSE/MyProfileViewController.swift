@@ -438,7 +438,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        //TODO: 行間26に
         let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.5
         
         let x = cardView.frame.width * 0.1
