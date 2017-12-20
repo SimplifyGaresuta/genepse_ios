@@ -244,13 +244,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         var isEnabled = true
         var buttons: [UIButton] = []
         
-        for i in 0..<2 {
+        for (i, sns) in json.enumerated() {
             let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
             button.tag = i
             
             var icon_name = icon[i]
             
-            if i == 1 && json.count == 1 {
+            if sns[Key.url.rawValue].stringValue.count == 0 {
                 isEnabled = false
                 button.adjustsImageWhenDisabled = false
                 icon_name = "icon_twitter_circle_dis"
