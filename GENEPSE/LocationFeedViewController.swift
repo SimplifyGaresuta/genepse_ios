@@ -360,6 +360,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             if i == 1 && json.count == 1 {
                 icon += "_dis"
                 isEnabled = false
+                button.adjustsImageWhenDisabled = false
                 font_color = "#9B9B9B"
                 button.tag = 0
             }else {
