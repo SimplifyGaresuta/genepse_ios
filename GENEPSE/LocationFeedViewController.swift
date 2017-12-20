@@ -23,6 +23,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var distance_frame = CGRect()
     var name_frame = CGRect()
     var skill_frame = CGRect()
+    var indicator = Indicator()
     
     var tag_count = 1
     var users_tag:[Int:Array<Int>] = [:]
@@ -63,6 +64,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             self.user_id = user_id
             
+            indicator.showIndicator(view: self.view)
             CallLocationFeedAPI()
 
             scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
@@ -456,6 +458,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 let json = JSON(object)
                 print("Location Feed results: ", json.count)
                 print(json)
+                
+                self.indicator.stopIndicator()
                 self.AddCard(json: json)
             }
         }
