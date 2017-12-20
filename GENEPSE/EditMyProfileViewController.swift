@@ -64,6 +64,7 @@ class EditMyProfileViewController: FormViewController {
         switch edit_id {
         case SectionID_New.main.rawValue:
             self.navigationItem.title = "Edit Main"
+            
             // 属性フォーム
             form +++ Section("属性")
                 <<< PickerInputRow<String>(""){
