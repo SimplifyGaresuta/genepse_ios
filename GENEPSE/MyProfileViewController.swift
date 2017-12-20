@@ -549,9 +549,14 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         var labels:[UILabel] = []
         
         for section in info {
-            //0歳(未設定)の場合は何も表示しない
-            if section.last! == "0歳" {
-                break
+            print(section)
+            //0歳(未設定)の場合や何も登録されていない場合は、何も表示しない
+            if let str = section.last {
+                if str == "0歳" || str.count == 0 {
+                    continue
+                }
+            }else {
+                continue
             }
             
             var text = ""
