@@ -15,6 +15,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var last_frame = CGRect()
+    var indicator = Indicator()
     
     var base_margin = 0.0 as CGFloat
     var card_start_y = 0.0 as CGFloat
@@ -23,14 +24,14 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     var isUpdating = false
     var preViewName = StoryboardID.Home.rawValue
-    var limit = 20
+    var limit = 10
     var offset = 0
     var has_next = true
     
     var user_id = 0
     
     //MARK: DEBUG
-    let DEGUG = true
+    let DEGUG = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,6 +61,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         scrollView.delegate = self
         
         card_start_y = base_margin * 0.5
+        
+        indicator.showIndicator(view: self.view)
         
         CallFeedAPI()
         
@@ -348,6 +351,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
             if has_next {
+                indicator.showIndicator(view: self.view)
                 isUpdating = true
                 UpOffset()
                 CallFeedAPI()
@@ -367,6 +371,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 let json = JSON(object)
                 print("Feed results: ", json.count)
                 print(json)
+                self.indicator.stopIndicator()
                 
                 self.AddCard(json: json)
                 self.isUpdating = false
