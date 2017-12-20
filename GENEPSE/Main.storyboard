@@ -61,7 +61,7 @@
             </objects>
             <point key="canvasLocation" x="-1770" y="103"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="PDo-Xd-jBk">
             <objects>
                 <viewController storyboardIdentifier="Home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="53V-3E-FdM" customClass="HomeViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
@@ -71,15 +71,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="tabbar_feed" id="erc-Y8-ECM">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_feed" id="erc-Y8-ECM">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="1" vertical="0.0"/>
                     </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ5-lP-121" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-754" y="-631"/>
         </scene>
-        <!--MyProfile-->
+        <!--My Profile View Controller-->
         <scene sceneID="xeG-TA-oZj">
             <objects>
                 <viewController storyboardIdentifier="MyProfile" useStoryboardIdentifierAsRestorationIdentifier="YES" id="89N-ip-KJc" customClass="MyProfileViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
@@ -89,13 +90,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MyProfile" image="tabbar_myprofile" id="8Ey-6Y-XIJ"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_myprofile" id="8Ey-6Y-XIJ">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de0-9y-h72" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-754" y="884"/>
         </scene>
-        <!--Location-->
+        <!--Location Feed View Controller-->
         <scene sceneID="YUo-Jr-y2h">
             <objects>
                 <viewController storyboardIdentifier="Location" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kk0-EZ-qNW" customClass="LocationFeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
@@ -105,7 +108,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="XvP-pN-wVF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Location" image="tabbar_locationfeed" id="TS6-Zx-7K8"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_locationfeed" id="TS6-Zx-7K8">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-4l-FyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
