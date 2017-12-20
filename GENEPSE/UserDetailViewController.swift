@@ -24,7 +24,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     var latest_frame = CGRect()
     
     //MARK: DEBUG
-    var debug = true
+    var debug = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
