@@ -556,7 +556,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             }
             
             var attributedText = NSMutableAttributedString(string: text)
-            attributedText = AddAttributedTextLineHeight(height: 18, text: attributedText)
+            attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
             label.attributedText = attributedText
             label.sizeToFit()
             labels.append(label)

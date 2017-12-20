@@ -533,7 +533,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateBasicInformation() -> [UILabel] {
-        //TODO: 同じ項目内の行間を広く
         //TODO: 異なる項目間のマージンも広く
         let info = [
             [(appdelegate.data?.GetGender())!, "/", String((appdelegate.data?.GetAge())!)+"歳"],
@@ -559,7 +558,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             }
             
             var attributedText = NSMutableAttributedString(string: text)
-            attributedText = AddAttributedTextLineHeight(height: 18, text: attributedText)
+            attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
             label.attributedText = attributedText
             label.sizeToFit()
             labels.append(label)
