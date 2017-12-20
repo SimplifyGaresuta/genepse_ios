@@ -551,6 +551,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         var labels:[UILabel] = []
         
         for section in info {
+            //0歳(未設定)の場合は何も表示しない
+            if section.last! == "0歳" {
+                break
+            }
+            
             var text = ""
             let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
             label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
