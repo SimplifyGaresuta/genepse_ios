@@ -316,6 +316,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateProfileImageView(url: String) -> UIImageView {
         //TODO: 写真をもう少し小さくする
+        //TODO: 非同期処理にする
         let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let url = URL(string: escapedAddress!)!
         
