@@ -118,6 +118,7 @@ class EditMyProfileViewController: FormViewController {
                 }
             }
             
+            
             // スキルフォーム
             form +++ MultivaluedSection(
                 multivaluedOptions: [.Insert, .Delete],
@@ -129,7 +130,7 @@ class EditMyProfileViewController: FormViewController {
                     }
                     $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
                         $0.options = GetAllSkills()
-                        $0.tag = String(index)
+                        $0.tag = "skill_"+String(index)
                         }
                     }
 
@@ -137,7 +138,7 @@ class EditMyProfileViewController: FormViewController {
                     for (i, skill) in (user_skills?.enumerated())! {
                         $0 <<< PickerInputRow<String>() {
                             $0.value = skill
-                            $0.tag = String(i)
+                            $0.tag = "skill_"+String(-i-1)
                         }
                     }
             }
@@ -418,68 +419,100 @@ class EditMyProfileViewController: FormViewController {
         }
         
         if validate_err_count == 0 {
-            AsyncCallAPI(values: form.values())
+            DataShape_CallAPI(values: form.values())
         }else {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
     }
-    
-    func AsyncCallAPI(values: [String:Any?]) {
+
+    func DataShape_CallAPI(values: [String:Any?]) {
         guard let user_id = GetAppDelegate().user_id else {
             return
         }
         
-        var group = DispatchGroup()
-        let form_values = JSON(values)
-        print(form_values)
+        var req_array:[String:Any] = [:]
+//        let form_values_json = JSON(values)
+        let skills = MultivaluedSectionDataShape(dict: values, tag: "skill_")
         
-        var req_array:[String] = []
-        
-        var is_used_array_section = false
-        if edit_id == SectionID.awards.rawValue || edit_id == SectionID.license.rawValue || edit_id == SectionID.skills.rawValue {
-            is_used_array_section = true
+        if skills.count != 0 {
+            req_array[Key.skills.rawValue] = skills
         }
         
-        for form_value in form_values {
-            var req_dict = [String:Any]()
-            
-            switch edit_id {
-                case SectionID.name.rawValue, SectionID.info.rawValue:
-                    if form_value.0 == Key.age.rawValue {
-                        req_dict[form_value.0] = form_value.1.intValue
-                    }else {
-                        req_dict[form_value.0] = form_value.1.stringValue
-                    }
-                    group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
-            case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
-                req_array.append(form_value.1.stringValue)
-            default:
-                print("")
+        for element in values {
+            if !element.key.contains("skill_") {
+                req_array[element.key] = element.value
             }
         }
         
-        if is_used_array_section {
-            //req_arrayを使用していた場合(awards,skills,licenses)
-            if req_array.count == 0 {
-                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
-            }else {
-                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
-            }
-        }
+        print(req_array)
         
-        // タスクが全て完了したらメインスレッド上で処理を実行する
-        group.notify(queue: DispatchQueue.main) {
-            print("all task done.")
-            self.dismiss(animated: true, completion: nil)
-        }
+        CallUpdateUserDataAPI(req_dict: req_array, user_id: user_id)
+        
+//        var is_used_array_section = false
+//        if edit_id == SectionID.awards.rawValue || edit_id == SectionID.license.rawValue || edit_id == SectionID.skills.rawValue {
+//            is_used_array_section = true
+//        }
+        
+//        for form_value in form_values {
+//            var req_dict = [String:Any]()
+//
+//            switch edit_id {
+//                case SectionID.name.rawValue, SectionID.info.rawValue:
+//                    if form_value.0 == Key.age.rawValue {
+//                        req_dict[form_value.0] = form_value.1.intValue
+//                    }else {
+//                        req_dict[form_value.0] = form_value.1.stringValue
+//                    }
+////                    group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
+//            case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
+//                req_array.append(form_value.1.stringValue)
+//            default:
+//                print("")
+//            }
+//        }
+        
+//        if is_used_array_section {
+//            //req_arrayを使用していた場合(awards,skills,licenses)
+//            if req_array.count == 0 {
+////                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
+//            }else {
+////                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
+//            }
+//        }
     }
     
-    func CreateQueue(key: String, group: DispatchGroup, user_id: Int, req_dict: [String:Any]) -> DispatchGroup {
-        let queue = DispatchQueue(label: "jp.classmethod.app.queue\(key)")
-        queue.async(group: group) {
-            self.CallUpdateUserDataAPI(req_dict: req_dict, user_id: user_id)
+    func MultivaluedSectionDataShape(dict: [String:Any?], tag: String) -> Array<String> {
+        var values: [String] = []
+        var tmp_plus: [Int:String] = [:]
+        var tmp_minus: [Int:String] = [:]
+        
+        for element in dict {
+            if element.key.contains(tag) {
+                //result example: ["skill_8", "8"]
+                var result_plus: [String] = []
+                var result_minus: [String] = []
+                
+                //プラスとマイナスで使用する変数を変える(後ほどソートを逆順にするため)
+                if element.key.pregMatche(pattern: tag+"([0-9]+)", matches: &result_plus) {
+                    tmp_plus[Int(result_plus[1])!] = dict[result_plus[0]] as? String
+                }else {
+                    let _ = element.key.pregMatche(pattern: tag+"(-[0-9]+)", matches: &result_minus)
+                    tmp_minus[Int(result_minus[1])!] = dict[result_minus[0]] as? String
+                }
+            }
         }
-        return group
+        
+        let tmp_plus_sorted = tmp_plus.sorted(by: {$0.key < $1.key})
+        let tmp_minus_sorted = tmp_minus.sorted(by: {$0.key > $1.key})
+        
+        for tmp in tmp_minus_sorted {
+            values.append(tmp.value)
+        }
+        for tmp in tmp_plus_sorted {
+            values.append(tmp.value)
+        }
+        
+        return values
     }
     
     func CallUpdateUserDataAPI(req_dict: [String:Any], user_id: Int) {
@@ -487,10 +520,11 @@ class EditMyProfileViewController: FormViewController {
         print("CALL API", req_dict)
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            guard let object = response.result.value else{return}
+            let object = response.result.value
+            self.dismiss(animated: true, completion: nil)
             //TODO: 500系が発生することがあるので、アラートを出す
-//            print(response.response!.statusCode)
-//            print(json)
+            print(response.response!.statusCode)
+            print(JSON(object))
         }
     }
 }
