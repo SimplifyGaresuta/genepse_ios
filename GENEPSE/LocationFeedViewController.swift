@@ -222,7 +222,6 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
-        //TODO: 四角を小さく、特に縦が長い
         var attr_text = NSMutableAttributedString(string: GenerateDistanceString(distance: distance))
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -233,10 +232,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         label.frame = CGRect(x: 0, y: 0, width: 0, height: f_size+16)
         label.backgroundColor = UIColor.black
         label.textColor = UIColor.white
-        label.topTextInset = f_size/2
-        label.rightTextInset = 12.5
-        label.bottomTextInset = f_size/2
-        label.leftTextInset = 12.5
+        label.topTextInset = f_size/3
+        label.rightTextInset = 5
+        label.bottomTextInset = f_size/3
+        label.leftTextInset = 5
         label.sizeToFit()
         
         let x = cardViews.last!.frame.width - label.frame.width
