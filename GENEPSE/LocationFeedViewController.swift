@@ -32,7 +32,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var user_id = 0
     
     //MARK: DEBUG
-    let DEGUG = true
+    let DEGUG = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -345,7 +345,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
         
-        for i in 0..<2 {
+        for (i, sns) in json.enumerated() {
             let button = UIButton(type: UIButtonType.custom)
             var icon = icon_name[i]
             var isEnabled = true
@@ -353,8 +353,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             button.tag = tag_count
             
-            //FBの次(Twitter)かつsnsがFBのみ
-            if i == 1 && json.count == 1 {
+            if sns[Key.url.rawValue].stringValue.count == 0 {
                 icon += "_dis"
                 isEnabled = false
                 button.adjustsImageWhenDisabled = false
@@ -450,13 +449,13 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let dummy = LocationFeedDummyData().users_data
             self.AddCard(json: JSON(dummy))
         }else {
-            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?user_id=" + String(user_id)
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.near_users.rawValue + "?user_id=" + String(user_id)
             
             Alamofire.request(urlString, method: .get).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Location Feed results: ", json.count)
-                
+                print(json)
                 self.AddCard(json: json)
             }
         }
