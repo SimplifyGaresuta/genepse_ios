@@ -25,7 +25,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     var latest_frame = CGRect()
     
     //MARK: DEBUG
-    let debug = true
+    let debug = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -308,6 +308,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             break
         }
         
+        var border_w = 1.5
+        if text.count == 0 {
+            border_w = 0.0
+        }
+        
         var attr_text = NSMutableAttributedString(string: text)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -318,7 +323,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1.5
+        label.borderWidth = border_w
         label.borderColor = UIColor.black
         label.topTextInset = 2
         label.rightTextInset = 3.5
