@@ -434,7 +434,9 @@ class EditMyProfileViewController: FormViewController {
 //        let form_values_json = JSON(values)
         let skills = MultivaluedSectionDataShape(dict: values, tag: "skill_")
         
-        if skills.count != 0 {
+        if skills.count == 0 {
+            req_array[Key.skills.rawValue] = [""]
+        }else {
             req_array[Key.skills.rawValue] = skills
         }
         
