@@ -25,7 +25,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     var latest_frame = CGRect()
     
     //MARK: DEBUG
-    let debug = true
+    let debug = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,6 +35,10 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.tabBarController?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         cardView.removeFromSuperview()
         cover_img.removeFromSuperview()
@@ -59,12 +63,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.view.backgroundColor = UIColor.white
         
         scrollView.delegate = self
-        
-        cardView.removeFromSuperview()
-        cover_img.removeFromSuperview()
-        scrollView.removeFromSuperview()
-        InitScrollView()
-        CallUserDetailAPI()
     }
     
     func GetMyID() -> Int {
@@ -241,13 +239,13 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         var isEnabled = true
         var buttons: [UIButton] = []
         
-        for i in 0..<2 {
+        for (i, sns) in json.enumerated() {
             let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
             button.tag = i
             
             var icon_name = icon[i]
             
-            if i == 1 && json.count == 1 {
+            if sns[Key.url.rawValue].stringValue.count == 0 {
                 isEnabled = false
                 button.adjustsImageWhenDisabled = false
                 icon_name = "icon_twitter_circle_dis"
@@ -308,6 +306,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             break
         }
         
+        var border_w = 1.5
+        if text.count == 0 {
+            border_w = 0.0
+        }
+        
         var attr_text = NSMutableAttributedString(string: text)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -318,7 +321,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1.5
+        label.borderWidth = border_w
         label.borderColor = UIColor.black
         label.topTextInset = 2
         label.rightTextInset = 3.5
@@ -546,6 +549,16 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         var labels:[UILabel] = []
         
         for section in info {
+            print(section)
+            //0歳(未設定)の場合や何も登録されていない場合は、何も表示しない
+            if let str = section.last {
+                if str == "0歳" || str.count == 0 {
+                    continue
+                }
+            }else {
+                continue
+            }
+            
             var text = ""
             let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
             label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
@@ -596,6 +609,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     func TapEditButton(sender: UIButton) {
         print(sender.tag)
+        let edit_myprofile_VC = EditMyProfileViewController()
+        edit_myprofile_VC.SetEditID(id: sender.tag)
+        
+        let navController = UINavigationController(rootViewController: edit_myprofile_VC)
+        self.present(navController, animated:true, completion: nil)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

@@ -244,13 +244,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         var isEnabled = true
         var buttons: [UIButton] = []
         
-        for i in 0..<2 {
+        for (i, sns) in json.enumerated() {
             let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
             button.tag = i
             
             var icon_name = icon[i]
             
-            if i == 1 && json.count == 1 {
+            if sns[Key.url.rawValue].stringValue.count == 0 {
                 isEnabled = false
                 button.adjustsImageWhenDisabled = false
                 icon_name = "icon_twitter_circle_dis"
@@ -310,6 +310,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             break
         }
         
+        var border_w = 1.5
+        if text.count == 0 {
+            border_w = 0.0
+        }
+        
         var attr_text = NSMutableAttributedString(string: text)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -320,7 +325,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1.5
+        label.borderWidth = border_w
         label.borderColor = UIColor.black
         label.topTextInset = 2
         label.rightTextInset = 3.5
@@ -546,6 +551,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         var labels:[UILabel] = []
         
         for section in info {
+            //0歳(未設定)の場合は何も表示しない
+            if section.last! == "0歳" {
+                break
+            }
+            
             var text = ""
             let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
             label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)

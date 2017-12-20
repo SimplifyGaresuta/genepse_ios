@@ -83,6 +83,7 @@ enum API: String {
     case login_url = "/login_url/"
     case provider = "facebook"
     case locations = "/locations/"
+    case near_users = "/near_users/"
 }
 
 enum JapaneseEnglish: Int {

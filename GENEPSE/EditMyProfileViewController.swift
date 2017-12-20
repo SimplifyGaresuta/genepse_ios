@@ -62,9 +62,10 @@ class EditMyProfileViewController: FormViewController {
         let RuleRequired_M = "必須項目です"
 
         switch edit_id {
-        case SectionID.name.rawValue:
-            self.navigationItem.title = "Edit Main Infomation"
+        case SectionID_New.main.rawValue:
+            self.navigationItem.title = "Edit Main"
             
+            // 属性フォーム
             form +++ Section("属性")
                 <<< PickerInputRow<String>(""){
                     $0.title = ""
@@ -90,6 +91,8 @@ class EditMyProfileViewController: FormViewController {
                 }
             }
             
+            
+            // 拠点フォーム
             form +++ Section("活動地域")
                 <<< TextRow(){
                     $0.title = ""
@@ -116,6 +119,31 @@ class EditMyProfileViewController: FormViewController {
             }
             
             
+            // スキルフォーム
+            form +++ MultivaluedSection(
+                multivaluedOptions: [.Insert, .Delete],
+                header: "スキル",
+                footer: "") {
+                    $0.addButtonProvider = { section in return ButtonRow(){
+                        $0.title = "追加"
+                        }
+                    }
+                    $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
+                        $0.options = GetAllSkills()
+                        $0.tag = "skill_"+String(index)
+                        }
+                    }
+
+                    let user_skills = data?.GetSkills()
+                    for (i, skill) in (user_skills?.enumerated())! {
+                        $0 <<< PickerInputRow<String>() {
+                            $0.value = skill
+                            $0.tag = "skill_"+String(-i-1)
+                        }
+                    }
+            }
+            
+            // 自己紹介フォーム
             form +++ Section("自己紹介")
                 <<< TextAreaRow(){
                     $0.title = ""
@@ -141,167 +169,26 @@ class EditMyProfileViewController: FormViewController {
                 }
             }
             
+        case SectionID_New.works.rawValue:
+            //TODO: worksフォーム
             break
+        case SectionID_New.info.rawValue:
+            self.navigationItem.title = "Edit Basic Infomation"
             
-        case SectionID.awards.rawValue:
-            self.navigationItem.title = "Edit Awards"
-            
-            form +++ MultivaluedSection(
-                multivaluedOptions: [.Insert, .Delete],
-               header: "受賞歴",
-               footer: "") {
-                $0.addButtonProvider = { section in return ButtonRow(){
-                    $0.title = "追加"
-                    }
-                }
-                $0.multivaluedRowToInsertAt = { index in return NameRow() {
-                    $0.placeholder = "◯◯賞(20XX)"
-                    $0.tag = String(index)
-                    }
-                }
-                
-                let awards = data?.GetAwards()
-                for (i, award) in (awards?.enumerated())! {
-                    $0 <<< TextRow() {
-                        $0.value = award
-                        $0.tag = String(i)
-                    }
-                }
-            }
-
-            break
-            
-        case SectionID.skills.rawValue:
-            self.navigationItem.title = "Edit Skills"
-            let skills = ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
-
-            form +++ MultivaluedSection(
-                multivaluedOptions: [.Insert, .Delete],
-                header: "スキル",
-                footer: "") {
-                    $0.addButtonProvider = { section in return ButtonRow(){
-                        $0.title = "追加"
-                        }
-                    }
-                    $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
-                        $0.options = skills
-                        $0.tag = String(index)
-                        }
-                    }
-                    
-                    let user_skills = data?.GetSkills()
-                    for (i, skill) in (user_skills?.enumerated())! {
-                        $0 <<< PickerInputRow<String>() {
-                            $0.value = skill
-                            $0.tag = String(i)
-                        }
-                    }
-            }
-            break
-            
-        case SectionID.products.rawValue:
-            self.navigationItem.title = "All Products"
-            //MARK: Products
-            if (data?.GetProducts())!.count == 0 {
-                form +++ Section()
-                    <<< ButtonRow() {
-                        $0.title = "作品を追加"
-                        $0.onCellSelection(self.showVC)
-                }
-            }else {
-                let section = Section()
-                section.tag = "ALL_P"
-                
-                for p in (data?.GetProducts())! {
-                    let vc = ProductFromViewController()
-                    vc.SetTitle(title: "Edit")
-                    vc.SetIsAdd(flag: false)
-                    vc.SetProductID(id: p["id"].intValue)
-                    
-                    let row = ButtonRow() {
-                        $0.title = p["title"].stringValue
-                        //MARK: 未使用っぽい？
-//                        $0.tag = p["id"].stringValue
-                        $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
-                                                    onDismiss: { vc in
-                                                        vc.navigationController?.popViewController(animated: true)}
-                        )
-                    }
-                    section.append(row)
-                }
-                
-                form.append(section)
-                
-                form +++ Section()
-                    <<< ButtonRow() {
-                        $0.title = "作品を追加"
-                        $0.onCellSelection(self.showVC)
-                }
+            // 性別フォーム
+            form +++ Section("性別")
+            <<< SegmentedRow<String>("sex") {
+                $0.options = ["男性", "女性", "その他"]
+                $0.title = ""
+                $0.value = (data?.GetGender())!
+                $0.tag = Key.gender.rawValue
             }
             
-            break
             
-        case SectionID.sns.rawValue:
-            self.navigationItem.title = "Edit SNS"
-
-            var url = ""
-            
-            for sns in (data?.GetSNS())! {
-                if sns["provider"] == "twitter" {
-                    url = sns["url"].stringValue
-                    break
-                }
-            }
-            
-            form +++ Section("Twitter")
-                <<< TextRow(){
-                    $0.title = ""
-                    $0.placeholder = "@◯◯◯◯◯◯"
-                    $0.value = url
-                    $0.tag = Key.sns.rawValue
-            }
-            break
-            
-        case SectionID.license.rawValue:
-            self.navigationItem.title = "Edit Licenses"
-            
-            form +++ MultivaluedSection(
-                multivaluedOptions: [.Insert, .Delete],
-                header: "資格",
-                footer: "") {
-                    $0.addButtonProvider = { section in return ButtonRow(){
-                        $0.title = "追加"
-                        }
-                    }
-                    $0.multivaluedRowToInsertAt = { index in return TextRow() {
-                        $0.placeholder = "◯◯管理技術者"
-                        $0.tag = String(index)
-                        }
-                    }
-                    
-                    let licenses = (data?.GetLicenses())!
-                    for (i, license) in licenses.enumerated() {
-                        $0 <<< TextRow() {
-                            $0.value = license
-                            $0.tag = String(i)
-                        }
-                    }
-            }
-            break
-            
-        default:
-            self.navigationItem.title = "Edit Other Infomation"
-            
-            form +++ Section("基本情報")
-                <<< SegmentedRow<String>("sex") {
-                    $0.options = ["男性", "女性", "その他"]
-                    $0.title = "性別"
-                    $0.value = (data?.GetGender())!
-                    $0.tag = Key.gender.rawValue
-                }
-            
+            // 年齢フォーム
+            form +++ Section("年齢")
                 <<< IntRow() {
-                    $0.title = "年齢"
+                    $0.title = ""
                     $0.placeholder = ""
                     $0.value = (data?.GetAge())!
                     $0.add(rule: RuleRequired())
@@ -324,8 +211,11 @@ class EditMyProfileViewController: FormViewController {
                     }
                 }
             
+            
+            // 居住地フォーム
+            form +++ Section("居住地")
                 <<< TextRow(){
-                    $0.title = "居住地"
+                    $0.title = ""
                     $0.placeholder = "◯◯区"
                     $0.value = (data?.GetAddress())!
                     $0.add(rule: RuleRequired())
@@ -347,9 +237,12 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                 }
-                
+            
+            
+            // 最終学歴フォーム
+            form +++ Section("最終学歴")
                 <<< TextRow(){
-                    $0.title = "最終学歴"
+                    $0.title = ""
                     $0.placeholder = "XX大学YY学部 卒業"
                     $0.value = (data?.GetSchoolCareer())!
                     $0.add(rule: RuleRequired())
@@ -371,8 +264,125 @@ class EditMyProfileViewController: FormViewController {
                         }
                     }
                 }
+            
+            
+            // 受賞フォーム
+            form +++ MultivaluedSection(
+                multivaluedOptions: [.Insert, .Delete],
+               header: "受賞歴",
+               footer: "") {
+                $0.addButtonProvider = { section in return ButtonRow(){
+                    $0.title = "追加"
+                    }
+                }
+                $0.multivaluedRowToInsertAt = { index in return NameRow() {
+                    $0.placeholder = "◯◯賞(20XX)"
+                    $0.tag = "award_"+String(index)
+                    }
+                }
+
+                let awards = data?.GetAwards()
+                for (i, award) in (awards?.enumerated())! {
+                    $0 <<< TextRow() {
+                        $0.value = award
+                        $0.tag = "award_"+String(-i-1)
+                    }
+                }
+            }
+            
+            
+            // 資格フォーム
+            form +++ MultivaluedSection(
+                multivaluedOptions: [.Insert, .Delete],
+                header: "資格",
+                footer: "") {
+                    $0.addButtonProvider = { section in return ButtonRow(){
+                        $0.title = "追加"
+                        }
+                    }
+                    $0.multivaluedRowToInsertAt = { index in return TextRow() {
+                        $0.placeholder = "◯◯管理技術者"
+                        $0.tag = "license_"+String(index)
+                        }
+                    }
+
+                    let licenses = (data?.GetLicenses())!
+                    for (i, license) in licenses.enumerated() {
+                        $0 <<< TextRow() {
+                            $0.value = license
+                            $0.tag = "license_"+String(-i-1)
+                        }
+                    }
+            }
+
+        default:
             break
         }
+        
+//
+//
+//        case SectionID.products.rawValue:
+//            self.navigationItem.title = "All Products"
+//            //MARK: Products
+//            if (data?.GetProducts())!.count == 0 {
+//                form +++ Section()
+//                    <<< ButtonRow() {
+//                        $0.title = "作品を追加"
+//                        $0.onCellSelection(self.showVC)
+//                }
+//            }else {
+//                let section = Section()
+//                section.tag = "ALL_P"
+//
+//                for p in (data?.GetProducts())! {
+//                    let vc = ProductFromViewController()
+//                    vc.SetTitle(title: "Edit")
+//                    vc.SetIsAdd(flag: false)
+//                    vc.SetProductID(id: p["id"].intValue)
+//
+//                    let row = ButtonRow() {
+//                        $0.title = p["title"].stringValue
+//                        //MARK: 未使用っぽい？
+////                        $0.tag = p["id"].stringValue
+//                        $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
+//                                                    onDismiss: { vc in
+//                                                        vc.navigationController?.popViewController(animated: true)}
+//                        )
+//                    }
+//                    section.append(row)
+//                }
+//
+//                form.append(section)
+//
+//                form +++ Section()
+//                    <<< ButtonRow() {
+//                        $0.title = "作品を追加"
+//                        $0.onCellSelection(self.showVC)
+//                }
+//            }
+//
+//            break
+//
+//        case SectionID.sns.rawValue:
+//            self.navigationItem.title = "Edit SNS"
+//
+//            var url = ""
+//
+//            for sns in (data?.GetSNS())! {
+//                if sns["provider"] == "twitter" {
+//                    url = sns["url"].stringValue
+//                    break
+//                }
+//            }
+//
+//            form +++ Section("Twitter")
+//                <<< TextRow(){
+//                    $0.title = ""
+//                    $0.placeholder = "@◯◯◯◯◯◯"
+//                    $0.value = url
+//                    $0.tag = Key.sns.rawValue
+//            }
+//            break
     }
     
     func showVC(_ cell: ButtonCellOf<String>, row: ButtonRow) {
@@ -404,68 +414,87 @@ class EditMyProfileViewController: FormViewController {
         }
         
         if validate_err_count == 0 {
-            AsyncCallAPI(values: form.values())
+            DataShape_CallAPI(values: form.values())
         }else {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }
     }
-    
-    func AsyncCallAPI(values: [String:Any?]) {
+
+    func DataShape_CallAPI(values: [String:Any?]) {
         guard let user_id = GetAppDelegate().user_id else {
             return
         }
         
-        var group = DispatchGroup()
-        let form_values = JSON(values)
-        print(form_values)
-        
-        var req_array:[String] = []
-        
-        var is_used_array_section = false
-        if edit_id == SectionID.awards.rawValue || edit_id == SectionID.license.rawValue || edit_id == SectionID.skills.rawValue {
-            is_used_array_section = true
-        }
-        
-        for form_value in form_values {
-            var req_dict = [String:Any]()
-            
-            switch edit_id {
-                case SectionID.name.rawValue, SectionID.info.rawValue:
-                    if form_value.0 == Key.age.rawValue {
-                        req_dict[form_value.0] = form_value.1.intValue
-                    }else {
-                        req_dict[form_value.0] = form_value.1.stringValue
-                    }
-                    group = CreateQueue(key: form_value.0, group: group, user_id: user_id, req_dict: req_dict)
-            case SectionID.awards.rawValue, SectionID.license.rawValue, SectionID.skills.rawValue:
-                req_array.append(form_value.1.stringValue)
-            default:
-                print("")
-            }
-        }
-        
-        if is_used_array_section {
-            //req_arrayを使用していた場合(awards,skills,licenses)
-            if req_array.count == 0 {
-                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):[""]])
+        var req_array:[String:Any] = [:]
+//        let form_values_json = JSON(values)
+        // mainならskillを追加、それ以外なら賞と資格を追加
+        if edit_id == SectionID_New.main.rawValue {
+            let skills = MultivaluedSectionDataShape(dict: values, tag: "skill_")
+            if skills.count == 0 {
+                req_array[Key.skills.rawValue] = [""]
             }else {
-                group = CreateQueue(key: GetSectionName(id: edit_id), group: group, user_id: user_id, req_dict: [GetSectionName(id: edit_id):req_array])
+                req_array[Key.skills.rawValue] = skills
+            }
+        }else {
+            let awards = MultivaluedSectionDataShape(dict: values, tag: "award_")
+            let licenses = MultivaluedSectionDataShape(dict: values, tag: "license_")
+            if awards.count == 0 {
+                req_array[Key.awards.rawValue] = [""]
+            }else {
+                req_array[Key.awards.rawValue] = awards
+            }
+            
+            if licenses.count == 0 {
+                req_array[Key.licenses.rawValue] = [""]
+            }else {
+                req_array[Key.licenses.rawValue] = licenses
             }
         }
         
-        // タスクが全て完了したらメインスレッド上で処理を実行する
-        group.notify(queue: DispatchQueue.main) {
-            print("all task done.")
-            self.dismiss(animated: true, completion: nil)
+        // 上記のskill,award,license以外の普通の項目を追加
+        for element in values {
+            if !element.key.contains("skill_") && !element.key.contains("award_") && !element.key.contains("license_") {
+                req_array[element.key] = element.value
+            }
         }
+        
+        print(req_array)
+        
+        CallUpdateUserDataAPI(req_dict: req_array, user_id: user_id)
     }
     
-    func CreateQueue(key: String, group: DispatchGroup, user_id: Int, req_dict: [String:Any]) -> DispatchGroup {
-        let queue = DispatchQueue(label: "jp.classmethod.app.queue\(key)")
-        queue.async(group: group) {
-            self.CallUpdateUserDataAPI(req_dict: req_dict, user_id: user_id)
+    func MultivaluedSectionDataShape(dict: [String:Any?], tag: String) -> Array<String> {
+        var values: [String] = []
+        var tmp_plus: [Int:String] = [:]
+        var tmp_minus: [Int:String] = [:]
+        
+        for element in dict {
+            if element.key.contains(tag) {
+                //result example: ["skill_8", "8"]
+                var result_plus: [String] = []
+                var result_minus: [String] = []
+                
+                //プラスとマイナスで使用する変数を変える(後ほどソートを逆順にするため)
+                if element.key.pregMatche(pattern: tag+"([0-9]+)", matches: &result_plus) {
+                    tmp_plus[Int(result_plus[1])!] = dict[result_plus[0]] as? String
+                }else {
+                    let _ = element.key.pregMatche(pattern: tag+"(-[0-9]+)", matches: &result_minus)
+                    tmp_minus[Int(result_minus[1])!] = dict[result_minus[0]] as? String
+                }
+            }
         }
-        return group
+        
+        let tmp_plus_sorted = tmp_plus.sorted(by: {$0.key < $1.key})
+        let tmp_minus_sorted = tmp_minus.sorted(by: {$0.key > $1.key})
+        
+        for tmp in tmp_minus_sorted {
+            values.append(tmp.value)
+        }
+        for tmp in tmp_plus_sorted {
+            values.append(tmp.value)
+        }
+        
+        return values
     }
     
     func CallUpdateUserDataAPI(req_dict: [String:Any], user_id: Int) {
@@ -473,10 +502,11 @@ class EditMyProfileViewController: FormViewController {
         print("CALL API", req_dict)
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            guard let object = response.result.value else{return}
+            let object = response.result.value
+            self.dismiss(animated: true, completion: nil)
             //TODO: 500系が発生することがあるので、アラートを出す
-//            print(response.response!.statusCode)
-//            print(json)
+            print(response.response!.statusCode)
+            print(JSON(object))
         }
     }
 }

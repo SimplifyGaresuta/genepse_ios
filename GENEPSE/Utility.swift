@@ -210,6 +210,10 @@ func InsertIntervalString(array: [String], insert_str: String) -> Array<String> 
     return new
 }
 
+func GetAllSkills() -> Array<String> {
+    return ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     

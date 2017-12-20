@@ -23,6 +23,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var distance_frame = CGRect()
     var name_frame = CGRect()
     var skill_frame = CGRect()
+    var indicator = Indicator()
     
     var tag_count = 1
     var users_tag:[Int:Array<Int>] = [:]
@@ -32,12 +33,13 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     var user_id = 0
     
     //MARK: DEBUG
-    let DEGUG = true
+    let DEGUG = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = StoryboardID.Location.rawValue
         self.tabBarController?.delegate = self
+        preViewName = StoryboardID.Location.rawValue
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +65,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             self.user_id = user_id
             
+            indicator.showIndicator(view: self.view)
             CallLocationFeedAPI()
 
             scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
@@ -345,7 +348,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
         
-        for i in 0..<2 {
+        for (i, sns) in json.enumerated() {
             let button = UIButton(type: UIButtonType.custom)
             var icon = icon_name[i]
             var isEnabled = true
@@ -353,8 +356,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             button.tag = tag_count
             
-            //FBの次(Twitter)かつsnsがFBのみ
-            if i == 1 && json.count == 1 {
+            if sns[Key.url.rawValue].stringValue.count == 0 {
                 icon += "_dis"
                 isEnabled = false
                 button.adjustsImageWhenDisabled = false
@@ -450,13 +452,15 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let dummy = LocationFeedDummyData().users_data
             self.AddCard(json: JSON(dummy))
         }else {
-            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + "?user_id=" + String(user_id)
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.near_users.rawValue + "?user_id=" + String(user_id)
             
             Alamofire.request(urlString, method: .get).responseJSON { (response) in
                 guard let object = response.result.value else{return}
                 let json = JSON(object)
                 print("Location Feed results: ", json.count)
+                print(json)
                 
+                self.indicator.stopIndicator()
                 self.AddCard(json: json)
             }
         }
