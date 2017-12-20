@@ -266,7 +266,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateNameLabel(text: String) -> UILabel {
-        //TODO: 画像にyを近づける
         let je_num = SearchJapaneseEnglish(text: text)
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
@@ -276,7 +275,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             font_size = 27
         }
         
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 0.5
         let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
         name_label.text = text
         name_label.textAlignment = .center

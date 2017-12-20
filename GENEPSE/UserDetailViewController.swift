@@ -286,7 +286,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         let x = 0 as CGFloat
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
         let w = cardView.frame.width
         
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
