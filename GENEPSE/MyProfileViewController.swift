@@ -23,6 +23,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     var cardView = UIView()
     var cover_img = UIImageView()
     var latest_frame = CGRect()
+    var indicator = Indicator()
     
     //MARK: DEBUG
     let debug = false
@@ -39,6 +40,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        indicator.showIndicator(view: self.view)
         
         cardView.removeFromSuperview()
         cover_img.removeFromSuperview()
@@ -644,6 +647,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
                 let json = JSON(object)
                 print("MyProfile results: ", json.count)
                 
+                self.indicator.stopIndicator()
                 self.AddViews(json: json)
             }
         }
