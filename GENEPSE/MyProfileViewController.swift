@@ -533,7 +533,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateBasicInformation() -> [UILabel] {
-        //TODO: 異なる項目間のマージンも広く
         let info = [
             [(appdelegate.data?.GetGender())!, "/", String((appdelegate.data?.GetAge())!)+"歳"],
             [(appdelegate.data?.GetAddress())!],
@@ -563,7 +562,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             label.sizeToFit()
             labels.append(label)
             
-            y = label.frame.origin.y + label.frame.height + base_margin * 0.5
+            y = label.frame.origin.y + label.frame.height + base_margin * 1
         }
         
         return labels

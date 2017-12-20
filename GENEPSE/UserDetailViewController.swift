@@ -561,7 +561,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             label.sizeToFit()
             labels.append(label)
             
-            y = label.frame.origin.y + label.frame.height + base_margin
+            y = label.frame.origin.y + label.frame.height + base_margin * 2
         }
         
         return labels
