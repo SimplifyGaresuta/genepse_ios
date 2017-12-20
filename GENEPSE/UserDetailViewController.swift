@@ -162,7 +162,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 
         
         // worksの追加
-        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5)
+        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5, leftmargin: -(base_margin))
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
@@ -173,7 +173,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         
         // basic infoの追加
-        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0, leftmargin: 0.0)
         cardView.addSubview(info_sectionLable)
         latest_frame = info_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
@@ -567,8 +567,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         return labels
     }
     
-    func CreateSectionLabel(text: String, space: Double) -> UILabel {
-        let x = latest_frame.origin.x
+    func CreateSectionLabel(text: String, space: Double, leftmargin: CGFloat) -> UILabel {
+        let x = latest_frame.origin.x + leftmargin
         let y = latest_frame.origin.y+latest_frame.height+base_margin*3
         let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
         var attr_str = NSMutableAttributedString(string: text)

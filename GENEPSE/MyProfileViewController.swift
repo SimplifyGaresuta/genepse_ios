@@ -173,9 +173,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
         
-        //TODO: 左に
         // worksの追加
-        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5)
+        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5, leftmargin: -(base_margin * 0.5))
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
@@ -185,9 +184,9 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         latest_frame = works_scrollview.frame
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
         
-        //TODO: 左に
+        
         // basic infoの追加
-        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0, leftmargin: 0.0)
         cardView.addSubview(info_sectionLable)
         latest_frame = info_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
@@ -573,8 +572,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         return labels
     }
 
-    func CreateSectionLabel(text: String, space: Double) -> UILabel {
-        let x = latest_frame.origin.x
+    func CreateSectionLabel(text: String, space: Double, leftmargin: CGFloat) -> UILabel {
+        let x = latest_frame.origin.x + leftmargin
         let y = latest_frame.origin.y+latest_frame.height+base_margin*2.5
         let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
         var attr_str = NSMutableAttributedString(string: text)
