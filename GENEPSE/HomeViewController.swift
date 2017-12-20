@@ -15,20 +15,23 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
     var last_frame = CGRect()
+    var indicator = Indicator()
     
     var base_margin = 0.0 as CGFloat
     var card_start_y = 0.0 as CGFloat
+    var view_w = 0.0 as CGFloat
+    var view_h = 0.0 as CGFloat
     
     var isUpdating = false
     var preViewName = StoryboardID.Home.rawValue
-    var limit = 20
+    var limit = 10
     var offset = 0
     var has_next = true
     
     var user_id = 0
     
     //MARK: DEBUG
-    let DEGUG = true
+    let DEGUG = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -50,12 +53,16 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1
+        view_w = self.view.bounds.width
+        view_h = self.view.bounds.height
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
         card_start_y = base_margin * 0.5
+        
+        indicator.showIndicator(view: self.view)
         
         CallFeedAPI()
         
@@ -71,6 +78,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func refresh(sender: UIRefreshControl) {
+        sender.beginRefreshing()
+
         for cardView in cardViews {
             cardView.removeFromSuperview()
         }
@@ -78,7 +87,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         cardViews.removeAll()
         
         //初期化
-        card_start_y = base_margin
+        card_start_y = base_margin * 0.5
         ResetOffset()
         
         CallFeedAPI()
@@ -162,8 +171,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        let card_width = self.view.bounds.width * 0.8
-        let card_height = self.view.bounds.height * 0.53
+        let card_width = view_w * 0.8
+        let card_height = view_h * 0.53
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
@@ -342,6 +351,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height && scrollView.isDragging && !isUpdating {
             if has_next {
+                indicator.showIndicator(view: self.view)
                 isUpdating = true
                 UpOffset()
                 CallFeedAPI()
@@ -361,6 +371,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
                 let json = JSON(object)
                 print("Feed results: ", json.count)
                 print(json)
+                self.indicator.stopIndicator()
                 
                 self.AddCard(json: json)
                 self.isUpdating = false

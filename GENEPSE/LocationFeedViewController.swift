@@ -204,7 +204,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
-        let x = base_margin * 1.5
+        //TODO: 各属性同士の間隔をもう少し狭める
+        let x = base_margin * 1
         let y = base_margin * 1
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
@@ -231,10 +232,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         label.frame = CGRect(x: 0, y: 0, width: 0, height: f_size+16)
         label.backgroundColor = UIColor.black
         label.textColor = UIColor.white
-        label.topTextInset = f_size/2
-        label.rightTextInset = 12.5
-        label.bottomTextInset = f_size/2
-        label.leftTextInset = 12.5
+        label.topTextInset = f_size/3
+        label.rightTextInset = 5
+        label.bottomTextInset = f_size/3
+        label.leftTextInset = 5
         label.sizeToFit()
         
         let x = cardViews.last!.frame.width - label.frame.width
@@ -257,7 +258,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let font_size = 22 as CGFloat
         
         let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 2.5
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.75
         let w = cardViews.last!.frame.width
         
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
@@ -270,7 +271,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 1
+        let y = name_frame.height+name_frame.origin.y+base_margin * 0.5
         var x = base_margin * 2.5
 
         for skill in skills {
@@ -310,14 +311,15 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
+        //TODO: 非同期処理にする
         let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let url = URL(string: escapedAddress!)!
         
         do {
             let imageData: NSData = try NSData(contentsOf: url)
-            let wh = base_margin * 5
+            let wh = base_margin * 4.5
             let x = cardViews.last!.frame.origin.x + cardViews.last!.frame.width - wh*1.5
-            let y = distance_frame.origin.y + distance_frame.height + base_margin*1.25
+            let y = distance_frame.origin.y + distance_frame.height + base_margin*1
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -338,7 +340,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
@@ -355,6 +357,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             if i == 1 && json.count == 1 {
                 icon += "_dis"
                 isEnabled = false
+                button.adjustsImageWhenDisabled = false
                 font_color = "#9B9B9B"
                 button.tag = 0
             }else {
@@ -377,10 +380,13 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
             button.isEnabled = isEnabled
             
-            //imageの表示サイズ調整
-            let offset = 8 as CGFloat
-            button.imageEdgeInsets = UIEdgeInsetsMake(offset, 0, offset, 0)
+            //image、titleの表示サイズ・位置の調整
+            let offset_image = 15 as CGFloat
+            let offset_title = 5 as CGFloat
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image, 0, offset_image, 0)
             button.imageView?.contentMode = .scaleAspectFit
+            
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
             
             //Top_borderの描画
             let border_w = 1 as CGFloat

@@ -162,7 +162,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 
         
         // worksの追加
-        let works_sectionLable = CreateSectionLabel(text: "Works", space: 2.5)
+        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5, leftmargin: -(base_margin))
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
@@ -173,7 +173,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         
         // basic infoの追加
-        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0, leftmargin: 0.0)
         cardView.addSubview(info_sectionLable)
         latest_frame = info_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
@@ -211,7 +211,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
         let y = cover_img.frame.height * 0.8
-        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin * 20)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
@@ -286,7 +286,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         let x = 0 as CGFloat
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
         let w = cardView.frame.width
         
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
@@ -320,12 +320,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1
+        label.borderWidth = 1.5
         label.borderColor = UIColor.black
         label.topTextInset = 2
-        label.rightTextInset = 5
+        label.rightTextInset = 3.5
         label.bottomTextInset = 2
-        label.leftTextInset = 5
+        label.leftTextInset = 3.5
         label.sizeToFit()
         
         label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
@@ -335,7 +335,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
-        let start_y = latest_frame.origin.y+latest_frame.height+base_margin*2
+        let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 3
         let homeImageView_wh = 16 as CGFloat
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
@@ -354,7 +354,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        var y = latest_frame.height+latest_frame.origin.y + base_margin*2.5
+        var y = latest_frame.height+latest_frame.origin.y + base_margin * 3
         var x = 0 as CGFloat
         var count = 0
         let margin_offset = 1 as CGFloat
@@ -446,7 +446,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         career_label.numberOfLines = 0
         
         var attributedText = NSMutableAttributedString(string: text)
-        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLineHeight(height: 26, text: attributedText)
         attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
         
         career_label.attributedText = attributedText
@@ -493,8 +493,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             
             if url != "" {
                 // linkボタンの設置
-                let image_wh = 30 as CGFloat
-                let EdgeInset = 5 as CGFloat
+                let image_wh = 25 as CGFloat
+                let EdgeInset = 6 as CGFloat
                 let link_x = productImageView.frame.origin.x + base_margin*0.5
                 let link_y = productImageView.frame.height - image_wh/2 - base_margin*2
                 let link_button = UIButton(frame: CGRect(x: link_x, y: link_y, width: image_wh, height: image_wh))
@@ -556,19 +556,19 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             }
             
             var attributedText = NSMutableAttributedString(string: text)
-            attributedText = AddAttributedTextLineHeight(height: 18, text: attributedText)
+            attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
             label.attributedText = attributedText
             label.sizeToFit()
             labels.append(label)
             
-            y = label.frame.origin.y + label.frame.height + base_margin
+            y = label.frame.origin.y + label.frame.height + base_margin * 2
         }
         
         return labels
     }
     
-    func CreateSectionLabel(text: String, space: Double) -> UILabel {
-        let x = latest_frame.origin.x
+    func CreateSectionLabel(text: String, space: Double, leftmargin: CGFloat) -> UILabel {
+        let x = latest_frame.origin.x + leftmargin
         let y = latest_frame.origin.y+latest_frame.height+base_margin*3
         let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
         var attr_str = NSMutableAttributedString(string: text)
