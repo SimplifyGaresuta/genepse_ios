@@ -62,6 +62,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         super.viewDidLoad()
         
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentBehavior.never
+        
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
         
