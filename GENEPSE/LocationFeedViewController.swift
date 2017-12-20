@@ -39,6 +39,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = StoryboardID.Location.rawValue
         self.tabBarController?.delegate = self
+        preViewName = StoryboardID.Location.rawValue
     }
     
     override func viewDidAppear(_ animated: Bool) {
