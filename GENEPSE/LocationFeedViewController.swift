@@ -253,13 +253,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
-        //TODO: 名前のラベルを属性に近づける。スキルと下の区切り線の間と同じになるように。
         let je_num = SearchJapaneseEnglish(text: text)
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         let font_size = 22 as CGFloat
         
         let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 2.5
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.75
         let w = cardViews.last!.frame.width
         
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
@@ -271,9 +270,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
-        //TODO: スキルのラベル全体を名前に近づける
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 1
+        let y = name_frame.height+name_frame.origin.y+base_margin * 0.5
         var x = base_margin * 2.5
 
         for skill in skills {
@@ -337,7 +335,6 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateSNSButton(json: [JSON]) -> [UIButton] {
-        //TODO: ボタンの縦をもう少し大きく。
         //TODO: アイコンをもう少し小さく。
         //TODO: アイコンと文字の間をもう少し開ける。
         var buttons:[UIButton] = []
@@ -346,7 +343,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
