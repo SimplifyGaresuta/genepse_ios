@@ -18,6 +18,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     var base_margin = 0.0 as CGFloat
     var card_start_y = 0.0 as CGFloat
+    var view_w = 0.0 as CGFloat
+    var view_h = 0.0 as CGFloat
     
     var isUpdating = false
     var preViewName = StoryboardID.Home.rawValue
@@ -50,6 +52,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1
+        view_w = self.view.bounds.width
+        view_h = self.view.bounds.height
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
@@ -71,6 +75,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func refresh(sender: UIRefreshControl) {
+        sender.beginRefreshing()
+
         for cardView in cardViews {
             cardView.removeFromSuperview()
         }
@@ -162,8 +168,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        let card_width = self.view.bounds.width * 0.8
-        let card_height = self.view.bounds.height * 0.53
+        let card_width = view_w * 0.8
+        let card_height = view_h * 0.53
         
         let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
