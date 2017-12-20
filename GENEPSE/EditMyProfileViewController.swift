@@ -63,14 +63,26 @@ class EditMyProfileViewController: FormViewController {
 
         switch edit_id {
         case SectionID_New.main.rawValue:
+            //TODO: 属性フォーム
+            //TODO: 拠点フォーム
+            //TODO: スキルフォーム
+            //TODO: 自己紹介フォーム
             break
         case SectionID_New.works.rawValue:
+            //TODO: worksフォーム
             break
         case SectionID_New.info.rawValue:
+            //TODO: 性別フォーム
+            //TODO: 年齢フォーム
+            //TODO: 住所フォーム
+            //TODO: 学歴フォーム
+            //TODO: 受賞フォーム
+            //TODO: 資格フォーム
             break
         default:
             break
         }
+        
 //        switch edit_id {
 //        case SectionID.name.rawValue:
 //            self.navigationItem.title = "Edit Main Infomation"
