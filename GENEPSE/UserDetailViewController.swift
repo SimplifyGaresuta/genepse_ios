@@ -320,12 +320,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         label.attributedText = attr_text
         label.textAlignment = .left
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
-        label.borderWidth = 1
+        label.borderWidth = 1.5
         label.borderColor = UIColor.black
         label.topTextInset = 2
-        label.rightTextInset = 5
+        label.rightTextInset = 3.5
         label.bottomTextInset = 2
-        label.leftTextInset = 5
+        label.leftTextInset = 3.5
         label.sizeToFit()
         
         label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
