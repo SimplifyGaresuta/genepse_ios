@@ -197,7 +197,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         for label in infoLabel {
             cardView.addSubview(label)
             latest_frame = label.frame
-            //TODO: 最後に余韻を持たせるために余白を大きめに設定
             UpdateCardViewFrame(last_add_cgrect: label.frame)
         }
         
@@ -619,7 +618,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
         let y = cover_img.frame.height * 0.8
-        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin * 10)
     }
     
     func CallUserDetailAPI() {

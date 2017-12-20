@@ -211,7 +211,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func UpdateCardViewFrame(last_add_cgrect: CGRect) {
         let y = cover_img.frame.height * 0.8
-        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin * 20)
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
