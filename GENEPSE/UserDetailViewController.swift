@@ -354,7 +354,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        var y = latest_frame.height+latest_frame.origin.y + base_margin*2.5
+        var y = latest_frame.height+latest_frame.origin.y + base_margin * 3
         var x = 0 as CGFloat
         var count = 0
         let margin_offset = 1 as CGFloat

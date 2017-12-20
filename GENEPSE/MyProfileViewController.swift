@@ -352,9 +352,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
-        //TODO: もう少し活動拠点との間を開ける。同じグループにならないように。
         var views:[Any] = []
-        var y = latest_frame.height+latest_frame.origin.y + base_margin
+        var y = latest_frame.height+latest_frame.origin.y + base_margin * 1.5
         var x = 0 as CGFloat
         var count = 0
         let margin_offset = 0.5 as CGFloat
