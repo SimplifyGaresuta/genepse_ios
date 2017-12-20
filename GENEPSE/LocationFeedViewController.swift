@@ -335,8 +335,6 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateSNSButton(json: [JSON]) -> [UIButton] {
-        //TODO: アイコンをもう少し小さく。
-        //TODO: アイコンと文字の間をもう少し開ける。
         var buttons:[UIButton] = []
         
         let icon_name = ["icon_facebook", "icon_twitter"]
