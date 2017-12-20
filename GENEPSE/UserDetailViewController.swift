@@ -335,7 +335,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
-        let start_y = latest_frame.origin.y+latest_frame.height+base_margin*2
+        let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 3
         let homeImageView_wh = 16 as CGFloat
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
