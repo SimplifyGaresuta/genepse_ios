@@ -204,6 +204,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
+        //TODO: 各属性同士の間隔をもう少し狭める
+        //TODO: 属性のラベル自体をもう少し左に
         let x = base_margin * 1.5
         let y = base_margin * 1
         let w = cardViews.last!.frame.width
@@ -221,6 +223,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
+        //TODO: 四角を小さく、特に縦が長い
         var attr_text = NSMutableAttributedString(string: GenerateDistanceString(distance: distance))
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
@@ -252,6 +255,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateNameLabel(text: String) -> UILabel {
+        //TODO: 名前のラベルを属性に近づける。スキルと下の区切り線の間と同じになるように。
         let je_num = SearchJapaneseEnglish(text: text)
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         let font_size = 22 as CGFloat
@@ -269,6 +273,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
+        //TODO: スキルのラベル全体を名前に近づける
         var views:[Any] = []
         let y = name_frame.height+name_frame.origin.y+base_margin * 1
         var x = base_margin * 2.5
@@ -310,6 +315,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
+        //TODO: 写真をもう少し小さくする
         let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let url = URL(string: escapedAddress!)!
         
@@ -332,6 +338,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func CreateSNSButton(json: [JSON]) -> [UIButton] {
+        //TODO: ボタンの縦をもう少し大きく。
+        //TODO: アイコンをもう少し小さく。
+        //TODO: アイコンと文字の間をもう少し開ける。
         var buttons:[UIButton] = []
         
         let icon_name = ["icon_facebook", "icon_twitter"]
