@@ -35,6 +35,10 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.tabBarController?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         cardView.removeFromSuperview()
         cover_img.removeFromSuperview()
@@ -59,12 +63,6 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         self.view.backgroundColor = UIColor.white
         
         scrollView.delegate = self
-        
-        cardView.removeFromSuperview()
-        cover_img.removeFromSuperview()
-        scrollView.removeFromSuperview()
-        InitScrollView()
-        CallUserDetailAPI()
     }
     
     func GetMyID() -> Int {
@@ -606,6 +604,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     
     func TapEditButton(sender: UIButton) {
         print(sender.tag)
+        let edit_myprofile_VC = EditMyProfileViewController()
+        edit_myprofile_VC.SetEditID(id: sender.tag)
+        
+        let navController = UINavigationController(rootViewController: edit_myprofile_VC)
+        self.present(navController, animated:true, completion: nil)
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

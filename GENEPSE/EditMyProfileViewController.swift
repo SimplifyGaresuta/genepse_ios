@@ -63,7 +63,32 @@ class EditMyProfileViewController: FormViewController {
 
         switch edit_id {
         case SectionID_New.main.rawValue:
-            //TODO: 属性フォーム
+            self.navigationItem.title = "Edit Main"
+            // 属性フォーム
+            form +++ Section("属性")
+                <<< PickerInputRow<String>(""){
+                    $0.title = ""
+                    $0.options = ["Engineer", "Designer", "Business"]
+                    $0.value = data?.GetAttr()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.attribute.rawValue
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = RuleRequired_M
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
+            }
             //TODO: 拠点フォーム
             //TODO: スキルフォーム
             //TODO: 自己紹介フォーム
