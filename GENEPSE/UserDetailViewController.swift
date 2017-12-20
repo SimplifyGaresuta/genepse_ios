@@ -493,8 +493,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             
             if url != "" {
                 // linkボタンの設置
-                let image_wh = 30 as CGFloat
-                let EdgeInset = 5 as CGFloat
+                let image_wh = 25 as CGFloat
+                let EdgeInset = 6 as CGFloat
                 let link_x = productImageView.frame.origin.x + base_margin*0.5
                 let link_y = productImageView.frame.height - image_wh/2 - base_margin*2
                 let link_button = UIButton(frame: CGRect(x: link_x, y: link_y, width: image_wh, height: image_wh))
