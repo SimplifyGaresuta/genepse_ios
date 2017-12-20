@@ -205,8 +205,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
         //TODO: 各属性同士の間隔をもう少し狭める
-        //TODO: 属性のラベル自体をもう少し左に
-        let x = base_margin * 1.5
+        let x = base_margin * 1
         let y = base_margin * 1
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
