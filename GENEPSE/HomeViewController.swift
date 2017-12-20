@@ -78,7 +78,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         cardViews.removeAll()
         
         //初期化
-        card_start_y = base_margin
+        card_start_y = base_margin * 0.5
         ResetOffset()
         
         CallFeedAPI()
