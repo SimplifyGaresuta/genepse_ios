@@ -118,9 +118,56 @@ class EditMyProfileViewController: FormViewController {
                 }
             }
             
-            //TODO: スキルフォーム
-            //TODO: 自己紹介フォーム
-            break
+            // スキルフォーム
+            form +++ MultivaluedSection(
+                multivaluedOptions: [.Insert, .Delete],
+                header: "スキル",
+                footer: "") {
+                    $0.addButtonProvider = { section in return ButtonRow(){
+                        $0.title = "追加"
+                        }
+                    }
+                    $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
+                        $0.options = GetAllSkills()
+                        $0.tag = String(index)
+                        }
+                    }
+
+                    let user_skills = data?.GetSkills()
+                    for (i, skill) in (user_skills?.enumerated())! {
+                        $0 <<< PickerInputRow<String>() {
+                            $0.value = skill
+                            $0.tag = String(i)
+                        }
+                    }
+            }
+            
+            // 自己紹介フォーム
+            form +++ Section("自己紹介")
+                <<< TextAreaRow(){
+                    $0.title = ""
+                    $0.placeholder = "私は今までに独学でXXを勉強し…"
+                    $0.value = data?.GetOverview()
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                    $0.tag = Key.overview.rawValue
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = RuleRequired_M
+                            $0.cell.height = { 30 }
+                        }
+                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
+                    }
+                }
+            }
+            
         case SectionID_New.works.rawValue:
             //TODO: worksフォーム
             break
@@ -136,88 +183,7 @@ class EditMyProfileViewController: FormViewController {
             break
         }
         
-//        switch edit_id {
-//        case SectionID.name.rawValue:
-//            self.navigationItem.title = "Edit Main Infomation"
-//
-//            form +++ Section("属性")
-//                <<< PickerInputRow<String>(""){
-//                    $0.title = ""
-//                    $0.options = ["Engineer", "Designer", "Business"]
-//                    $0.value = data?.GetAttr()
-//                    $0.add(rule: RuleRequired())
-//                    $0.validationOptions = .validatesOnChange
-//                    $0.tag = Key.attribute.rawValue
-//            }
-//            .onRowValidationChanged { cell, row in
-//                let rowIndex = row.indexPath!.row
-//                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-//                    row.section?.remove(at: rowIndex + 1)
-//                }
-//                if !row.isValid {
-//                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
-//                        let labelRow = LabelRow() {
-//                            $0.title = RuleRequired_M
-//                            $0.cell.height = { 30 }
-//                        }
-//                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-//                    }
-//                }
-//            }
-//
-//            form +++ Section("活動地域")
-//                <<< TextRow(){
-//                    $0.title = ""
-//                    $0.placeholder = "◯◯区"
-//                    $0.value = data?.GetActivityBase()
-//                    $0.add(rule: RuleRequired())
-//                    $0.validationOptions = .validatesOnChange
-//                    $0.tag = Key.activity_base.rawValue
-//            }
-//            .onRowValidationChanged { cell, row in
-//                let rowIndex = row.indexPath!.row
-//                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-//                    row.section?.remove(at: rowIndex + 1)
-//                }
-//                if !row.isValid {
-//                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
-//                        let labelRow = LabelRow() {
-//                            $0.title = RuleRequired_M
-//                            $0.cell.height = { 30 }
-//                        }
-//                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-//                    }
-//                }
-//            }
-//
-//
-//            form +++ Section("自己紹介")
-//                <<< TextAreaRow(){
-//                    $0.title = ""
-//                    $0.placeholder = "私は今までに独学でXXを勉強し…"
-//                    $0.value = data?.GetOverview()
-//                    $0.add(rule: RuleRequired())
-//                    $0.validationOptions = .validatesOnChange
-//                    $0.tag = Key.overview.rawValue
-//            }
-//            .onRowValidationChanged { cell, row in
-//                let rowIndex = row.indexPath!.row
-//                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-//                    row.section?.remove(at: rowIndex + 1)
-//                }
-//                if !row.isValid {
-//                    for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
-//                        let labelRow = LabelRow() {
-//                            $0.title = RuleRequired_M
-//                            $0.cell.height = { 30 }
-//                        }
-//                        row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
-//                    }
-//                }
-//            }
-//
-//            break
-//
+
 //        case SectionID.awards.rawValue:
 //            self.navigationItem.title = "Edit Awards"
 //
@@ -246,33 +212,6 @@ class EditMyProfileViewController: FormViewController {
 //
 //            break
 //
-//        case SectionID.skills.rawValue:
-//            self.navigationItem.title = "Edit Skills"
-//            let skills = ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
-//
-//            form +++ MultivaluedSection(
-//                multivaluedOptions: [.Insert, .Delete],
-//                header: "スキル",
-//                footer: "") {
-//                    $0.addButtonProvider = { section in return ButtonRow(){
-//                        $0.title = "追加"
-//                        }
-//                    }
-//                    $0.multivaluedRowToInsertAt = { index in return PickerInputRow<String>() {
-//                        $0.options = skills
-//                        $0.tag = String(index)
-//                        }
-//                    }
-//
-//                    let user_skills = data?.GetSkills()
-//                    for (i, skill) in (user_skills?.enumerated())! {
-//                        $0 <<< PickerInputRow<String>() {
-//                            $0.value = skill
-//                            $0.tag = String(i)
-//                        }
-//                    }
-//            }
-//            break
 //
 //        case SectionID.products.rawValue:
 //            self.navigationItem.title = "All Products"
