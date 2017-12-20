@@ -383,10 +383,13 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
             button.isEnabled = isEnabled
             
-            //imageの表示サイズ調整
-            let offset = 8 as CGFloat
-            button.imageEdgeInsets = UIEdgeInsetsMake(offset, 0, offset, 0)
+            //image、titleの表示サイズ・位置の調整
+            let offset_image = 15 as CGFloat
+            let offset_title = 5 as CGFloat
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image, 0, offset_image, 0)
             button.imageView?.contentMode = .scaleAspectFit
+            
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
             
             //Top_borderの描画
             let border_w = 1 as CGFloat
