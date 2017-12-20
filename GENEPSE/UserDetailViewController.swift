@@ -162,7 +162,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
 
         
         // worksの追加
-        let works_sectionLable = CreateSectionLabel(text: "Works", space: 2.5)
+        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5)
         cardView.addSubview(works_sectionLable)
         latest_frame = works_sectionLable.frame
         UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
