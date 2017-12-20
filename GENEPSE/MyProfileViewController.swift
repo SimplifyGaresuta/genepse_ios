@@ -82,6 +82,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func InitCardView() {
+        //TODO: yを小さく。左の人の膝あたりにくるように。
         cardView = UIView()
         
         let y = cover_img.frame.height * 0.8
@@ -167,6 +168,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
         
         
+        //TODO: WORKSを大文字に
+        //TODO: 左に
         // worksの追加
         let works_sectionLable = CreateSectionLabel(text: "Works", space: 2.5)
         cardView.addSubview(works_sectionLable)
@@ -178,7 +181,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         latest_frame = works_scrollview.frame
         UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
         
-        
+        //TODO: 左に
         // basic infoの追加
         let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0)
         cardView.addSubview(info_sectionLable)
@@ -190,6 +193,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         for label in infoLabel {
             cardView.addSubview(label)
             latest_frame = label.frame
+            //TODO: 最後に余韻を持たせるために余白を大きめに設定
             UpdateCardViewFrame(last_add_cgrect: label.frame)
         }
         
@@ -258,6 +262,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateNameLabel(text: String) -> UILabel {
+        //TODO: 画像にyを近づける
         let je_num = SearchJapaneseEnglish(text: text)
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
@@ -290,6 +295,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
+        //TODO: 枠線を1.5あたりに
+        //TODO: 枠線を太くして、それでもpaddingが狭まらないのであればpadding小さく
         var text = ""
         switch attribute {
         case AttributeStr.Designer.rawValue:
@@ -326,6 +333,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
+        //TODO: もう少し属性との間を開ける。同じグループにならないように。
+        //TODO: homeのアイコン小さく
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = latest_frame.origin.y+latest_frame.height+base_margin
         let homeImageView_wh = 16 as CGFloat
@@ -345,6 +354,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
+        //TODO: もう少し活動拠点との間を開ける。同じグループにならないように。
         var views:[Any] = []
         var y = latest_frame.height+latest_frame.origin.y + base_margin
         var x = 0 as CGFloat
@@ -427,6 +437,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
+        //TODO: 行間26に
         let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.5
         
         let x = cardView.frame.width * 0.1
@@ -438,7 +449,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         career_label.numberOfLines = 0
         
         var attributedText = NSMutableAttributedString(string: text)
-        attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+        attributedText = AddAttributedTextLineHeight(height: 26, text: attributedText)
         attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
         
         career_label.attributedText = attributedText
@@ -459,6 +470,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         cardView.addSubview(product_scrollview)
         /*** scrollviewの設置 ***/
         
+        //TODO: 作品の画像にシャドウをかける
+        //TODO: URLアイコンを小さく
         /*** productの設置 ***/
         var p_start_x = product_scrollview.bounds.origin.x
         let p_w = cardView.frame.width * 0.55
@@ -524,6 +537,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateBasicInformation() -> [UILabel] {
+        //TODO: 同じ項目内の行間を広く
+        //TODO: 異なる項目間のマージンも広く
         let info = [
             [(appdelegate.data?.GetGender())!, "/", String((appdelegate.data?.GetAge())!)+"歳"],
             [(appdelegate.data?.GetAddress())!],
