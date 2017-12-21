@@ -182,7 +182,6 @@ class ProductFromViewController: FormViewController {
     }
     
     func TapUploadButton(sender: UIButton) {
-        // タイトルが埋まっているかどうか
         var err_sum = 0
         for row in form.allRows {
             err_sum += row.validate().count
@@ -191,7 +190,6 @@ class ProductFromViewController: FormViewController {
         if err_sum != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }else {
-            //TODO: 更新時に画像がnilの場合に通信エラー扱いされる
             if !is_add {
                 if !is_imageloaded {
                     self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
