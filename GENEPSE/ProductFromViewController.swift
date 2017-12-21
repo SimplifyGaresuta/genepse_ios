@@ -218,14 +218,7 @@ class ProductFromViewController: FormViewController {
             host_url += String(product_id)
             method = HTTPMethod.put
         }
-        
-//        print("******** send Data ********")
-//        print(req_image)
-//        print(req_url)
-//        print(title.data(using: .utf8)!)
-//        print(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)))
-//        print("******** send Data ********")
-        
+                
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
                 
