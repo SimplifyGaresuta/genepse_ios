@@ -170,11 +170,8 @@ class EditMyProfileViewController: FormViewController {
             }
             
         case SectionID_New.works.rawValue:
-            //TODO: worksフォーム
-            
             self.navigationItem.title = "All Products"
             
-            //MARK: Products
             if (data?.GetProducts())!.count == 0 {
                 form +++ Section()
                     <<< ButtonRow() {
@@ -193,8 +190,6 @@ class EditMyProfileViewController: FormViewController {
 
                     let row = ButtonRow() {
                         $0.title = p["title"].stringValue
-                        //MARK: 未使用っぽい？
-//                        $0.tag = p["id"].stringValue
                         $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
                                                     onDismiss: { vc in
                                                         vc.navigationController?.popViewController(animated: true)}
@@ -500,9 +495,10 @@ class EditMyProfileViewController: FormViewController {
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
             let object = response.result.value
-            self.dismiss(animated: true, completion: nil)
-            //TODO: 500系が発生することがあるので、アラートを出す
-            print(response.response!.statusCode)
+//            self.dismiss(animated: true, completion: nil)
+            
+            // 200系以外ならエラー
+            CheckHTTPStatus(statusCode: response.response?.statusCode, VC: self)
             print(JSON(object))
         }
     }

@@ -214,6 +214,18 @@ func GetAllSkills() -> Array<String> {
     return ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
 }
 
+func CheckHTTPStatus(statusCode: Int?, VC: UIViewController) {
+    // 200系以外ならエラー
+    let code = String(statusCode!)
+    var results:[String] = []
+    
+    if code.pregMatche(pattern: "2..", matches: &results) {
+        VC.dismiss(animated: true, completion: nil)
+    }else {
+        VC.present(GetStandardAlert(title: "通信エラー", message: "通信中にエラーが発生しました。もう一度やり直してください。", b_title: "OK"), animated: true, completion: nil)
+    }
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
