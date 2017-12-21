@@ -494,12 +494,11 @@ class EditMyProfileViewController: FormViewController {
         print("CALL API", req_dict)
         let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
         Alamofire.request(urlString, method: .patch, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
-            let object = response.result.value
-//            self.dismiss(animated: true, completion: nil)
             
             // 200系以外ならエラー
             CheckHTTPStatus(statusCode: response.response?.statusCode, VC: self)
-            print(JSON(object))
+            
+            print(JSON(response.result.value))
         }
     }
 }
