@@ -68,8 +68,6 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             indicator.showIndicator(view: self.view)
             CallLocationFeedAPI()
 
-            scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
-            
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:
                 cannotavailable_msg.isHidden = false
@@ -188,6 +186,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             
             card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin
         }
+        
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
     }
     
     func CreateCard(start_y: CGFloat) -> UIView {
