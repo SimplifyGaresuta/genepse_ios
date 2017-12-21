@@ -139,6 +139,7 @@ class EditMyProfileViewController: FormViewController {
                         $0 <<< PickerInputRow<String>() {
                             $0.value = skill
                             $0.tag = "skill_"+String(-i-1)
+                            $0.options = GetAllSkills()
                         }
                     }
             }
