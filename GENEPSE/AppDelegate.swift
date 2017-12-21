@@ -25,14 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
+        locationManager.startUpdatingLocation()
 
         if launchOptions?[UIApplicationLaunchOptionsKey.location] != nil {
             locationManager.startMonitoringSignificantLocationChanges()
         }
         
-        //TODO: ここで起動時に位置情報をPUT
         CallUpdateLocationAPI(location: locationManager.location)
-//        print(locationManager.location)
         
         if DBMethod().RecordCount(User.self) == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -75,11 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     // MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //TODO: ここで位置情報をPUT
-        print("****** Location ******")
-        print(locations)
         CallUpdateLocationAPI(location: locations.last)
-        print("****** Location ******")
     }
     
     func CallUpdateLocationAPI(location: CLLocation?) {
@@ -90,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             let req_dict = [
                 Key.latitude.rawValue: Double(location!.coordinate.latitude),
-                Key.longitude.rawValue: Double(location!.coordinate.latitude)
+                Key.longitude.rawValue: Double(location!.coordinate.longitude)
             ]
             
             Alamofire.request(urlString, method: .put, parameters: req_dict, encoding: JSONEncoding(options: [])).responseJSON { (response) in
@@ -98,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 let object = response.result.value
                 let json = JSON(object)
                 print("Location Update results: ", json)
+                print("Location req_dict: ", req_dict)
                 print("****** Location Update Results******")
             }
         }
