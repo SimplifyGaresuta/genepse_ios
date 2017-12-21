@@ -14,7 +14,7 @@ import Toucan
 
 class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
 
-    var preViewName = StoryboardID.Location.rawValue
+    var preViewName = StoryboardID.CLOSEUSER.rawValue
     var cannotavailable_msg = EdgeInsetLabel()
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
@@ -37,9 +37,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = StoryboardID.Location.rawValue
+        self.tabBarController?.navigationItem.title = StoryboardID.CLOSEUSER.rawValue
         self.tabBarController?.delegate = self
-        preViewName = StoryboardID.Location.rawValue
+        preViewName = StoryboardID.CLOSEUSER.rawValue
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -467,7 +467,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier! == StoryboardID.Location.rawValue && preViewName == StoryboardID.Location.rawValue {
+        if viewController.restorationIdentifier! == StoryboardID.CLOSEUSER.rawValue && preViewName == StoryboardID.CLOSEUSER.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
         

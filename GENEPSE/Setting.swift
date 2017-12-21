@@ -95,7 +95,7 @@ enum JapaneseEnglish: Int {
 enum StoryboardID: String {
     case Home = "Home"
     case MyProfile = "MyProfile"
-    case Location = "Location"
+    case CLOSEUSER = "CLOSE USER"
 }
 
 enum Provider: String {
