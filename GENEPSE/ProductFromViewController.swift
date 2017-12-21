@@ -145,11 +145,10 @@ class ProductFromViewController: FormViewController {
         }
     }
     
-    //TODO: 位置を調整
     func InitProductImageView() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
-        let y = self.view.subviews[0].frame.height - h - base_margin*2
+        let y = self.view.subviews[0].frame.height - h - base_margin * 3
         
         self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
         self.productImageView.layer.cornerRadius = 10
