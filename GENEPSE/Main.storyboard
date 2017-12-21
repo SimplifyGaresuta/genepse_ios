@@ -110,6 +110,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tabbar_locationfeed" id="TS6-Zx-7K8">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
+                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-4l-FyK" userLabel="First Responder" sceneMemberID="firstResponder"/>

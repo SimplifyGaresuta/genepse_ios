@@ -211,7 +211,7 @@ func InsertIntervalString(array: [String], insert_str: String) -> Array<String> 
 }
 
 func GetAllSkills() -> Array<String> {
-    return ["Ruby", "Java", "Python", "Go", "MySQL", "PHP", "AE", "営業", "NLP"]
+    return ["事業開発","投資家","営業","法人営業","経理","会計","HR","法務","労務","ライター","VC","マーケ","採用","R&D","企画","Director","PM","経営","起業","PR","弁護士","商品開発","総務","秘書","監査","税務","税理士","品質管理","財務","広報","CEO","COO","CFO","CXO","CMO","iOS","Android","VR","AR","Ruby","Python","MySQL","機械学習","NLP","Unity","Java","PHP","AWS","GCP","Swift","動画配信","HTML","CSS","JS","jQuery","React.js","Node.js","CTO","Illustrator","Photoshop","After Effect","XD","Premiere","InDesign","Sketch","Prott","ProtoPie","Fusion","Rhinoceros","Dreamweaver","Studio","CINEMA 4D","Blender","Maya","KeyShot","123D","ZBrush","Shade","Lightwave3D","V-ray"]
 }
 
 func CheckHTTPStatus(statusCode: Int?, VC: UIViewController) {
