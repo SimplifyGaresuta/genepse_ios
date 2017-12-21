@@ -630,6 +630,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         }
 
         preViewName = viewController.restorationIdentifier!
+        
+        tabBarController.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 2, bottom: -14, right: 2)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

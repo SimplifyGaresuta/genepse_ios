@@ -71,7 +71,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5Gn-37-n0O"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_feed" id="erc-Y8-ECM">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_feed_selected" id="erc-Y8-ECM">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="1" vertical="0.0"/>
                     </tabBarItem>
@@ -90,7 +90,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eiw-Uz-RbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_myprofile" id="8Ey-6Y-XIJ">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_myprofile_selected" id="8Ey-6Y-XIJ">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
                     </tabBarItem>
                 </viewController>
@@ -108,8 +108,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="XvP-pN-wVF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_locationfeed" id="TS6-Zx-7K8">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_locationfeed_selected" id="TS6-Zx-7K8">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-14"/>
+                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOe-4l-FyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -118,8 +119,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="tabbar_feed" width="30" height="30"/>
-        <image name="tabbar_locationfeed" width="30" height="30"/>
-        <image name="tabbar_myprofile" width="30" height="30"/>
+        <image name="tabbar_feed_selected" width="30" height="33"/>
+        <image name="tabbar_locationfeed_selected" width="30" height="41"/>
+        <image name="tabbar_myprofile_selected" width="30" height="38"/>
     </resources>
 </document>
