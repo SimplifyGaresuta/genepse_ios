@@ -63,7 +63,7 @@ class EditMyProfileViewController: FormViewController {
 
         switch edit_id {
         case SectionID_New.main.rawValue:
-            self.navigationItem.title = "Edit Main"
+            self.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: "Edit Main", font_name: FontName.DIN.rawValue, font_size: 20)
             
             // 属性フォーム
             form +++ Section("属性")
@@ -170,7 +170,7 @@ class EditMyProfileViewController: FormViewController {
             }
             
         case SectionID_New.works.rawValue:
-            self.navigationItem.title = "All Products"
+            self.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: "All Products", font_name: FontName.DIN.rawValue, font_size: 20)
             
             if (data?.GetProducts())!.count == 0 {
                 form +++ Section()
@@ -208,7 +208,7 @@ class EditMyProfileViewController: FormViewController {
             }
             
         case SectionID_New.info.rawValue:
-            self.navigationItem.title = "Edit Basic Infomation"
+            self.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: "Edit Basic Infomation", font_name: FontName.DIN.rawValue, font_size: 20)
             
             // 性別フォーム
             form +++ Section("性別")

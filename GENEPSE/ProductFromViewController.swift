@@ -29,7 +29,7 @@ class ProductFromViewController: FormViewController {
         let check_button = UIBarButtonItem(image: UIImage(named: "icon_upload"), style: .plain, target: self, action: #selector(self.TapUploadButton(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
-        self.navigationItem.title = view_title
+        self.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: view_title, font_name: FontName.DIN.rawValue, font_size: 20)
         
         UpdateSelfProduct()
         
