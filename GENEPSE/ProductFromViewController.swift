@@ -50,8 +50,6 @@ class ProductFromViewController: FormViewController {
             cell.textLabel?.textAlignment = .right
         }
         let RuleRequired_M = "必須項目です"
-        let RuleRequired_Warning_M = "項目を埋めてアピール力をあげましょう"
-//        let RuleURL_M = "URLの形式をもう一度、確認してください"
         
         form +++ Section("タイトル")
             <<< TextRow(){
@@ -84,7 +82,7 @@ class ProductFromViewController: FormViewController {
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
                 $0.value = product[Key.url.rawValue].stringValue
-                $0.add(rule: RuleRequired(msg: RuleRequired_Warning_M))
+                $0.add(rule: RuleRequired(msg: RuleRequired_M))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
         }
@@ -98,12 +96,7 @@ class ProductFromViewController: FormViewController {
                     let labelRow = LabelRow() {
                         $0.title = err
                         $0.cell.height = { 30 }
-                        
-                        if err == RuleRequired_Warning_M {
-                            $0.cell.backgroundColor = UIColor.orange
-                        }else {
-                            $0.cell.backgroundColor = UIColor.red
-                        }
+                        $0.cell.backgroundColor = UIColor.red
                     }
                     row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                 }
@@ -136,9 +129,9 @@ class ProductFromViewController: FormViewController {
             if !row.isValid {
                 for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
                     let labelRow = LabelRow() {
-                        $0.title = RuleRequired_Warning_M
+                        $0.title = RuleRequired_M
                         $0.cell.height = { 30 }
-                        $0.cell.backgroundColor = UIColor.orange
+                        $0.cell.backgroundColor = UIColor.red
                     }
                     row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                 }
@@ -190,7 +183,12 @@ class ProductFromViewController: FormViewController {
     
     func TapUploadButton(sender: UIButton) {
         // タイトルが埋まっているかどうか
-        if form.rowBy(tag: "title")?.validate().count != 0 {
+        var err_sum = 0
+        for row in form.allRows {
+            err_sum += row.validate().count
+        }
+        
+        if err_sum != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }else {
             //TODO: 更新時に画像がnilの場合に通信エラー扱いされる
