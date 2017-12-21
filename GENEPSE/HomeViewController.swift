@@ -35,7 +35,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = StoryboardID.Home.rawValue
+        
+        let titleview = UIImageView(image: UIImage(named: "tabbar_feed_selected"))
+        self.tabBarController?.navigationItem.titleView = titleview
         
         preViewName = StoryboardID.Home.rawValue
         self.tabBarController?.delegate = self

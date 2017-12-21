@@ -37,7 +37,18 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.navigationItem.title = StoryboardID.CLOSEUSER.rawValue
+
+        // タイトルを装飾
+        let titleLabel = UILabel()
+        var attr_str = NSMutableAttributedString(string: StoryboardID.CLOSEUSER.rawValue)
+        attr_str = AddAttributedTextLetterSpacing(space: 2, text: attr_str)
+        titleLabel.font = UIFont(name: FontName.DIN.rawValue, size: 20)
+        titleLabel.textColor = UIColor.white
+        titleLabel.attributedText = attr_str
+        titleLabel.sizeToFit()
+
+        self.tabBarController?.navigationItem.titleView = titleLabel
+        
         self.tabBarController?.delegate = self
         preViewName = StoryboardID.CLOSEUSER.rawValue
     }
