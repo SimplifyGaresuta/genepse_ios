@@ -265,10 +265,20 @@ class ProductFromViewController: FormViewController {
                         .responseString { response in
                             debugPrint(response)
                             print(response.result.value)
+                            print("************************")
+                            print(response.response?.statusCode)
+                            print("************************")
                             
-                            //TODO: 500系が発生することがあるので、アラートを出す
                             indicator.stopIndicator()
-                            self.dismiss(animated: true, completion: nil)
+                            
+                            // 200系以外ならエラー
+                            let hoge = String((response.response?.statusCode)!)
+                            var results:[String] = []
+                            if hoge.pregMatche(pattern: "2..", matches: &results) {
+                                self.dismiss(animated: true, completion: nil)
+                            }else {
+                                self.present(GetStandardAlert(title: "通信エラー", message: "通信中にエラーが発生しました。もう一度やり直してください。", b_title: "OK"), animated: true, completion: nil)
+                            }
                         }
                     case .failure(let encodingError):
                         print(encodingError)
