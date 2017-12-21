@@ -256,5 +256,17 @@ class ViewUtility {
         
         return shadow_view
     }
+    
+    func CreateTitleLabelView(title: String, font_name: String, font_size: CGFloat) -> UILabel {
+        let titleLabel = UILabel()
+        var attr_str = NSMutableAttributedString(string: title)
+        attr_str = AddAttributedTextLetterSpacing(space: 2, text: attr_str)
+        titleLabel.font = UIFont(name: font_name, size: font_size)
+        titleLabel.textColor = UIColor.white
+        titleLabel.attributedText = attr_str
+        titleLabel.sizeToFit()
+        
+        return titleLabel
+    }
 }
 
