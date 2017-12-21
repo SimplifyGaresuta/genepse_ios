@@ -145,6 +145,7 @@ class ProductFromViewController: FormViewController {
         }
     }
     
+    //TODO: 位置を調整
     func InitProductImageView() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
@@ -229,6 +230,7 @@ class ProductFromViewController: FormViewController {
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
                 
+                //TODO: 毎回圧縮して送るため、どんどん画質が悪化していってしまう
                 if image != nil {
                     multipartFormData.append(UIImageJPEGRepresentation(image!.resized(withPercentage: 0.3)!, 1.0)!,
                                              withName: "image",
