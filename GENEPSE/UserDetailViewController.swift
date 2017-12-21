@@ -556,10 +556,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         var labels:[UILabel] = []
         
         for section in info {
-            //TODO: 性別がないときに落ちてる？
-            //0歳(未設定)の場合は何も表示しない
-            if section.last! == "0歳" {
-                break
+            //0歳(未設定)の場合や何も登録されていない場合は、何も表示しない
+            if let str = section.last {
+                if str == "0歳" || str.count == 0 {
+                    continue
+                }
+            }else {
+                continue
             }
             
             var text = ""
