@@ -51,7 +51,7 @@ class ProductFromViewController: FormViewController {
         }
         let RuleRequired_M = "必須項目です"
         let RuleRequired_Warning_M = "項目を埋めてアピール力をあげましょう"
-        let RuleURL_M = "URLの形式をもう一度、確認してください"
+//        let RuleURL_M = "URLの形式をもう一度、確認してください"
         
         form +++ Section("タイトル")
             <<< TextRow(){
