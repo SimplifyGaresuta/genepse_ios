@@ -487,9 +487,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             productImageView.loadImage(urlString: image)
             productImageView.backgroundColor = UIColor.brown
             productImageView.contentMode = .scaleAspectFill
-            productImageView.layer.cornerRadius = 8
+            productImageView.layer.cornerRadius = 10
             productImageView.clipsToBounds = true
+            
+            //シャドウの設置
+            let shadow = ViewUtility().CreateShadowView(target_frame: productImageView.frame, bg: UIColor.white, opacity: 0.1, size: 1, shadow_r: 1, corner_r: 10)
+            product_scrollview.addSubview(shadow)
             product_scrollview.addSubview(productImageView)
+            
             
             p_start_x = productImageView.frame.width + base_margin * 2.5
             

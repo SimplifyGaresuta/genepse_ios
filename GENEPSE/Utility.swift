@@ -244,3 +244,17 @@ class Indicator {
     }
 }
 
+class ViewUtility {
+    func CreateShadowView(target_frame: CGRect, bg: UIColor, opacity: Float, size: CGFloat, shadow_r: CGFloat, corner_r: CGFloat) -> UIView {
+        let shadow_view = UIView(frame: target_frame)
+        shadow_view.backgroundColor = bg
+        shadow_view.layer.shadowColor = UIColor.black.cgColor
+        shadow_view.layer.shadowOpacity = opacity
+        shadow_view.layer.shadowOffset = CGSize(width: size, height: size)
+        shadow_view.layer.shadowRadius = shadow_r
+        shadow_view.layer.cornerRadius = corner_r
+        
+        return shadow_view
+    }
+}
+
