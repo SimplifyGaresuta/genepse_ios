@@ -46,7 +46,7 @@ class EditMyProfileViewController: FormViewController {
         self.navigationItem.setLeftBarButton(cancel_button, animated: true)
         
         // プロダクト一覧画面になるため、その画面ではボタンを表示させない
-        if edit_id != SectionID.products.rawValue {
+        if edit_id != SectionID_New.works.rawValue {
             self.navigationItem.setRightBarButton(check_button, animated: true)
         }
     }
@@ -171,7 +171,47 @@ class EditMyProfileViewController: FormViewController {
             
         case SectionID_New.works.rawValue:
             //TODO: worksフォーム
-            break
+            
+            self.navigationItem.title = "All Products"
+            
+            //MARK: Products
+            if (data?.GetProducts())!.count == 0 {
+                form +++ Section()
+                    <<< ButtonRow() {
+                        $0.title = "作品を追加"
+                        $0.onCellSelection(self.showVC)
+                }
+            }else {
+                let section = Section()
+                section.tag = "ALL_P"
+
+                for p in (data?.GetProducts())! {
+                    let vc = ProductFromViewController()
+                    vc.SetTitle(title: "Edit")
+                    vc.SetIsAdd(flag: false)
+                    vc.SetProductID(id: p["id"].intValue)
+
+                    let row = ButtonRow() {
+                        $0.title = p["title"].stringValue
+                        //MARK: 未使用っぽい？
+//                        $0.tag = p["id"].stringValue
+                        $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
+                                                    onDismiss: { vc in
+                                                        vc.navigationController?.popViewController(animated: true)}
+                        )
+                    }
+                    section.append(row)
+                }
+
+                form.append(section)
+
+                form +++ Section()
+                    <<< ButtonRow() {
+                        $0.title = "作品を追加"
+                        $0.onCellSelection(self.showVC)
+                }
+            }
+            
         case SectionID_New.info.rawValue:
             self.navigationItem.title = "Edit Basic Infomation"
             
@@ -319,50 +359,7 @@ class EditMyProfileViewController: FormViewController {
             break
         }
         
-//
-//
-//        case SectionID.products.rawValue:
-//            self.navigationItem.title = "All Products"
-//            //MARK: Products
-//            if (data?.GetProducts())!.count == 0 {
-//                form +++ Section()
-//                    <<< ButtonRow() {
-//                        $0.title = "作品を追加"
-//                        $0.onCellSelection(self.showVC)
-//                }
-//            }else {
-//                let section = Section()
-//                section.tag = "ALL_P"
-//
-//                for p in (data?.GetProducts())! {
-//                    let vc = ProductFromViewController()
-//                    vc.SetTitle(title: "Edit")
-//                    vc.SetIsAdd(flag: false)
-//                    vc.SetProductID(id: p["id"].intValue)
-//
-//                    let row = ButtonRow() {
-//                        $0.title = p["title"].stringValue
-//                        //MARK: 未使用っぽい？
-////                        $0.tag = p["id"].stringValue
-//                        $0.presentationMode = .show(controllerProvider: ControllerProvider.callback {return vc},
-//                                                    onDismiss: { vc in
-//                                                        vc.navigationController?.popViewController(animated: true)}
-//                        )
-//                    }
-//                    section.append(row)
-//                }
-//
-//                form.append(section)
-//
-//                form +++ Section()
-//                    <<< ButtonRow() {
-//                        $0.title = "作品を追加"
-//                        $0.onCellSelection(self.showVC)
-//                }
-//            }
-//
-//            break
-//
+
 //        case SectionID.sns.rawValue:
 //            self.navigationItem.title = "Edit SNS"
 //
