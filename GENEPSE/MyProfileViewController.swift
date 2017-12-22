@@ -238,10 +238,16 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         return UIImageView()
     }
     
+    //latest_frame.width+latest_frame.origin.x
+    //cardView.bounds.origin.x+cardView.bounds.width
     func CreateSNSLabel(json: [JSON]) -> [UIButton] {
-        let wh = base_margin * 2
+        
+        let wh = base_margin * 2.5
         let y = cardView.bounds.origin.y - wh/2
-        let x = [cardView.bounds.origin.x + base_margin * 2.5, cardView.bounds.width-base_margin * 2.5-wh]
+        
+        //TODO: 決め打ちを修正
+        let hoge = latest_frame.width+latest_frame.origin.x + wh/2 + 5
+        let x = [(cardView.bounds.origin.x+latest_frame.origin.x)/2-wh/2+3, hoge]
         let icon = ["icon_facebook_circle", "icon_twitter_circle"]
         var isEnabled = true
         var buttons: [UIButton] = []

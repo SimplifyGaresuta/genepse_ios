@@ -211,8 +211,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
         //TODO: 各属性同士の間隔をもう少し狭める
-        let x = base_margin * 1
-        let y = base_margin * 0.5
+        let x = base_margin * 1.2
+        let y = base_margin * 0.9
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
         
@@ -264,8 +264,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         let font_size = 22 as CGFloat
         
-        let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.5
+        let x = base_margin * 2.1
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 2.3
         let w = cardViews.last!.frame.width
         
         var attr_str = NSMutableAttributedString(string: text)
@@ -333,7 +333,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let imageData: NSData = try NSData(contentsOf: url)
             let wh = base_margin * 4.5
             let x = cardViews.last!.frame.origin.x + cardViews.last!.frame.width - wh*1.5
-            let y = distance_frame.origin.y + distance_frame.height + base_margin*1
+            let y = distance_frame.origin.y + distance_frame.height + base_margin*1.4
             
             let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
             let imageview = UIImageView(image: resizedAndMaskedImage)
@@ -361,7 +361,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.2 + skill_frame_offset
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.8 + skill_frame_offset
         print(skill_frame.origin.y+skill_frame.height)
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
@@ -408,7 +408,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
             
-            let offset_image_topbottm = base_margin * 1.1
+            let offset_image_topbottm = base_margin * 1.3
             var offset_title = base_margin * 0.4
             
             //片方のボタン(FB)のみRight_borderを描画、TWの方のみアイコンと文字の間隔をあける

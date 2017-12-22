@@ -235,6 +235,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         return UIImageView()
     }
     
+    //TODO: アイコンの位置調整
     func CreateSNSLabel(json: [JSON]) -> [UIButton] {
         let wh = base_margin * 4.5
         let y = cardView.bounds.origin.y - wh/2
