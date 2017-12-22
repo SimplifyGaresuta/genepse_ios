@@ -494,7 +494,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             // 画像の設置
             let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
             productImageView.loadImage(urlString: image)
-            productImageView.backgroundColor = UIColor.brown
             productImageView.contentMode = .scaleAspectFill
             productImageView.layer.cornerRadius = 10
             productImageView.clipsToBounds = true

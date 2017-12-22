@@ -121,7 +121,7 @@ func SearchJapaneseEnglish(text: String) -> Int {
     }
     
     //日本語文字の文字数をカウント
-    regex = try! NSRegularExpression(pattern: "[\\p{Han}\\p{Hiragana}\\p{Katakana}|ー]", options: [.caseInsensitive])
+    regex = try! NSRegularExpression(pattern: "[\\p{Han}\\p{Hiragana}\\p{Katakana}|ー|0-9]", options: [.caseInsensitive])
     targetStringRange = NSRange(location: 0, length: (text as NSString).length)
     let j_count = regex.numberOfMatches(in: text, options: [], range: targetStringRange)
     
