@@ -44,7 +44,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "User Detail"
         scrollView.delegate = self
         
         InitScrollView()
