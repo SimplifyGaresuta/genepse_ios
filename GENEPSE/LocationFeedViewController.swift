@@ -267,8 +267,11 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.5
         let w = cardViews.last!.frame.width
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.2, text: attr_str)
+        
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .left
         name_label.font = UIFont(name: font_name, size: font_size)
         
