@@ -344,11 +344,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 3
-        let homeImageView_wh = 16 as CGFloat
+        let font_size = 16 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 16)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
         label.text = name
         label.sizeToFit()
         
@@ -356,6 +357,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin, y: start_y, width: 0, height: 0)
         label.sizeToFit()
+        
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
         
         return (homeImageView, label)
     }
