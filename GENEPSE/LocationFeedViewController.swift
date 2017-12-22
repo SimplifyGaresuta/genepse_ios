@@ -229,6 +229,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
         var attr_text = NSMutableAttributedString(string: GenerateDistanceString(distance: distance))
+        print(attr_text, distance)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
         let f_size = 16 as CGFloat
@@ -239,9 +240,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         label.backgroundColor = UIColor.black
         label.textColor = UIColor.white
         label.topTextInset = f_size/3
-        label.rightTextInset = 5
+        label.rightTextInset = 8
         label.bottomTextInset = f_size/3
-        label.leftTextInset = 5
+        label.leftTextInset = 8
         label.sizeToFit()
         
         let x = cardViews.last!.frame.width - label.frame.width
@@ -446,8 +447,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         if km < 1.0 {
             return String(distance) + "m"
         }
-        
-        return String(km) + "km"
+
+        if km < 10 {
+            return String(format: "%.1fkm", km)
+        }else {
+            return String(format: "%.0fkm", km)
+        }
     }
     
     func CallLocationFeedAPI(){
