@@ -43,8 +43,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         
         super.viewDidLoad()
         
-        self.extendedLayoutIncludesOpaqueBars = true
-        
         self.view.backgroundColor = UIColor.white
         scrollView.delegate = self
         
