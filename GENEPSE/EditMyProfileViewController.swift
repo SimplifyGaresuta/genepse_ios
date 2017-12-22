@@ -18,7 +18,8 @@ class EditMyProfileViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.navigationController?.navigationBar.isTranslucent = false
         InitNavigationController()
         CreateForms()
     }

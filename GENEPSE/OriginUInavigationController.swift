@@ -14,7 +14,10 @@ class OriginUInavigationController: UINavigationController {
         super.viewDidLoad()
 
         //ナビゲーションバーの色を設定
-        navigationBar.barTintColor = UIColor.black
+        navigationBar.barTintColor = UIColor.hexStr(hexStr: "#000000", alpha: 1.0)
+//        navigationBar.alpha = 0.1
+        navigationBar.isTranslucent = false
+        
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationBar.tintColor = UIColor.white
     }

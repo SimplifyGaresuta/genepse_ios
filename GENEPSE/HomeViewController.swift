@@ -45,6 +45,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.extendedLayoutIncludesOpaqueBars = true
         
         guard let user_id = GetAppDelegate().user_id else {
             return
