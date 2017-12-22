@@ -310,7 +310,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             break
         }
         
-        var border_w = 1.5
+        var border_w = 2.0
         if text.count == 0 {
             border_w = 0.0
         }
@@ -323,14 +323,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let label = EdgeInsetLabel(frame: CGRect(x: 0, y: y, width: 0, height: f_size))
         
         label.attributedText = attr_text
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
         label.borderWidth = border_w
         label.borderColor = UIColor.black
         label.topTextInset = 2
-        label.rightTextInset = 3.5
+        label.rightTextInset = 4
         label.bottomTextInset = 2
-        label.leftTextInset = 3.5
+        label.leftTextInset = 4
         label.sizeToFit()
         
         label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
