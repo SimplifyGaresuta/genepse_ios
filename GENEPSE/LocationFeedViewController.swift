@@ -211,7 +211,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     func CreateAttributeLabel(attribute: String) -> UILabel {
         //TODO: 各属性同士の間隔をもう少し狭める
         let x = base_margin * 1
-        let y = base_margin * 1
+        let y = base_margin * 0.5
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
         
@@ -346,7 +346,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.7
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.2
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
