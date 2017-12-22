@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -101,7 +100,7 @@
         <!--Location Feed View Controller-->
         <scene sceneID="YUo-Jr-y2h">
             <objects>
-                <viewController storyboardIdentifier="CLOSE USER" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kk0-EZ-qNW" customClass="LocationFeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NEARBY" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kk0-EZ-qNW" customClass="LocationFeedViewController" customModule="GENEPSE" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sxb-7b-UzK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
