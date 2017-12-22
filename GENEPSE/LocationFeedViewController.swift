@@ -124,7 +124,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         self.users = sorted_users
 
         base_margin = self.view.bounds.width * 0.035
-        var card_start_y = base_margin
+        var card_start_y = base_margin * 1.5
         
         for user in sorted_users {
             //表示しようとしているカードが自分と同じ場合はスキップ
@@ -186,8 +186,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 cardViews.last!.addSubview(snsButton)
             }
             
-            
-            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin
+            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin * 2
         }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
