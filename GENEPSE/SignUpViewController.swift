@@ -23,8 +23,6 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
 
         InitView()
-        
-        
     }
     
     func InitView() {
