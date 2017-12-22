@@ -289,8 +289,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
         let w = cardView.frame.width
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.4, text: attr_str)
+        
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         

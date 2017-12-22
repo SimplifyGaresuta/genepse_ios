@@ -276,9 +276,12 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             font_size = 27
         }
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.4, text: attr_str)
+        
         let y = latest_frame.origin.y+latest_frame.height+base_margin * 0.5
         let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
