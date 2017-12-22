@@ -286,7 +286,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
         let x = 0 as CGFloat
-        let y = base_margin * 0.5
+        let y = base_margin * 0.3
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
         
