@@ -278,7 +278,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 0.5
+        let y = name_frame.height+name_frame.origin.y+base_margin * 1.0
         var x = base_margin * 2.5
 
         for skill in skills {
@@ -347,7 +347,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*2
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
