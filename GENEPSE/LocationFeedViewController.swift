@@ -265,7 +265,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let font_size = 22 as CGFloat
         
         let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.75
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.5
         let w = cardViews.last!.frame.width
         
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
@@ -347,7 +347,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.5
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*1.7
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
