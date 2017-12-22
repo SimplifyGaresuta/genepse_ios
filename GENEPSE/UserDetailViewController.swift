@@ -286,7 +286,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         let x = 0 as CGFloat
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 2
         let w = cardView.frame.width
         
         var attr_str = NSMutableAttributedString(string: text)
