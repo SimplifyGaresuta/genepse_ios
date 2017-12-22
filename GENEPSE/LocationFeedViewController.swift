@@ -275,6 +275,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         return name_label
     }
     
+    var is_skill_japanese = false
+    
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
         let y = name_frame.height+name_frame.origin.y+base_margin * 1.0
@@ -288,10 +290,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             if SearchJapaneseEnglish(text: skill) == JapaneseEnglish.Japanese.rawValue {
                 font_name = FontName.J_W6.rawValue
                 font_size = 10
+                is_skill_japanese = true
             }else {
                 font_name = FontName.E_M.rawValue
                 font_size = 11
                 attr_str = AddAttributedTextLetterSpacing(space: 0.4, text: attr_str)
+                is_skill_japanese = false
             }
             
             //skillラベル追加
@@ -342,11 +346,19 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     func CreateSNSButton(json: [JSON]) -> [UIButton] {
         var buttons:[UIButton] = []
         
+        //スキルが日本語のみの場合、skill frameが小さくなるので加算
+        var skill_frame_offset = 0 as CGFloat
+        if is_skill_japanese {
+            skill_frame_offset = base_margin * 0.26
+            is_skill_japanese = false
+        }
+        
         let icon_name = ["icon_facebook", "icon_twitter"]
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.2
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.2 + skill_frame_offset
+        print(skill_frame.origin.y+skill_frame.height)
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
@@ -392,8 +404,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
             
-            var offset_image_topbottm = 15 as CGFloat
-            var offset_title = 5 as CGFloat
+            let offset_image_topbottm = base_margin * 1.1
+            var offset_title = base_margin * 0.4
             
             //片方のボタン(FB)のみRight_borderを描画、TWの方のみアイコンと文字の間隔をあける
             if i == 0 {
@@ -402,12 +414,11 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 right_border.frame = CGRect(x: button.frame.size.width - border_w,y: 0, width:border_w, height:button.frame.size.height)
                 button.layer.addSublayer(right_border)
             }else {
-                offset_image_topbottm = 15
-                offset_title = 7
+                offset_title = base_margin*0.54
             }
             
             //image、titleの表示サイズ・位置の調整
-            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image_topbottm, 0, offset_image_topbottm, 5)
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image_topbottm, 0, offset_image_topbottm, base_margin*0.38)
             button.imageView?.contentMode = .scaleAspectFit
             
             button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
@@ -418,7 +429,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         users_tag[users_count] = tag_array
         users_count += 1
         
-        print(users_tag)
+//        print(users_tag)
         
         return buttons
     }
