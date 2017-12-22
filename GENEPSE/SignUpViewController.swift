@@ -40,7 +40,6 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
         bgImageView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
         bgImageView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
         
-        //TODO: frameを要検討
         let button_w = self.view.frame.width * 0.55
         let button_h = self.view.frame.height * 0.07
         let button_x = self.view.frame.width/2 - button_w/2
