@@ -277,7 +277,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         }
         
         var attr_str = NSMutableAttributedString(string: text)
-        attr_str = AddAttributedTextLetterSpacing(space: 1.4, text: attr_str)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.5, text: attr_str)
         
         let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
         let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
