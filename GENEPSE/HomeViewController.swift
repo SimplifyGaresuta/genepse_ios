@@ -248,11 +248,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = last_frame.origin.y+last_frame.height+base_margin*0.35
-        let homeImageView_wh = 13 as CGFloat
+        let font_size = 13 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 13)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
         label.text = name
         label.sizeToFit()
         
@@ -260,6 +261,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin*0.25, y: start_y, width: 0, height: 0)
         label.sizeToFit()
+        
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
 
         return (homeImageView, label)
     }
