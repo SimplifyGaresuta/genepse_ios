@@ -610,7 +610,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
 
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
-        let image_wh = 30 as CGFloat
+        let image_wh = 35 as CGFloat
         let EdgeInset = 5 as CGFloat
         let x = cgrect.origin.x + cgrect.width + base_margin * 0.5
         let y = cgrect.origin.y+cgrect.height/2 - image_wh/2
