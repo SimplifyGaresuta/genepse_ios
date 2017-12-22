@@ -384,15 +384,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.setAttributedTitle(attr_str, for: .normal)
             button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
             button.isEnabled = isEnabled
-            
-            //image、titleの表示サイズ・位置の調整
-            let offset_image = 15 as CGFloat
-            let offset_title = 5 as CGFloat
-            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image, 0, offset_image, 0)
-            button.imageView?.contentMode = .scaleAspectFit
-            
-            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
-            
+
             //Top_borderの描画
             let border_w = 1 as CGFloat
             let top_border = CALayer()
@@ -400,13 +392,25 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
             
-            //片方のボタンのみRight_borderを描画
+            var offset_image_topbottm = 15 as CGFloat
+            var offset_title = 5 as CGFloat
+            
+            //片方のボタン(FB)のみRight_borderを描画、TWの方のみアイコンと文字の間隔をあける
             if i == 0 {
                 let right_border = CALayer()
                 right_border.backgroundColor = UIColor.hexStr(hexStr: "#EEEEEE", alpha: 1.0).cgColor
                 right_border.frame = CGRect(x: button.frame.size.width - border_w,y: 0, width:border_w, height:button.frame.size.height)
                 button.layer.addSublayer(right_border)
+            }else {
+                offset_image_topbottm = 15
+                offset_title = 7
             }
+            
+            //image、titleの表示サイズ・位置の調整
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image_topbottm, 0, offset_image_topbottm, 5)
+            button.imageView?.contentMode = .scaleAspectFit
+            
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
 
             buttons.append(button)
         }
