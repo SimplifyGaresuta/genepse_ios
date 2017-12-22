@@ -449,7 +449,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*3
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*2.5
         
         let x = cardView.frame.width * 0.1
         let w = cardView.frame.width * 0.8
