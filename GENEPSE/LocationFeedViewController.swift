@@ -14,7 +14,7 @@ import Toucan
 
 class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
 
-    var preViewName = StoryboardID.CLOSEUSER.rawValue
+    var preViewName = StoryboardID.NEARBY.rawValue
     var cannotavailable_msg = EdgeInsetLabel()
     var scrollView = UIScrollView()
     var cardViews: [UIView] = [UIView()]
@@ -39,10 +39,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         super.viewWillAppear(animated)
 
         // タイトルを装飾
-        self.tabBarController?.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: StoryboardID.CLOSEUSER.rawValue, font_name: FontName.DIN.rawValue, font_size: 20)
+        self.tabBarController?.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: StoryboardID.NEARBY.rawValue, font_name: FontName.DIN.rawValue, font_size: 20)
         
         self.tabBarController?.delegate = self
-        preViewName = StoryboardID.CLOSEUSER.rawValue
+        preViewName = StoryboardID.NEARBY.rawValue
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +86,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.extendedLayoutIncludesOpaqueBars = true
         
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(scrollView)
@@ -124,7 +125,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         self.users = sorted_users
 
         base_margin = self.view.bounds.width * 0.035
-        var card_start_y = base_margin
+        var card_start_y = base_margin * 1.5
         
         for user in sorted_users {
             //表示しようとしているカードが自分と同じ場合はスキップ
@@ -186,8 +187,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
                 cardViews.last!.addSubview(snsButton)
             }
             
-            
-            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin
+            card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + base_margin * 2
         }
         
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+base_margin*1.5)
@@ -212,7 +212,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     func CreateAttributeLabel(attribute: String) -> UILabel {
         //TODO: 各属性同士の間隔をもう少し狭める
         let x = base_margin * 1
-        let y = base_margin * 1
+        let y = base_margin * 0.5
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
         
@@ -229,6 +229,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     
     func CreateDistanceLabel(distance: Int) -> EdgeInsetLabel {
         var attr_text = NSMutableAttributedString(string: GenerateDistanceString(distance: distance))
+        print(attr_text, distance)
         attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
         let f_size = 16 as CGFloat
@@ -239,9 +240,9 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         label.backgroundColor = UIColor.black
         label.textColor = UIColor.white
         label.topTextInset = f_size/3
-        label.rightTextInset = 5
+        label.rightTextInset = 8
         label.bottomTextInset = f_size/3
-        label.leftTextInset = 5
+        label.leftTextInset = 8
         label.sizeToFit()
         
         let x = cardViews.last!.frame.width - label.frame.width
@@ -264,20 +265,25 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         let font_size = 22 as CGFloat
         
         let x = base_margin * 2.5
-        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.75
+        let y = attr_frame.origin.y + attr_frame.height + base_margin * 1.5
         let w = cardViews.last!.frame.width
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.2, text: attr_str)
+        
         let name_label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .left
         name_label.font = UIFont(name: font_name, size: font_size)
         
         return name_label
     }
     
+    var is_skill_japanese = false
+    
     func CreateMainSkillsLabels(skills: Array<String>) -> Array<Any> {
         var views:[Any] = []
-        let y = name_frame.height+name_frame.origin.y+base_margin * 0.5
+        let y = name_frame.height+name_frame.origin.y+base_margin * 1.0
         var x = base_margin * 2.5
 
         for skill in skills {
@@ -288,10 +294,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             if SearchJapaneseEnglish(text: skill) == JapaneseEnglish.Japanese.rawValue {
                 font_name = FontName.J_W6.rawValue
                 font_size = 10
+                is_skill_japanese = true
             }else {
                 font_name = FontName.E_M.rawValue
                 font_size = 11
                 attr_str = AddAttributedTextLetterSpacing(space: 0.4, text: attr_str)
+                is_skill_japanese = false
             }
             
             //skillラベル追加
@@ -342,11 +350,19 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     func CreateSNSButton(json: [JSON]) -> [UIButton] {
         var buttons:[UIButton] = []
         
+        //スキルが日本語のみの場合、skill frameが小さくなるので加算
+        var skill_frame_offset = 0 as CGFloat
+        if is_skill_japanese {
+            skill_frame_offset = base_margin * 0.26
+            is_skill_japanese = false
+        }
+        
         let icon_name = ["icon_facebook", "icon_twitter"]
         let title = ["Facebook", "Twitter"]
         let color:[NSString] = ["#385495", "#1DA1F2"]
         let s_x = [0, cardViews.last!.frame.width/2]
-        let y = skill_frame.origin.y+skill_frame.height+base_margin*2
+        let y = skill_frame.origin.y+skill_frame.height+base_margin*2.2 + skill_frame_offset
+        print(skill_frame.origin.y+skill_frame.height)
         let h = cardViews.last!.bounds.height-y
         let w = cardViews.last!.frame.width/2
         var tag_array:[Int] = []
@@ -384,15 +400,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             button.setAttributedTitle(attr_str, for: .normal)
             button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
             button.isEnabled = isEnabled
-            
-            //image、titleの表示サイズ・位置の調整
-            let offset_image = 15 as CGFloat
-            let offset_title = 5 as CGFloat
-            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image, 0, offset_image, 0)
-            button.imageView?.contentMode = .scaleAspectFit
-            
-            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
-            
+
             //Top_borderの描画
             let border_w = 1 as CGFloat
             let top_border = CALayer()
@@ -400,13 +408,24 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
             
-            //片方のボタンのみRight_borderを描画
+            let offset_image_topbottm = base_margin * 1.1
+            var offset_title = base_margin * 0.4
+            
+            //片方のボタン(FB)のみRight_borderを描画、TWの方のみアイコンと文字の間隔をあける
             if i == 0 {
                 let right_border = CALayer()
                 right_border.backgroundColor = UIColor.hexStr(hexStr: "#EEEEEE", alpha: 1.0).cgColor
                 right_border.frame = CGRect(x: button.frame.size.width - border_w,y: 0, width:border_w, height:button.frame.size.height)
                 button.layer.addSublayer(right_border)
+            }else {
+                offset_title = base_margin*0.54
             }
+            
+            //image、titleの表示サイズ・位置の調整
+            button.imageEdgeInsets = UIEdgeInsetsMake(offset_image_topbottm, 0, offset_image_topbottm, base_margin*0.38)
+            button.imageView?.contentMode = .scaleAspectFit
+            
+            button.titleEdgeInsets = UIEdgeInsetsMake(0, offset_title, 0, 0)
 
             buttons.append(button)
         }
@@ -414,7 +433,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         users_tag[users_count] = tag_array
         users_count += 1
         
-        print(users_tag)
+//        print(users_tag)
         
         return buttons
     }
@@ -446,8 +465,12 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         if km < 1.0 {
             return String(distance) + "m"
         }
-        
-        return String(km) + "km"
+
+        if km < 10 {
+            return String(format: "%.1fkm", km)
+        }else {
+            return String(format: "%.0fkm", km)
+        }
     }
     
     func CallLocationFeedAPI(){
@@ -470,7 +493,7 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController.restorationIdentifier! == StoryboardID.CLOSEUSER.rawValue && preViewName == StoryboardID.CLOSEUSER.rawValue {
+        if viewController.restorationIdentifier! == StoryboardID.NEARBY.rawValue && preViewName == StoryboardID.NEARBY.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
         

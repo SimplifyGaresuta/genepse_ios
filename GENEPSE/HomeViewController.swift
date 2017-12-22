@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let titleview = UIImageView(image: UIImage(named: "tabbar_feed_selected"))
+        let titleview = UIImageView(image: UIImage(named: "icon_genepse"))
         self.tabBarController?.navigationItem.titleView = titleview
         
         preViewName = StoryboardID.Home.rawValue
@@ -45,6 +45,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.extendedLayoutIncludesOpaqueBars = true
         
         guard let user_id = GetAppDelegate().user_id else {
             return
@@ -233,8 +234,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let y = last_frame.origin.y+last_frame.height+base_margin * 0.4
         let w = cardViews.last!.frame.width
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.2, text: attr_str)
+        
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         
@@ -245,11 +249,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = last_frame.origin.y+last_frame.height+base_margin*0.35
-        let homeImageView_wh = 13 as CGFloat
+        let font_size = 13 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 13)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
         label.text = name
         label.sizeToFit()
         
@@ -257,6 +262,11 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin*0.25, y: start_y, width: 0, height: 0)
         label.sizeToFit()
+        
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
 
         return (homeImageView, label)
     }
@@ -283,7 +293,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
         let x = 0 as CGFloat
-        let y = base_margin * 0.5
+        let y = base_margin * 0.3
         let w = cardViews.last!.frame.width
         let f_size = 13 as CGFloat
         

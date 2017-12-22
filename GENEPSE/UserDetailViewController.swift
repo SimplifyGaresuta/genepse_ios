@@ -44,7 +44,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "User Detail"
         scrollView.delegate = self
         
         InitScrollView()
@@ -286,11 +285,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         let x = 0 as CGFloat
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 2
         let w = cardView.frame.width
         
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.5, text: attr_str)
+        
         let name_label = UILabel(frame: CGRect(x: x, y: y, width: w, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         
@@ -341,11 +343,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 3
-        let homeImageView_wh = 16 as CGFloat
+        let font_size = 16 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 16)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
         label.text = name
         label.sizeToFit()
         
@@ -353,6 +356,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
         homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin, y: start_y, width: 0, height: 0)
         label.sizeToFit()
+        
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
         
         return (homeImageView, label)
     }
@@ -440,7 +448,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*3
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*2.5
         
         let x = cardView.frame.width * 0.1
         let w = cardView.frame.width * 0.8
@@ -485,7 +493,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             // 画像の設置
             let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
             productImageView.loadImage(urlString: image)
-            productImageView.backgroundColor = UIColor.brown
             productImageView.contentMode = .scaleAspectFill
             productImageView.layer.cornerRadius = 10
             productImageView.clipsToBounds = true

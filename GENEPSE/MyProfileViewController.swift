@@ -62,6 +62,8 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         
         super.viewDidLoad()
         
+        self.extendedLayoutIncludesOpaqueBars = true
+        
         scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentBehavior.never
         
         base_margin = self.view.bounds.width * 0.05
@@ -276,9 +278,12 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
             font_size = 27
         }
         
-        let y = latest_frame.origin.y+latest_frame.height+base_margin * 0.5
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.5, text: attr_str)
+        
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
         let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
-        name_label.text = text
+        name_label.attributedText = attr_str
         name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
@@ -340,14 +345,14 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
-        //TODO: homeのアイコン小さく
         let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
         let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
-        let homeImageView_wh = 16 as CGFloat
+        let font_size = 16 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
         homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
         let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 16)
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
         label.text = name
         label.sizeToFit()
         
@@ -356,6 +361,11 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin*0.5, y: start_y, width: 0, height: 0)
         label.sizeToFit()
         
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
+
         return (homeImageView, label)
     }
     
@@ -442,7 +452,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
     
     func CreateCareerLabel(text: String) -> UILabel {
-        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.5
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.25
         
         let x = cardView.frame.width * 0.1
         let w = cardView.frame.width * 0.8
@@ -602,7 +612,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
     }
 
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
-        let image_wh = 30 as CGFloat
+        let image_wh = 35 as CGFloat
         let EdgeInset = 5 as CGFloat
         let x = cgrect.origin.x + cgrect.width + base_margin * 0.5
         let y = cgrect.origin.y+cgrect.height/2 - image_wh/2
