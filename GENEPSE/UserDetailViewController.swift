@@ -198,7 +198,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func CreateBackButton() -> UIButton {
-        let button = UIButton(frame: CGRect(x: base_margin, y: 0, width: 50, height: 50))
+        let button = UIButton(frame: CGRect(x: base_margin*1.4, y: 20, width: 25, height: 25))
         button.setImage(UIImage(named: "icon_back"), for: .normal)
         button.addTarget(self, action: #selector(TapBackButton(sender:)), for: .touchUpInside)
         return button
