@@ -5,7 +5,6 @@
 //  Created by 岩見建汰 on 2017/12/02.
 //  Copyright © 2017年 Kenta. All rights reserved.
 //
-
 import UIKit
 import Alamofire
 import SwiftyJSON
@@ -42,7 +41,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         preViewName = StoryboardID.Home.rawValue
         self.tabBarController?.delegate = self
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = true
@@ -52,7 +51,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         }
         
         self.user_id = user_id
-
+        
         self.view.layoutIfNeeded()
         
         base_margin = self.view.bounds.width * 0.1
@@ -63,7 +62,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
-        card_start_y = base_margin * 0.6
+        card_start_y = base_margin * 0.5
         
         indicator.showIndicator(view: self.view)
         
@@ -82,7 +81,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     
     func refresh(sender: UIRefreshControl) {
         sender.beginRefreshing()
-
+        
         for cardView in cardViews {
             cardView.removeFromSuperview()
         }
@@ -118,7 +117,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             let skills = obj[Key.skills.rawValue].arrayValue.map({$0.stringValue})
             let overview = obj[Key.overview.rawValue].stringValue
             let activity_base = obj[Key.activity_base.rawValue].stringValue
-
+            
             // カードを追加
             cardViews.append(self.CreateCard(card_start_y: self.card_start_y))
             scrollView.addSubview(cardViews.last!)
@@ -145,7 +144,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(activity_baseView.0)
             cardViews.last!.addSubview(activity_baseView.1)
             last_frame = activity_baseView.1.frame
-
+            
             
             // メインスキルを追加
             let mainskillsViews = self.CreateMainSkillsLabels(skills: skills)
@@ -167,19 +166,17 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
-            self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.6
+            self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.5
         }
         
         self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+self.base_margin)
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        let w_offset = 0.88 as CGFloat
-        let card_width = view_w * w_offset
-        let card_height = view_h * 0.6
-        let hoge = view_w * (1-w_offset)/2
+        let card_width = view_w * 0.8
+        let card_height = view_h * 0.53
         
-        let card_view = UIView(frame: CGRect(x: hoge, y: card_start_y, width: card_width, height: card_height))
+        let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
         card_view.layer.cornerRadius = 10
         card_view.layer.shadowOpacity = 0.2
@@ -269,7 +266,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
         
         homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
-
+        
         return (homeImageView, label)
     }
     
@@ -289,7 +286,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         attributedText = AddAttributedTextLetterSpacing(space: -0.05, text: attributedText)
         
         career_label.attributedText = attributedText
-
+        
         return career_label
     }
     
@@ -414,10 +411,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
     func ResetOffset() {
         offset = 0
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 }
-
