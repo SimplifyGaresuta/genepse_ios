@@ -596,7 +596,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func CreateSectionLabel(text: String, space: Double, leftmargin: CGFloat) -> UILabel {
         let x = latest_frame.origin.x + leftmargin
-        let y = latest_frame.origin.y+latest_frame.height+base_margin*3
+        let y = latest_frame.origin.y+latest_frame.height+base_margin*6
         let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
         var attr_str = NSMutableAttributedString(string: text)
         attr_str = AddAttributedTextLetterSpacing(space: space, text: attr_str)
