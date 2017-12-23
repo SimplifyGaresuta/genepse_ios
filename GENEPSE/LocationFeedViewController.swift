@@ -417,7 +417,8 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             top_border.frame = CGRect(x:0,y: 0, width:button.frame.size.width, height:border_w)
             button.layer.addSublayer(top_border)
             
-            let offset_image_topbottm = base_margin * 1.3
+            //TODO: 微調整
+            let offset_image_topbottm = base_margin * 1
             var offset_title = base_margin * 0.4
             
             //片方のボタン(FB)のみRight_borderを描画、TWの方のみアイコンと文字の間隔をあける
