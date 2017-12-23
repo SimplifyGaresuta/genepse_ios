@@ -140,10 +140,10 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
             let sns = user[Key.sns.rawValue].arrayValue
             let distance = user[Key.distance.rawValue].intValue
             
-            
             // カードを追加
             cardViews.append(CreateCard(start_y: card_start_y))
             scrollView.addSubview(cardViews.last!)
+            cardViews.last!.tag = user["id"].intValue
             
             
             // 属性を追加
@@ -206,7 +206,16 @@ class LocationFeedViewController: UIViewController, UITabBarControllerDelegate {
         card_view.layer.shadowRadius = 5
         card_view.layer.masksToBounds = false
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapCard(sender:)))
+        card_view.addGestureRecognizer(tap)
+        
         return card_view
+    }
+    
+    func TapCard(sender: UITapGestureRecognizer){
+        let user_detail_VC = UserDetailViewController()
+        user_detail_VC.SetUserID(id: (sender.view?.tag)!)
+        self.navigationController!.pushViewController(user_detail_VC, animated: true)
     }
     
     func CreateAttributeLabel(attribute: String) -> UILabel {
