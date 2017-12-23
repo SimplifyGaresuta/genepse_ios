@@ -29,7 +29,7 @@ class ProductFromViewController: FormViewController {
         let check_button = UIBarButtonItem(image: UIImage(named: "icon_upload"), style: .plain, target: self, action: #selector(self.TapUploadButton(sender:)))
 
         self.navigationItem.setRightBarButton(check_button, animated: true)
-        self.navigationItem.title = view_title
+        self.navigationItem.titleView = ViewUtility().CreateTitleLabelView(title: view_title, font_name: FontName.DIN.rawValue, font_size: 20)
         
         UpdateSelfProduct()
         
@@ -50,8 +50,6 @@ class ProductFromViewController: FormViewController {
             cell.textLabel?.textAlignment = .right
         }
         let RuleRequired_M = "必須項目です"
-        let RuleRequired_Warning_M = "項目を埋めてアピール力をあげましょう"
-        let RuleURL_M = "URLの形式をもう一度、確認してください"
         
         form +++ Section("タイトル")
             <<< TextRow(){
@@ -84,7 +82,7 @@ class ProductFromViewController: FormViewController {
                 $0.title = ""
                 $0.placeholder = "http://◯◯.◯◯◯.◯◯"
                 $0.value = product[Key.url.rawValue].stringValue
-                $0.add(rule: RuleRequired(msg: RuleRequired_Warning_M))
+                $0.add(rule: RuleRequired(msg: RuleRequired_M))
                 $0.validationOptions = .validatesOnChange
                 $0.tag = Key.url.rawValue
         }
@@ -98,12 +96,7 @@ class ProductFromViewController: FormViewController {
                     let labelRow = LabelRow() {
                         $0.title = err
                         $0.cell.height = { 30 }
-                        
-                        if err == RuleRequired_Warning_M {
-                            $0.cell.backgroundColor = UIColor.orange
-                        }else {
-                            $0.cell.backgroundColor = UIColor.red
-                        }
+                        $0.cell.backgroundColor = UIColor.red
                     }
                     row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                 }
@@ -136,9 +129,9 @@ class ProductFromViewController: FormViewController {
             if !row.isValid {
                 for (index, _) in row.validationErrors.map({ $0.msg }).enumerated() {
                     let labelRow = LabelRow() {
-                        $0.title = RuleRequired_Warning_M
+                        $0.title = RuleRequired_M
                         $0.cell.height = { 30 }
-                        $0.cell.backgroundColor = UIColor.orange
+                        $0.cell.backgroundColor = UIColor.red
                     }
                     row.section?.insert(labelRow, at: row.indexPath!.row + index + 1)
                 }
@@ -155,7 +148,7 @@ class ProductFromViewController: FormViewController {
     func InitProductImageView() {
         let base_margin = self.view.frame.width * 0.1
         let h = self.view.frame.height*0.3
-        let y = self.view.subviews[0].frame.height - h - base_margin*2
+        let y = self.view.subviews[0].frame.height - h - base_margin * 3
         
         self.productImageView.frame = CGRect(x: base_margin, y: y, width: self.view.frame.width-base_margin*2, height: h)
         self.productImageView.layer.cornerRadius = 10
@@ -189,11 +182,14 @@ class ProductFromViewController: FormViewController {
     }
     
     func TapUploadButton(sender: UIButton) {
-        // タイトルが埋まっているかどうか
-        if form.rowBy(tag: "title")?.validate().count != 0 {
+        var err_sum = 0
+        for row in form.allRows {
+            err_sum += row.validate().count
+        }
+        
+        if err_sum != 0 {
             self.present(GetStandardAlert(title: "エラー", message: "必須項目を入力してください", b_title: "OK"),animated: true, completion: nil)
         }else {
-            //TODO: 更新時に画像がnilの場合に通信エラー扱いされる
             if !is_add {
                 if !is_imageloaded {
                     self.present(GetStandardAlert(title: "通信エラー", message: "再度やり直してください", b_title: "OK"),animated: true, completion: nil)
@@ -222,17 +218,11 @@ class ProductFromViewController: FormViewController {
             host_url += String(product_id)
             method = HTTPMethod.put
         }
-        
-//        print("******** send Data ********")
-//        print(req_image)
-//        print(req_url)
-//        print(title.data(using: .utf8)!)
-//        print(Data(buffer: UnsafeBufferPointer(start: &user_id, count: 1)))
-//        print("******** send Data ********")
-        
+                
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
                 
+                //TODO: 毎回圧縮して送るため、どんどん画質が悪化していってしまう
                 if image != nil {
                     multipartFormData.append(UIImageJPEGRepresentation(image!.resized(withPercentage: 0.3)!, 1.0)!,
                                              withName: "image",
@@ -269,10 +259,14 @@ class ProductFromViewController: FormViewController {
                         .responseString { response in
                             debugPrint(response)
                             print(response.result.value)
+                            print("************************")
+                            print(response.response?.statusCode)
+                            print("************************")
                             
-                            //TODO: 500系が発生することがあるので、アラートを出す
                             indicator.stopIndicator()
-                            self.dismiss(animated: true, completion: nil)
+                            
+                            // 200系以外ならエラー
+                            CheckHTTPStatus(statusCode: response.response?.statusCode, VC: self)
                         }
                     case .failure(let encodingError):
                         print(encodingError)

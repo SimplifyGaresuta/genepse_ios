@@ -23,29 +23,31 @@ class SignUpViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
 
         InitView()
-        
-        
     }
     
     func InitView() {
         let full_w = self.view.frame.width
         let full_h = self.view.frame.height
         
-        let bgImageView = UIImageView(image: UIImage(named: "sample2.jpg"))
+        let bgImageView = UIImageView(image: UIImage(named: "signup_background"))
         bgImageView.frame = CGRect(x: 0, y: 0, width: full_w, height: full_h)
         bgImageView.contentMode = .scaleAspectFill
         self.view.addSubview(bgImageView)
         
-        //TODO: frameを要検討
-        let genepse_tokyoImageView = UIImageView(image: UIImage(named: "genepse_tokyo.png"))
-        genepse_tokyoImageView.frame = CGRect(x: 100, y: 100, width: full_w*0.5, height: 10)
-        genepse_tokyoImageView.contentMode = .scaleAspectFill
-        self.view.addSubview(genepse_tokyoImageView)
+        bgImageView.translatesAutoresizingMaskIntoConstraints = false
+        bgImageView.topAnchor.constraint(equalTo:self.view.topAnchor).isActive = true
+        bgImageView.trailingAnchor.constraint(equalTo:self.view.trailingAnchor).isActive = true
+        bgImageView.bottomAnchor.constraint(equalTo:self.view.bottomAnchor).isActive = true
+        bgImageView.leadingAnchor.constraint(equalTo:self.view.leadingAnchor).isActive = true
         
-        //TODO: frameを要検討
-        start_facebookButton = UIButton(frame: CGRect(x: 100, y: 500, width: full_w*0.5, height: 50))
+        let button_w = self.view.frame.width * 0.55
+        let button_h = self.view.frame.height * 0.07
+        let button_x = self.view.frame.width/2 - button_w/2
+        let button_y = self.view.frame.height * 0.82
+        
+        start_facebookButton.frame = CGRect(x: button_x, y: button_y, width: button_w, height: button_h)
+        start_facebookButton.setImage(UIImage(named: "icon_start_fb"), for: .normal)
         start_facebookButton.contentMode = .scaleAspectFill
-        start_facebookButton.setImage(UIImage(named: "start_facebook.png"), for: .normal)
         start_facebookButton.addTarget(self, action: #selector(self.TapStartButton(sender:)), for: .touchUpInside)
         self.view.addSubview(start_facebookButton)
     }

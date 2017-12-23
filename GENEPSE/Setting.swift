@@ -18,12 +18,19 @@ enum SectionID: Int {
     case info = 7
 }
 
+enum SectionID_New: Int {
+    case main = 1
+    case works = 2
+    case info = 3
+}
+
 enum Key: String {
     // ユーザデータ
     case activity_base = "activity_base"
     case name = "name"
     case overview = "overview"
     case avatar_url = "avatar_url"
+    case cover_url = "cover_url"
     case attribute = "attribute"
     case awards = "awards"
     case skills = "skills"
@@ -49,6 +56,7 @@ enum Key: String {
     // 位置情報
     case latitude = "latitude"
     case longitude = "longitude"
+    case distance = "distance"
     
     // ログイン
     case login_url = "login_url"
@@ -61,6 +69,12 @@ enum AttributeStr: String {
     case Business = "Business"
 }
 
+enum AttributeStr_L: String {
+    case Designer = "DESIGNER"
+    case Engineer = "ENGINEER"
+    case Business = "BUSINESS"
+}
+
 enum API: String {
     case host = "https://genepse-186713.appspot.com"
     case v1 = "/v1"
@@ -69,6 +83,7 @@ enum API: String {
     case login_url = "/login_url/"
     case provider = "facebook"
     case locations = "/locations/"
+    case near_users = "/near_users/"
 }
 
 enum JapaneseEnglish: Int {
@@ -78,7 +93,12 @@ enum JapaneseEnglish: Int {
 }
 
 enum StoryboardID: String {
-    case Feed = "Feed"
+    case Home = "Home"
     case MyProfile = "MyProfile"
-    case LocationFeed = "LocationFeed"
+    case NEARBY = "NEARBY"
+}
+
+enum Provider: String {
+    case FB = "facebook"
+    case TW = "twitter"
 }

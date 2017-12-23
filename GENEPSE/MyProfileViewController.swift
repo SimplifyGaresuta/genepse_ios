@@ -9,30 +9,24 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Toucan
 
-class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
+class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIScrollViewDelegate {
 
     var preViewName = StoryboardID.MyProfile.rawValue
     
     private var user_id = 0
+    let appdelegate = GetAppDelegate()
     var base_margin = 0.0 as CGFloat
     
     var scrollView = UIScrollView()
     var cardView = UIView()
-    var profileImageView = UIImageView()
-    var latest_section_frame = CGRect()
+    var cover_img = UIImageView()
+    var latest_frame = CGRect()
+    var indicator = Indicator()
     
-    var product_link:[Int:String] = [:]
-    var sns_link:[Int:String] = [:]
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        CallUserDetailAPI()
-        
-        cardView.removeFromSuperview()
-        
-        InitCardView()
-    }
+    //MARK: DEBUG
+    let debug = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,22 +34,42 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         
         preViewName = StoryboardID.MyProfile.rawValue
         self.tabBarController?.delegate = self
+        self.navigationController?.navigationBar.isHidden = true
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        indicator.showIndicator(view: self.view)
+        
+        cardView.removeFromSuperview()
+        cover_img.removeFromSuperview()
+        scrollView.removeFromSuperview()
+        
+        InitScrollView()
+        CallUserDetailAPI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     override func viewDidLoad() {
         user_id = GetMyID()
         
-        CallUserDetailAPI()
-        
         super.viewDidLoad()
+        
+        self.extendedLayoutIncludesOpaqueBars = true
+        
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentBehavior.never
         
         base_margin = self.view.bounds.width * 0.05
         self.view.backgroundColor = UIColor.white
         
-//        self.tabBarController?.delegate = self
-        
-        InitScrollView()
-        InitCardView()
+        scrollView.delegate = self
     }
     
     func GetMyID() -> Int {
@@ -68,7 +82,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     func InitScrollView() {
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height+1000)
         self.view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,14 +95,15 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     func InitCardView() {
         cardView = UIView()
         
-        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
+        let y = cover_img.frame.height * 0.8
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: self.view.bounds.height+1000)
         cardView.backgroundColor = UIColor.white
         
-        cardView.layer.cornerRadius = 20
+        cardView.layer.cornerRadius = 3
         cardView.layer.shadowOpacity = 0.2
         cardView.layer.shadowColor = UIColor.black.cgColor
         cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cardView.layer.shadowRadius = 4
+        cardView.layer.shadowRadius = 3
         cardView.layer.masksToBounds = false
         
         scrollView.addSubview(cardView)
@@ -96,252 +111,167 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
     
     func AddViews(json: JSON) {
         //MARK: delegateに保存
-        let appdelegate = GetAppDelegate()
         appdelegate.data = GetDetailData(json: json)
         
+        
+        // 背景画像の追加
+        let cover_img = CreateCoverImageView(url: (appdelegate.data?.GetCoverUrl())!)
+        scrollView.addSubview(cover_img)
+        self.cover_img = cover_img
+        
+        // カードの追加
+        InitCardView()
+        
         // プロフ画像の追加
-        profileImageView = CreateProfileImageView(url: (appdelegate.data?.GetAvatarURL())!)
+        let profileImageView = CreateProfileImageView(url: (appdelegate.data?.GetAvatarURL())!)
         cardView.addSubview(profileImageView)
-        UpdateCardViewFrame(last_add_cgrect: profileImageView.frame)
-
-
-        // 属性の追加
-        let attributeImageView = CreateAttributeImageView(attribute: (appdelegate.data?.GetAttr())!)
-        cardView.addSubview(attributeImageView)
-        UpdateCardViewFrame(last_add_cgrect: attributeImageView.frame)
-
-
-        // メインスキルの追加
-        let mainskillsLabels = self.CreateMainSkillsLabels(skills: (appdelegate.data?.GetMainSkills())!)
-        for (shadowView, skillLabel) in zip(mainskillsLabels.0, mainskillsLabels.1) {
-            cardView.addSubview(shadowView)
-            cardView.addSubview(skillLabel)
-        }
-
-
-        // 名前の追加
-        let nameLabel = self.CreateNameLabel(text: (appdelegate.data?.GetName())!)
-        cardView.addSubview(nameLabel)
-        cardView.addSubview(self.CreateEditButton(cgrect: nameLabel.frame, id: SectionID.name.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
-
+        latest_frame = profileImageView.frame
         
-        //拠点ラベルを追加
-        let activitybaseLabel = self.CreateActivityBaseLabel(name: (appdelegate.data?.GetActivityBase())!, namelabel_cgrect: nameLabel.frame)
-        cardView.addSubview(activitybaseLabel)
-
-
-        // 経歴の追加
-        let careerLabel = self.CreateCareerLabel(text: (appdelegate.data?.GetOverview())!, nameLabel_frame: nameLabel.frame)
-        cardView.addSubview(careerLabel)
-        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
-
-        // 受賞歴の追加
-        let awards_sectionLable = self.CreateSectionLabel(text: "受賞歴", y: careerLabel.frame.origin.y+careerLabel.frame.height+base_margin*3)
-        cardView.addSubview(awards_sectionLable)
-        cardView.addSubview(self.CreateEditButton(cgrect: awards_sectionLable.frame, id: SectionID.awards.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: awards_sectionLable.frame)
-        latest_section_frame = awards_sectionLable.frame
-
-        let awardsLabel = self.CreateAwardsLabel(awards: (appdelegate.data?.GetAwards())!)
-        cardView.addSubview(awardsLabel)
-        UpdateCardViewFrame(last_add_cgrect: awardsLabel.frame)
-
-
-        // スキルの追加
-        let skills_sectionLable = self.CreateSectionLabel(text: "スキル", y: awardsLabel.frame.origin.y+awardsLabel.frame.height+base_margin*3)
-        cardView.addSubview(skills_sectionLable)
-        cardView.addSubview(self.CreateEditButton(cgrect: skills_sectionLable.frame, id: SectionID.skills.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-        latest_section_frame = skills_sectionLable.frame
-
-        let skillsLabels = self.CreateSkillsLabel(skills: (appdelegate.data?.GetSkills())!)
-        for skillLabel in skillsLabels {
-            cardView.addSubview(skillLabel)
-        }
-
-        if skillsLabels.count == 0 {
-            UpdateCardViewFrame(last_add_cgrect: skills_sectionLable.frame)
-        }else {
-            UpdateCardViewFrame(last_add_cgrect: skillsLabels.last!.frame)
-        }
-
-
-        // 作品の追加
-        var products_sectionLabel_y = 0.0 as CGFloat
-        if skillsLabels.count == 0 {
-            products_sectionLabel_y = skills_sectionLable.frame.origin.y+skills_sectionLable.frame.height
-        }else {
-            products_sectionLabel_y = skillsLabels.last!.frame.origin.y+skillsLabels.last!.frame.height
-        }
-
-        let products_sectionLable = self.CreateSectionLabel(text: "作品", y: products_sectionLabel_y+base_margin*3)
-        cardView.addSubview(products_sectionLable)
-        cardView.addSubview(self.CreateEditButton(cgrect: products_sectionLable.frame, id: SectionID.products.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: products_sectionLable.frame)
-        latest_section_frame = products_sectionLable.frame
-
-        let productsViews = self.CreateProductLabel(json: (appdelegate.data?.GetProducts())!)
-        for pViews in productsViews.0 {
-            cardView.addSubview(pViews.title)
-
-            if let urlLabel = pViews.url {
-                cardView.addSubview(pViews.link_img!)
-                cardView.addSubview(urlLabel)
-            }
-
-            if let imageView = pViews.image {
-                cardView.addSubview(pViews.image_shadow!)
-                cardView.addSubview(imageView)
-            }
-        }
-
-        if productsViews.0.count != 0 {
-            UpdateCardViewFrame(last_add_cgrect: productsViews.1)
-        }
-
-
+        
         // SNSの追加
-        var sns_sectionLable_y = 0.0 as CGFloat
-        if productsViews.0.count == 0 {
-            sns_sectionLable_y = products_sectionLable.frame.origin.y+products_sectionLable.frame.height
-        }else {
-            sns_sectionLable_y = productsViews.1.origin.y+productsViews.1.height
+        let snsButtons = CreateSNSLabel(json: (appdelegate.data?.GetSNS())!)
+        for s_button in snsButtons {
+            cardView.addSubview(s_button)
         }
-
-        let sns_sectionLable = self.CreateSectionLabel(text: "SNS", y: sns_sectionLable_y+base_margin*3)
-        cardView.addSubview(sns_sectionLable)
-        cardView.addSubview(self.CreateEditButton(cgrect: sns_sectionLable.frame, id: SectionID.sns.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: sns_sectionLable.frame)
-        latest_section_frame = sns_sectionLable.frame
-
-        let snsLabels = self.CreateSNSLabel(json: (appdelegate.data?.GetSNS())!)
-        for s_Label in snsLabels {
-            cardView.addSubview(s_Label.icon)
-            cardView.addSubview(s_Label.url)
-        }
-        UpdateCardViewFrame(last_add_cgrect: snsLabels.last!.url.frame)
-
-
-        // 資格の追加
-        let license_sectionLable = self.CreateSectionLabel(text: "資格", y: snsLabels.last!.url.frame.origin.y+snsLabels.last!.url.frame.height+base_margin*3)
-        cardView.addSubview(license_sectionLable)
-        cardView.addSubview(self.CreateEditButton(cgrect: license_sectionLable.frame, id: SectionID.license.rawValue))
-        UpdateCardViewFrame(last_add_cgrect: license_sectionLable.frame)
-        latest_section_frame = license_sectionLable.frame
-
-        let licensesLabel = self.CreateLicenseLabel(licenses: (appdelegate.data?.GetLicenses())!)
-        cardView.addSubview(licensesLabel)
-        UpdateCardViewFrame(last_add_cgrect: licensesLabel.frame)
-
-
-        // 基本情報の追加
-        let basic_info_sectionLabel = self.CreateSectionLabel(text: "基本情報", y: licensesLabel.frame.origin.y+licensesLabel.frame.height+base_margin*3)
-        let info_editbutton = self.CreateEditButton(cgrect: basic_info_sectionLabel.frame, id: SectionID.info.rawValue)
-        cardView.addSubview(basic_info_sectionLabel)
-        cardView.addSubview(info_editbutton)
-        UpdateCardViewFrame(last_add_cgrect: basic_info_sectionLabel.frame)
-        latest_section_frame = basic_info_sectionLabel.frame
-
-        let age = (appdelegate.data?.GetAge())!
         
-        let infoLabels = self.CreateBasicInfoLabel(info: [(appdelegate.data?.GetGender())!, String(age), (appdelegate.data?.GetAddress())!, (appdelegate.data?.GetSchoolCareer())!])
-        for i_Label in infoLabels {
-            cardView.addSubview(i_Label)
+        
+        // 名前の追加
+        let nameLabel = CreateNameLabel(text: (appdelegate.data?.GetName())!)
+        cardView.addSubview(nameLabel)
+        latest_frame = nameLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: nameLabel.frame)
+        cardView.addSubview(CreateEditButton(cgrect: nameLabel.frame, id: SectionID_New.main.rawValue))
+        
+        
+        // 属性の追加
+        let attributeLabel = CreateAttributeLabel(attribute: (appdelegate.data?.GetAttr())!)
+        cardView.addSubview(attributeLabel)
+        latest_frame = attributeLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: attributeLabel.frame)
+        
+        
+        // 活動拠点の追加
+        let activity_baseView = CreateActivityBase(name: (appdelegate.data?.GetActivityBase())!)
+        cardView.addSubview(activity_baseView.0)
+        cardView.addSubview(activity_baseView.1)
+        latest_frame = activity_baseView.1.frame
+        UpdateCardViewFrame(last_add_cgrect: activity_baseView.1.frame)
+        
+        
+        // スキルの追加
+        let mainskillsLabels = CreateSkillsLabels(skills: (appdelegate.data?.GetSkills())!)
+        for skillLabel in mainskillsLabels {
+            cardView.addSubview(skillLabel as! UIView)
         }
-
-        var scroll_button_start_cgrect = CGRect()
-        if infoLabels.count == 0 {
-            scroll_button_start_cgrect = info_editbutton.frame
-            UpdateCardViewFrame(last_add_cgrect: info_editbutton.frame)
-        }else {
-            scroll_button_start_cgrect = infoLabels.last!.frame
-            UpdateCardViewFrame(last_add_cgrect: infoLabels.last!.frame)
+        
+        if mainskillsLabels.count != 0 {
+            let tmp_view = mainskillsLabels.last! as! UIView
+            latest_frame = tmp_view.frame
+            UpdateCardViewFrame(last_add_cgrect: tmp_view.frame)
         }
-
-        // トップへスクロールするボタンの追加
-        let toptoscroll_button = self.CreateTopToScrollButton(cgrect: scroll_button_start_cgrect)
-        cardView.addSubview(toptoscroll_button)
-
-        UpdateCardViewFrame(last_add_cgrect: toptoscroll_button.frame)
-
-        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+base_margin*2)
+        
+        
+        // 経歴の追加
+        let careerLabel = CreateCareerLabel(text: (appdelegate.data?.GetOverview())!)
+        cardView.addSubview(careerLabel)
+        latest_frame = careerLabel.frame
+        UpdateCardViewFrame(last_add_cgrect: careerLabel.frame)
+        
+        
+        // worksの追加
+        let works_sectionLable = CreateSectionLabel(text: "WORKS", space: 2.5, leftmargin: -(base_margin * 0.5))
+        cardView.addSubview(works_sectionLable)
+        latest_frame = works_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: works_sectionLable.frame)
+        cardView.addSubview(CreateEditButton(cgrect: works_sectionLable.frame, id: SectionID_New.works.rawValue))
+        
+        let works_scrollview = CreateWorks(products: (appdelegate.data?.GetProducts())!, works_sectionLable: works_sectionLable)
+        latest_frame = works_scrollview.frame
+        UpdateCardViewFrame(last_add_cgrect: works_scrollview.frame)
+        
+        
+        // basic infoの追加
+        let info_sectionLable = CreateSectionLabel(text: "Basic Information", space: 1.0, leftmargin: 0.0)
+        cardView.addSubview(info_sectionLable)
+        latest_frame = info_sectionLable.frame
+        UpdateCardViewFrame(last_add_cgrect: info_sectionLable.frame)
+        cardView.addSubview(CreateEditButton(cgrect: info_sectionLable.frame, id: SectionID_New.info.rawValue))
+        
+        let infoLabel = CreateBasicInformation()
+        for label in infoLabel {
+            cardView.addSubview(label)
+            latest_frame = label.frame
+            UpdateCardViewFrame(last_add_cgrect: label.frame)
+        }
+        
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardView.frame.height+cover_img.frame.height*0.8+base_margin)
     }
     
-    func UpdateCardViewFrame(last_add_cgrect: CGRect) {
-        cardView.frame = CGRect(x: base_margin, y: base_margin, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin)
+    func CreateCoverImageView(url: String) -> AsyncUIImageView {
+        let h = self.view.frame.height * 0.3
+        let cover_img = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: h))
+        cover_img.loadImage(urlString: url)
+        cover_img.contentMode = .scaleAspectFill
+        
+        return cover_img
     }
     
     func CreateProfileImageView(url: String) -> UIImageView {
-        let imageView = AsyncUIImageView(frame: CGRect(x: 0, y: 0, width: cardView.frame.width, height: self.view.frame.height*0.5))
-        imageView.loadImage(urlString: url)
-        imageView.contentMode = .scaleAspectFill
+        let escapedAddress = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let url = URL(string: escapedAddress!)!
         
-        let maskPath = UIBezierPath(roundedRect: imageView.frame,
-                                    byRoundingCorners: [.topLeft, .topRight],
-                                    cornerRadii: CGSize(width: 20, height: 20))
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = maskPath.cgPath
-        imageView.layer.mask = maskLayer
+        do {
+            let imageData: NSData = try NSData(contentsOf: url)
+            let wh = base_margin * 6
+            let x = cardView.frame.width / 2 - wh/2
+            let y = cardView.bounds.origin.y - wh/2
+            
+            let resizedAndMaskedImage = Toucan(image: UIImage(data: imageData as Data)!).resize(CGSize(width: wh, height: wh), fitMode: Toucan.Resize.FitMode.clip).maskWithEllipse().image
+            let imageview = UIImageView(image: resizedAndMaskedImage)
+            imageview.frame = CGRect(x: x, y: y, width: wh, height: wh)
+            
+            return imageview
+        }catch{
+            print("profile img NSData: ", error)
+        }
         
-        return imageView
+        return UIImageView()
     }
     
-    func CreateAttributeImageView(attribute: String) -> UIImageView {
-        let y = profileImageView.frame.origin.y + base_margin
+    //latest_frame.width+latest_frame.origin.x
+    //cardView.bounds.origin.x+cardView.bounds.width
+    func CreateSNSLabel(json: [JSON]) -> [UIButton] {
         
-        let attributeImageView = UIImageView(image: UIImage(named: "attr_"+attribute))
-        attributeImageView.frame = CGRect(x: base_margin*0.65, y: y, width: profileImageView.frame.width*0.45, height: profileImageView.frame.height*0.2)
-        attributeImageView.contentMode = .scaleAspectFill
+        let wh = base_margin * 2.5
+        let y = cardView.bounds.origin.y - wh/2
         
-        return attributeImageView
-    }
-    
-    func CreateMainSkillsLabels(skills: Array<String>) -> (Array<UIView>, Array<UILabel>) {
-        var labels = [UILabel]()
-        var views = [UIView]()
-        let bg_color = UIColor.white
+        //TODO: 決め打ちを修正
+        let hoge = latest_frame.width+latest_frame.origin.x + wh/2 + 5
+        let x = [(cardView.bounds.origin.x+latest_frame.origin.x)/2-wh/2+3, hoge]
+        let icon = ["icon_facebook_circle", "icon_twitter_circle"]
+        var isEnabled = true
+        var buttons: [UIButton] = []
         
-        var labelstart_x = base_margin * 0.25
-        let label_y = profileImageView.frame.origin.y + profileImageView.frame.height
-        
-        for skill in skills {
-            let je_num = SearchJapaneseEnglish(text: skill)
-            let font_name = GetFontName(je_num: je_num, font_w: 6)
-            var font_size = 0 as CGFloat
-            if je_num == JapaneseEnglish.Japanese.rawValue {
-                font_size = 20
-            }else {
-                font_size = 21
+        for (i, sns) in json.enumerated() {
+            let button = UIButton(frame: CGRect(x: x[i], y: y, width: wh, height: wh))
+            button.tag = i
+            
+            var icon_name = icon[i]
+            
+            if sns[Key.url.rawValue].stringValue.count == 0 {
+                isEnabled = false
+                button.adjustsImageWhenDisabled = false
+                icon_name = "icon_twitter_circle_dis"
+                button.tag = -1
             }
             
-            // skillラベルの生成
-            let label = UILabel(frame: CGRect(x: labelstart_x, y: label_y, width: 0, height: 0))
-            label.text = "  " + skill + "  "
-            label.backgroundColor = bg_color
-            label.font = UIFont(name: font_name, size: font_size)
-            label.sizeToFit()
-            label.layer.cornerRadius = 10
-            label.layer.masksToBounds = true
-            label.frame = CGRect(x: labelstart_x, y: label.frame.origin.y-label.frame.height - base_margin*0.25, width: 0, height: 0)   //プロフ画像のbottomからマージン分だけ上に
-            label.sizeToFit()   //w, hの再調整
+            button.setImage(UIImage(named: icon_name), for: .normal)
+            button.addTarget(self, action: #selector(TapSNSButton(sender:)), for: .touchUpInside)
+            button.isEnabled = isEnabled
             
-            labelstart_x = label.frame.origin.x + label.frame.width + base_margin*0.25
-            
-            // 影Viewの生成
-            let offset = 1.5
-            let shadow = UIView(frame: CGRect(x: label.frame.origin.x, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height))
-            shadow.layer.shadowColor = UIColor.black.cgColor
-            shadow.backgroundColor = bg_color
-            shadow.layer.shadowOpacity = 1.0
-            shadow.layer.shadowOffset = CGSize(width: offset, height: offset)
-            shadow.layer.shadowRadius = CGFloat(offset)
-            shadow.layer.cornerRadius = 10
-            
-            labels.append(label)
-            views.append(shadow)
+            buttons.append(button)
         }
-        return (views, labels)
+        return buttons
     }
     
     func CreateNameLabel(text: String) -> UILabel {
@@ -349,87 +279,360 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         let font_name = GetFontName(je_num: je_num, font_w: 6)
         var font_size = 0 as CGFloat
         if je_num == JapaneseEnglish.Japanese.rawValue {
-            font_size = 24
-        }else {
             font_size = 26
+        }else {
+            font_size = 27
         }
         
-        let name_label = UILabel(frame: CGRect(x: base_margin, y: profileImageView.frame.height+base_margin, width: cardView.frame.width-base_margin, height: base_margin))
-        name_label.text = text
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: 1.5, text: attr_str)
+        
+        let y = latest_frame.origin.y+latest_frame.height+base_margin * 1
+        let name_label = UILabel(frame: CGRect(x: 0, y: y, width: 0, height: font_size))
+        name_label.attributedText = attr_str
+        name_label.textAlignment = .center
         name_label.font = UIFont(name: font_name, size: font_size)
         name_label.sizeToFit()
+        
+        let new_x = (cardView.bounds.width/2+cardView.bounds.origin.x) - name_label.bounds.width/2
+        name_label.frame = CGRect(x: new_x, y: y, width: name_label.bounds.width, height: font_size)
         
         return name_label
     }
     
-    func CreateActivityBaseLabel(name: String, namelabel_cgrect: CGRect) -> UILabel {
-        
-        if name == "" {
-            return UILabel()
+    func TapSNSButton(sender: UIButton) {
+        if sender.tag != -1 {
+            let url = URL(string: (appdelegate.data?.GetSNS())![sender.tag][Key.url.rawValue].stringValue)!
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
+    
+    func CreateAttributeLabel(attribute: String) -> UILabel {
+        var text = ""
+        switch attribute {
+        case AttributeStr.Designer.rawValue:
+            text = AttributeStr_L.Designer.rawValue
+        case AttributeStr.Engineer.rawValue:
+            text = AttributeStr_L.Engineer.rawValue
+        case AttributeStr.Business.rawValue:
+            text = AttributeStr_L.Business.rawValue
+        default:
+            break
         }
         
-        let x = namelabel_cgrect.origin.x + namelabel_cgrect.width + base_margin
-        let y = namelabel_cgrect.origin.y
+        var border_w = 2.0
+        if text.count == 0 {
+            border_w = 0.0
+        }
         
-        let label = EdgeInsetLabel(frame: CGRect(x: x, y: y, width: namelabel_cgrect.width, height: namelabel_cgrect.height+base_margin))
-        label.text = name
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 18)
-        label.textColor = UIColor.white
-        label.backgroundColor = UIColor.black
+        var attr_text = NSMutableAttributedString(string: text)
+        attr_text = AddAttributedTextLetterSpacing(space: 0.9, text: attr_text)
         
-        //サイズをfitさせて残りの高さを計算
+        let y = latest_frame.origin.y+latest_frame.height + base_margin * 0.5
+        let f_size = 14 as CGFloat
+        let label = EdgeInsetLabel(frame: CGRect(x: 0, y: y, width: 0, height: f_size))
+        
+        label.attributedText = attr_text
+        label.textAlignment = .center
+        label.font = UIFont(name: FontName.DIN.rawValue, size: f_size)
+        label.borderWidth = border_w
+        label.borderColor = UIColor.black
+        label.topTextInset = 2
+        label.rightTextInset = 4
+        label.bottomTextInset = 2
+        label.leftTextInset = 4
         label.sizeToFit()
-        let fit_height = label.frame.height
-        let rest_h = namelabel_cgrect.height - fit_height
         
-        label.topTextInset = rest_h/2
-        label.bottomTextInset = rest_h/2
-        label.leftTextInset = 10
-        label.rightTextInset = 10
-        label.sizeToFit()
-        label.layer.cornerRadius = 15
-        label.layer.masksToBounds = true
+        label.frame = CGRect(x: cardView.frame.width/2 - label.frame.width/2, y: label.frame.origin.y, width: label.frame.width, height: label.frame.height)
         
         return label
     }
     
-    func CreateCareerLabel(text: String, nameLabel_frame: CGRect) -> UILabel {
-        let label_start_y = nameLabel_frame.origin.y+nameLabel_frame.height
+    func CreateActivityBase(name: String) -> (UIImageView, UILabel) {
+        let homeImageView = UIImageView(image: UIImage(named: "icon_home"))
+        let start_y = latest_frame.origin.y+latest_frame.height+base_margin * 1.5
+        let font_size = 16 as CGFloat
+        let homeImageView_wh = CGFloat(font_size-2)
+        homeImageView.frame = CGRect(x: 0, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
         
-        let career_label = UILabel(frame: CGRect(x: base_margin, y: label_start_y+base_margin*0.5, width: cardView.frame.width-base_margin*2, height: base_margin*2))
-        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
+        let label = UILabel(frame: CGRect(x: 0, y: start_y, width: 0, height: 0))
+        label.font = UIFont(name: FontName.J_W6.rawValue, size: font_size)
+        label.text = name
+        label.sizeToFit()
+        
+        let label_start_x = cardView.frame.width/2 - (homeImageView.frame.width + label.frame.width+base_margin*0.5) / 2
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y, width: homeImageView_wh, height: homeImageView_wh)
+        label.frame = CGRect(x: homeImageView.frame.origin.x+homeImageView.frame.width+base_margin*0.5, y: start_y, width: 0, height: 0)
+        label.sizeToFit()
+        
+        //ずれてしまった位置を再調整
+        let difference = (label.frame.origin.y+label.frame.height/2) - (homeImageView.frame.origin.y+homeImageView.frame.height/2)
+        
+        homeImageView.frame = CGRect(x: label_start_x, y: start_y+difference, width: homeImageView_wh, height: homeImageView_wh)
+
+        return (homeImageView, label)
+    }
+    
+    func CreateSkillsLabels(skills: Array<String>) -> Array<Any> {
+        var views:[Any] = []
+        var y = latest_frame.height+latest_frame.origin.y + base_margin * 1.5
+        var x = 0 as CGFloat
+        var count = 0
+        let margin_offset = 0.5 as CGFloat
+        
+        //初期配置をしてサイズを求めるためのループ
+        for (i, skill) in skills.enumerated() {
+            //スキルを3つ配置したら改行
+            if i != 0 && i % 3 == 0 {
+                count += 1
+                let last_view = views.last! as! UIView
+                x = 0
+                y = last_view.frame.origin.y+last_view.frame.height + base_margin*0.5
+                _ = views.popLast()
+            }
+            
+            var attr_str = NSMutableAttributedString(string: skill)
+            let je_num = SearchJapaneseEnglish(text: skill)
+            let font_name = GetFontName(je_num: je_num, font_w: 6)
+            var font_size = 0 as CGFloat
+            if je_num == JapaneseEnglish.Japanese.rawValue {
+                font_size = 14
+            }else {
+                font_size = 15
+                attr_str = AddAttributedTextLetterSpacing(space: 0.2, text: attr_str)
+            }
+            
+            //skillラベル追加
+            let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+            label.attributedText = attr_str
+            label.font = UIFont(name: font_name, size: font_size)
+            label.sizeToFit()
+            views.append(label)
+            
+            x = label.frame.origin.x + label.frame.width + base_margin*margin_offset
+            
+            //スラッシュ画像追加
+            let slash = UIImageView(image: UIImage(named: "icon_slash"))
+            slash.frame = CGRect(x: x, y: y, width: 5, height: 15)
+            views.append(slash)
+            
+            x = slash.frame.origin.x + slash.frame.width + base_margin*margin_offset
+        }
+        
+        _ = views.popLast()
+        
+        var s = 0
+        var e = 4
+        //行数分だけループ
+        for _ in 0...count {
+            var sum_w = 0 as CGFloat
+            
+            //スキル3つ分の幅を合算
+            for view in views.safeRange(range: Range(s...e)).map({$0}) {
+                let tmp = view as! UIView
+                sum_w += tmp.frame.width
+            }
+            sum_w += (base_margin*margin_offset)*4
+            
+            var start_x = cardView.frame.width/2 - sum_w/2
+            
+            //xを調整して中央に配置
+            for view in views.safeRange(range: Range(s...e)).map({$0}) {
+                if let label = view as? UILabel {
+                    label.frame = CGRect(x: start_x, y: label.frame.origin.y, width: 0, height: 0)
+                    label.sizeToFit()
+                    start_x = label.frame.origin.x + label.frame.width + base_margin*margin_offset
+                }else {
+                    let slash = view as! UIImageView
+                    slash.frame = CGRect(x: start_x, y: slash.frame.origin.y, width: 5, height: 15)
+                    start_x = slash.frame.origin.x + slash.frame.width + base_margin*margin_offset
+                }
+            }
+            s = e+1
+            e = s+4
+        }
+        
+        return views
+    }
+    
+    func CreateCareerLabel(text: String) -> UILabel {
+        let label_start_y = latest_frame.origin.y+latest_frame.height + base_margin*1.25
+        
+        let x = cardView.frame.width * 0.1
+        let w = cardView.frame.width * 0.8
+        
+        let career_label = UILabel(frame: CGRect(x: x, y: label_start_y, width: w, height: base_margin*2))
+        career_label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
         career_label.backgroundColor = UIColor.clear
         career_label.numberOfLines = 0
         
-        career_label.attributedText = GetAttributedTextLineHeight(height: 22, text: text)
+        var attributedText = NSMutableAttributedString(string: text)
+        attributedText = AddAttributedTextLineHeight(height: 26, text: attributedText)
+        attributedText = AddAttributedTextLetterSpacing(space: 0, text: attributedText)
         
+        career_label.attributedText = attributedText
         career_label.sizeToFit()
+        
         return career_label
     }
     
-    func CreateSectionLabel(text: String, y: CGFloat) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: y, width: 0, height: 0))
-        label.text = text
-        label.font = UIFont(name: FontName.J_W6.rawValue, size: 21)
+    func CreateWorks(products: [JSON], works_sectionLable: UILabel) -> UIScrollView {
+        /*** scrollviewの設置 ***/
+        let x = latest_frame.origin.x
+        let y = latest_frame.origin.y+latest_frame.height+base_margin
+        let h = cardView.frame.width * 0.4
+        let w = self.view.bounds.width
+        let product_scrollview = UIScrollView()
+        product_scrollview.frame = CGRect(x: x, y: y, width: w, height: h)
+        
+        cardView.addSubview(product_scrollview)
+        /*** scrollviewの設置 ***/
+        
+        //TODO: 作品の画像にシャドウをかける
+        /*** productの設置 ***/
+        var p_start_x = product_scrollview.bounds.origin.x
+        let p_w = cardView.frame.width * 0.55
+        
+        for product in products {
+            let id = product["id"].intValue
+            //            let title = product[Key.title.rawValue].stringValue
+            let url = product[Key.url.rawValue].stringValue
+            let image = product[Key.image.rawValue].stringValue
+            
+            // 画像の設置
+            let productImageView = AsyncUIImageView(frame: CGRect(x: p_start_x, y: 0, width: p_w, height: h))
+            productImageView.loadImage(urlString: image)
+            productImageView.contentMode = .scaleAspectFill
+            productImageView.layer.cornerRadius = 8
+            productImageView.clipsToBounds = true
+            
+            // シャドウの設置
+            let shadow = ViewUtility().CreateShadowView(target_frame: productImageView.frame, bg: UIColor.white, opacity: 0.1, size: 1, shadow_r: 1, corner_r: 10)
+            product_scrollview.addSubview(shadow)
+            product_scrollview.addSubview(productImageView)
+            
+            p_start_x = productImageView.frame.width + base_margin * 0.5
+            
+            let last = productImageView.frame.width + productImageView.frame.origin.x + base_margin * 5
+            product_scrollview.contentSize = CGSize(width: last, height: h)
+            
+            if url != "" {
+                // linkボタンの設置
+                let image_wh = 25 as CGFloat
+                let EdgeInset = 6 as CGFloat
+                let link_x = productImageView.frame.origin.x + base_margin*0.5
+                let link_y = productImageView.frame.height - image_wh/2 - base_margin
+                let link_button = UIButton(frame: CGRect(x: link_x, y: link_y, width: image_wh, height: image_wh))
+                link_button.setImage(UIImage(named: "icon_link"), for: .normal)
+                link_button.imageEdgeInsets = UIEdgeInsets(top: EdgeInset, left: EdgeInset, bottom: EdgeInset, right: EdgeInset)
+                link_button.backgroundColor = UIColor.black
+                link_button.layer.cornerRadius = image_wh/2
+                link_button.layer.masksToBounds = true
+                link_button.tag = id
+                link_button.addTarget(self, action: #selector(TapLinkButton(sender:)), for: .touchUpInside)
+                
+                product_scrollview.addSubview(link_button)
+            }
+        }
+        /*** productの設置 ***/
+        
+        return product_scrollview
+    }
+    
+    func TapLinkButton(sender: UIButton){
+        let id = sender.tag
+        var url_str = ""
+        
+        for product in (appdelegate.data?.GetProducts())! {
+            if id == product["id"].intValue {
+                url_str = product[Key.url.rawValue].stringValue
+                break
+            }
+        }
+        
+        let url = URL(string: url_str)!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func CreateBasicInformation() -> [UILabel] {
+        let info = [
+            [(appdelegate.data?.GetGender())!, "/", String((appdelegate.data?.GetAge())!)+"歳"],
+            [(appdelegate.data?.GetAddress())!],
+            [(appdelegate.data?.GetSchoolCareer())!],
+            InsertIntervalString(array: (appdelegate.data?.GetAwards())!, insert_str: "\n"),
+            InsertIntervalString(array: (appdelegate.data?.GetLicenses())!, insert_str: "\n")
+        ]
+        
+        let x = latest_frame.origin.x
+        var y = latest_frame.origin.y+latest_frame.height+base_margin*1
+        let w = self.view.bounds.width
+        var labels:[UILabel] = []
+        
+        for section in info {
+            print(section)
+            //0歳(未設定)の場合や何も登録されていない場合は、何も表示しない
+            if let str = section.last {
+                if str == "0歳" || str.count == 0 {
+                    continue
+                }
+            }else {
+                continue
+            }
+            
+            var text = ""
+            let label = UILabel(frame: CGRect(x: x, y: y, width: w, height: 0))
+            label.font = UIFont(name: FontName.J_W3.rawValue, size: 14)
+            label.numberOfLines = 0
+            
+            for sentence in section {
+                text += sentence
+            }
+            
+            var attributedText = NSMutableAttributedString(string: text)
+            attributedText = AddAttributedTextLineHeight(height: 21, text: attributedText)
+            label.attributedText = attributedText
+            label.sizeToFit()
+            labels.append(label)
+            
+            y = label.frame.origin.y + label.frame.height + base_margin * 1
+        }
+        
+        return labels
+    }
+
+    func CreateSectionLabel(text: String, space: Double, leftmargin: CGFloat) -> UILabel {
+        let x = latest_frame.origin.x + leftmargin
+        let y = latest_frame.origin.y+latest_frame.height+base_margin*3
+        let label = UILabel(frame: CGRect(x: x, y: y, width: 0, height: 0))
+        var attr_str = NSMutableAttributedString(string: text)
+        attr_str = AddAttributedTextLetterSpacing(space: space, text: attr_str)
+        label.attributedText = attr_str
+        label.font = UIFont(name: FontName.DIN.rawValue, size: 30)
         label.sizeToFit()
         
         return label
     }
-    
+
     func CreateEditButton(cgrect: CGRect, id: Int) -> UIButton {
-        let x = cardView.frame.origin.x + cardView.frame.width - base_margin*2.5
-        let y = cgrect.origin.y + cgrect.height - cgrect.height/2
-        let button = UIButton(frame: CGRect(x: x, y: y, width: base_margin, height: base_margin))
-        button.contentMode = .scaleAspectFill
-        button.setImage(UIImage(named: "edit_icon"), for: .normal)
-        button.center = CGPoint(x: x, y: y)
+        let image_wh = 35 as CGFloat
+        let EdgeInset = 5 as CGFloat
+        let x = cgrect.origin.x + cgrect.width + base_margin * 0.5
+        let y = cgrect.origin.y+cgrect.height/2 - image_wh/2
+        let button = UIButton(frame: CGRect(x: x, y: y, width: image_wh, height: image_wh))
+        button.setImage(UIImage(named: "icon_edit"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: EdgeInset, left: EdgeInset, bottom: EdgeInset, right: EdgeInset)
+        button.addTarget(self, action: #selector(TapEditButton(sender:)), for: .touchUpInside)
         button.tag = id
-        button.addTarget(self, action: #selector(self.TapEditButton(sender:)), for: .touchUpInside)
         
         return button
     }
     
     func TapEditButton(sender: UIButton) {
+        print(sender.tag)
         let edit_myprofile_VC = EditMyProfileViewController()
         edit_myprofile_VC.SetEditID(id: sender.tag)
         
@@ -437,291 +640,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         self.present(navController, animated:true, completion: nil)
     }
     
-    func CreateAwardsLabel(awards: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
-        
-        var text = ""
-        for award in awards {
-            text += award + "\n"
-        }
-        
-        if !text.isEmpty {
-            text = text.substring(to: text.index(before: text.endIndex))
-        }
-        
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
-        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
-        label.numberOfLines = awards.count
-        label.sizeToFit()
-        
-        return label
-    }
-    
-    func CreateSkillsLabel(skills: [String]) -> Array<UILabel> {
-        var start_x = base_margin
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.25
-        var labels = [UILabel]()
-        
-        for skill in skills {
-            let je_num = SearchJapaneseEnglish(text: skill)
-            let font_name = GetFontName(je_num: je_num, font_w: 6)
-            var font_size = 0 as CGFloat
-            if je_num == JapaneseEnglish.Japanese.rawValue {
-                font_size = 15
-            }else {
-                font_size = 16
-            }
-            
-            let label = UILabel(frame: CGRect(x: start_x, y: start_y, width: 0, height: 0))
-            label.text = "  " + skill + "  "
-            label.font = UIFont(name: font_name, size: font_size)
-            label.backgroundColor = UIColor.hexStr(hexStr: SkillTagColor.gray.rawValue as NSString, alpha: 1.0)
-            label.textColor = UIColor.white
-            label.sizeToFit()
-            label.layer.cornerRadius = 10
-            label.layer.masksToBounds = true
-            
-            //追加しようとしているラベルがカード幅を超える場合
-            if (label.frame.origin.x+label.frame.width) > (cardView.frame.origin.x+cardView.frame.width-base_margin) {
-                start_y = label.frame.origin.y + label.frame.height + base_margin*0.25
-                
-                label.frame = CGRect(x: base_margin, y: start_y, width: 0, height: 0)
-                label.sizeToFit()
-            }
-            
-            labels.append(label)
-            start_x = label.frame.origin.x + label.frame.width + base_margin*0.25
-        }
-        
-        return labels
-    }
-    
-    func CreateProductLabel(json: [JSON]) -> ([(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)], CGRect) {
-        var productsViews: [(title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?)] = []
-        var last_add_view_frame = CGRect()
-        
-        // next_y = セクションタイトルのbottomで初期化
-        var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
-        
-        for (i, p) in json.enumerated() {
-            var pViews: (title: UILabel, url: UILabel?, link_img: UIImageView?, image: AsyncUIImageView?, image_shadow: UIView?) = (title: UILabel(), url: nil, link_img: nil, image: nil, image_shadow: nil)
-            
-            //next_yからプロダクトタイトルの追加
-            let titleLabel = UILabel(frame: CGRect(x: base_margin, y: next_y, width: 0, height: 0))
-            titleLabel.text = p[Key.title.rawValue].string
-            titleLabel.font = UIFont(name: FontName.J_W6.rawValue, size: 17)
-            titleLabel.sizeToFit()
-            pViews.title = titleLabel
-            
-            //最後に追加したviewとして記録
-            last_add_view_frame = titleLabel.frame
-            
-            //next_yをプロダクトタイトルに更新
-            next_y = titleLabel.frame.origin.y + titleLabel.frame.height + base_margin*0.25
-            
-            //URLがあったら,next_yからURLラベルの追加
-            if !(p[Key.url.rawValue].string?.isEmpty)! {
-                let linkImageView = UIImageView(image: UIImage(named: "link_icon"))
-                linkImageView.contentMode = .scaleAspectFill
-                linkImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin*0.8, height: base_margin*0.8)
-                
-                let start_x = linkImageView.frame.origin.x + linkImageView.frame.width
-                let urlLabel = UILabel(frame: CGRect(x: start_x+base_margin*0.1, y: next_y, width: 0, height: 0))
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapURLLabel(sender:)))
-
-                product_link[i] = p[Key.url.rawValue].stringValue
-                
-                urlLabel.tag = i
-                urlLabel.text = p[Key.url.rawValue].string
-                urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
-                urlLabel.sizeToFit()
-                urlLabel.isUserInteractionEnabled = true
-                urlLabel.addGestureRecognizer(tap)
-                
-                pViews.url = urlLabel
-                pViews.link_img = linkImageView
-                
-                //最後に追加したviewとして記録
-                last_add_view_frame = urlLabel.frame
-                
-                //next_yをURLラベルに更新
-                next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
-            }
-            
-            //画像があったら，next_yから画像の追加
-            if !(p[Key.image.rawValue].string?.isEmpty)! {
-                let imageView = AsyncUIImageView(frame: CGRect(x: base_margin, y: next_y, width: cardView.frame.width-base_margin*2, height: self.view.frame.height*0.3))
-                imageView.loadImage(urlString: p[Key.image.rawValue].string!)
-                imageView.contentMode = .scaleAspectFill
-                imageView.layer.cornerRadius = 10
-                imageView.layer.masksToBounds = true
-                
-                // 影をつけるためのViewを作成
-                let shadow_view = UIView(frame: imageView.frame)
-                shadow_view.backgroundColor = UIColor.white
-                shadow_view.layer.shadowColor = UIColor.black.cgColor
-                shadow_view.layer.shadowOpacity = 0.5
-                shadow_view.layer.shadowOffset = CGSize(width: 2, height: 2)
-                shadow_view.layer.shadowRadius = 2
-                shadow_view.layer.cornerRadius = 10
-                
-                pViews.image = imageView
-                pViews.image_shadow = shadow_view
-                
-                //最後に追加したviewとして記録
-                last_add_view_frame = imageView.frame
-                
-                //next_yを画像に更新
-                next_y = imageView.frame.origin.y + imageView.frame.height + base_margin*1.25
-            }
-            
-            productsViews.append(pViews)
-        }
-        
-        return (productsViews, last_add_view_frame)
-    }
-    
-    func TapURLLabel(sender: UITapGestureRecognizer){
-        let id = (sender.view?.tag)!
-        
-        let url = URL(string: product_link[id]!)!
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    func CreateSNSLabel(json: [JSON]) -> ([(icon: UIImageView, url: UILabel)]) {
-        var SNSViews: [(icon: UIImageView, url: UILabel)] = []
-        var next_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
-        
-        for (i, sns) in json.enumerated() {
-            var image_name = ""
-            switch sns[Key.provider.rawValue] {
-            case "facebook":
-                image_name = "facebook_icon"
-                break
-            case "twitter":
-                image_name = "twitter_icon"
-                break
-
-            default:
-                break
-            }
-            
-            let iconImageView = UIImageView(image: UIImage(named: image_name))
-            iconImageView.contentMode = .scaleAspectFill
-            iconImageView.frame = CGRect(x: base_margin, y: next_y, width: base_margin, height: base_margin)
-
-            let start_x = iconImageView.frame.origin.x + iconImageView.frame.width + base_margin*0.25
-            let urlLabel = UILabel(frame: CGRect(x: start_x, y: next_y, width: 0, height: 0))
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.TapSNSURLLabel(sender:)))
-            
-            sns_link[i] = sns[Key.url.rawValue].string
-            
-            urlLabel.tag = i
-            urlLabel.text = sns[Key.url.rawValue].string
-            urlLabel.font = UIFont(name: FontName.URL.rawValue, size: 15)
-            urlLabel.sizeToFit()
-            urlLabel.isUserInteractionEnabled = true
-            urlLabel.addGestureRecognizer(tap)
-            
-            // アイコンとのずれを調整するために高さをアイコンに揃える
-            urlLabel.frame = CGRect(x: urlLabel.frame.origin.x, y: urlLabel.frame.origin.y, width: urlLabel.frame.width, height: iconImageView.frame.height)
-            
-            
-            next_y = urlLabel.frame.origin.y + urlLabel.frame.height + base_margin*0.5
-            SNSViews.append(icon: iconImageView, url: urlLabel)
-        }
-        
-        return SNSViews
-    }
-    
-    func TapSNSURLLabel(sender: UITapGestureRecognizer){
-        let id = (sender.view?.tag)!
-        
-        let url = URL(string: sns_link[id]!)!
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    func CreateLicenseLabel(licenses: Array<String>) -> UILabel {
-        let label = UILabel(frame: CGRect(x: base_margin, y: latest_section_frame.origin.y+latest_section_frame.height+base_margin*0.25, width: 0, height: 0))
-        
-        var text = ""
-        for license in licenses {
-            text += license + "\n"
-        }
-        
-        if !text.isEmpty {
-            text = text.substring(to: text.index(before: text.endIndex))
-        }
-        
-        label.attributedText = GetAttributedTextLineHeight(height: 20, text: text)
-        label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
-        label.numberOfLines = licenses.count
-        label.sizeToFit()
-        
-        return label
-    }
-    
-    func CreateBasicInfoLabel(info: Array<String>) -> Array<UILabel> {
-        let info_name = ["性別", "年齢", "居住地", "学歴"]
-        var infoLabels = [UILabel]()
-        var start_y = latest_section_frame.origin.y + latest_section_frame.height + base_margin*0.5
-        
-        for (index, info_str) in info.enumerated() {
-            if !(info_str.isEmpty) {
-                let label = UILabel(frame: CGRect(x: base_margin, y: start_y, width: 0, height: 0))
-                label.text = info_name[index] + "：" + info_str
-                label.font = UIFont(name: FontName.J_W3.rawValue, size: 15)
-                
-                // 0歳(初期状態)だった場合はテキストをリセット
-                if index == 1 {
-                    if info[index] == "0" {
-                        label.text = ""
-                    }else {
-                        label.text = label.text! + "歳"
-                    }
-                }
-                
-                label.sizeToFit()
-                
-                infoLabels.append(label)
-                start_y = label.frame.origin.y + label.frame.height + base_margin*0.1
-            }
-        }
-        
-        return infoLabels
-    }
-    
-    func CreateTopToScrollButton(cgrect: CGRect) -> UIButton {
-        let button = UIButton()
-        let image = UIImage(named: "up_arrow")
-        
-        let x = cardView.frame.origin.x + cardView.frame.width - base_margin*3.5
-        let y = cgrect.origin.y + cgrect.height + base_margin
-        let size = base_margin*2.5
-        
-        button.frame = CGRect(x: x, y: y, width: size, height: size)
-        button.setImage(image, for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.contentHorizontalAlignment = .fill
-        button.contentVerticalAlignment = .fill
-        button.addTarget(self, action: #selector(self.TapScrollTop(sender:)),
-                         for: .touchUpInside)
-        
-        return button
-    }
-    
-    func TapScrollTop(sender: UIButton) {
-        scrollView.scroll(to: .top, animated: true)
-    }
-    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print("MYPROF")
-        print(viewController.restorationIdentifier!, preViewName)
-
         if viewController.restorationIdentifier! == StoryboardID.MyProfile.rawValue && preViewName == StoryboardID.MyProfile.rawValue {
             scrollView.scroll(to: .top, animated: true)
         }
@@ -729,17 +648,29 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate {
         preViewName = viewController.restorationIdentifier!
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        cover_img.frame = CGRect(x:cover_img.frame.origin.x, y:scrollView.contentOffset.y, width:cover_img.frame.width, height:cover_img.frame.height)
+    }
+    
+    func UpdateCardViewFrame(last_add_cgrect: CGRect) {
+        let y = cover_img.frame.height * 0.8
+        cardView.frame = CGRect(x: base_margin, y: y, width: self.view.bounds.width - base_margin * 2, height: last_add_cgrect.origin.y+last_add_cgrect.height + base_margin * 5)
+    }
+    
     func CallUserDetailAPI() {
-        //MARK:
-        let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
-        Alamofire.request(urlString, method: .get).responseJSON { (response) in
-            guard let object = response.result.value else{return}
-            let json = JSON(object)
-            print("MyProfile results: ", json.count)
-            
+        if debug {
             let dummy = UserDetailDummyData().user_data
-//            self.AddViews(json: JSON(dummy))
-            self.AddViews(json: json)
+            self.AddViews(json: JSON(dummy))
+        }else {
+            let urlString: String = API.host.rawValue + API.v1.rawValue + API.users.rawValue + String(user_id)
+            Alamofire.request(urlString, method: .get).responseJSON { (response) in
+                guard let object = response.result.value else{return}
+                let json = JSON(object)
+                print("MyProfile results: ", json.count)
+                
+                self.indicator.stopIndicator()
+                self.AddViews(json: json)
+            }
         }
     }
 

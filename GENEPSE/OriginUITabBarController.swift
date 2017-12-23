@@ -25,6 +25,15 @@ class OriginUITabBarController: UITabBarController, UITabBarControllerDelegate {
         self.tabBarItem.setTitleTextAttributes(selectedAttributes, for: UIControlState.selected)
         
         UITabBar.appearance().tintColor = UIColor.white
+        
+        let selected_name = ["tabbar_feed_selected", "tabbar_locationfeed_selected", "tabbar_myprofile_selected"]
+        let unselected_name = ["tabbar_feed_unselected", "tabbar_locationfeed_unselected", "tabbar_myprofile_unselected"]
+
+        for (i, (selected, unselected)) in zip(selected_name, unselected_name).enumerated() {
+            let item = self.tabBar.items![i]
+            item.selectedImage = UIImage(named: selected)
+            item.image = UIImage(named: unselected)
+        }
     }
     
     override func didReceiveMemoryWarning() {

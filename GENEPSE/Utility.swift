@@ -9,25 +9,29 @@
 import UIKit
 import SwiftyJSON
 
-func GetAttributeColor(attr: String) -> UIColor {
-    var bg_color: UIColor
+func GetAttributeString(attr: String) -> NSMutableAttributedString {
+    let text = AttributeStr_L.Business.rawValue + "　" + AttributeStr_L.Engineer.rawValue + "　" + AttributeStr_L.Designer.rawValue
+    let attributedText = NSMutableAttributedString(string: text)
+    let gray = UIColor.hexStr(hexStr: "#BCBCBC", alpha: 1.0)
     
     switch attr {
     case AttributeStr.Designer.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.red.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 17))
+        return attributedText
+        
     case AttributeStr.Engineer.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.blue.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 8))
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 18, length: 8))
+        return attributedText
+        
     case AttributeStr.Business.rawValue:
-        bg_color = UIColor.hexStr(hexStr: AttributeColor.green.rawValue as NSString, alpha: 1.0)
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 8, length: 18))
+        return attributedText
+        
     default:
-        bg_color = UIColor.clear
-        break
+        attributedText.addAttribute(NSForegroundColorAttributeName, value: gray, range: NSRange(location: 0, length: 26))
+        return attributedText
     }
-    
-    return bg_color
 }
 
 func GetDetailData(json: JSON) -> DetailData {
@@ -35,6 +39,7 @@ func GetDetailData(json: JSON) -> DetailData {
     let name = json[Key.name.rawValue].stringValue
     let overview = json[Key.overview.rawValue].stringValue
     let avatar_url = json[Key.avatar_url.rawValue].stringValue
+    let cover_url = json[Key.cover_url.rawValue].stringValue
     let attribute = json[Key.attribute.rawValue].stringValue
     let skills:[String] = json[Key.skills.rawValue].arrayValue.map({$0.stringValue})
     let main_skills:[String] = Array(skills.prefix(3))
@@ -52,6 +57,7 @@ func GetDetailData(json: JSON) -> DetailData {
     data.SetName(name: name)
     data.SetOverview(overview: overview)
     data.SetAvatarUrl(avatar_url: avatar_url)
+    data.SetCoverUrl(cover_url: cover_url)
     data.SetAttr(attr: attribute)
     data.SetMainSkills(main_skills: main_skills)
     data.SetAwards(awards: awards)
@@ -115,7 +121,7 @@ func SearchJapaneseEnglish(text: String) -> Int {
     }
     
     //日本語文字の文字数をカウント
-    regex = try! NSRegularExpression(pattern: "[\\p{Han}\\p{Hiragana}\\p{Katakana}]", options: [.caseInsensitive])
+    regex = try! NSRegularExpression(pattern: "[\\p{Han}\\p{Hiragana}\\p{Katakana}|ー|0-9]", options: [.caseInsensitive])
     targetStringRange = NSRange(location: 0, length: (text as NSString).length)
     let j_count = regex.numberOfMatches(in: text, options: [], range: targetStringRange)
     
@@ -137,22 +143,34 @@ func GetFontName(je_num: Int, font_w: Int) -> String {
         
     //英語のみ
     case 1:
-        return FontName.E.rawValue
+        return FontName.E_M.rawValue
+        
     default:
         return FontName.J_W3.rawValue
     }
 }
 
-func GetAttributedTextLineHeight(height: Int, text: String) -> NSMutableAttributedString {
+func AddAttributedTextLineHeight(height: Int, text: NSMutableAttributedString) -> NSMutableAttributedString {
     let lineHeight = CGFloat(height)
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.minimumLineHeight = lineHeight
     paragraphStyle.maximumLineHeight = lineHeight
     paragraphStyle.lineBreakMode = .byTruncatingTail
-    let attributedText = NSMutableAttributedString(string: text)
-    attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.length))
+    text.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, text.length))
     
-    return attributedText
+    return text
+}
+
+func AddAttributedTextLetterSpacing(space: Double, text: NSMutableAttributedString) -> NSMutableAttributedString {
+    text.addAttribute(NSKernAttributeName, value: space, range: NSMakeRange(0, text.length))
+    
+    return text
+}
+
+func AddAttributedTextColor(color: UIColor, text: NSMutableAttributedString) -> NSMutableAttributedString {
+    text.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location:0,length:text.length))
+    
+    return text
 }
 
 func GetAppDelegate() -> AppDelegate {
@@ -180,6 +198,34 @@ func GetSectionName(id: Int) -> String {
     }
 }
 
+func InsertIntervalString(array: [String], insert_str: String) -> Array<String> {
+    var new:[String] = []
+    
+    for element in array {
+        new.append(element)
+        new.append(insert_str)
+    }
+    _ = new.popLast()
+    
+    return new
+}
+
+func GetAllSkills() -> Array<String> {
+    return ["事業開発","投資家","営業","法人営業","経理","会計","HR","法務","労務","ライター","VC","マーケ","採用","R&D","企画","Director","PM","経営","起業","PR","弁護士","商品開発","総務","秘書","監査","税務","税理士","品質管理","財務","広報","CEO","COO","CFO","CXO","CMO","iOS","Android","VR","AR","Ruby","Python","MySQL","機械学習","NLP","Unity","Java","PHP","AWS","GCP","Swift","動画配信","HTML","CSS","JS","jQuery","React.js","Node.js","CTO","Illustrator","Photoshop","After Effect","XD","Premiere","InDesign","Sketch","Prott","ProtoPie","Fusion","Rhinoceros","Dreamweaver","Studio","CINEMA 4D","Blender","Maya","KeyShot","123D","ZBrush","Shade","Lightwave3D","V-ray"]
+}
+
+func CheckHTTPStatus(statusCode: Int?, VC: UIViewController) {
+    // 200系以外ならエラー
+    let code = String(statusCode!)
+    var results:[String] = []
+    
+    if code.pregMatche(pattern: "2..", matches: &results) {
+        VC.dismiss(animated: true, completion: nil)
+    }else {
+        VC.present(GetStandardAlert(title: "通信エラー", message: "通信中にエラーが発生しました。もう一度やり直してください。", b_title: "OK"), animated: true, completion: nil)
+    }
+}
+
 class Indicator {
     let indicator = UIActivityIndicatorView()
     
@@ -195,6 +241,32 @@ class Indicator {
     
     func stopIndicator() {
         self.indicator.stopAnimating()
+    }
+}
+
+class ViewUtility {
+    func CreateShadowView(target_frame: CGRect, bg: UIColor, opacity: Float, size: CGFloat, shadow_r: CGFloat, corner_r: CGFloat) -> UIView {
+        let shadow_view = UIView(frame: target_frame)
+        shadow_view.backgroundColor = bg
+        shadow_view.layer.shadowColor = UIColor.black.cgColor
+        shadow_view.layer.shadowOpacity = opacity
+        shadow_view.layer.shadowOffset = CGSize(width: size, height: size)
+        shadow_view.layer.shadowRadius = shadow_r
+        shadow_view.layer.cornerRadius = corner_r
+        
+        return shadow_view
+    }
+    
+    func CreateTitleLabelView(title: String, font_name: String, font_size: CGFloat) -> UILabel {
+        let titleLabel = UILabel()
+        var attr_str = NSMutableAttributedString(string: title)
+        attr_str = AddAttributedTextLetterSpacing(space: 2, text: attr_str)
+        titleLabel.font = UIFont(name: font_name, size: font_size)
+        titleLabel.textColor = UIColor.white
+        titleLabel.attributedText = attr_str
+        titleLabel.sizeToFit()
+        
+        return titleLabel
     }
 }
 

@@ -14,6 +14,7 @@ class DetailData {
         var name = ""
         var overview = ""
         var avatar_url = ""
+        var cover_url = ""
         var attr = ""
         var main_skills:[String] = []
         var awards:[String] = []
@@ -44,6 +45,10 @@ class DetailData {
     
     func SetAvatarUrl(avatar_url: String) {
         data.avatar_url = avatar_url
+    }
+    
+    func SetCoverUrl(cover_url: String) {
+        data.cover_url = cover_url
     }
     
     func SetAttr(attr: String) {
@@ -105,6 +110,10 @@ class DetailData {
     
     func GetAvatarURL() -> String {
         return data.avatar_url
+    }
+    
+    func GetCoverUrl() -> String {
+        return data.cover_url
     }
     
     func GetAttr() -> String {
