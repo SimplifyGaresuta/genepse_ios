@@ -237,9 +237,9 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
     
     //TODO: アイコンの位置調整
     func CreateSNSLabel(json: [JSON]) -> [UIButton] {
-        let wh = base_margin * 4.5
+        let wh = base_margin * 5
         let y = cardView.bounds.origin.y - wh/2
-        let x = [cardView.bounds.origin.x + base_margin * 5, cardView.bounds.width-base_margin * 5-wh]
+        let x = [cardView.bounds.origin.x + base_margin * 4.5, cardView.bounds.width-base_margin * 4-wh]
         let icon = ["icon_facebook_circle", "icon_twitter_circle"]
         var isEnabled = true
         var buttons: [UIButton] = []
