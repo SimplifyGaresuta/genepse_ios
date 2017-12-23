@@ -63,7 +63,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
         self.view.addSubview(scrollView)
         scrollView.delegate = self
         
-        card_start_y = base_margin * 0.5
+        card_start_y = base_margin * 0.6
         
         indicator.showIndicator(view: self.view)
         
@@ -167,17 +167,19 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UITabBarContro
             cardViews.last!.addSubview(careerLabel)
             
             // 次に描画するカードのyを保存
-            self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.5
+            self.card_start_y = cardViews.last!.frame.height + cardViews.last!.frame.origin.y + self.base_margin*0.6
         }
         
         self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: cardViews.last!.frame.height+cardViews.last!.frame.origin.y+self.base_margin)
     }
     
     func CreateCard(card_start_y: CGFloat) -> UIView {
-        let card_width = view_w * 0.8
-        let card_height = view_h * 0.53
+        let w_offset = 0.88 as CGFloat
+        let card_width = view_w * w_offset
+        let card_height = view_h * 0.6
+        let hoge = view_w * (1-w_offset)/2
         
-        let card_view = UIView(frame: CGRect(x: base_margin, y: card_start_y, width: card_width, height: card_height))
+        let card_view = UIView(frame: CGRect(x: hoge, y: card_start_y, width: card_width, height: card_height))
         card_view.backgroundColor = UIColor.white
         card_view.layer.cornerRadius = 10
         card_view.layer.shadowOpacity = 0.2
