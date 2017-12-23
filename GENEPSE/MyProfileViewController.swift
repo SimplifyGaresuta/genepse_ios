@@ -568,7 +568,7 @@ class MyProfileViewController: UIViewController, UITabBarControllerDelegate, UIS
         ]
         
         let x = latest_frame.origin.x
-        var y = latest_frame.origin.y+latest_frame.height+base_margin
+        var y = latest_frame.origin.y+latest_frame.height+base_margin*1
         let w = self.view.bounds.width
         var labels:[UILabel] = []
         

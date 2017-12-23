@@ -559,7 +559,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate {
             ]
         
         let x = latest_frame.origin.x
-        var y = latest_frame.origin.y+latest_frame.height+base_margin*3
+        var y = latest_frame.origin.y+latest_frame.height+base_margin*2
         let w = self.view.bounds.width
         var labels:[UILabel] = []
         
